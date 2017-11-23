@@ -1,0 +1,40 @@
+<?php
+namespace App\Admin\Extensions;
+
+use Encore\Admin\Form\Field;
+
+class WangEditor extends Field
+{
+    protected $view = 'admin.wang-editor';
+
+    protected static $css = [
+        '/vendor/wangEditor-3.0.14/release/wangEditor.min.css',
+    ];
+
+    protected static $js = [
+        '/vendor/wangEditor-3.0.14/release/wangEditor.min.js',
+    ];
+
+    public function render()
+    {
+        $name = $this->formatName($this->column);
+        $token = csrf_token();
+
+        $this->script = <<<EOT
+        
+var E = window.wangEditor
+var editor = new E('#{$this->id}')
+//editor.customConfig.uploadImgShowBase64 = true
+editor.customConfig.uploadFileName = 'files[]'
+editor.customConfig.uploadImgServer = '/admin/upload/images'
+editor.customConfig.uploadImgParams = { _token: '{$token}' }
+
+editor.customConfig.onchange = function (html) {
+    $('input[name="{$name}"]').val(html)
+}
+editor.create()
+
+EOT;
+        return parent::render();
+    }
+}
