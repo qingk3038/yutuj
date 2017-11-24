@@ -16,9 +16,9 @@ class CreateCitiesTable extends Migration
         Schema::create('cities', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title')->index();
-            $table->tinyInteger('order', false, true)->default(0);
-            $table->tinyInteger('hide', false, true)->default(0);
-            $table->integer('area_id', false, true)->index();
+            $table->unsignedTinyInteger('order')->default(0);
+            $table->unsignedTinyInteger('hide')->default(0);
+            $table->unsignedInteger('area_id')->index();
             $table->foreign('area_id')->references('id')->on('areas')->onDelete('cascade');
             $table->timestamps();
         });

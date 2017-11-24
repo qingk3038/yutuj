@@ -100,7 +100,7 @@ class ArticleController extends Controller
             $form->display('id', 'ID');
 
             $form->select('lanmu_id', '文章栏目')->rules('required')->options(function () {
-                return Lanmu::select('id', 'title')->active()->pluck('title', 'id')->toArray();
+                return Lanmu::active()->pluck('title', 'id');
             });
 
             $form->text('title', '标题')->rules('required');

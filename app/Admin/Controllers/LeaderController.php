@@ -2,7 +2,7 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\Area;
+use App\Models\Leader;
 
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -10,9 +10,9 @@ use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Content;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
-class AreaController extends Controller
+class LeaderController extends Controller
 {
     use ModelForm;
 
@@ -25,7 +25,7 @@ class AreaController extends Controller
     {
         return Admin::content(function (Content $content) {
 
-            $content->header('区域');
+            $content->header('领队');
             $content->description('list');
 
             $content->body($this->grid());
@@ -42,7 +42,7 @@ class AreaController extends Controller
     {
         return Admin::content(function (Content $content) use ($id) {
 
-            $content->header('区域');
+            $content->header('领队');
             $content->description('edit');
 
             $content->body($this->form()->edit($id));
@@ -58,7 +58,7 @@ class AreaController extends Controller
     {
         return Admin::content(function (Content $content) {
 
-            $content->header('区域');
+            $content->header('领队');
             $content->description('create');
 
             $content->body($this->form());
@@ -72,21 +72,24 @@ class AreaController extends Controller
      */
     protected function grid()
     {
-        return Admin::grid(Area::class, function (Grid $grid) {
-            $grid->model()->orderBy('order', 'asc');
+        return Admin::grid(Leader::class, function (Grid $grid) {
+
+//            $grid->model()->withCount('activities');
 
             $grid->id('ID')->sortable();
-            $grid->title('区域')->sortable()->editable();
+            $grid->thumb('头像')->image();
+            $grid->title('领队')->sortable();
+            $grid->sex('性别')->sortable()->display(function ($sex) {
+                return $sex === 'F' ? '女' : '男';
+            });
             $grid->hide('隐藏?')->sortable()->switch(['on' => ['text' => 'YES'], 'off' => ['text' => 'NO']]);
-            $grid->citys('城市数')->count()->display(function ($count) {
-                return "<span class='label label-warning'>{$count}</span>";
-            });
-            $grid->created_at('创建日期');
-            $grid->updated_at('修改日期');
 
-            $grid->filter(function ($filter) {
-                $filter->like('title', '区域');
-            });
+            /*$grid->column('activities_count', '活动数')->display(function ($count) {
+                return "<span class='label label-warning'>{$count}</span>";
+            });*/
+
+            $grid->created_at('创建时间');
+            $grid->updated_at('修改时间');
         });
     }
 
@@ -97,20 +100,16 @@ class AreaController extends Controller
      */
     protected function form()
     {
-        return Admin::form(Area::class, function (Form $form) {
-
+        return Admin::form(Leader::class, function (Form $form) {
             $form->display('id', 'ID');
-            $form->text('title', '区域')->rules('required');
-            $form->number('order', '排序');
-            $form->switch('hide', '隐藏?');
-            $form->display('created_at', '创建日期');
-            $form->display('updated_at', '修改日期');
+            $form->text('title', '领队')->rules('required');
+            $form->textarea('description', '简介');
+            $form->image('thumb', '缩略图')->removable();
+            $form->multipleFile('photos', '个人展示')->removable();
+            $form->radio('sex', '性别')->options(['F' => '女性', 'M' => '男性'])->default('F');
+            $form->switch('hide', '隐藏?')->default('Off');
+            $form->display('created_at', '创建时间');
+            $form->display('updated_at', '修改时间');
         });
-    }
-
-    public function search(Request $request)
-    {
-        $q = $request->get('q');
-        return Area::active()->where('title', 'like', "%$q%")->paginate(null, ['id', 'title as text']);
     }
 }

@@ -44,7 +44,7 @@ class HomeController extends Controller
     {
 
         $validator = Validator::make($request->all(), [
-            'files' => 'required',
+            'files' => 'required|array',
             'files.*' => 'image',
         ]);
 
@@ -56,8 +56,8 @@ class HomeController extends Controller
 
         $data = [];
         foreach ($files as $file) {
-            $path = $file->store('images', 'admin');
-            $data[] = Storage::disk('admin')->url($path);
+            $path = $file->store('images', 'public');
+            $data[] = Storage::disk('public')->url($path);
         }
         return ['errno' => 0, 'data' => $data];
     }

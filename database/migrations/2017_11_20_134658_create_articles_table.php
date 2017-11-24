@@ -15,15 +15,15 @@ class CreateArticlesTable extends Migration
     {
         Schema::create('articles', function (Blueprint $table) {
             $table->increments('id')->unsigned();
-            $table->integer('lanmu_id', false, true)->index();
+            $table->unsignedInteger('lanmu_id')->index();
             $table->foreign('lanmu_id')->references('id')->on('lanmus')->onDelete('cascade');
-            $table->integer('user_id', false, true)->index();
+            $table->unsignedInteger('user_id')->index();
             $table->foreign('user_id')->references('id')->on('admin_users')->onDelete('cascade');
             $table->string('title')->index();
             $table->string('keywords')->nullable();
             $table->string('description')->nullable();
             $table->string('thumb')->nullable();
-            $table->integer('click', false, true)->default(0);
+            $table->unsignedInteger('click')->default(0);
             $table->timestamps();
         });
 

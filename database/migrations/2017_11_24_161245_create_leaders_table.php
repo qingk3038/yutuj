@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateLanmusTable extends Migration
+class CreateLeadersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,14 @@ class CreateLanmusTable extends Migration
      */
     public function up()
     {
-        Schema::create('Lanmus', function (Blueprint $table) {
+        Schema::create('leaders', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title');
-            $table->unsignedTinyInteger('hide')->default(0);
-            $table->unsignedTinyInteger('parent_id')->default(0);
-            $table->unsignedTinyInteger('order')->default(0);
+            $table->string('description')->nullable();
+            $table->string('thumb')->nullable();
+            $table->unsignedTinyInteger('hide');
+            $table->enum('sex', ['F', 'M'])->default('F');
+            $table->text('photos')->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +32,6 @@ class CreateLanmusTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('Lanmus');
+        Schema::dropIfExists('leaders');
     }
 }

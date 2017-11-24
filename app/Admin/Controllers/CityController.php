@@ -82,11 +82,8 @@ class CityController extends Controller
             $grid->updated_at('修改日期');
 
             $grid->filter(function ($filter) {
-                $filter->disableIdFilter();
                 $filter->like('title', '城市');
-                $filter->in('area_id', '所在区域')->multipleSelect(function () {
-                    return Area::active()->pluck('title', 'id');
-                });
+                $filter->in('area_id', '所在区域')->multipleSelect('/admin/api/areas');
             });
         });
     }
@@ -102,9 +99,11 @@ class CityController extends Controller
 
             $form->display('id', 'ID');
 
-            $form->select('area_id', '所在区域')->options(function () {
-                return Area::select('id', 'title')->active()->pluck('title', 'id')->toArray();
-            });
+            $form->select('area_id', '所在区域')->options(function ($id) {
+                if ($area = Area::find($id)) {
+                    return $area->pluck('title', 'id');
+                }
+            })->ajax('/admin/api/areas');
 
             $form->text('title', '城市')->rules('required');
             $form->number('order', '排序');

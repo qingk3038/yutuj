@@ -10,7 +10,6 @@ use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Content;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
-use Encore\Admin\Widgets\Table;
 
 class LanmuController extends Controller
 {
@@ -100,8 +99,6 @@ class LanmuController extends Controller
     protected function form()
     {
         return Admin::form(Lanmu::class, function (Form $form) {
-
-
             $form->display('id', 'ID');
 
             $form->select('parent_id', '上级栏目')->options(function () {
@@ -112,8 +109,8 @@ class LanmuController extends Controller
             $form->text('title', '栏目标题')->rules('required');
             $form->switch('hide', '隐藏?');
 
-            $form->display('created_at', 'Created At');
-            $form->display('updated_at', 'Updated At');
+            $form->display('created_at', '创建时间');
+            $form->display('updated_at', '更新时间');
         });
     }
 }

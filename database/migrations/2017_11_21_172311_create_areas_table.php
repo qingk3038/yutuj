@@ -16,8 +16,8 @@ class CreateAreasTable extends Migration
         Schema::create('areas', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title')->index();
-            $table->tinyInteger('order', false, true)->default(0);
-            $table->tinyInteger('hide', false, true)->default(0);
+            $table->unsignedTinyInteger('order')->default(0);
+            $table->unsignedTinyInteger('hide')->default(0);
             $table->timestamps();
         });
     }
