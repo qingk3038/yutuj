@@ -79,14 +79,21 @@ class LeaderController extends Controller
             $grid->id('ID')->sortable();
             $grid->thumb('头像')->image();
             $grid->title('领队')->sortable();
-            $grid->sex('性别')->sortable()->display(function ($sex) {
-                return $sex === 'F' ? '女' : '男';
-            });
-            $grid->hide('隐藏?')->sortable()->switch(['on' => ['text' => 'YES'], 'off' => ['text' => 'NO']]);
 
             /*$grid->column('activities_count', '活动数')->display(function ($count) {
                 return "<span class='label label-warning'>{$count}</span>";
             });*/
+
+            $grid->column('sex', '性别')->sortable()->display(function ($sex) {
+                return $sex === 'F' ? '女' : '男';
+            });
+
+            $grid->column('photos', '展示图')->display(function ($photos) {
+                $count = count($photos);
+                return "<span class='label label-info'>{$count}张</span>";
+            });
+
+            $grid->hide('隐藏?')->sortable()->switch(['on' => ['text' => 'YES'], 'off' => ['text' => 'NO']]);
 
             $grid->created_at('创建时间');
             $grid->updated_at('修改时间');
