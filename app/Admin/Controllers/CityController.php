@@ -99,7 +99,7 @@ class CityController extends Controller
 
             $form->display('id', 'ID');
 
-            $form->select('area_id', '所在区域')->options(function ($id) {
+            $form->select('area_id', '所在区域')->rules('required')->options(function ($id) {
                 if ($area = Area::find($id)) {
                     return $area->pluck('title', 'id');
                 }
