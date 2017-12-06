@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Encore\Admin\Config\Config;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -14,7 +15,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Config::load();
+        Schema::defaultStringLength(250);
+//        Config::load();
     }
 
     /**
