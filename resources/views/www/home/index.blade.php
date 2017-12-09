@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', ($user->name ?? $user->mobile) . '的个人主页-')
+@section('title', ($user->name ?? $user->mobile) . '的个人主页')
 
 @section('content')
     <div class="bg-home" style="background-image: url({{ asset($user->bg_home) }});">

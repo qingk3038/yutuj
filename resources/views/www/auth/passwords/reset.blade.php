@@ -1,70 +1,80 @@
 @extends('layouts.app')
 
+@section('title', '找回个人密码')
+@section('header', false)
+@section('footer', false)
+
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Reset Password</div>
-
-                <div class="panel-body">
-                    <form class="form-horizontal" method="POST" action="{{ route('password.request') }}">
-                        {{ csrf_field() }}
-
-                        <input type="hidden" name="token" value="{{ $token }}">
-
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ $email or old('email') }}" required autofocus>
-
-                                @if ($errors->has('email'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password" class="col-md-4 control-label">Password</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password" required>
-
-                                @if ($errors->has('password'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
-                            <label for="password-confirm" class="col-md-4 control-label">Confirm Password</label>
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
-
-                                @if ($errors->has('password_confirmation'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password_confirmation') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    Reset Password
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+    <div class="bg-forgot position-fixed">
+        <div class="panel-login position-fixed">
+            <p class="text-center"><img src="{{ asset('img/logo_login.png') }}" alt="logo_login"></p>
+            <form class="position-relative" v-on:submit.prevent="onSubmit">
+                <transition name="fade">
+                    <div class="position-absolute text-danger error" v-if="error">
+                        <i class="fa fa-info-circle"></i> @{{ errMsg }}
+                    </div>
+                </transition>
+                <div class="form-group">
+                    <input type="password" class="form-control" placeholder="请输入新密码" v-model="form.password">
                 </div>
-            </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" placeholder="请输入重复密码" v-model="form.password_confirmation">
+                </div>
+                <button type="submit" class="btn btn-warning btn-block text-white">完成</button>
+            </form>
         </div>
     </div>
-</div>
 @endsection
+
+@push('script')
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                error: false,
+                errMsg: '',
+                form: {
+                    token: '{{ $token }}',
+                    password: '',
+                    password_confirmation: ''
+                }
+            },
+            methods: {
+                onSubmit() {
+                    if (this.checkPwd()) {
+                        this.resetError()
+                        axios.post("{{ url('password/reset') }}", this.form).then(res => {
+                            location.href = res.data.url
+                        }).catch(err => {
+                            let errors = err.response.data.errors;
+                            this.error = true
+                            this.errMsg = Object.values(errors).join("\r\n")
+                        })
+                    }
+                },
+                resetError() {
+                    this.error = false
+                    this.errMsg = ''
+                },
+                checkPwd() {
+                    if (this.form.password.length === 0) {
+                        this.error = true
+                        this.errMsg = '请输入新密码。'
+                        return false
+                    }
+                    if (this.form.password.length < 6) {
+                        this.error = true
+                        this.errMsg = '新密码长度至少6位。'
+                        return false
+                    }
+                    if (this.form.password !== this.form.password_confirmation) {
+                        this.error = true
+                        this.errMsg = '2次输入密码不一致。'
+                        return false
+                    }
+                    return true
+                }
+            }
+        })
+    </script>
+@endpush

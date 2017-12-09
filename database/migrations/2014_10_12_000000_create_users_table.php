@@ -25,6 +25,7 @@ class CreateUsersTable extends Migration
             $table->string('description', 250)->nullable();
             $table->string('avatar', 250)->default('img/user_avatar.png');
             $table->string('bg_home', 250)->default('img/bg_home.jpg');
+            $table->string('api_token', 64)->unique()->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

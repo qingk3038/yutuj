@@ -2,7 +2,7 @@
 <html lang="{{ app()->getLocale() }}">
 <head>
     <meta charset="UTF-8">
-    <title>@yield('title'){{ config('web_title') }}</title>
+    <title>@yield('title') {{ config('web_title') }}</title>
     <meta name="author" content="bing,QQ676659348">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="keywords" content="{{ config('web_keywords') }}">
@@ -22,7 +22,7 @@
         <header class="bg-white">
             <div class="container">
                 <nav class="navbar navbar-expand navbar-light top-nav">
-                    <a class="navbar-brand" href="#">
+                    <a class="navbar-brand" href="{{ url('/') }}">
                         <img src="{{ asset('img/logo_top.png') }}" width="148" height="50" alt="top_logo">
                     </a>
                     <ul class="navbar-nav mr-auto">
@@ -92,7 +92,7 @@
                                     <a class="dropdown-item" href="{{ url('home/setting') }}"><i class="fa fa-fw fa-user"></i> 个人中心</a>
                                     <a class="dropdown-item" href="{{ url('home/order') }}"><i class="fa fa-fw fa-list-alt"></i> 我的订单</a>
                                     <a class="dropdown-item" href="{{ url('home') }}"><i class="fa fa-fw fa-book"></i> 我的游记</a>
-                                    <a class="dropdown-item" href="{{ url('logout') }}"><i class="fa fa-fw fa-sign-out"></i> 退出</a>
+                                    <a class="dropdown-item" href="{{ route('logout') }}"><i class="fa fa-fw fa-sign-out"></i> 退出</a>
                                 </div>
                             </div>
                         @endguest

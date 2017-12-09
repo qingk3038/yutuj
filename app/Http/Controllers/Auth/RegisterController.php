@@ -71,11 +71,21 @@ class RegisterController extends Controller
         ]);
     }
 
+    /**
+     * 注册页面
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function showRegistrationForm()
     {
         return view('www.auth.register');
     }
 
+    /**
+     * 注册完成
+     * @param Request $request
+     * @param $user
+     * @return array
+     */
     protected function registered(Request $request, $user)
     {
         $path = session()->pull('url.intended', $this->redirectTo);

@@ -1,5 +1,6 @@
 @extends('layouts.app')
 
+@section('title', '用户注册')
 @section('header', false)
 @section('footer', false)
 
@@ -56,7 +57,7 @@
                 onSubmit() {
                     if (this.checkTel() && this.checkPwd() && this.checkCode()) {
                         this.resetError()
-                        axios.post("{{ url('/register') }}", this.form).then(res => {
+                        axios.post("{{ route('register') }}", this.form).then(res => {
                             alert('恭喜,注册成功。')
                             location.href = res.data.url
                         }).catch(err => {

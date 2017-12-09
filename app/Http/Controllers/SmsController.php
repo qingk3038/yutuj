@@ -4,30 +4,27 @@ namespace App\Http\Controllers;
 
 use App\Models\Sms;
 use App\Rules\Mobile;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Overtrue\EasySms\EasySms;
 
 class SmsController extends Controller
 {
-    public function __construct(Request $request)
-    {
-        $this->validate($request, [
-            'mobile' => ['required', new Mobile()]
-        ]);
-    }
-
     public function register(Request $request)
     {
+        $this->validateMobile($request);
         return $this->sendSmsCode(config('sms_register'), $request->mobile, __FUNCTION__);
     }
 
     public function forgot(Request $request)
     {
+        $this->validateMobile($request);
         return $this->sendSmsCode(config('sms_forgot'), $request->mobile, __FUNCTION__);
     }
 
     public function update(Request $request)
     {
+        $this->validateMobile($request);
         return $this->sendSmsCode(config('sms_update'), $request->mobile, __FUNCTION__);
     }
 
@@ -58,5 +55,12 @@ class SmsController extends Controller
             return ['message' => '短信发送成功。'];
         }
         return response(['message' => '短信发送失败。'], 422);
+    }
+
+    private function validateMobile(Request $request)
+    {
+        $this->validate($request, [
+            'mobile' => ['required', new Mobile()]
+        ]);
     }
 }
