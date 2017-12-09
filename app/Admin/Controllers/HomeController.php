@@ -40,6 +40,11 @@ class HomeController extends Controller
         });
     }
 
+    /**
+     * 文章编辑器上传图片
+     * @param Request $request
+     * @return array
+     */
     public function images(Request $request)
     {
 

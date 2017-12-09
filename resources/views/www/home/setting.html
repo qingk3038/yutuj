@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Setting</title>
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/vue/2.5.9/vue.js"></script>
+    <script src="https://cdn.bootcss.com/axios/0.17.1/axios.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/4.0.0-beta.2/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="../css/css.css">
+    <script src="../js/bing.js"></script>
+</head>
+<body>
+<header class="bg-white">
+    <div class="container">
+        <nav class="navbar navbar-expand navbar-light top-nav">
+            <a class="navbar-brand" href="#">
+                <img src="../img/logo_top.png" width="148" height="50" alt="top_logo">
+            </a>
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">首页 <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        旅行
+                    </a>
+                    <div class="dropdown-menu rounded-0 other-down">
+                        <a class="dropdown-item" href="#"><i class="fa fa-fw fa-map-marker"></i> 纵横西部</a>
+                        <a class="dropdown-item" href="#"><i class="fa fa-fw fa-paw"></i> 西行漫游</a>
+                        <a class="dropdown-item" href="#"><i class="fa fa-fw fa-photo"></i> 超级周末</a>
+                        <a class="dropdown-item" href="#"><i class="fa fa-fw fa-institution"></i> 最6旅行</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">定制游</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">活动</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">攻略</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">游记</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">大咖领路</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">旅拍直播</a>
+                </li>
+            </ul>
+            <form class="form-inline mr-4 top-search">
+                <div class="input-group">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn dropdown-toggle down" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            四川
+                        </button>
+                        <div class="dropdown-menu rounded-0 other-down no-line">
+                            <a class="dropdown-item" href="#">不限</a>
+                            <a class="dropdown-item" href="#">四川</a>
+                            <a class="dropdown-item" href="#">青海</a>
+                            <a class="dropdown-item" href="#">西藏</a>
+                            <a class="dropdown-item" href="#">新疆</a>
+                            <a class="dropdown-item" href="#">内蒙古</a>
+                            <a class="dropdown-item" href="#">陕甘宁</a>
+                        </div>
+                    </div>
+                    <input type="text" class="form-control" placeholder="搜目的地/攻略/游记" style="border-right: none">
+                    <button type="submit" class="input-group-addon submit"><i class="fa fa-search text-warning fa-lg"></i></button>
+                </div>
+            </form>
+            <div class="user-info">
+                <!--<a href="../auth/login.html" class="text-warning">登录</a> | <a href="../auth/register.html" class="text-warning">注册</a>-->
+
+                <div data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor:pointer;">
+                    <img class="rounded-circle" src="https://vuejs.bootcss.com/images/logo.png" alt="头像" width="36" height="36"> Bing8u...
+                </div>
+                <div class="dropdown">
+                    <div class="dropdown-menu rounded-0 other-down">
+                        <a class="dropdown-item" href="setting.html"><i class="fa fa-fw fa-user"></i> 个人中心</a>
+                        <a class="dropdown-item" href="order.html"><i class="fa fa-fw fa-list-alt"></i> 我的订单</a>
+                        <a class="dropdown-item" href="home.html"><i class="fa fa-fw fa-book"></i> 我的游记</a>
+                        <a class="dropdown-item" href="#"><i class="fa fa-fw fa-sign-out"></i> 退出</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+</header>
+<div class="bg-home" style="background-image: url(../uploads/bg_home.jpg);">
+    <div class="container">
+        <span class="btn btn-dark border-0">更换封面</span>
+    </div>
+</div>
+<div class="bg-white nav-user">
+    <div class="container">
+        <nav class="nav">
+            <a class="nav-link" href="home.html">我的游记</a>
+            <a class="nav-link" href="message.html">我的消息</a>
+            <a class="nav-link" href="order.html">我的订单</a>
+            <a class="nav-link active" href="setting.html">设置中心</a>
+        </nav>
+    </div>
+</div>
+<div class="container clearfix">
+    <div class="bg-white home-user float-left">
+        <p class="text-center avatar">
+            <span class="d-block mb-2">
+                <img class="rounded-circle" src="../img/user_avatar.png" alt="头像" width="120" height="120">
+            </span>
+            <i class="fa fa-mars text-primary fa-lg"></i> 大虫子
+            <!--<i class="fa fa-venus text-primary fa-lg"></i> 大虫子-->
+        </p>
+        <p class="bg-light p-3 text-muted">
+            <span class="d-block mb-2">现居：西藏 / 拉萨</span>
+            摄影师 / 旅游爱好者 <br>自2006年起爱上户外，此后一发不可收拾，旅行到全国各地的名山大川
+        </p>
+        <table class="table table-bordered text-center">
+            <tr>
+                <td class="w-50">
+                    <b>15246</b>
+                    <br>关注
+                </td>
+                <td class="w-50">
+                    <b>50</b>
+                    <br>粉丝
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="bg-white home-travels float-right mt-4 p-4">
+        <ul class="nav nav-tabs mb-3" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#info">我的信息</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#avatar">我的头像</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#account">账号安全</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <form class="tab-pane fade show active" id="info" novalidate>
+                <div class="form-group row">
+                    <label for="nickname" class="col-2 col-form-label">昵称：</label>
+                    <div class="col-10">
+                        <input type="text" class="form-control" id="nickname" placeholder="如：大虫子" required>
+                        <div class="invalid-feedback">
+                            请输入 昵称
+                        </div>
+                    </div>
+                </div>
+                <fieldset class="form-group">
+                    <div class="row">
+                        <legend class="col-form-legend col-2 pt-0">性别</legend>
+                        <div class="col-10">
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" type="radio" name="sex" value="M" checked> 男性
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" type="radio" name="sex" value="F"> 女性
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                <div class="form-group row">
+                    <label for="city" class="col-2 col-form-label">居住城市：</label>
+                    <div class="col-10">
+                        <input type="text" class="form-control" id="city" placeholder="如：成都" required>
+                        <div class="invalid-feedback">请输入 居住城市</div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="birthday" class="col-2 col-form-label">出生日期：</label>
+                    <div class="col-10">
+                        <input type="date" class="form-control" id="birthday" max="2017-12-05" required>
+                        <div class="invalid-feedback">请选择 出生日期</div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="description" class="col-2 col-form-label">个人简介：</label>
+                    <div class="col-10">
+                        <textarea class="form-control" id="description" rows="5" placeholder="如：自2006年起爱上户外，此后一发不可收拾，旅行到全国各地的名山大川…" required></textarea>
+                        <div class="invalid-feedback">请输入 个人简介</div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-2 offset-5">
+                        <button type="submit" class="btn btn-block btn-warning text-white">保存</button>
+                    </div>
+                </div>
+            </form>
+            <div class="tab-pane fade" id="avatar" role="tabpanel">
+                <p><img id="user_avatar" src="../img/user_avatar.png" alt="user_avatar" width="120" height="120"></p>
+                <span class="btn btn-warning text-white px-4 mr-2" onclick="javascript:$('#file').trigger('click');">选择图片</span>
+                <span class="text-muted">支持jpg、png、jpeg、bmp，图片大小2MB以内</span>
+                <input type="file" id="file" style="opacity: 0; width: 0px; height: 0px;" onchange="uploadAvatar()" accept="image/*">
+            </div>
+            <div class="tab-pane fade" id="account" role="tabpanel">
+                <div class="form-group row">
+                    <label for="birthday" class="col-2 col-form-label">密码：</label>
+                    <div class="col-10">
+                        <span class="btn btn-light" onclick="showMobileForm()">修改密码</span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="birthday" class="col-2 col-form-label">绑定手机：</label>
+                    <div class="col-10">
+                        <span id="mobile_hide">156****1868</span>
+                        <span class="btn btn-warning text-white ml-2" onclick="showMobileForm()">更改号码</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="pwdUpdate" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm" role="document" style="margin-top: 10rem">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="mobile">
+                    <div class="form-group">
+                        <input type="tel" class="form-control" placeholder="输入新手机号码">
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="输入验证码">
+                            <span class="input-group-addon" style="font-size: 12px; cursor: pointer;">免费获取验证码</span>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-warning btn-block text-white" onclick="showPwdForm()">下一步</button>
+                </div>
+                <div class="pwd d-none">
+                    <div class="form-group">
+                        <input type="password" class="form-control" placeholder="输入新密码">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" placeholder="重复密码">
+                    </div>
+                    <button type="submit" class="btn btn-warning btn-block text-white">完成</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer>
+    <div class="container">
+        <nav class="nav nav-justified">
+            <a class="nav-item nav-link" href="#">首页</a>
+            <a class="nav-item nav-link active" href="#">纵横西部</a>
+            <a class="nav-item nav-link" href="#">西行漫游</a>
+            <a class="nav-item nav-link" href="#">超级周末</a>
+            <a class="nav-item nav-link" href="#">最6旅行</a>
+            <a class="nav-item nav-link" href="#">定制旅行</a>
+            <a class="nav-item nav-link" href="#">超级攻略</a>
+            <a class="nav-item nav-link" href="#">精彩游记</a>
+            <a class="nav-item nav-link" href="#">大咖领路</a>
+        </nav>
+        <hr>
+        <div class="row py-4 links">
+            <div class="col-8">
+                <div class="row">
+                    <div class="col-3">
+                        <h6>活动报名流程</h6>
+                        <a href="#">报名须知</a>
+                        <a href="#">网上报名信息修改</a>
+                        <a href="#">网上报名流程及状态</a>
+                        <a href="#">报名方式</a>
+                        <a href="#">网上报名费用支付问题</a>
+                    </div>
+                    <div class="col-3">
+                        <h6>预订常见问题</h6>
+                        <a href="#">遇到恶劣天气是否取消？遇到恶劣天气是否取消遇到恶劣天气是否取消遇到恶劣天气是否取消</a>
+                        <a href="#">必须填写身份证吗？</a>
+                        <a href="#">独立成团可以吗？</a>
+                        <a href="#">什么是单房差？</a>
+                        <a href="#">纯玩是什么意思？</a>
+                    </div>
+                    <div class="col-3">
+                        <h6>网站条款</h6>
+                        <a href="#">网站免责声明</a>
+                        <a href="#">网站用户协议</a>
+                        <a href="#">网站版权说明</a>
+                        <a href="#">签订旅游合同</a>
+                    </div>
+                    <div class="col-3">
+                        <h6>付款和发票</h6>
+                        <a href="#">付款流程</a>
+                        <a href="#">三种付款方式</a>
+                        <a href="#">发票相关问题</a>
+                        <a href="#">如何支付尾款</a>
+                        <a href="#">退款付款说明</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="row">
+                    <div class="col">
+                        <img src="../img/logo_footer.png" alt="logo_footer" width="170" height="56">
+                        <h4 class="text-center">400-3455-456</h4>
+                        <span class="btn btn-warning btn-block text-white">在线咨询</span>
+                    </div>
+                    <div class="col text-center">
+                        <img src="../img/weixin.jpg" alt="weixin" width="114" height="114">
+                        <br>关注遇途记公众号
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="about text-center">
+            <p>
+                <a href="#">关于我们</a>
+                <a href="#">人才招聘</a>
+                <a href="#">帮助中心</a>
+                <a href="#">网站地图</a>
+                <a href="#">商务洽谈</a>
+                <a href="#">营业执照</a>
+            </p>
+            <hr>
+            <p>蜀ICP备16031541号-3</p>
+        </div>
+    </div>
+</footer>
+<aside class="position-fixed side-right">
+    <div class="mb-1 text-center">
+        <span class="d-block" data-toggle="popover" data-placement="left" data-trigger="hover" data-html="true" data-content="<p class='mb-0 text-center'>客服电话</p><b>400-3455-456</b>">
+            <i class="fa fa-fw fa-3x text-white fa-phone"></i>
+        </span>
+        <span class="d-block swt">
+            <i class="fa fa-fw fa-3x text-white fa-commenting"></i>
+        </span>
+        <span class="d-block" data-toggle="popover" data-placement="left" data-trigger="hover" data-html="true" data-content="<p class='mb-1'><img src='../img/aside_weixin.png' width='158' height='158'></p><h5 class='text-center m-0'>关注遇途记</h5>更多优惠好玩旅行等你来">
+            <i class="fa fa-fw fa-3x text-white fa-qrcode"></i>
+        </span>
+    </div>
+    <div class="top text-center">
+        <i class="fa fa-fw fa-3x text-white fa-angle-up"></i>
+    </div>
+</aside>
+<script>
+    (function ($) {
+        // 获取当前城市
+        let city = $('#city').val()
+        if (city === '') {
+            $.getScript('http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js', function () {
+                $('#city').val(remote_ip_info.city)
+            })
+        }
+
+        // 个人信息
+        $('form').submit(function (event) {
+            if (this.checkValidity() === false) {
+                event.preventDefault()
+                event.stopPropagation()
+            }
+            $(this).addClass('was-validated')
+        })
+    })(jQuery)
+
+    // 显示更新手机号form
+    function showMobileForm() {
+        let d = $('#pwdUpdate')
+        d.find('.mobile').removeClass('d-none')
+        d.find('.pwd').addClass('d-none')
+        d.modal('show')
+    }
+
+    // 显示更新密码form
+    function showPwdForm() {
+        // do 进行验证操作
+
+        let d = $('#pwdUpdate')
+        d.find('.mobile').addClass('d-none')
+        d.find('.pwd').removeClass('d-none')
+    }
+
+    // 上传文件
+    function uploadAvatar(e) {
+        let s = document.getElementById('file').files[0]
+        document.getElementById('user_avatar').src = URL.createObjectURL(s)
+    }
+</script>
+</body>
+</html>

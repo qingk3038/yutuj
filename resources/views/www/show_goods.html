@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Show Goods</title>
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/vue/2.5.9/vue.js"></script>
+    <script src="https://cdn.bootcss.com/axios/0.17.1/axios.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/4.0.0-beta.2/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="css/css.css">
+    <script src="js/bing.js"></script>
+</head>
+<body>
+<header class="bg-white">
+    <div class="container">
+        <nav class="navbar navbar-expand navbar-light top-nav">
+            <a class="navbar-brand" href="#">
+                <img src="img/logo_top.png" width="148" height="50" alt="top_logo">
+            </a>
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">首页 <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        旅行
+                    </a>
+                    <div class="dropdown-menu rounded-0 other-down">
+                        <a class="dropdown-item" href="#"><i class="fa fa-fw fa-map-marker"></i> 纵横西部</a>
+                        <a class="dropdown-item" href="#"><i class="fa fa-fw fa-paw"></i> 西行漫游</a>
+                        <a class="dropdown-item" href="#"><i class="fa fa-fw fa-photo"></i> 超级周末</a>
+                        <a class="dropdown-item" href="#"><i class="fa fa-fw fa-institution"></i> 最6旅行</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">定制游</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">活动</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">攻略</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">游记</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">大咖领路</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">旅拍直播</a>
+                </li>
+            </ul>
+            <form class="form-inline mr-4 top-search">
+                <div class="input-group">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn dropdown-toggle down" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            四川
+                        </button>
+                        <div class="dropdown-menu rounded-0 other-down no-line">
+                            <a class="dropdown-item" href="#">不限</a>
+                            <a class="dropdown-item" href="#">四川</a>
+                            <a class="dropdown-item" href="#">青海</a>
+                            <a class="dropdown-item" href="#">西藏</a>
+                            <a class="dropdown-item" href="#">新疆</a>
+                            <a class="dropdown-item" href="#">内蒙古</a>
+                            <a class="dropdown-item" href="#">陕甘宁</a>
+                        </div>
+                    </div>
+                    <input type="text" class="form-control" placeholder="搜目的地/攻略/游记" style="border-right: none">
+                    <button type="submit" class="input-group-addon submit"><i class="fa fa-search text-warning fa-lg"></i></button>
+                </div>
+            </form>
+            <div class="user-info">
+                <!--<a href="auth/login.html" class="text-warning">登录</a> | <a href="auth/register.html" class="text-warning">注册</a>-->
+
+                <div data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor:pointer;">
+                    <img class="rounded-circle" src="https://vuejs.bootcss.com/images/logo.png" alt="头像" width="36" height="36"> Bing8u...
+                </div>
+                <div class="dropdown">
+                    <div class="dropdown-menu rounded-0 other-down">
+                        <a class="dropdown-item" href="home/setting.html"><i class="fa fa-fw fa-user"></i> 个人中心</a>
+                        <a class="dropdown-item" href="home/order.html"><i class="fa fa-fw fa-list-alt"></i> 我的订单</a>
+                        <a class="dropdown-item" href="home/home.html"><i class="fa fa-fw fa-book"></i> 我的游记</a>
+                        <a class="dropdown-item" href="#"><i class="fa fa-fw fa-sign-out"></i> 退出</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+</header>
+
+<div class="container">
+    <div class="py-4"><a href="">首页</a> &gt; <a href="#">微旅行</a> &gt; <span class="text-warning">成都</span></div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div id="photos" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    <li data-target="#photos" data-slide-to="0" class="active"></li>
+                    <li data-target="#photos" data-slide-to="1"></li>
+                </ol>
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img class="d-block w-100" src="uploads/photos_1.jpg" alt="First slide">
+                    </div>
+                    <div class="carousel-item">
+                        <img class="d-block w-100" src="uploads/photos_1.jpg" alt="Second slide">
+                    </div>
+                </div>
+            </div>
+            <div class="mt-2">
+
+            </div>
+        </div>
+        <div class="col bg-white">
+            <p class="text-muted small mt-4">产品编号：YTJ66823</p>
+            <h4 class="my-3">探索成都·微旅行 成都纯玩团一日游</h4>
+            <p>
+                <span class="badge badge-danger">优惠</span> <span class="badge badge-warning text-white">纯玩</span> <span class="text-warning"><i class="fa fa-fw fa-map-marker"></i>成都出发</span>
+            </p>
+            <p style="line-height: 2;">
+                产品类型：自由行
+                <br>游玩天数：1天
+                <br>发团日期：每月多团
+                <br>出发地点：成都
+                <br>付款方式：支付宝、微信
+            </p>
+            <p class="lead"><a href="javascript:void(0);" class="btn-fatuan">出团日期 <i class="fa fa-lg fa-caret-down"></i></a></p>
+            <div class="list-fatuan d-none">
+                <table class="table table-hover">
+                    <tr>
+                        <td class="align-middle">2017-12-03 - 2017-12-03</td>
+                        <td class="align-middle text-muted">已报名 33 人</td>
+                        <td class="align-middle text-danger">360元/人</td>
+                        <td class="align-middle text-right"><a href="#" class="btn btn-warning text-white btn-sm rounded-0">去报名</a></td>
+                    </tr>
+                    <tr>
+                        <td class="align-middle">2017-12-03 - 2017-12-03</td>
+                        <td class="align-middle text-muted">已报名 33 人</td>
+                        <td class="align-middle text-danger">360元/人</td>
+                        <td class="align-middle text-right"><a href="#" class="btn btn-warning text-white btn-sm rounded-0">去报名</a></td>
+                    </tr>
+                    <tr>
+                        <td class="align-middle">2017-12-03 - 2017-12-03</td>
+                        <td class="align-middle text-muted">已报名 33 人</td>
+                        <td class="align-middle text-danger">360元/人</td>
+                        <td class="align-middle text-right"><a href="#" class="btn btn-warning text-white btn-sm rounded-0">去报名</a></td>
+                    </tr>
+                    <tr>
+                        <td class="align-middle">2017-12-03 - 2017-12-03</td>
+                        <td class="align-middle text-muted">已报名 33 人</td>
+                        <td class="align-middle text-danger">360元/人</td>
+                        <td class="align-middle text-right"><a href="#" class="btn btn-warning text-white btn-sm rounded-0">去报名</a></td>
+                    </tr>
+                    <tr>
+                        <td class="align-middle">2017-12-03 - 2017-12-03</td>
+                        <td class="align-middle text-muted">已报名 33 人</td>
+                        <td class="align-middle text-danger">360元/人</td>
+                        <td class="align-middle text-right"><a href="#" class="btn btn-warning text-white btn-sm rounded-0">去报名</a></td>
+                    </tr>
+                    <tr>
+                        <td class="align-middle">2017-12-03 - 2017-12-03</td>
+                        <td class="align-middle text-muted">已报名 33 人</td>
+                        <td class="align-middle text-danger">360元/人</td>
+                        <td class="align-middle text-right"><a href="#" class="btn btn-warning text-white btn-sm rounded-0">去报名</a></td>
+                    </tr>
+                    <tr>
+                        <td class="align-middle">2017-12-03 - 2017-12-03</td>
+                        <td class="align-middle text-muted">已报名 33 人</td>
+                        <td class="align-middle text-danger">360元/人</td>
+                        <td class="align-middle text-right"><a href="#" class="btn btn-warning text-white btn-sm rounded-0">去报名</a></td>
+                    </tr>
+                    <tr>
+                        <td class="align-middle">2017-12-03 - 2017-12-03</td>
+                        <td class="align-middle text-muted">已报名 33 人</td>
+                        <td class="align-middle text-danger">360元/人</td>
+                        <td class="align-middle text-right"><a href="#" class="btn btn-warning text-white btn-sm rounded-0">去报名</a></td>
+                    </tr>
+                    <tr>
+                        <td class="align-middle">2017-12-03 - 2017-12-03</td>
+                        <td class="align-middle text-muted">已报名 33 人</td>
+                        <td class="align-middle text-danger">360元/人</td>
+                        <td class="align-middle text-right"><a href="#" class="btn btn-warning text-white btn-sm rounded-0">去报名</a></td>
+                    </tr>
+                    <tr>
+                        <td class="align-middle">2017-12-03 - 2017-12-03</td>
+                        <td class="align-middle text-muted">已报名 33 人</td>
+                        <td class="align-middle text-danger">360元/人</td>
+                        <td class="align-middle text-right"><a href="#" class="btn btn-warning text-white btn-sm rounded-0">去报名</a></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container my-3">
+    <div class="bg-white p-3">
+        <ul class="nav goods-bar">
+            <li class="nav-item">
+                <a class="nav-link active" href="#">行程特色</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">行程安排</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">费用说明</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">注意事项</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">签约条款</a>
+            </li>
+        </ul>
+
+        <div class="goods-list-box">
+            <h3 class="text-warning"><i class="fa fa-fw fa-camera-retro"></i> 行程特色</h3>
+            <p class="text-muted d-block">
+                ★生活美：村内一产带动三产和谐、稳步发展，农民的收入不断增加，生活水平也大幅度提高，农民人均收入在全镇乃至全区处于领先地位
+                <br>★环境美：梨花村是梨的故乡。在这里，可以春赏花团锦簇，夏观叶碧荫浓，秋赏果垂金镀，冬看枝挂雪晴。在这里，能看到大自然旖旎的风光
+                <br>★人文美：梨花村是个老果树村，有着悠久的历史，是京郊果树最多的村庄。曾经由于梨多，销售成了问题，再加上管理不科学，梨的质量不高
+            </p>
+            <p class="d-flex justify-content-between py-3">
+                <img src="uploads/goods_1.jpg" alt="goods_1">
+                <img src="uploads/goods_2.jpg" alt="goods_1">
+                <img src="uploads/goods_3.jpg" alt="goods_1">
+            </p>
+        </div>
+
+        <div class="goods-list-box">
+            <h3 class="text-warning"><i class="fa fa-fw fa-calendar"></i> 行程安排</h3>
+            <h5 class="mt-4">
+                <b class="num-day">1</b>
+                <span class="pr-4 text-warning">第1天</span>
+                拉萨接团
+            </h5>
+            <p class="pl-5">乘机（或火车）到达拉萨后在酒店作适应性休息。</p>
+            <ul class="list-unstyled list-inline pl-5">
+                <li class="list-inline-item"><i class="iconfont icon-zaocan text-warning"></i> 早餐：包含</li>
+                <li class="list-inline-item"><i class="iconfont icon-wucan text-warning"></i> 中餐：包含</li>
+                <li class="list-inline-item"><i class="iconfont icon-wancan text-warning"></i> 晚餐：包含</li>
+                <li class="list-inline-item"><i class="iconfont icon-zhusu text-warning"></i> 住宿：拉萨</li>
+            </ul>
+            <div class="d-flex justify-content-between">
+                <img src="uploads/goods_1.jpg" alt="goods_1">
+                <img src="uploads/goods_2.jpg" alt="goods_1">
+                <img src="uploads/goods_3.jpg" alt="goods_1">
+            </div>
+
+            <h5 class="mt-4">
+                <b class="num-day">2</b>
+                <span class="pr-4 text-warning">第2天</span>
+                拉萨接团
+            </h5>
+            <p class="pl-5">上午游览西藏的标志性建筑——【布达拉宫】。布达拉宫建于公元七世纪藏王松赞干布时期，威严高耸，气势磅礴，是著名的世界文化遗产；自公元17世纪开始一直作为历代达赖喇嘛的驻锡地及处理政教事务的冬宫。午餐后游览藏传佛教的中心寺院——【大昭寺】。建于公元七世纪的大昭寺主供的佛像是佛祖释迦牟尼十二岁等身金像，这尊由佛祖自己开光加持的佛像是佛教徒心中最为神圣的，人称“觉卧”，一见可得解脱。随后可根据时间安排，自由游览著名的转经道—八廓街。这里汇聚了来自世界各地的朝圣者，街两旁店铺林立摊点遍布。</p>
+            <ul class="list-unstyled list-inline pl-5">
+                <li class="list-inline-item"><i class="iconfont icon-zaocan text-warning"></i> 早餐：包含</li>
+                <li class="list-inline-item"><i class="iconfont icon-wucan text-warning"></i> 中餐：包含</li>
+                <li class="list-inline-item"><i class="iconfont icon-wancan text-warning"></i> 晚餐：包含</li>
+                <li class="list-inline-item"><i class="iconfont icon-zhusu text-warning"></i> 住宿：拉萨</li>
+            </ul>
+            <div class="d-flex justify-content-between">
+                <img src="uploads/goods_1.jpg" alt="goods_1">
+                <img src="uploads/goods_2.jpg" alt="goods_1">
+                <img src="uploads/goods_3.jpg" alt="goods_1">
+            </div>
+        </div>
+
+        <div class="goods-list-box">
+            <h3 class="text-warning"><i class="fa fa-fw fa-dollar"></i> 费用说明</h3>
+            <p class="lead">费用包含</p>
+            <div class="text-muted mb-3">
+                门票：景区首道大门票。行程中所列景点，保证全部游览，在不减少景点情况下我社有权调整游览顺序，若有突发情况发生而不能游览，与客人协商调换景点；不愿调换，则退还客人门票费。如因自身原因不能前往景区，退费标准参照旅行社协议价。
+                <br>住宿：全程西藏当地三星标准酒店，西藏地区宾馆条件有限，酒店设施与内地地区有较大差距，所以请勿以城市人心态衡量。
+                <br>用车：全程正规旅游车，一人一正座。
+                <br>导游：优秀中文导游服务。
+                <br>用餐：旅游用餐，全程22正餐（正常团餐标准，不含酒水，如因自身原因不用餐，不退餐费）
+                <br>保险：旅行社责任险和旅游车辆座位意外险。
+            </div>
+
+            <p class="lead">费用不含</p>
+            <div class="text-muted">
+                1、如出现单男单女或自然单间而产生的单房差；
+                <br>2、行程中客人的个人消费；
+                <br>3、旅游意外险；
+                <br>4、如出现人力不可抗因素，我社不承担赔偿责任。
+            </div>
+        </div>
+
+        <div class="goods-list-box">
+            <h3 class="text-warning"><i class="fa fa-fw fa-file-text-o"></i> 注意事项</h3>
+            <div class="text-muted">
+                1、行程中所列酒店为当地评定标准双人标准间
+                <br>2、请务必不要将贵重物品、现金、急用药品放在托运行李中
+                <br>3、行程中所列的餐食，早餐为酒店内，午餐/晚餐为中式桌餐（人数增减时，菜量相应增减，但维持餐标不变，不含酒水）
+                <br>4、景点首道门票是指景区收取的，进入景区的首道门票，不包括该景区内单独收费的小景区或景区内需要另行收取的交通费用
+                <br>5、游客带好相关证件：身份证
+                <br>6、地接质量以客人在当地意见单为凭证，请您认真填写，如在当地有投诉意见，我社承诺先行赔付
+                <br>7、航班因运力、天气、故障等原因造成延误，我社会尽力协调，必要时将对行程做出调整，届时请配合并谅解
+                <br>8、意外保险建议客人自愿购买
+                <br>9、以上行程为参考行程，我社保留因航班、交通、签证等原因导致行程的变化，而对出团日期、线路等做适当调整的权利
+            </div>
+        </div>
+
+        <div class="goods-list-box">
+            <h3 class="text-warning"><i class="fa fa-fw fa-edit"></i> 签约条款</h3>
+            <div class="text-muted">
+                1、行程中所列酒店为当地评定标准双人标准间
+                <br>2、请务必不要将贵重物品、现金、急用药品放在托运行李中
+                <br>3、行程中所列的餐食，早餐为酒店内，午餐/晚餐为中式桌餐（人数增减时，菜量相应增减，但维持餐标不变，不含酒水）
+                <br>4、景点首道门票是指景区收取的，进入景区的首道门票，不包括该景区内单独收费的小景区或景区内需要另行收取的交通费用
+                <br>5、游客带好相关证件：身份证
+                <br>6、地接质量以客人在当地意见单为凭证，请您认真填写，如在当地有投诉意见，我社承诺先行赔付
+                <br>7、航班因运力、天气、故障等原因造成延误，我社会尽力协调，必要时将对行程做出调整，届时请配合并谅解
+                <br>8、意外保险建议客人自愿购买
+                <br>9、以上行程为参考行程，我社保留因航班、交通、签证等原因导致行程的变化，而对出团日期、线路等做适当调整的权利
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="bg-white p-5">
+        <h3 class="text-warning mb-4"><i class="fa fa-fw fa-flag-o"></i> 猜你喜欢</h3>
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <a href=""><img class="card-img-top" src="uploads/goods_like_1.jpg" alt="Card image cap"></a>
+                    <div class="card-body">
+                        <p><a href="#" class="card-title">泰国普吉岛7晚5日游(2晚离岛蓝湾泳池别墅暑期超值...</a></p>
+                        <p class="card-text">
+                            <span class="text-danger lead">¥3600</span>
+                            <small>起</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <a href=""><img class="card-img-top" src="uploads/goods_like_1.jpg" alt="Card image cap"></a>
+                    <div class="card-body">
+                        <p><a href="#" class="card-title">泰国普吉岛7晚5日游(2晚离岛蓝湾泳池别墅暑期超值...</a></p>
+                        <p class="card-text">
+                            <span class="text-danger lead">¥3600</span>
+                            <small>起</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <a href=""><img class="card-img-top" src="uploads/goods_like_1.jpg" alt="Card image cap"></a>
+                    <div class="card-body">
+                        <p><a href="#" class="card-title">泰国普吉岛7晚5日游(2晚离岛蓝湾泳池别墅暑期超值...</a></p>
+                        <p class="card-text">
+                            <span class="text-danger lead">¥3600</span>
+                            <small>起</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <a href=""><img class="card-img-top" src="uploads/goods_like_1.jpg" alt="Card image cap"></a>
+                    <div class="card-body">
+                        <p><a href="#" class="card-title">泰国普吉岛7晚5日游(2晚离岛蓝湾泳池别墅暑期超值...</a></p>
+                        <p class="card-text">
+                            <span class="text-danger lead">¥3600</span>
+                            <small>起</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="container">
+        <nav class="nav nav-justified">
+            <a class="nav-item nav-link" href="#">首页</a>
+            <a class="nav-item nav-link active" href="#">纵横西部</a>
+            <a class="nav-item nav-link" href="#">西行漫游</a>
+            <a class="nav-item nav-link" href="#">超级周末</a>
+            <a class="nav-item nav-link" href="#">最6旅行</a>
+            <a class="nav-item nav-link" href="#">定制旅行</a>
+            <a class="nav-item nav-link" href="#">超级攻略</a>
+            <a class="nav-item nav-link" href="#">精彩游记</a>
+            <a class="nav-item nav-link" href="#">大咖领路</a>
+        </nav>
+        <hr>
+        <div class="row py-4 links">
+            <div class="col-8">
+                <div class="row">
+                    <div class="col-3">
+                        <h6>活动报名流程</h6>
+                        <a href="#">报名须知</a>
+                        <a href="#">网上报名信息修改</a>
+                        <a href="#">网上报名流程及状态</a>
+                        <a href="#">报名方式</a>
+                        <a href="#">网上报名费用支付问题</a>
+                    </div>
+                    <div class="col-3">
+                        <h6>预订常见问题</h6>
+                        <a href="#">遇到恶劣天气是否取消？遇到恶劣天气是否取消遇到恶劣天气是否取消遇到恶劣天气是否取消</a>
+                        <a href="#">必须填写身份证吗？</a>
+                        <a href="#">独立成团可以吗？</a>
+                        <a href="#">什么是单房差？</a>
+                        <a href="#">纯玩是什么意思？</a>
+                    </div>
+                    <div class="col-3">
+                        <h6>网站条款</h6>
+                        <a href="#">网站免责声明</a>
+                        <a href="#">网站用户协议</a>
+                        <a href="#">网站版权说明</a>
+                        <a href="#">签订旅游合同</a>
+                    </div>
+                    <div class="col-3">
+                        <h6>付款和发票</h6>
+                        <a href="#">付款流程</a>
+                        <a href="#">三种付款方式</a>
+                        <a href="#">发票相关问题</a>
+                        <a href="#">如何支付尾款</a>
+                        <a href="#">退款付款说明</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="row">
+                    <div class="col">
+                        <img src="img/logo_footer.png" alt="logo_footer" width="170" height="56">
+                        <h4 class="text-center">400-3455-456</h4>
+                        <span class="btn btn-warning btn-block text-white">在线咨询</span>
+                    </div>
+                    <div class="col text-center">
+                        <img src="img/weixin.jpg" alt="weixin" width="114" height="114">
+                        <br>关注遇途记公众号
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="about text-center">
+            <p>
+                <a href="#">关于我们</a>
+                <a href="#">人才招聘</a>
+                <a href="#">帮助中心</a>
+                <a href="#">网站地图</a>
+                <a href="#">商务洽谈</a>
+                <a href="#">营业执照</a>
+            </p>
+            <hr>
+            <p>蜀ICP备16031541号-3</p>
+        </div>
+    </div>
+</footer>
+<aside class="position-fixed side-right">
+    <div class="mb-1 text-center">
+        <span class="d-block" data-toggle="popover" data-placement="left" data-trigger="hover" data-html="true" data-content="<p class='mb-0 text-center'>客服电话</p><b>400-3455-456</b>">
+            <i class="fa fa-fw fa-3x text-white fa-phone"></i>
+        </span>
+        <span class="d-block swt">
+            <i class="fa fa-fw fa-3x text-white fa-commenting"></i>
+        </span>
+        <span class="d-block" data-toggle="popover" data-placement="left" data-trigger="hover" data-html="true" data-content="<p class='mb-1'><img src='img/aside_weixin.png' width='158' height='158'></p><h5 class='text-center m-0'>关注遇途记</h5>更多优惠好玩旅行等你来">
+            <i class="fa fa-fw fa-3x text-white fa-qrcode"></i>
+        </span>
+    </div>
+    <div class="top text-center">
+        <i class="fa fa-fw fa-3x text-white fa-angle-up"></i>
+    </div>
+</aside>
+<link href="https://cdn.bootcss.com/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css" rel="stylesheet">
+<script src="https://cdn.bootcss.com/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.js"></script>
+<script>
+    (function ($) {
+        // 显示发团日期
+        $('a.btn-fatuan').click(function () {
+            $(this).children().toggleClass('fa-flip-vertical')
+            $(this).closest('div').find('.list-fatuan').toggleClass('d-none').mCustomScrollbar()
+        })
+    })(jQuery);
+</script>
+</body>
+</html>
