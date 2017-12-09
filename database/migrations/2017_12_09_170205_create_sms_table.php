@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateLanmusTable extends Migration
+class CreateSmsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,16 @@ class CreateLanmusTable extends Migration
      */
     public function up()
     {
-        Schema::create('Lanmus', function (Blueprint $table) {
+        Schema::create('sms', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title');
-            $table->unsignedTinyInteger('hide')->default(0);
-            $table->unsignedTinyInteger('parent_id')->default(0);
-            $table->unsignedTinyInteger('order')->default(0);
+            $table->string('mobile', 16);
+            $table->string('vars', 500);
+            $table->text('result');
+            $table->string('op', 20);
             $table->timestamps();
         });
+
+        DB::statement('ALTER TABLE `sms` ADD INDEX index_mobile_created(`mobile`, `created_at`)');
     }
 
     /**
@@ -30,6 +32,6 @@ class CreateLanmusTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('Lanmus');
+        Schema::dropIfExists('sms');
     }
 }

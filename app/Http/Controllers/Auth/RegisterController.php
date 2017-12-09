@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Rules\Code;
+use App\Rules\Mobile;
 use App\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -42,30 +45,40 @@ class RegisterController extends Controller
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
+     * @param  array $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+            'mobile' => ['required', 'string', new Mobile(), 'unique:users'],
+            'password' => 'required|string|min:6',
+            'code' => ['required', 'string', 'min:4', new Code('register')],
         ]);
     }
 
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
+     * @param  array $data
      * @return \App\User
      */
     protected function create(array $data)
     {
         return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
+            'mobile' => $data['mobile'],
             'password' => bcrypt($data['password']),
         ]);
+    }
+
+    public function showRegistrationForm()
+    {
+        return view('www.auth.register');
+    }
+
+    protected function registered(Request $request, $user)
+    {
+        $path = session()->pull('url.intended', $this->redirectTo);
+        return ['url' => $path];
     }
 }

@@ -6,6 +6,7 @@
     <meta name="author" content="bing,QQ676659348">
     <meta name="keywords" content="{{ config('web_keywords') }}">
     <meta name="description" content="{{ config('web_description') }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="https://cdn.bootcss.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.bootcss.com/vue/2.5.9/vue.js"></script>

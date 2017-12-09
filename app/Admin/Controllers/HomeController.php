@@ -61,8 +61,9 @@ class HomeController extends Controller
 
         $data = [];
         foreach ($files as $file) {
-            $path = $file->store('images', 'admin');
-            $data[] = Storage::disk('admin')->url($path);
+            $disk = config('admin.upload.disk');
+            $path = $file->store('images', $disk);
+            $data[] = Storage::disk($disk)->url($path);
         }
         return ['errno' => 0, 'data' => $data];
     }
