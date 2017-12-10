@@ -47,7 +47,7 @@ class ForgotPasswordController extends Controller
     public function mobile(Request $request)
     {
         $this->validate($request, [
-            'mobile' => ['required', 'string', new Mobile()],
+            'mobile' => ['required', 'string', new Mobile(), 'exists:users'],
             'code' => ['required', 'string', 'min:4', new Code('forgot')],
         ]);
         $token = str_random(60);

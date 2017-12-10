@@ -46,9 +46,8 @@
                         axios.post("{{ url('password/reset') }}", this.form).then(res => {
                             location.href = res.data.url
                         }).catch(err => {
-                            let errors = err.response.data.errors;
                             this.error = true
-                            this.errMsg = Object.values(errors).join("\r\n")
+                            this.errMsg = err.response.data.message
                         })
                     }
                 },

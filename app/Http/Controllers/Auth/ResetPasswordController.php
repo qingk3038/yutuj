@@ -62,10 +62,11 @@ class ResetPasswordController extends Controller
 
         $obj = \DB::table('password_resets')->where('token', $request->token)->first();
 
-        $user = User::where('mobile', $obj->mobile)->firstOrFail();
-
+        $user = User::where('mobile', $obj->mobile)->first();
         \DB::table('password_resets')->where('token', $obj->token)->delete();
-
+        if (empty($user)) {
+            return response(['message' => '手机未注册。'], 404);
+        }
         $this->resetPassword($user, $request->password);
 
         $path = session()->pull('url.intended', $this->redirectTo);

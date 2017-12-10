@@ -28,4 +28,10 @@ class HomeController extends Controller
 
         return view('www.home.index', compact('user', 'travels'));
     }
+
+
+    public function release()
+    {
+        return view('www.home.release');
+    }
 }
