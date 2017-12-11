@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 class HomeController extends Controller
 {
     /**
@@ -23,15 +21,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $user = auth()->user();
-        $travels = $user->travels()->paginate(15);
+        $travels = auth()->user()->travels()->where('status', '!=', 'draft')->orderByDesc('updated_at')->paginate(15);
 
-        return view('www.home.index', compact('user', 'travels'));
+        return view('www.home.index', compact( 'travels'));
     }
 
-
-    public function release()
-    {
-        return view('www.home.release');
-    }
 }

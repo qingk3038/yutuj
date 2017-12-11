@@ -17,11 +17,12 @@ class CreateTravelsTable extends Migration
             $table->increments('id');
             $table->string('title')->index();
             $table->string('thumb');
-            $table->text('body');
+            $table->string('description', 350);
+            $table->longText('body');
             $table->string('province')->nullable();
             $table->string('city')->nullable();
             $table->unsignedInteger('click')->default(0);
-            $table->enum('status', ['draft', 'audit', 'adopt', 'reject'])->default('draft');
+            $table->enum('status', ['draft', 'audit', 'adopt', 'reject'])->index()->default('draft');
             $table->unsignedInteger('user_id')->index();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();

@@ -10,7 +10,7 @@
                 @forelse(auth()->user()->travels()->status('draft')->get() as $travel)
                     <li>
                         <span class="float-left">
-                            <a href="{{ route('travel.show', $travel) }}">{{ str_limit($travel->title, 30) }}</a><br>
+                             <a href="{{ route('travel.show', $travel) }}">{{ str_limit($travel->title, 30) }}</a><br>
                             <small>{{ $travel->updated_at }}</small>
                         </span>
                         <span class="float-right">
@@ -27,18 +27,21 @@
         </div>
         <div class="bg-white home-travels float-right p-4">
             <form id="releaseForm">
-                <input type="hidden" name="province" id="province">
-                <input type="hidden" name="city" id="city">
+                <input type="hidden" name="province" id="province" value="{{ $travel->province }}">
+                <input type="hidden" name="city" id="city" value="{{ $travel->city }}">
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="请在这里输入标题" name="title">
+                    <input type="text" class="form-control" placeholder="请在这里输入标题" name="title" value="{{ $travel->title }}">
                 </div>
                 <div class="form-group">
-                    <label for="thumb">游记封面</label>
+                    <img src="{{ Storage::url($travel->thumb) }}" alt="缩略图" class="img-thumbnail">
+                </div>
+                <div class="form-group">
+                    <label for="thumb">更换封面</label>
                     <input type="file" class="form-control-file" id="thumb" name="thumb">
                 </div>
                 <div class="form-group">
                     <div id="edit"></div>
-                    <textarea name="body" hidden class="form-control" rows="10" placeholder="请在这里输入内容"></textarea>
+                    <textarea name="body" hidden class="form-control" rows="10" placeholder="请在这里输入内容">{{ $travel->body }}</textarea>
                 </div>
                 <div class="form-group">
                     <label>
@@ -60,9 +63,6 @@
     <script src="{{ asset('/vendor/wangEditor-3.0.14/release/wangEditor.min.js') }}"></script>
     <script>
         const token = $('meta[name="csrf-token"]').attr('content')
-        const config = {
-            headers: {'Content-Type': 'multipart/form-data'}
-        }
 
         $(document).ready(function () {
             initEdit();
@@ -109,19 +109,28 @@
         }
 
         /**
-         * 发布修改
+         * 发布
          * @param status draft:草稿
          */
         function release(status = 'draft') {
             let param = new FormData(document.getElementById('releaseForm'));
             param.append('_token', token)
             param.append('status', status)
-            axios.post("{{ route('travel.store') }}", param, config).then(res => {
-                alert(res.data.message);
-                location.reload(true)
-            }).catch(err => {
-                let errors = err.response.data.errors;
-                alert(Object.values(errors).join("\r\n"))
+            param.append('_method', 'PUT')
+            $.ajax({
+                url: "{{ route('travel.update', $travel) }}",
+                type: "POST",
+                data: param,
+                contentType: false,
+                processData: false,
+                success(res) {
+                    alert(res.message);
+                    location.reload(true)
+                },
+                error(err) {
+                    let errors = err.data.errors;
+                    alert(Object.values(errors).join("\r\n"))
+                }
             })
         }
     </script>
