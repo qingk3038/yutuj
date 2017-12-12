@@ -40,7 +40,7 @@
             </table>
         </div>
 
-        @if(!auth()->user()->description && Route::currentRouteName() === 'travel.index')
+        @if(!auth()->user()->description && Route::is('travel.index'))
             <div class="home-travels float-right mt-4 p-4" style="background: #FFF100;">
                 <p class="text-dark mb-4">
                     <span class="text-info h5 mb-0">{{ auth()->user()->name ?? auth()->user()->mobile }}</span>，欢迎来到遇途记！
