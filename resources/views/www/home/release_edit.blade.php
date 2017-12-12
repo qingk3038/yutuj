@@ -33,11 +33,11 @@
                     <input type="text" class="form-control" placeholder="请在这里输入标题" name="title" value="{{ $travel->title }}">
                 </div>
                 <div class="form-group">
-                    <img src="{{ Storage::url($travel->thumb) }}" alt="缩略图" class="img-thumbnail">
-                </div>
-                <div class="form-group">
-                    <label for="thumb">更换封面</label>
-                    <input type="file" class="form-control-file" id="thumb" name="thumb">
+                    <p><img src="{{ Storage::url($travel->thumb) }}" class="img-thumbnail showImage" alt="缩略图"></p>
+                    <label class="custom-file">
+                        <input type="file" id="thumb" name="thumb" class="custom-file-input" required>
+                        <span class="custom-file-control text-muted">选择游记封面</span>
+                    </label>
                 </div>
                 <div class="form-group">
                     <div id="edit"></div>
@@ -66,6 +66,12 @@
 
         $(document).ready(function () {
             initEdit();
+
+            $('#thumb').change(function(){
+                let src = window.URL.createObjectURL(this.files[0])
+                $('.showImage').prop('src', src).removeClass('d-none')
+                $(this).next().text($(this).val())
+            })
 
             // 删除
             $('.btn-del').click(function () {
@@ -125,7 +131,7 @@
                 processData: false,
                 success(res) {
                     alert(res.message);
-                    location.reload(true)
+                    location.href = document.referrer
                 },
                 error(err) {
                     let errors = err.data.errors;

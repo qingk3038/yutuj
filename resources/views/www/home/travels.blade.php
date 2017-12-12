@@ -10,7 +10,7 @@
                 <i class="fa fa-fw fa-lg fa-clock-o"></i> {{ $travel->updated_at->toDateString() }}
             </span>
             <span class="btns">
-                <a href="#">设置封面</a>
+                <a href="javascript:void(0);">设置封面</a>
                 <a href="{{ route('travel.edit', $travel) }}">编辑</a>
                 <a class="btn-del" href="javascript:void(0);" data-action="{{ route('travel.destroy', $travel) }}">删除</a>
             </span>

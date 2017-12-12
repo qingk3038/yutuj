@@ -20,7 +20,17 @@ Route::post('password/mobile', 'Auth\ForgotPasswordController@mobile')->name('pa
 Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
 Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
-Route::get('home', 'HomeController@index')->name('home');
-
 // 游记
 Route::resource('home/travel', 'TravelController');
+
+Route::redirect('home', 'home/travel')->name('home');
+Route::view('home/setting', 'www.home.setting')->name('home.setting');
+Route::view('home/message', 'www.home.message')->name('home.message');
+Route::view('home/order', 'www.home.order')->name('home.order');
+Route::view('home/order/info', 'www.home.order_info')->name('home.order.info');
+
+Route::post('home/bg', 'HomeController@backgroundImage')->name('user.bg');
+Route::post('home/avatar', 'HomeController@uploadAvatar')->name('user.avatar');
+Route::put('home/user', 'HomeController@update')->name('user.update');
+Route::put('home/pwd', 'HomeController@updatePwd')->name('user.pwd');
+Route::put('home/mobile', 'HomeController@updateMobile')->name('user.mobile');

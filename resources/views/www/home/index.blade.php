@@ -6,9 +6,9 @@
         <a href="{{ route('travel.create') }}" class="btn btn-warning text-white px-3 py-1"><i class="fa fa-edit"></i> 发表游记</a>
     </div>
 
-    @forelse($travels as $travel)
+    @foreach($travels as $travel)
         <div class="card">
-            <div class="position-relative" style="height: 290px; background: url({{ Storage::url($travel->thumb) }}) center top / cover;">
+            <div class="position-relative" style="height: 290px; background: url({{ Storage::url($travel->thumb) }}) center center / cover;">
                 <div class="position-absolute p-3 btns d-flex">
                     <a href="javascript:void(0);" class="btn btn-dark border-0 mr-auto btn-del" data-action="{{ route('travel.destroy', $travel) }}"><i class="fa fa-trash-o"></i> 删除</a>
                     <a href="{{ route('travel.edit', $travel) }}" class="btn btn-dark border-0 mr-2"><i class="fa fa-edit"></i> 编辑</a>
@@ -19,7 +19,7 @@
             </div>
             <div class="card-body position-relative">
                 <div class="position-absolute up">
-                    334
+                    {{ $travel->likes_count }}
                     <span class="fa-stack fa-lg">
                         <i class="fa fa-circle fa-stack-2x text-info"></i>
                         <i class="fa fa-thumbs-o-up fa-stack-1x fa-inverse"></i>
@@ -41,15 +41,16 @@
                 <p class="card-text text-justify">{{ $travel->description }}</p>
             </div>
         </div>
+    @endforeach
 
-        <nav aria-label="Page navigation">
-            <ul class="pagination justify-content-center">
-                {{ $travels->links() }}
-            </ul>
+    @if($travels->total())
+        <nav class="d-flex justify-content-center">
+            {{ $travels->links() }}
         </nav>
-    @empty
+    @else
         <div class="bg-light p-5 text-center"><img src="{{ asset('img/empty_release.png') }}" alt="empty_release" width="140" height="125"></div>
-    @endforelse
+    @endif
+
 @endsection
 
 @push('script')

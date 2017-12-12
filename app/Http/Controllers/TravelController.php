@@ -20,7 +20,7 @@ class TravelController extends Controller
      */
     public function index()
     {
-        $travels = auth()->user()->travels()->where('status', '!=', 'draft')->orderByDesc('updated_at')->paginate(15);
+        $travels = auth()->user()->travels()->withCount('likes')->where('status', '!=', 'draft')->orderByDesc('updated_at')->paginate(2);
 
         return view('www.home.index', compact('travels'));
     }

@@ -33,14 +33,26 @@ a:hover {
     opacity: 0
 }
 
+.page-item.active .page-link {
+    background-color: #FF9900;
+    border-color: #FF9900;
+}
+.page-link:focus, .page-link:hover{
+    color: #999999;
+}
+
+.page-link{
+     color: #999999;
+ }
+
 .btn-warning,
 .bg-warning {
-    background-color: #FF9900 !important;
+    background-color: #FF9900;
 }
 
 .text-warning,
 .btn-outline-warning {
-    color: #FF9900 !important;
+    color: #FF9900;
 }
 
 footer {

@@ -33,8 +33,11 @@
                     <input type="text" class="form-control" placeholder="请在这里输入标题" name="title">
                 </div>
                 <div class="form-group">
-                    <label for="thumb">游记封面</label>
-                    <input type="file" class="form-control-file" id="thumb" name="thumb">
+                    <p><img class="img-thumbnail d-none showImage" alt="缩略图"></p>
+                    <label class="custom-file">
+                        <input type="file" id="thumb" name="thumb" class="custom-file-input" required>
+                        <span class="custom-file-control text-muted">选择游记封面</span>
+                    </label>
                 </div>
                 <div class="form-group">
                     <div id="edit"></div>
@@ -60,12 +63,15 @@
     <script src="{{ asset('/vendor/wangEditor-3.0.14/release/wangEditor.min.js') }}"></script>
     <script>
         const token = $('meta[name="csrf-token"]').attr('content')
-        const config = {
-            headers: {'Content-Type': 'multipart/form-data'}
-        }
 
         $(document).ready(function () {
             initEdit();
+
+            $('#thumb').change(function(){
+                let src = window.URL.createObjectURL(this.files[0])
+                $('.showImage').prop('src', src).removeClass('d-none')
+                $(this).next().text($(this).val())
+            })
 
             // 删除
             $('.btn-del').click(function () {
@@ -116,9 +122,11 @@
             let param = new FormData(document.getElementById('releaseForm'));
             param.append('_token', token)
             param.append('status', status)
-            axios.post("{{ route('travel.store') }}", param, config).then(res => {
+            axios.post("{{ route('travel.store') }}", param, {
+                headers: {'Content-Type': 'multipart/form-data'}
+            }).then(res => {
                 alert(res.data.message);
-                location.reload(true)
+                history.back()
             }).catch(err => {
                 let errors = err.response.data.errors;
                 alert(Object.values(errors).join("\r\n"))

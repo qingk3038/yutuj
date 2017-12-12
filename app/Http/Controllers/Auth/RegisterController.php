@@ -53,7 +53,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'mobile' => ['required', 'string', new Mobile(), 'unique:users'],
             'password' => 'required|string|min:6',
-            'code' => ['required', 'string', 'min:4', new Code('register')],
+            'code' => ['bail', 'required', 'string', 'min:4', new Code('register')],
         ]);
     }
 
@@ -68,6 +68,7 @@ class RegisterController extends Controller
         return User::create([
             'mobile' => $data['mobile'],
             'password' => bcrypt($data['password']),
+            'api_token' => str_random(60),
         ]);
     }
 

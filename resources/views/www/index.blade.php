@@ -49,14 +49,14 @@
                         <a href="{{ url('login') }}" class="text-warning">登录</a> | <a href="{{ url('register') }}" class="text-warning">注册</a>
                     @else
                         <div data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor:pointer;">
-                            <img class="rounded-circle" src="{{ asset(auth()->user()->avatar) }}" alt="头像" width="36" height="36">
+                            <img class="rounded-circle" src="{{ auth()->user()->avatar }}" alt="头像" width="36" height="36">
                             {{ str_limit(auth()->user()->name, 10) ?? auth()->user()->mobile }}
                         </div>
                         <div class="dropdown">
-                            <div class="dropdown-menu rounded-0 other-down">
-                                <a class="dropdown-item" href="{{ url('home/setting') }}"><i class="fa fa-fw fa-user"></i> 个人中心</a>
+                            <div class="dropdown-menu rounded-0 index-down">
+                                <a class="dropdown-item" href="{{ route('home.setting') }}"><i class="fa fa-fw fa-user"></i> 个人中心</a>
                                 <a class="dropdown-item" href="{{ url('home/order') }}"><i class="fa fa-fw fa-list-alt"></i> 我的订单</a>
-                                <a class="dropdown-item" href="{{ url('home') }}"><i class="fa fa-fw fa-book"></i> 我的游记</a>
+                                <a class="dropdown-item" href="{{ route('travel.index') }}"><i class="fa fa-fw fa-book"></i> 我的游记</a>
                                 <a class="dropdown-item" href="{{ route('logout') }}"><i class="fa fa-fw fa-sign-out"></i> 退出</a>
                             </div>
                         </div>
