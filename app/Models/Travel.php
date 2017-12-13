@@ -22,7 +22,19 @@ class Travel extends Model
         return $query->where('status', $status);
     }
 
+    /**
+     * 游记作者
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
+    /**
+     * 喜欢游记的用户
+     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
+     */
     public function likes()
     {
         return $this->morphToMany(User::class, 'like');

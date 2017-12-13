@@ -43,13 +43,13 @@ class TravelController extends Controller
         $data = $this->validate($request, [
             'title' => 'required|string|between:3,100|unique:travels',
             'thumb' => 'required|file',
+            'description' => 'required|string|between:10, 350',
             'body' => 'required|string|min:20',
             'status' => 'required|string|in:draft,audit',
             'province' => 'required|string',
             'city' => 'required|string',
         ]);
         $data['thumb'] = $request->file('thumb')->store('images');
-        $data['description'] = str_limit(strip_tags($request->body), 350);
         $request->user()->travels()->create($data);
 
         return $request->status === 'draft' ? ['message' => '已保存至草稿箱中。'] : ['message' => '发布成功，请等待官方人员审核。'];
@@ -91,6 +91,7 @@ class TravelController extends Controller
         $data = $this->validate($request, [
             'title' => ['required', 'string', 'between:3,100', Rule::unique('travels')->ignore($travel->id)],
             'thumb' => 'file',
+            'description' => 'required|string|between:10, 350',
             'body' => 'required|string|min:20',
             'status' => 'required|string|in:draft,audit',
             'province' => 'required|string',
@@ -101,7 +102,6 @@ class TravelController extends Controller
             $data['thumb'] = $request->file('thumb')->store('images');
         }
 
-        $data['description'] = str_limit(strip_tags($request->body), 350);
         $travel->update($data);
 
         return $request->status === 'draft' ? ['message' => '已保存至草稿箱中。'] : ['message' => '发布成功，请等待官方人员审核。'];

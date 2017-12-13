@@ -38,21 +38,45 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
+    /**
+     * 显示登陆界面
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function showLoginForm()
     {
         return view('www.auth.login');
     }
 
-
+    /**
+     * 认证字段
+     * @return string
+     */
     public function username()
     {
         return 'mobile';
     }
 
+    /**
+     * 认证后
+     * @param Request $request
+     * @param $user
+     * @return array
+     */
     protected function authenticated(Request $request, $user)
     {
         $path = session()->pull('url.intended', $this->redirectTo);
         return ['url' => $path];
     }
 
+    /**
+     * 自定义认证
+     * @param Request $request
+     * @return bool
+     */
+    protected function attemptLogin(Request $request)
+    {
+        return $this->guard()->attempt(
+            array_merge($this->credentials($request), ['disable' => 0]), $request->filled('remember')
+        );
+    }
 }

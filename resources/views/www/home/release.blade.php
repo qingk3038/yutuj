@@ -30,7 +30,7 @@
                 <input type="hidden" name="province" id="province">
                 <input type="hidden" name="city" id="city">
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="请在这里输入标题" name="title">
+                    <input type="text" class="form-control" placeholder="这里输入游记标题" name="title">
                 </div>
                 <div class="form-group">
                     <p><img class="img-thumbnail d-none showImage" alt="缩略图"></p>
@@ -40,8 +40,11 @@
                     </label>
                 </div>
                 <div class="form-group">
+                    <textarea name="description" class="form-control muted" rows="5" placeholder="游记的摘要也很重要…"></textarea>
+                </div>
+                <div class="form-group">
                     <div id="edit"></div>
-                    <textarea name="body" hidden class="form-control" rows="10" placeholder="请在这里输入内容"></textarea>
+                    <textarea name="body" hidden class="form-control" rows="10" placeholder="请在这里编辑游记内容"></textarea>
                 </div>
                 <div class="form-group">
                     <label>

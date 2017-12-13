@@ -25,6 +25,7 @@ class CreateUsersTable extends Migration
             $table->string('description', 250)->nullable();
             $table->string('avatar', 250)->nullable();
             $table->string('bg_home', 250)->nullable();
+            $table->unsignedInteger('disable')->default(0);
             $table->string('api_token', 64)->unique()->nullable();
             $table->rememberToken();
             $table->timestamps();

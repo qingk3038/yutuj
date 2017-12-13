@@ -30,7 +30,7 @@
                 <input type="hidden" name="province" id="province" value="{{ $travel->province }}">
                 <input type="hidden" name="city" id="city" value="{{ $travel->city }}">
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="请在这里输入标题" name="title" value="{{ $travel->title }}">
+                    <input type="text" class="form-control" placeholder="这里输入游记标题" name="title" value="{{ $travel->title }}">
                 </div>
                 <div class="form-group">
                     <p><img src="{{ Storage::url($travel->thumb) }}" class="img-thumbnail showImage" alt="缩略图"></p>
@@ -38,6 +38,9 @@
                         <input type="file" id="thumb" name="thumb" class="custom-file-input" required>
                         <span class="custom-file-control text-muted">选择游记封面</span>
                     </label>
+                </div>
+                <div class="form-group">
+                    <textarea name="description" class="form-control text-muted" rows="5" placeholder="350字的游记摘要也很重要…">{{ $travel->description }}</textarea>
                 </div>
                 <div class="form-group">
                     <div id="edit"></div>

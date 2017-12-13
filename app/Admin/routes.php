@@ -13,4 +13,6 @@ Route::group([
     $router->get('/', 'HomeController@index');
 
     $router->post('/upload/images', 'HomeController@images');
+    $router->resource('/web/user', 'UserController');
+    $router->resource('/web/travel', 'TravelController');
 });
