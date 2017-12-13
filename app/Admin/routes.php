@@ -15,4 +15,6 @@ Route::group([
     $router->post('/upload/images', 'HomeController@images');
     $router->resource('/web/user', 'UserController');
     $router->resource('/web/travel', 'TravelController');
+    $router->resource('/locList', 'LocListController');
+
 });
