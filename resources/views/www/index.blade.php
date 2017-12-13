@@ -43,12 +43,14 @@
                         <a class="nav-link" href="#">旅拍直播</a>
                     </li>
                 </ul>
-
+                <div class="text-white pr-5">
+                    <i class="fa fa-fw fa-phone"></i> 400-3455-456
+                </div>
                 <div class="user-info">
                     @guest
-                        <a href="{{ url('login') }}" class="text-warning">登录</a> | <a href="{{ url('register') }}" class="text-warning">注册</a>
+                        <a href="{{ url('login') }}" class="text-white">登录</a> | <a href="{{ url('register') }}" class="text-white">注册</a>
                     @else
-                        <div data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor:pointer;">
+                        <div class="text-white" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor:pointer;">
                             <img class="rounded-circle" src="{{ auth()->user()->avatar }}" alt="头像" width="36" height="36">
                             {{ str_limit(auth()->user()->name, 10) ?? auth()->user()->mobile }}
                         </div>
