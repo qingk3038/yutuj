@@ -40,7 +40,7 @@ class HomeController extends Controller
         $this->validate($request, [
             'bg' => 'required|file'
         ]);
-        $path = $request->file('bg')->store('images');
+        $path = $request->file('bg')->store('bg');
         $user = $request->user();
         $user->bg_home = $path;
         $user->save();
@@ -58,9 +58,8 @@ class HomeController extends Controller
         $this->validate($request, [
             'avatar' => 'required|file'
         ]);
-        $avatar = $request->file('avatar');
+        $path = $request->file('avatar')->store('avatar');
         $user = $request->user();
-        $path = $avatar->storeAs('images', 'avatar' . $user->id . '.' . $avatar->getClientOriginalExtension());
         $user->avatar = $path;
         $user->save();
 

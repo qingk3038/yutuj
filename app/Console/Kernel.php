@@ -29,7 +29,7 @@ class Kernel extends ConsoleKernel
 
         $schedule->exec('ls -al')->everyTenMinutes();
 
-        $schedule->command('route:list')->dailyAt('21:41');
+        $schedule->command('route:list')->everyMinute()->sendOutputTo('d:\1.txt');;
     }
 
     /**
