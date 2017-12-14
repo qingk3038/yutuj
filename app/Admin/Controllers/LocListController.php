@@ -9,6 +9,7 @@ use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Content;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
+use Illuminate\Http\Request;
 
 class LocListController extends Controller
 {
@@ -29,6 +30,7 @@ class LocListController extends Controller
             $content->body($this->grid());
         });
     }
+
 
     /**
      * Edit interface.
@@ -72,8 +74,9 @@ class LocListController extends Controller
     {
         return Admin::grid(LocList::class, function (Grid $grid) {
             $grid->model()->province();
+            $grid->id();
             $grid->name('国家')->editable();
-            $grid->children('城市')->pluck('name')->label();
+
         });
     }
 
@@ -88,6 +91,19 @@ class LocListController extends Controller
 
             $form->display('id', 'ID');
             $form->text('name', '名称');
+            $form->text('code', '代码');
         });
+    }
+
+    public function city(Request $request)
+    {
+        $provinceId = $request->get('q');
+        return LocList::city()->where('parent_id', $provinceId)->get(['id', 'name as text']);
+    }
+
+    public function district(Request $request)
+    {
+        $cityId = $request->get('q');
+        return LocList::district()->where('parent_id', $cityId)->get(['id', 'name as text']);
     }
 }
