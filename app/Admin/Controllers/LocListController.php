@@ -71,15 +71,9 @@ class LocListController extends Controller
     protected function grid()
     {
         return Admin::grid(LocList::class, function (Grid $grid) {
-            $grid->id('ID')->sortable();
-            $grid->name('名称')->sortable();
-            $grid->code('简称')->sortable();
-            $grid->type('类别')->sortable()->display(function ($type) {
-                if($type === 'country') return '国家';
-                if($type === 'state') return '省份';
-                if($type === 'city') return '城市';
-                if($type === 'region') return '地区';
-            });
+            $grid->model()->province();
+            $grid->name('国家')->editable();
+            $grid->children('城市')->pluck('name')->label();
         });
     }
 
