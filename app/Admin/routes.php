@@ -17,9 +17,10 @@ Route::group([
     $router->resource('web/travel', 'TravelController');
 
     $router->resource('locList', 'LocListController');
+
+    $router->get('api/province', 'LocListController@province');
     $router->get('api/city', 'LocListController@city');
     $router->get('api/district', 'LocListController@district');
 
     $router->resource('leader', 'LeaderController');
-
 });

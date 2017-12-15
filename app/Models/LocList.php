@@ -10,19 +10,25 @@ class LocList extends Model
 
     public $timestamps = false;
 
-    public function scopeProvince()
+
+    public function scopeCountry()
     {
         return $this->where('type', 1);
     }
 
-    public function scopeCity()
+    public function scopeProvince()
     {
         return $this->where('type', 2);
     }
 
-    public function scopeDistrict()
+    public function scopeCity()
     {
         return $this->where('type', 3);
+    }
+
+    public function scopeDistrict()
+    {
+        return $this->where('type', 4);
     }
 
     public function parent()

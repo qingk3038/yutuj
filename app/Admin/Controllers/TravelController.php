@@ -81,7 +81,7 @@ class TravelController extends Controller
 
             $grid->id('ID')->sortable();
             $grid->thumb('缩略图')->sortable()->image(null, 120, 120);
-            $grid->title('标题')->sortable()->limit(40);
+            $grid->title('标题')->sortable()->limit(30);
             $grid->click('点击量')->sortable();
             $grid->column('full', '省份/城市')->display(function ($text) {
                 return [$this->province, $this->city];

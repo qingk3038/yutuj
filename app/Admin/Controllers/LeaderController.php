@@ -76,14 +76,15 @@ class LeaderController extends Controller
 
             $grid->id('ID')->sortable();
 
-            $grid->avatar('头像')->image();
-            $grid->photos('展示图')->images();
+            $grid->avatar('头像')->image(null, 120);
+            $grid->photos('展示图')->count();
             $grid->name('名字');
             $grid->sex('性别')->display(function ($sex) {
                 return $sex === 'F' ? '女' : '男';
-            });
-            $grid->column('locList.name', '显示地区');
-            $grid->brief('简短介绍');
+            })->badge();
+            $grid->column('all_city', '显示地址')->display(function () {
+                return [$this->country->name, $this->province->name, isset($this->city) ? $this->city->name : ''];
+            })->label();
             $grid->created_at('创建日期');
             $grid->updated_at('修改日期');
         });
@@ -101,21 +102,27 @@ class LeaderController extends Controller
             $form->display('id', 'ID');
             $form->text('name', '名字')->rules('required|string');
             $form->image('avatar', '头像')->rules('required');
-            $form->multipleImage('photos', '展示图')->rules('required');
+            $form->image('bg_home', '主页背景')->rules('required');
+            $form->multipleImage('photos', '展示图');
+
             $form->switch('sex', '性别')->states([
                 'on' => ['value' => 'F', 'text' => '女性', 'color' => 'warning'],
                 'off' => ['value' => 'M', 'text' => '男性', 'color' => 'success'],
-            ]);
+            ])->default('M');
 
-            $form->select('province', '国家')->options(
+            $form->select('country_id', '国家')->options(
+                LocList::country()->pluck('name', 'id')
+            )->load('province_id', '/admin/api/province')->rules('required');
+
+            $form->select('province_id', '省份')->options(
                 LocList::province()->pluck('name', 'id')
-            )->load('city', '/admin/api/city');
+            )->load('city_id', '/admin/api/city')->rules('required');
 
-            $form->select('city', '城市')->options(function ($id) {
+            $form->select('city_id', '城市')->options(function ($id) {
                 return LocList::options($id);
-            })->load('district', '/admin/api/district');
+            })->load('district_id', '/admin/api/district');
 
-            $form->select('district', '地区')->options(function ($id) {
+            $form->select('district_id', '地区')->options(function ($id) {
                 return LocList::options($id);
             });
 

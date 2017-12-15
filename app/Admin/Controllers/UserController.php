@@ -79,7 +79,7 @@ class UserController extends Controller
             $grid->mobile('手机号')->sortable()->editable();
             $grid->sex('性别')->display(function ($sex) {
                 return $sex === 'F' ? '女' : '男';
-            });
+            })->badge();
             $grid->disable('登陆状态')->sortable()->switch([
                 'on' => ['value' => 0, 'text' => '正常', 'color' => 'success'],
                 'off' => ['value' => 1, 'text' => '禁止'],
@@ -87,7 +87,7 @@ class UserController extends Controller
             $grid->birthday('出生日期')->sortable()->editable('date');
             $grid->column('full', '省份/城市')->display(function ($text) {
                 return [$this->province, $this->city];
-            })->badge();
+            })->label();
             $grid->created_at('注册日期')->sortable();
             $grid->updated_at('更新日期')->sortable();
 
@@ -109,17 +109,25 @@ class UserController extends Controller
         return Admin::form(User::class, function (Form $form) {
 
             $form->display('id', 'ID');
-            $form->image('avatar', '头像');
-            $form->text('name', '昵称');
-            $form->mobile('mobile', '绑定手机号');
+            $form->image('avatar', '头像')->rules('required');
+            $form->text('name', '昵称')->rules('required|string');
+            $form->mobile('mobile', '绑定手机号')->rules(function ($form) {
+                $rules = 'required|string';
+                if (!$id = $form->model()->id) {
+                    $rules .= '|unique:users';
+                }
+                return $rules;
+            });
             $form->switch('sex', '性别')->states([
                 'on' => ['value' => 'F', 'text' => '女性', 'color' => 'warning'],
                 'off' => ['value' => 'M', 'text' => '男性', 'color' => 'success'],
-            ]);
+            ])->default('F')->rules('required|string');
             $form->switch('disable', '登陆')->states([
                 'on' => ['value' => 0, 'text' => '正常', 'color' => 'success'],
                 'off' => ['value' => 1, 'text' => '禁止'],
-            ]);
+            ])->default(0);
+
+            $form->password('password', '密码')->rules('required|string|min:6');
             $form->date('birthday', '出生日期');
             $form->text('province', '居住省份');
             $form->text('city', '居住城市');

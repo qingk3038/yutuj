@@ -10,8 +10,23 @@ class Leader extends Model
         'photos' => 'json',
     ];
 
-    public function locList()
+    public function country()
     {
-        return $this->belongsTo(LocList::class, 'loc_id');
+        return $this->belongsTo(LocList::class, 'country_id');
+    }
+
+    public function province()
+    {
+        return $this->belongsTo(LocList::class, 'province_id');
+    }
+
+    public function city()
+    {
+        return $this->belongsTo(LocList::class, 'city_id');
+    }
+
+    public function district()
+    {
+        return $this->belongsTo(LocList::class, 'district_id');
     }
 }

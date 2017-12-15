@@ -95,6 +95,12 @@ class LocListController extends Controller
         });
     }
 
+    public function province(Request $request)
+    {
+        $provinceId = $request->get('q');
+        return LocList::province()->where('parent_id', $provinceId)->get(['id', 'name as text']);
+    }
+
     public function city(Request $request)
     {
         $provinceId = $request->get('q');
