@@ -22,7 +22,7 @@ class CreateLeadersTable extends Migration
             $table->string('brief')->comment('简介');
             $table->string('description', 350)->comment('描述');
             $table->string('introduction', 2000)->comment('介绍');
-            $table->json('photos')->nullable()->comment('轮播图');
+            $table->text('photos')->nullable()->comment('轮播图');
 
             $table->unsignedInteger('country_id')->index()->comment('国家');
             $table->foreign('country_id')->references('id')->on('loclists')->onDelete('cascade');

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Leader extends Model
 {
     protected $casts = [
-        'photos' => 'json',
+        'photos' => 'array',
     ];
 
     public function country()

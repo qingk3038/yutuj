@@ -2,6 +2,7 @@
 
 return [
     'attributes' => [
+        'tese.photos' => '特色图片',
         'province' => '省份',
         'thumb' => '缩略图',
         'body' => '正文',

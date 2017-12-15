@@ -24,6 +24,7 @@ class WangEditor extends Field
         
 var E = window.wangEditor
 var editor = new E('#{$this->id}')
+editor.customConfig.zIndex = 1
 //editor.customConfig.uploadImgShowBase64 = true
 editor.customConfig.uploadFileName = 'files[]'
 editor.customConfig.uploadImgServer = '/admin/upload/images'
