@@ -82,6 +82,7 @@ class ActivityController extends Controller
 
             $grid->id('ID')->sortable();
             $grid->column('title', '标题')->editable();
+            $grid->column('short', '短标题')->editable();
             $grid->column('price', '显示价格')->sortable()->editable();
             $grid->column('play', '游玩天数')->sortable()->badge();
             $grid->types('类别')->pluck('text')->badge();

@@ -33,4 +33,6 @@ Route::group([
     $router->resource('activity', 'ActivityController');
     $router->resource('raider', 'RaiderController');
 
+    $router->resource('customized', 'CustomizedController');
+    $router->resource('order', 'OrderController');
 });
