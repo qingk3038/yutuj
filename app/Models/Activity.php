@@ -2,25 +2,32 @@
 
 namespace App\Models;
 
+use Encore\Admin\Auth\Database\Administrator;
 use Illuminate\Database\Eloquent\Model;
 
 class Activity extends Model
 {
     protected $casts = [
-        'tese' => 'json',
-        'feiyong' => 'json',
+        'photos' => 'array',
+        'tps' => 'array',
     ];
+
+    // 作者
+    public function admin()
+    {
+        return $this->belongsTo(Administrator::class, 'admin_user_id');
+    }
 
     // 标签
     public function tags()
     {
-        return $this->belongsToMany(Tag::class);
+        return $this->belongsToMany(Tag::class)->withTimestamps();
     }
 
     // 类别
     public function types()
     {
-        return $this->belongsToMany(Type::class);
+        return $this->belongsToMany(Type::class)->withTimestamps();
     }
 
     // 行程

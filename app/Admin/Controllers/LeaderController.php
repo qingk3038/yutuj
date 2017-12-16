@@ -73,7 +73,7 @@ class LeaderController extends Controller
     protected function grid()
     {
         return Admin::grid(Leader::class, function (Grid $grid) {
-
+            $grid->model()->with(['country', 'province', 'city', 'district']);
             $grid->id('ID')->sortable();
 
             $grid->avatar('头像')->image(null, 120);
@@ -83,7 +83,11 @@ class LeaderController extends Controller
                 return $sex === 'F' ? '女' : '男';
             })->badge();
             $grid->column('all_city', '显示地址')->display(function () {
-                return [$this->country->name, $this->province->name, isset($this->city) ? $this->city->name : ''];
+                return array_filter([
+                    $this->country['name'] ?? null,
+                    $this->province['name'] ?? null,
+                    $this->city['name'] ?? null,
+                ]);
             })->label();
             $grid->created_at('创建日期');
             $grid->updated_at('修改日期');
@@ -103,7 +107,7 @@ class LeaderController extends Controller
             $form->text('name', '名字')->rules('required|string');
             $form->image('avatar', '头像')->rules('required');
             $form->image('bg_home', '主页背景')->rules('required');
-            $form->multipleImage('photos', '展示图');
+            $form->multipleImage('photos', '展示图')->removable();
 
             $form->switch('sex', '性别')->states([
                 'on' => ['value' => 'F', 'text' => '女性', 'color' => 'warning'],

@@ -27,42 +27,24 @@ class CreateActivitiesTable extends Migration
             $table->timestamps();
         });
 
-        // 行程
-        Schema::create('trips', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('title')->comment('行程地址');
-            $table->text('body')->comment('行程简介');
-            $table->text('photos')->nullable()->comment('行程照片');
-            $table->string('zaocan', 20)->comment('早餐');
-            $table->string('wucan', 20)->comment('午餐');
-            $table->string('wancan', 20)->comment('晚餐');
-            $table->string('zhusu', 20)->comment('住宿');
-            $table->timestamps();
-        });
-
-        // 发团日期
-        Schema::create('tuans', function (Blueprint $table) {
-            $table->increments('id');
-            $table->date('start_time')->comment('开始日期');
-            $table->date('end_time')->comment('结束日期');
-            $table->unsignedSmallInteger('start_num')->comment('开始人数');
-            $table->unsignedSmallInteger('end_num')->comment('截止人数');
-            $table->unsignedSmallInteger('price')->comment('每人价格');
-            $table->timestamps();
-        });
-
         // 活动
         Schema::create('activities', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title');
-            $table->string('short')->nullable()->comment('短标题');
+            $table->string('short')->comment('短标题');
+            $table->string('cfd')->nullable()->comment('出发地');
+            $table->string('xc')->nullable()->comment('行程');
+            $table->string('description')->nullable()->comment('描述');
+
             $table->string('thumb')->comment('缩略图');
             $table->text('photos')->nullable()->comment('展示图');
 
-            $table->integer('price')->default(0)->index()->comment('价格');
-            $table->unsignedTinyInteger('play')->index()->comment('游玩天数');
+            $table->integer('price')->default(1000)->index()->comment('价格');
+            $table->unsignedTinyInteger('play')->index()->default(1)->comment('游玩天数');
 
-            $table->json('tese')->nullable()->comment('行程特色');
+            $table->text('ts')->nullable()->comment('行程特色');
+            $table->text('tps')->nullable()->comment('特色图片');
+
             $table->text('baohan')->nullable()->comment('不含说明');
             $table->text('buhan')->nullable()->comment('包含说明');
             $table->text('zhuyi')->nullable()->comment('注意事项');
@@ -83,6 +65,36 @@ class CreateActivitiesTable extends Migration
             $table->unsignedInteger('admin_user_id')->index()->comment('作者');
             $table->foreign('admin_user_id')->references('id')->on('admin_users')->onDelete('cascade');
 
+            $table->timestamps();
+        });
+
+        // 行程
+        Schema::create('trips', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('title')->comment('行程地址');
+            $table->text('body')->comment('行程简介');
+            $table->text('pictures')->nullable()->comment('行程照片');
+            $table->string('zaocan', 20)->comment('早餐');
+            $table->string('wucan', 20)->comment('午餐');
+            $table->string('wancan', 20)->comment('晚餐');
+            $table->string('zhusu', 20)->comment('住宿');
+
+            $table->unsignedInteger('activity_id')->index()->comment('活动ID');
+            $table->foreign('activity_id')->references('id')->on('activities')->onDelete('cascade');
+            $table->timestamps();
+        });
+
+        // 发团日期
+        Schema::create('tuans', function (Blueprint $table) {
+            $table->increments('id');
+            $table->date('start_time')->comment('开始日期');
+            $table->date('end_time')->comment('结束日期');
+            $table->unsignedSmallInteger('start_num')->comment('开始人数');
+            $table->unsignedSmallInteger('end_num')->comment('截止人数');
+            $table->unsignedSmallInteger('price')->comment('每人价格');
+
+            $table->unsignedInteger('activity_id')->index()->comment('活动ID');
+            $table->foreign('activity_id')->references('id')->on('activities')->onDelete('cascade');
             $table->timestamps();
         });
 
@@ -110,30 +122,6 @@ class CreateActivitiesTable extends Migration
 
             $table->timestamps();
         });
-
-        // 行程活动关系
-        Schema::create('activity_trip', function (Blueprint $table) {
-            $table->increments('id');
-            $table->unsignedInteger('activity_id')->index()->comment('活动ID');
-            $table->foreign('activity_id')->references('id')->on('activities')->onDelete('cascade');
-
-            $table->unsignedInteger('trip_id')->index()->comment('行程ID');
-            $table->foreign('trip_id')->references('id')->on('trips')->onDelete('cascade');
-
-            $table->timestamps();
-        });
-
-        // 发团活动关系
-        Schema::create('activity_tuan', function (Blueprint $table) {
-            $table->increments('id');
-            $table->unsignedInteger('activity_id')->index()->comment('活动ID');
-            $table->foreign('activity_id')->references('id')->on('activities')->onDelete('cascade');
-
-            $table->unsignedInteger('tuan_id')->index()->comment('发团ID');
-            $table->foreign('tuan_id')->references('id')->on('tuans')->onDelete('cascade');
-
-            $table->timestamps();
-        });
     }
 
     /**
@@ -145,13 +133,11 @@ class CreateActivitiesTable extends Migration
     {
         Schema::dropIfExists('activity_tag');
         Schema::dropIfExists('activity_type');
-        Schema::dropIfExists('activity_trip');
-        Schema::dropIfExists('activity_tuan');
 
+        Schema::dropIfExists('trips');
+        Schema::dropIfExists('tuans');
         Schema::dropIfExists('activities');
 
-        Schema::dropIfExists('tuans');
-        Schema::dropIfExists('trips');
         Schema::dropIfExists('tags');
         Schema::dropIfExists('types');
     }

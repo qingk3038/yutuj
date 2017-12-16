@@ -5,12 +5,15 @@ namespace App\Admin\Controllers;
 use App\Models\Activity;
 
 use App\Models\LocList;
+use App\Models\Tag;
+use App\Models\Type;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Content;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
+use Illuminate\Support\MessageBag;
 
 class ActivityController extends Controller
 {
@@ -73,15 +76,17 @@ class ActivityController extends Controller
     protected function grid()
     {
         return Admin::grid(Activity::class, function (Grid $grid) {
+            $grid->model()->with('admin', 'country', 'province', 'city', 'district');
 
             $grid->id('ID')->sortable();
             $grid->column('title', '标题')->editable();
             $grid->column('short', '短标题')->editable();
-            $grid->column('price', '显示价格')->editable();
-            $grid->column('all_city', '显示地址')->display(function () {
-                return [$this->country->name, $this->province->name, isset($this->city) ? $this->city->name : ''];
-            })->label();
-
+            $grid->column('price', '显示价格')->sortable()->editable();
+            $grid->column('play', '游玩天数')->sortable()->badge();
+            $grid->types('类别')->pluck('text')->badge();
+            $grid->tags('标签')->pluck('text')->badge();
+            $grid->column('cfd', '出发地')->badge();
+            $grid->column('admin.username', '作者');
             $grid->created_at('创建日期');
             $grid->updated_at('修改日期');
         });
@@ -99,20 +104,21 @@ class ActivityController extends Controller
             $form->tab('基本信息', function (Form $form) {
                 $form->text('title', '标题')->rules('required|string|max:200');
                 $form->text('short', '短标题')->rules('required|string|max:200');
-                $form->image('thumb', '缩略图')->rules('required');
+                $form->text('cfd', '出发地点')->rules('required|string|max:50')->default('四川-成都');
+                $form->number('price', '显示价格')->rules('required')->help('产品会显示此价格')->default(5000);
+                $form->textarea('description', '产品描述')->rules('required|string|max:350');
+                $form->text('xc', '行程描述')->rules('required|string|max:200');
+
+                $form->image('thumb', '缩略图');
                 $form->multipleImage('photos', '展示图')->removable()->help('3张图片');
-                $form->number('price', '显示价格')->rules('required|numeric')->help('产品会显示此价格');
-                $form->number('play', '游玩天数')->rules('required|numeric')->help('用于数据筛选');
-                $form->embeds('tese', '行程特色', function ($form) {
-                    $form->textarea('ts', '简介');
-                    $form->multipleImage('photos', '特色图片')->removable()->help('3张图片');
-                });
-            })->tab('其他信息', function (Form $form) {
+                $form->textarea('ts', '行程特色简介');
+                $form->multipleImage('tps', '行程特色图片')->removable()->help('3张图片');
+            })->tab('注意事项', function (Form $form) {
                 $form->textarea('baohan', '费用包含');
                 $form->textarea('buhan', '费用不含');
                 $form->textarea('zhuyi', '注意事项');
                 $form->textarea('qianyue', '签约条款');
-            })->tab('关联地区', function (Form $form) {
+            })->tab('活动所在地', function (Form $form) {
                 $form->select('country_id', '国家')->options(
                     LocList::country()->pluck('name', 'id')
                 )->load('province_id', '/admin/api/province')->rules('required');
@@ -131,7 +137,7 @@ class ActivityController extends Controller
             })->tab('行程安排', function (Form $form) {
                 $form->hasMany('trips', '行程', function (Form\NestedForm $form) {
                     $form->text('title', '行程标题')->rules('required|string');
-                    $form->multipleImage('photos', '展示图')->removable()->help('3张图片');
+                    $form->multipleFile('pictures', '展示图')->removable()->help('3张图片');
                     $form->textarea('body', '行程内容')->rules('required|string');
                     $form->text('zaocan', '早餐')->rules('required|string')->default('包含');
                     $form->text('wucan', '午餐')->rules('required|string')->default('包含');
@@ -141,14 +147,20 @@ class ActivityController extends Controller
             })->tab('出团安排', function (Form $form) {
                 $form->hasMany('tuans', '出团日期', function (Form\NestedForm $form) {
                     $form->dateRange('start_time', 'end_time', '报名日期')->rules('required');
-                    $form->number('start_num', '开始人数')->rules('required|numeric')->help('初始显示人数');
-                    $form->number('end_num', '截止人数')->rules('required|numeric')->help('可报名人数=截止人数-开始人数');
-                    $form->number('price', '购买价格')->rules('required|numeric')->help('每人需要支付的价格');
+                    $form->number('start_num', '开始人数')->rules('required')->help('初始显示人数');
+                    $form->number('end_num', '截止人数')->rules('required')->help('可报名人数=截止人数-开始人数');
+                    $form->number('price', '购买价格')->rules('required')->help('每人需要支付的价格');
                 });
+            })->tab('类别与标签', function (Form $form) {
+                $form->multipleSelect('types', '类别')->options(Type::pluck('text', 'id'));
+                $form->multipleSelect('tags', '标签')->options(Tag::pluck('text', 'id'));
             });
-            $form->display('id', 'ID');
-            $form->display('created_at', '创建日期');
-            $form->display('updated_at', '修改日期');
+
+            $form->saving(function (Form $form) {
+                $form->model()->play = count($form->trips);
+                $form->model()->admin_user_id = Admin::user()->id;
+            });
         });
     }
+
 }
