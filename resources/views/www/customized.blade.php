@@ -5,18 +5,17 @@
 @section('content')
     <div class="bg-dz d-flex justify-content-center">
         <div class="iphone">
-            <form>
+            <form autocomplete="off">
                 <div class="form-group">
                     <div class="input-group">
                         <span class="input-group-addon bg-white"><i class="fa fa-fw fa-map-marker"></i></span>
-                        <input type="text" class="form-control" placeholder="请填写您想去的目的地">
+                        <input type="text" class="form-control" name="title" placeholder="请填写您想去的目的地" required>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="input-group">
                         <span class="input-group-addon bg-white"><i class="fa fa-fw fa-mobile"></i></span>
-                        <input type="password" class="form-control" placeholder="请填写您的手机号码">
-                        <div class="invalid-feedback">请填写您的手机号码</div>
+                        <input type="text" class="form-control" name="mobile" placeholder="请填写您的手机号码" required>
                     </div>
                 </div>
                 <div class="form-group">
@@ -33,7 +32,20 @@
         </div>
     </div>
 
-
+    <div id="tips" class="modal fade text-warning" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document" style="top: 30%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">消息提示</h5>
+                    <span class="close" data-dismiss="modal" aria-label="Close">&times;</span>
+                </div>
+                <div class="modal-body text-center py-5">
+                    <h4 class="tips-title">你的需求提交成功！</h4>
+                    <p class="text-muted tips-message">旅游顾问会尽快跟您联系</p>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('footer', false)
@@ -48,6 +60,20 @@
                 let hbg = $(window).height() - $('header').height()
                 $('.bg-dz').css('min-height', hbg);
             }
+
+            // 提交数据
+            $('form').submit(function (event) {
+                event.preventDefault()
+                let param = $(this).serialize()
+                axios.post("{{ url('customized') }}", param).then(res => {
+                    $('.tips-title').text(res.data.title)
+                    $('.tips-message').text(res.data.message)
+                    $('#tips').modal('show')
+                }).catch(err => {
+                    let errors = err.response.data.errors
+                    alert(Object.values(errors).join("\r\n"))
+                })
+            })
         })(jQuery)
     </script>
 @endpush

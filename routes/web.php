@@ -36,3 +36,4 @@ Route::put('home/pwd', 'HomeController@updatePwd')->name('user.pwd');
 Route::put('home/mobile', 'HomeController@updateMobile')->name('user.mobile');
 
 Route::view('customized', 'www.customized');
+Route::post('customized', 'CustomizedController@store');

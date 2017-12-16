@@ -23,6 +23,7 @@ class CreateCustomizedsTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
+        DB::statement('ALTER TABLE `customizeds` ADD INDEX index_customized(`title`, `mobile`, `read`)');
     }
 
     /**

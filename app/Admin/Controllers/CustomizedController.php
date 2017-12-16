@@ -72,7 +72,7 @@ class CustomizedController extends Controller
     protected function grid()
     {
         return Admin::grid(Customized::class, function (Grid $grid) {
-            $grid->model()->with('user');
+            $grid->model()->latest()->with('user');
 
             $states = [
                 'on' => ['value' => 1, 'text' => '已读', 'color' => 'primary'],
@@ -83,8 +83,8 @@ class CustomizedController extends Controller
             $grid->type('来源');
             $grid->title('想去地址');
             $grid->mobile('手机号');
-            $grid->column('cl', '处理')->switch($states);
-            $grid->column('user.name', '用户名')->display(function ($username) {
+            $grid->column('read', '处理')->switch($states);
+            $grid->column('user.name', '会员')->display(function ($username) {
                 return $username ?: '匿名';
             });
             $grid->created_at('创建日期');
@@ -92,7 +92,7 @@ class CustomizedController extends Controller
 
             $grid->filter(function ($filter) {
                 $filter->equal('type', '数据来源')->radio(['' => '全部', 'PC' => '电脑端', 'Mobile' => '移动端']);
-                $filter->equal('cl', '是否处理')->radio(['' => '全部', 1 => '已读', 0 => '未读']);
+                $filter->equal('read', '是否处理')->radio(['' => '全部', 1 => '已读', 0 => '未读']);
                 $filter->equal('mobile', '手机号')->mobile();
                 $filter->between('created_at', '创建时间')->datetime();
             });
@@ -112,7 +112,7 @@ class CustomizedController extends Controller
             $form->text('title', '想去地址');
             $form->mobile('mobile', '手机号');
             $form->radio('type', '数据来源')->options(['PC' => '电脑端', 'Mobile' => '移动端'])->default('PC');
-            $form->switch('cl', '处理')->states([
+            $form->switch('read', '处理')->states([
                 'on' => ['value' => 1, 'text' => 'Yes'],
                 'off' => ['value' => 0, 'text' => 'No'],
             ])->default(1);
