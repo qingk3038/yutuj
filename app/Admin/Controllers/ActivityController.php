@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Extensions\Tools\NavTools;
 use App\Models\Activity;
 
 use App\Models\LocList;
@@ -77,19 +78,23 @@ class ActivityController extends Controller
     protected function grid()
     {
         return Admin::grid(Activity::class, function (Grid $grid) {
-            $grid->model()->with('admin', 'country', 'province', 'city', 'district');
+            $grid->model()->with('admin', 'types', 'tags', 'navs');
 
             $grid->id('ID')->sortable();
             $grid->column('title', '标题')->editable();
-            $grid->column('short', '短标题')->editable();
             $grid->column('price', '显示价格')->sortable()->editable();
             $grid->column('play', '游玩天数')->sortable()->badge();
             $grid->types('类别')->pluck('text')->badge();
             $grid->tags('标签')->pluck('text')->badge();
             $grid->column('cfd', '出发地')->badge();
             $grid->column('admin.username', '作者');
-            $grid->created_at('创建日期');
             $grid->updated_at('修改日期');
+
+            $grid->filter(function ($filter) {
+                $filter->in('navs.id', '导航')->multipleSelect(Nav::pluck('text', 'id'));
+                $filter->between('created_at', '创建时间')->datetime();
+                $filter->between('updated_at', '更新时间')->datetime();
+            });
         });
     }
 
@@ -119,7 +124,7 @@ class ActivityController extends Controller
                 $form->textarea('buhan', '费用不含');
                 $form->textarea('zhuyi', '注意事项');
                 $form->textarea('qianyue', '签约条款');
-            })->tab('活动所在地', function (Form $form) {
+            })->tab('关联地区', function (Form $form) {
                 $form->select('country_id', '国家')->options(
                     LocList::country()->pluck('name', 'id')
                 )->load('province_id', '/admin/api/province')->rules('required');
