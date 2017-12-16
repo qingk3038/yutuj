@@ -2,73 +2,6 @@
 
 @section('title', '首页')
 
-@section('header')
-    <header class="position-absolute head-index">
-        <div class="container">
-            <nav class="navbar navbar-expand navbar-dark top-nav">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    <img src="{{ asset('img/logo_index.png') }}" width="148" height="50" alt="logo_index">
-                </a>
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="{{ url('/') }}">首页 <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            旅行
-                        </a>
-                        <div class="dropdown-menu rounded-0 index-down">
-                            <a class="dropdown-item" href="#"><i class="fa fa-fw fa-map-marker"></i> 纵横西部</a>
-                            <a class="dropdown-item" href="#"><i class="fa fa-fw fa-paw"></i> 西行漫游</a>
-                            <a class="dropdown-item" href="#"><i class="fa fa-fw fa-photo"></i> 超级周末</a>
-                            <a class="dropdown-item" href="#"><i class="fa fa-fw fa-institution"></i> 最6旅行</a>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">定制游</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">活动</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">攻略</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">游记</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">大咖领路</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">旅拍直播</a>
-                    </li>
-                </ul>
-                <div class="text-white pr-5">
-                    <i class="fa fa-fw fa-phone"></i> 400-3455-456
-                </div>
-                <div class="user-info">
-                    @guest
-                        <a href="{{ url('login') }}" class="text-white">登录</a> | <a href="{{ url('register') }}" class="text-white">注册</a>
-                    @else
-                        <div class="text-white" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor:pointer;">
-                            <img class="rounded-circle" src="{{ auth()->user()->avatar }}" alt="头像" width="36" height="36">
-                            {{ str_limit(auth()->user()->name, 10) ?? auth()->user()->mobile }}
-                        </div>
-                        <div class="dropdown">
-                            <div class="dropdown-menu rounded-0 index-down">
-                                <a class="dropdown-item" href="{{ route('home.setting') }}"><i class="fa fa-fw fa-user"></i> 个人中心</a>
-                                <a class="dropdown-item" href="{{ url('home/order') }}"><i class="fa fa-fw fa-list-alt"></i> 我的订单</a>
-                                <a class="dropdown-item" href="{{ route('travel.index') }}"><i class="fa fa-fw fa-book"></i> 我的游记</a>
-                                <a class="dropdown-item" href="{{ route('logout') }}"><i class="fa fa-fw fa-sign-out"></i> 退出</a>
-                            </div>
-                        </div>
-                    @endguest
-                </div>
-            </nav>
-        </div>
-    </header>
-@endsection
-
 @section('content')
     <div id="banner" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
@@ -693,7 +626,7 @@
     </section>
 
     <div>
-        <a href="#"><img src="{{ asset('img/dingzhi.jpg') }}" alt="dingzhi" class="img-fluid"></a>
+        <a href="{{ url('customized') }}"><img src="{{ asset('img/dingzhi.jpg') }}" alt="dingzhi" class="img-fluid"></a>
     </div>
 @endsection
 

@@ -34,3 +34,5 @@ Route::post('home/avatar', 'HomeController@uploadAvatar')->name('user.avatar');
 Route::put('home/user', 'HomeController@update')->name('user.update');
 Route::put('home/pwd', 'HomeController@updatePwd')->name('user.pwd');
 Route::put('home/mobile', 'HomeController@updateMobile')->name('user.mobile');
+
+Route::view('customized', 'www.customized');

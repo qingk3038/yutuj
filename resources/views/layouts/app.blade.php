@@ -19,11 +19,15 @@
 <body>
 <div id="app">
     @section('header')
-        <header class="bg-white">
+        <header class="{{ Request::is('/') ? 'position-absolute head-index' : 'bg-white' }}">
             <div class="container">
-                <nav class="navbar navbar-expand navbar-light top-nav">
+                <nav class="navbar navbar-expand top-nav {{ Request::is('/') ? 'navbar-dark' : 'navbar-light' }}">
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        <img src="{{ asset('img/logo_top.png') }}" width="148" height="50" alt="top_logo">
+                        @if(Request::is('/'))
+                            <img src="{{ asset('img/logo_index.png') }}" width="148" height="50" alt="logo_index">
+                        @else
+                            <img src="{{ asset('img/logo_top.png') }}" width="148" height="50" alt="top_logo">
+                        @endif
                     </a>
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item active">
@@ -33,7 +37,7 @@
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 旅行
                             </a>
-                            <div class="dropdown-menu rounded-0 other-down">
+                            <div class="dropdown-menu rounded-0 {{ Request::is('/') ? 'index-down' : 'other-down' }}">
                                 <a class="dropdown-item" href="#"><i class="fa fa-fw fa-map-marker"></i> 纵横西部</a>
                                 <a class="dropdown-item" href="#"><i class="fa fa-fw fa-paw"></i> 西行漫游</a>
                                 <a class="dropdown-item" href="#"><i class="fa fa-fw fa-photo"></i> 超级周末</a>
@@ -59,36 +63,48 @@
                             <a class="nav-link" href="#">旅拍直播</a>
                         </li>
                     </ul>
-                    <form class="form-inline mr-4 top-search">
-                        <div class="input-group">
-                            <div class="input-group-btn">
-                                <button type="button" class="btn dropdown-toggle down" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    四川
-                                </button>
-                                <div class="dropdown-menu rounded-0 other-down no-line">
-                                    <a class="dropdown-item" href="#">不限</a>
-                                    <a class="dropdown-item" href="#">四川</a>
-                                    <a class="dropdown-item" href="#">青海</a>
-                                    <a class="dropdown-item" href="#">西藏</a>
-                                    <a class="dropdown-item" href="#">新疆</a>
-                                    <a class="dropdown-item" href="#">内蒙古</a>
-                                    <a class="dropdown-item" href="#">陕甘宁</a>
-                                </div>
-                            </div>
-                            <input type="text" class="form-control" placeholder="搜目的地/攻略/游记" style="border-right: none">
-                            <button type="submit" class="input-group-addon submit"><i class="fa fa-search text-warning fa-lg"></i></button>
+
+                    @if(Request::is('/'))
+                        <div class="text-white pr-5">
+                            <i class="fa fa-fw fa-phone"></i> 400-3455-456
                         </div>
-                    </form>
+                    @else
+                        <form class="form-inline mr-4 top-search">
+                            <div class="input-group">
+                                <div class="input-group-btn">
+                                    <button type="button" class="btn dropdown-toggle down" data-toggle="dropdown">
+                                        四川
+                                    </button>
+                                    <div class="dropdown-menu rounded-0 other-down no-line">
+                                        <a class="dropdown-item" href="#">不限</a>
+                                        <a class="dropdown-item" href="#">四川</a>
+                                        <a class="dropdown-item" href="#">青海</a>
+                                        <a class="dropdown-item" href="#">西藏</a>
+                                        <a class="dropdown-item" href="#">新疆</a>
+                                        <a class="dropdown-item" href="#">内蒙古</a>
+                                        <a class="dropdown-item" href="#">陕甘宁</a>
+                                    </div>
+                                </div>
+                                <input type="text" class="form-control" placeholder="搜目的地/攻略/游记" style="border-right: none">
+                                <button type="submit" class="input-group-addon submit"><i class="fa fa-search text-warning fa-lg"></i></button>
+                            </div>
+                        </form>
+                    @endif
+
                     <div class="user-info">
                         @guest
-                            <a href="{{ url('login') }}" class="text-warning">登录</a> | <a href="{{ url('register') }}" class="text-warning">注册</a>
+                            @if(Request::is('/'))
+                                <a href="{{ url('login') }}" class="text-white">登录</a> | <a href="{{ url('register') }}" class="text-white">注册</a>
+                            @else
+                                <a href="{{ url('login') }}" class="text-warning">登录</a> | <a href="{{ url('register') }}" class="text-warning">注册</a>
+                            @endif
                         @else
-                            <div data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor:pointer;">
+                            <div data-toggle="dropdown" style="cursor:pointer;" class="{{ Request::is('/') ? 'text-white' : '' }}">
                                 <img class="rounded-circle" src="{{ auth()->user()->avatar }}" alt="头像" width="36" height="36">
                                 {{ str_limit(auth()->user()->name, 10) ?? auth()->user()->mobile }}
                             </div>
                             <div class="dropdown">
-                                <div class="dropdown-menu rounded-0 other-down">
+                                <div class="dropdown-menu rounded-0 {{ Request::is('/') ? 'index-down' : 'other-down' }}">
                                     <a class="dropdown-item" href="{{ route('home.setting') }}"><i class="fa fa-fw fa-user"></i> 个人中心</a>
                                     <a class="dropdown-item" href="{{ url('home/order') }}"><i class="fa fa-fw fa-list-alt"></i> 我的订单</a>
                                     <a class="dropdown-item" href="{{ route('travel.index') }}"><i class="fa fa-fw fa-book"></i> 我的游记</a>
@@ -179,7 +195,10 @@
                         <a href="#">营业执照</a>
                     </p>
                     <hr>
-                    <p>{{ config('web_footer') }}</p>
+                    <p>
+                        {{ config('web_footer') }}
+                        {!! config('js_pc') !!}
+                    </p>
                 </div>
             </div>
         </footer>
