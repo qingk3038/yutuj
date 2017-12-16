@@ -66,4 +66,12 @@ class Activity extends Model
         return $this->belongsTo(LocList::class, 'district_id');
     }
 
+    /**
+     * 导航
+     */
+    public function navs()
+    {
+        return $this->morphToMany(Nav::class, 'comm');
+    }
+
 }

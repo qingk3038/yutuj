@@ -5,6 +5,7 @@ namespace App\Admin\Controllers;
 use App\Models\Activity;
 
 use App\Models\LocList;
+use App\Models\Nav;
 use App\Models\Tag;
 use App\Models\Type;
 use Encore\Admin\Form;
@@ -151,7 +152,8 @@ class ActivityController extends Controller
                     $form->number('end_num', '截止人数')->rules('required')->help('可报名人数=截止人数-开始人数');
                     $form->number('price', '购买价格')->rules('required')->help('每人需要支付的价格');
                 });
-            })->tab('类别与标签', function (Form $form) {
+            })->tab('导航与标签', function (Form $form) {
+                $form->multipleSelect('navs', '导航')->options(Nav::pluck('text', 'id'))->rules('required');
                 $form->multipleSelect('types', '类别')->options(Type::pluck('text', 'id'));
                 $form->multipleSelect('tags', '标签')->options(Tag::pluck('text', 'id'));
             });

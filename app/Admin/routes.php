@@ -27,6 +27,7 @@ Route::group([
     $router->resource('web/category', 'CategoryController');
     $router->resource('web/article', 'ArticleController');
 
+    $router->resource('/nav', 'NavController');
     $router->resource('/tag', 'TagController');
     $router->resource('/type', 'TypeController');
     $router->resource('/activity', 'ActivityController');
