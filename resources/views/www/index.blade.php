@@ -66,38 +66,16 @@
         </ul>
         <div class="tab-content clearfix tab-theme my-4">
             <div class="tab-pane fade show active" id="t1">
-                <div class="position-relative float-left box active">
-                    <img src="{{ asset('uploads/d/thumb_theme_1.jpg') }}" alt="thumb_theme_1" width="540" height="340">
-                    <div class="position-absolute text text-white">
-                        <h4 class="pl-3 text-truncate">西藏6天5晚自由行</h4>
-                        <p class="pl-3 text-truncate">五星度假，蜜月游圣地</p>
+                @foreach($hot_line as $item)
+                    <div class="position-relative float-left box {{ $loop->first ? 'active' : '' }}">
+                        <img src="{{ Storage::url($item->thumb) }}" alt="{{ $item->title }}" width="540" height="340">
+                        <div class="position-absolute text text-white">
+                            <h4 class="pl-3 text-truncate">{{ $item->short }}</h4>
+                            <p class="pl-3 text-truncate">{{ $item->title }}</p>
+                        </div>
+                        <a href="{{ route('activity.show', $item) }}" class="position-absolute btn btn-warning text-white">去看看</a>
                     </div>
-                    <a href="#" class="position-absolute btn btn-warning text-white">去看看</a>
-                </div>
-                <div class="position-relative float-left box">
-                    <img src="{{ asset('uploads/d/thumb_theme_2.jpg') }}" alt="thumb_theme_2" width="540" height="340">
-                    <div class="position-absolute text text-white">
-                        <h4 class="pl-3 text-truncate">活动 · 这个周末带你玩成都</h4>
-                        <p class="pl-3 text-truncate">我们不做周末宅</p>
-                    </div>
-                    <a href="#" class="position-absolute btn btn-warning text-white">去看看</a>
-                </div>
-                <div class="position-relative float-left box">
-                    <img src="{{ asset('uploads/d/thumb_theme_1.jpg') }}" alt="thumb_theme_1" width="540" height="340">
-                    <div class="position-absolute text text-white">
-                        <h4 class="pl-3 text-truncate">西藏6天5晚自由行</h4>
-                        <p class="pl-3 text-truncate">五星度假，蜜月游圣地</p>
-                    </div>
-                    <a href="#" class="position-absolute btn btn-warning text-white">去看看</a>
-                </div>
-                <div class="position-relative float-left box">
-                    <img src="{{ asset('uploads/d/thumb_theme_2.jpg') }}" alt="thumb_theme_2" width="540" height="340">
-                    <div class="position-absolute text text-white">
-                        <h4 class="pl-3 text-truncate">活动 · 这个周末带你玩成都</h4>
-                        <p class="pl-3 text-truncate">我们不做周末宅</p>
-                    </div>
-                    <a href="#" class="position-absolute btn btn-warning text-white">去看看</a>
-                </div>
+                @endforeach
             </div>
             <div class="tab-pane fade" id="t2">
                 <div class="position-relative float-left box active">

@@ -1,6 +1,6 @@
 <?php
 
-Route::view('/', 'www.index');
+Route::get('/', 'WebController@index');
 
 //短信
 Route::post('sms/register', 'SmsController@register');
@@ -37,3 +37,6 @@ Route::put('home/mobile', 'HomeController@updateMobile')->name('user.mobile');
 
 Route::view('customized', 'www.customized');
 Route::post('customized', 'CustomizedController@store');
+
+Route::get('thumb/{width}/{height}/{url}', 'ThumbController')->name('thumb');
+Route::get('activity/{activity}', 'ActivityController@show')->name('activity.show');

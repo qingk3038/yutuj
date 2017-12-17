@@ -2,9 +2,7 @@
 
 namespace App\Admin\Controllers;
 
-use App\Admin\Extensions\Tools\NavTools;
 use App\Models\Activity;
-
 use App\Models\LocList;
 use App\Models\Nav;
 use App\Models\Tag;
@@ -15,7 +13,6 @@ use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Content;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
-use Illuminate\Support\MessageBag;
 
 class ActivityController extends Controller
 {
@@ -78,7 +75,7 @@ class ActivityController extends Controller
     protected function grid()
     {
         return Admin::grid(Activity::class, function (Grid $grid) {
-            $grid->model()->with('admin', 'types', 'tags', 'navs');
+            $grid->model()->with('admin', 'types', 'tags');
 
             $grid->id('ID')->sortable();
             $grid->column('title', '标题')->editable();
