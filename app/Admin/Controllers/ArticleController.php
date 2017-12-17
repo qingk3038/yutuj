@@ -98,7 +98,7 @@ class ArticleController extends Controller
         return Admin::form(Article::class, function (Form $form) {
 
             $form->display('id', 'ID');
-            $form->select('categories_id', '栏目')->rules('required')->options(Category::pluck('title', 'id'));
+            $form->select('category_id', '栏目')->rules('required')->options(Category::pluck('title', 'id'));
             $form->text('title', '标题')->rules('required|max:100');
             $form->textarea('description', '简介')->rules('required|max:350');
             $form->editor('body', '内容')->rules('required');
