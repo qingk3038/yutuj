@@ -18,8 +18,8 @@ class CreateArticlesTable extends Migration
             $table->string('title')->comment('标题');
             $table->string('description', 350)->comment('简介');
             $table->text('body')->comment('内容');
-            $table->unsignedInteger('categories_id')->index()->comment('栏目ID');
-            $table->foreign('categories_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->unsignedInteger('category_id')->index()->comment('栏目ID');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->timestamps();
         });
     }

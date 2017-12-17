@@ -27,7 +27,6 @@ EOT;
         Admin::script($this->script());
 
         $options = [
-            'all' => '全部',
             'audit' => '等待审核',
             'adopt' => '通过',
             'reject' => '拒绝',

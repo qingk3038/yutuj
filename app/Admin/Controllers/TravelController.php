@@ -73,11 +73,7 @@ class TravelController extends Controller
     protected function grid()
     {
         return Admin::grid(Travel::class, function (Grid $grid) {
-            $grid->model()->with('user');
-
-            if (request('status', 'all') !== 'all') {
-                $grid->model()->where('status', request('status'));
-            };
+            $grid->model()->with('user')->where('status', request('status', 'audit'));
 
             $grid->id('ID')->sortable();
             $grid->thumb('缩略图')->sortable()->image(null, 120, 120);
@@ -98,6 +94,7 @@ class TravelController extends Controller
             $grid->tools(function ($tools) {
                 $tools->append(new TravelAudit());
             });
+            $grid->disableCreation();
         });
     }
 
@@ -111,7 +108,7 @@ class TravelController extends Controller
         return Admin::form(Travel::class, function (Form $form) {
 
             $form->display('id', 'ID');
-            $form->text('title', '标题');
+            $form->text('title', '标题')->rules('required');
             $form->image('thumb', '缩略图');
             $form->textarea('description', '摘要')->rules('required|between:10,350');
             $form->editor('body', '游记内容')->rules('required|min:20');

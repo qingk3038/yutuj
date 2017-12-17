@@ -16,7 +16,7 @@ class CreateTravelsTable extends Migration
         Schema::create('travels', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title')->index();
-            $table->string('thumb');
+            $table->string('thumb')->nullable();
             $table->string('description', 350);
             $table->longText('body');
             $table->string('province')->nullable();
