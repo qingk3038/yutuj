@@ -75,23 +75,31 @@ class ActivityController extends Controller
     protected function grid()
     {
         return Admin::grid(Activity::class, function (Grid $grid) {
-            $grid->model()->with('admin', 'types', 'tags');
-
+            $grid->model()->with('admin', 'types', 'tags')->withCount('trips');
             $grid->id('ID')->sortable();
             $grid->column('title', '标题')->editable();
             $grid->column('short', '短标题')->editable();
             $grid->column('price', '显示价格')->sortable()->editable();
-            $grid->column('play', '游玩天数')->sortable()->badge();
+            $grid->column('trips_count', '游玩天数')->badge();
             $grid->types('类别')->pluck('text')->badge();
             $grid->tags('标签')->pluck('text')->badge();
             $grid->column('cfd', '出发地')->badge();
+            $grid->column('closed', '上架状态')->switch([
+                'on' => ['value' => 0, 'text' => '上架', 'color' => 'success'],
+                'off' => ['value' => 1, 'text' => '下架']
+            ]);
             $grid->column('admin.username', '作者');
             $grid->updated_at('修改日期');
-
             $grid->filter(function ($filter) {
                 $filter->in('navs.id', '导航')->multipleSelect(Nav::pluck('text', 'id'));
+                $filter->equal('closed', '上架状态')->radio(['' => '全部', 0 => '上架', 1 => '下架']);
                 $filter->between('created_at', '创建时间')->datetime();
                 $filter->between('updated_at', '更新时间')->datetime();
+            });
+
+            $grid->actions(function ($actions) {
+                $a = sprintf('<a href="%s" target="_blank"><i class="fa fa-fw fa-paper-plane"></i></a>', route('activity.show', $actions->row));
+                $actions->prepend($a);
             });
         });
     }
@@ -106,6 +114,7 @@ class ActivityController extends Controller
         return Admin::form(Activity::class, function (Form $form) {
 
             $form->tab('基本信息', function (Form $form) {
+                $form->hidden('admin_user_id')->default(Admin::user()->id);
                 $form->text('title', '标题')->rules('required|string|max:200');
                 $form->text('short', '短标题')->rules('required|string|max:200');
                 $form->text('number', '产品编号')->rules('nullable|string|max:200');
@@ -118,6 +127,10 @@ class ActivityController extends Controller
                 $form->multipleImage('photos', '展示图')->removable()->help('3张图片');
                 $form->textarea('ts', '行程特色简介');
                 $form->multipleImage('tps', '行程特色图片')->removable()->help('3张图片');
+                $form->switch('closed', '上架状态')->states([
+                    'on' => ['value' => 0, 'text' => '上架', 'color' => 'success'],
+                    'off' => ['value' => 1, 'text' => '下架']
+                ]);
             })->tab('注意事项', function (Form $form) {
                 $form->textarea('baohan', '费用包含');
                 $form->textarea('buhan', '费用不含');
@@ -160,11 +173,6 @@ class ActivityController extends Controller
                 $form->multipleSelect('navs', '导航')->options(Nav::pluck('text', 'id'))->rules('required');
                 $form->multipleSelect('types', '类别')->options(Type::pluck('text', 'id'));
                 $form->multipleSelect('tags', '标签')->options(Tag::pluck('text', 'id'));
-            });
-
-            $form->saving(function (Form $form) {
-                $form->model()->play = count($form->trips);
-                $form->model()->admin_user_id = Admin::user()->id;
             });
         });
     }

@@ -2,7 +2,7 @@
 <html lang="{{ app()->getLocale() }}">
 <head>
     <meta charset="UTF-8">
-    <title>@yield('title') {{ config('web_title') }}</title>
+    <title>@yield('title') | {{ config('web_title') }}</title>
     <meta name="author" content="bing,QQ676659348">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="keywords" content="{{ config('web_keywords') }}">

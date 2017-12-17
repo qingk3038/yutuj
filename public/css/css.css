@@ -685,9 +685,11 @@ footer .links a {
     background: #FF9900;
     color: #FFFFFF;
     border-radius: 50%;
-    padding: 0 10px;
     margin-right: 10px;
-    line-height: normal;
+    line-height: 30px;
+    width: 30px;
+    height: 30px;
+    text-align: center;
     display: inline-block;
 }
 

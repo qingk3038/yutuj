@@ -73,17 +73,14 @@ class CustomizedController extends Controller
     {
         return Admin::grid(Customized::class, function (Grid $grid) {
             $grid->model()->latest()->with('user');
-
-            $states = [
-                'on' => ['value' => 1, 'text' => '已读', 'color' => 'primary'],
-                'off' => ['value' => 0, 'text' => '未读', 'color' => 'default'],
-            ];
-
             $grid->id('ID')->sortable();
             $grid->type('来源');
             $grid->title('想去地址');
             $grid->mobile('手机号');
-            $grid->column('read', '处理')->switch($states);
+            $grid->column('read', '处理')->switch([
+                'on' => ['value' => 1, 'text' => '已读', 'color' => 'primary'],
+                'off' => ['value' => 0, 'text' => '未读', 'color' => 'default'],
+            ]);
             $grid->column('user.name', '会员')->display(function ($username) {
                 return $username ?: '匿名';
             });

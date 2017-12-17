@@ -44,34 +44,39 @@
                         <span>{{ $activity->district->name ?? '' }}</span>
                     </li>
                 </ul>
-                <p style="line-height: 2;">
+                <p class="font-weight-light" style="line-height: 2;">
                     产品类型：{{ $activity->types->pluck('text')->implode('、') }}
                     <br>游玩天数：{{ $activity->play }}天
                     <br>发团日期：每月多团
                     <br>出发地点：{{ $activity->cfd }}
                     <br>付款方式：支付宝、微信
                 </p>
-                <p class="lead"><a href="javascript:void(0);" class="btn-fatuan">出团日期 <i class="fa fa-lg fa-caret-down"></i></a></p>
-                <div class="list-fatuan d-none">
-                    <table class="table table-hover">
-                        @foreach($activity->tuans as $tuan)
-                            <tr>
-                                <td class="align-middle">{{ $tuan->start_time->toDateString() }} - {{ $tuan->end_time->toDateString() }}</td>
-                                <td class="align-middle text-muted">已报名 {{ $tuan->start_num }} 人</td>
-                                <td class="align-middle text-danger">{{ $tuan->price }}元/人</td>
-                                <td class="align-middle text-right pr-3">
-                                    @if($tuan->available())
-                                        <a href="#{{ $tuan->id }}" class="btn btn-warning text-white btn-sm rounded-0">去报名</a>
-                                    @elseif($tuan->remainder() <= 0)
-                                        <a href="javascript:void(0);" class="btn btn-warning text-white btn-sm rounded-0 disabled">已满员</a>
-                                    @else
-                                        <a href="javascript:void(0);" class="btn btn-warning text-white btn-sm rounded-0 disabled">已结束</a>
-                                    @endif
-                                </td>
-                            </tr>
-                        @endforeach
-                    </table>
-                </div>
+
+                @if($activity->closed)
+                    <p class="lead text-danger"><i class="fa fa-fw fa-info-circle"></i>活动已被关闭。</p>
+                @else
+                    <p class="lead"><a href="javascript:void(0);" class="btn-fatuan">出团日期 <i class="fa fa-lg fa-caret-down"></i></a></p>
+                    <div class="list-fatuan d-none">
+                        <table class="table table-hover">
+                            @foreach($activity->tuans as $tuan)
+                                <tr>
+                                    <td class="align-middle">{{ $tuan->start_time->toDateString() }} - {{ $tuan->end_time->toDateString() }}</td>
+                                    <td class="align-middle text-muted">已报名 {{ $tuan->start_num }} 人</td>
+                                    <td class="align-middle text-danger">{{ $tuan->price }}元/人</td>
+                                    <td class="align-middle text-right pr-3">
+                                        @if($tuan->available())
+                                            <a href="#{{ $tuan->id }}" class="btn btn-warning text-white btn-sm rounded-0">去报名</a>
+                                        @elseif($tuan->remainder() <= 0)
+                                            <a href="javascript:void(0);" class="btn btn-warning text-white btn-sm rounded-0 disabled">已满员</a>
+                                        @else
+                                            <a href="javascript:void(0);" class="btn btn-warning text-white btn-sm rounded-0 disabled">已结束</a>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </table>
+                    </div>
+                @endif
             </div>
         </div>
     </div>
@@ -112,8 +117,8 @@
                 <h3 class="text-warning"><i class="fa fa-fw fa-calendar"></i> 行程安排</h3>
                 @foreach($activity->trips as $trip)
                     <h5 class="mt-4">
-                        <b class="num-day">{{ $loop->iteration }}</b>
-                        <span class="pr-4 text-warning">第{{ $loop->iteration }}天</span>
+                        <span class="num-day">{{ $loop->iteration }}</span>
+                        <strong class="pr-4 text-warning">第{{ numberToChinese($loop->iteration) }}天</strong>
                         {{ $trip->title }}
                     </h5>
                     <p class="pl-5">

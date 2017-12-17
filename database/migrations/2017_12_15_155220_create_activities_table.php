@@ -41,7 +41,6 @@ class CreateActivitiesTable extends Migration
             $table->text('photos')->nullable()->comment('展示图');
 
             $table->integer('price')->default(1000)->index()->comment('价格');
-            $table->unsignedTinyInteger('play')->index()->default(1)->comment('游玩天数');
 
             $table->text('ts')->nullable()->comment('行程特色');
             $table->text('tps')->nullable()->comment('特色图片');
@@ -65,6 +64,8 @@ class CreateActivitiesTable extends Migration
 
             $table->unsignedInteger('admin_user_id')->index()->comment('作者');
             $table->foreign('admin_user_id')->references('id')->on('admin_users')->onDelete('cascade');
+
+            $table->unsignedTinyInteger('closed')->index()->default(0)->comment('关闭');
 
             $table->timestamps();
         });
