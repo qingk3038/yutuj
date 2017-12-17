@@ -75,11 +75,7 @@ class RaiderController extends Controller
     protected function grid()
     {
         return Admin::grid(Raider::class, function (Grid $grid) {
-            $grid->model()->withCount('likes')->with('admin');
-
-            if (request('type', 'all') !== 'all') {
-                $grid->model()->where('type', request('type'));
-            };
+            $grid->model()->withCount('likes')->with('admin')->where('type', request('type', 'default'));
 
             $grid->id('ID')->sortable();
             $grid->column('type', '类别')->editable('select', ['default' => '默认', 'line' => '路线攻略', 'food' => '美食攻略', 'hospital' => '住宿攻略', 'scenic' => '景点攻略']);

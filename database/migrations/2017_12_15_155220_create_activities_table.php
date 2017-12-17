@@ -32,6 +32,7 @@ class CreateActivitiesTable extends Migration
             $table->increments('id');
             $table->string('title');
             $table->string('short')->comment('短标题');
+            $table->string('number')->nullable()->comment('产品编号');
             $table->string('cfd')->nullable()->comment('出发地');
             $table->string('xc')->nullable()->comment('行程');
             $table->string('description')->nullable()->comment('描述');

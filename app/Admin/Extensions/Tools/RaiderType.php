@@ -25,8 +25,7 @@ EOT;
     public function render()
     {
         Admin::script($this->script());
-        $types = ['default' => '默认', 'line' => '路线攻略', 'food' => '美食攻略', 'hospital' => '住宿攻略', 'scenic' => '景点攻略'];
-        $options = array_merge(['all' => '全部'], $types);
+        $options = ['default' => '默认', 'line' => '路线攻略', 'food' => '美食攻略', 'hospital' => '住宿攻略', 'scenic' => '景点攻略'];
 
         return view('admin.tools.raider', compact('options'));
     }
