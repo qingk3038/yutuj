@@ -62,7 +62,7 @@ class CreateActivitiesTable extends Migration
             $table->unsignedInteger('district_id')->index()->nullable()->comment('地区');
             $table->foreign('district_id')->references('id')->on('loclists')->onDelete('cascade');
 
-            $table->unsignedInteger('admin_user_id')->index()->nullable()->comment('作者');
+            $table->unsignedInteger('admin_user_id')->index()->comment('作者');
             $table->foreign('admin_user_id')->references('id')->on('admin_users')->onDelete('cascade');
 
             $table->unsignedTinyInteger('closed')->index()->default(0)->comment('关闭');
