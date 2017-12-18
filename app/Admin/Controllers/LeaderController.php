@@ -73,12 +73,13 @@ class LeaderController extends Controller
     protected function grid()
     {
         return Admin::grid(Leader::class, function (Grid $grid) {
-            $grid->model()->with(['country', 'province', 'city', 'district']);
+            $grid->model()->with(['country', 'province', 'city', 'district'])->withCount('activities');
             $grid->id('ID')->sortable();
 
             $grid->avatar('头像')->image(null, 120);
-            $grid->photos('展示图')->count();
             $grid->name('名字');
+            $grid->column('activities_count', '活动数')->badge();
+            $grid->photos('风采图')->count()->badge();
             $grid->sex('性别')->display(function ($sex) {
                 return $sex === 'F' ? '女' : '男';
             })->badge();
