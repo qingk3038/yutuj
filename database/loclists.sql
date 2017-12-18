@@ -1,36 +1,3 @@
-/*
-Navicat MySQL Data Transfer
-
-Source Server         : 127.0.0.1
-Source Server Version : 50720
-Source Host           : 127.0.0.1:3306
-Source Database       : test
-
-Target Server Type    : MYSQL
-Target Server Version : 50720
-File Encoding         : 65001
-
-Date: 2017-12-15 12:15:22
-*/
-
-SET FOREIGN_KEY_CHECKS=0;
-
--- ----------------------------
--- Table structure for `loclists`
--- ----------------------------
-DROP TABLE IF EXISTS `loclists`;
-CREATE TABLE `loclists` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `code` varchar(10) CHARACTER SET latin1 NOT NULL,
-  `name` varchar(10) NOT NULL,
-  `parent_id` varchar(10) NOT NULL,
-  `type` tinyint(4) unsigned NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6913 DEFAULT CHARSET=utf8mb4;
-
--- ----------------------------
--- Records of loclists
--- ----------------------------
 INSERT INTO `loclists` VALUES ('1', '1', '中国', '0', '1');
 INSERT INTO `loclists` VALUES ('2', '11', '北京', '1', '2');
 INSERT INTO `loclists` VALUES ('3', '1', '东城', '2', '3');
