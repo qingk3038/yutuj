@@ -16,10 +16,11 @@ class CreateLikesTable extends Migration
         Schema::create('likes', function (Blueprint $table) {
             $table->unsignedInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->unsignedInteger('like_id'); //保存游记、活动、美食等id
-            $table->string('like_type'); // 访问关联时确定所属的模型是哪个「类型」
+            $table->unsignedInteger('like_id');
+            $table->string('like_type');
+
+            $table->index(['user_id', 'like_id', 'like_type']);
         });
-        DB::statement('ALTER TABLE `likes` ADD INDEX index_like(`user_id`, `like_id`, `like_type`)');
     }
 
     /**

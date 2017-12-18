@@ -29,4 +29,6 @@ class Leader extends Model
     {
         return $this->belongsTo(LocList::class, 'district_id');
     }
+
+
 }

@@ -83,7 +83,7 @@ class RaiderController extends Controller
             $grid->column('short', '短标题')->editable();
             $grid->column('click', '点击数')->sortable()->editable();
             $grid->column('likes_count', '点赞数');
-            $grid->column('admin.username', '作者');
+            $grid->column('admin.name', '作者');
             $grid->updated_at('修改日期');
 
             $grid->filter(function ($filter) {

@@ -22,8 +22,9 @@ class CreateCustomizedsTable extends Migration
             $table->unsignedInteger('user_id')->index()->nullable()->comment('登录人');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
+
+            $table->index(['title', 'mobile', 'read']);
         });
-        DB::statement('ALTER TABLE `customizeds` ADD INDEX index_customized(`title`, `mobile`, `read`)');
     }
 
     /**

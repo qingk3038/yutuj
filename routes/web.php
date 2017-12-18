@@ -39,4 +39,6 @@ Route::view('customized', 'www.customized');
 Route::post('customized', 'CustomizedController@store');
 
 Route::get('thumb/{width}/{height}/{url}', 'ThumbController')->name('thumb');
-Route::get('activity/{activity}', 'ActivityController@show')->name('activity.show');
+Route::get('activity/show/{activity}', 'ShowController@showActivity')->name('www.activity.show');
+Route::get('raider/show/{raider}', 'ShowController@showRaider')->name('www.raider.show');
+Route::get('leader/show/{leader}', 'ShowController@showLeader')->name('www.leader.show');

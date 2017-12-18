@@ -22,24 +22,27 @@
         <h4 class="text-center">遇途记 · 让旅行更简单 · 更好玩</h4>
         <h5 class="my-4 text-center">颠覆传统旅行模式，无导游，无购物，纯粹玩，资深旅行达人带您出发</h5>
         <div class="px-4 py-3 rounded m-auto" style="width: 630px; background: rgba(0,0,0, .2);">
-            <p class="text-white">热搜：<a href="#" class="text-white mr-2">西部</a> <a href="#" class="text-white mr-2">微旅行</a> <a href="#" class="text-white mr-2">成都</a> <a href="#" class="text-white mr-2">周末</a> <a href="#" class="text-white mr-2">一日游</a></p>
-            <form class="top-search">
+            <p class="text-white hot-keywords">
+                热搜：
+                <a href="javascript:void(0);" class="text-white mr-2">西部</a>
+                <a href="javascript:void(0);" class="text-white mr-2">微旅行</a>
+                <a href="javascript:void(0);" class="text-white mr-2">成都</a>
+                <a href="javascript:void(0);" class="text-white mr-2">周末</a>
+                <a href="javascript:void(0);" class="text-white mr-2">一日游</a>
+            </p>
+            <form class="top-search" autocomplete="off">
                 <div class="input-group">
                     <div class="input-group-btn">
-                        <button type="button" class="btn dropdown-toggle down bg-white" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            四川
-                        </button>
+                        <button type="button" id="search-btn" class="btn dropdown-toggle down bg-white" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">不限</button>
                         <div class="dropdown-menu rounded-0 other-down no-line" style="background: rgba(255,255,255, .8)">
-                            <a class="dropdown-item" href="#">不限</a>
-                            <a class="dropdown-item" href="#">四川</a>
-                            <a class="dropdown-item" href="#">青海</a>
-                            <a class="dropdown-item" href="#">西藏</a>
-                            <a class="dropdown-item" href="#">新疆</a>
-                            <a class="dropdown-item" href="#">内蒙古</a>
-                            <a class="dropdown-item" href="#">陕甘宁</a>
+                            <a class="dropdown-item search-item" href="javascript:void(0);">不限</a>
+                            @foreach($provinces as $province)
+                                <a class="dropdown-item search-item" href="javascript:void(0);" pid="{{ $province->id }}">{{ $province->name }}</a>
+                            @endforeach
                         </div>
                     </div>
-                    <input type="text" class="form-control" placeholder="搜目的地/攻略/游记" style="border-right: none">
+                    <input type="hidden" name="pid" id="pid">
+                    <input type="text" class="form-control" name="q" id="q" placeholder="搜目的地/攻略/游记" style="border-right: none">
                     <button type="submit" class="input-group-addon submit bg-white"><i class="fa fa-search text-warning fa-lg"></i></button>
                 </div>
             </form>
@@ -49,170 +52,43 @@
     <section class="container">
         <ul class="nav justify-content-center" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" data-toggle="tab" href="#t1" role="tab">热门线路</a>
+                <a class="nav-link active" data-toggle="tab" href="#t0" role="tab">热门线路</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#t2" role="tab">纵横西部</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#t3" role="tab">微上西部</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#t4" role="tab">超级周末</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#t5" role="tab">最6旅行</a>
-            </li>
+            @foreach($nav_tabs as $nav)
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#t{{ $loop->iteration }}" role="tab">{{ $nav->text }}</a>
+                </li>
+            @endforeach
         </ul>
         <div class="tab-content clearfix tab-theme my-4">
-            <div class="tab-pane fade show active" id="t1">
-                @foreach($hot_line as $item)
+            {{--热门路线--}}
+            <div class="tab-pane fade show active" id="t0">
+                @foreach($host_lines as $activity)
                     <div class="position-relative float-left box {{ $loop->first ? 'active' : '' }}">
-                        <img src="{{ Storage::url($item->thumb) }}" alt="{{ $item->title }}" width="540" height="340">
+                        <img src="{{ imageCut(540, 340, $activity->thumb) }}" alt="{{ $activity->title }}" width="540" height="340">
                         <div class="position-absolute text text-white">
-                            <h4 class="pl-3 text-truncate">{{ $item->short }}</h4>
-                            <p class="pl-3 text-truncate">{{ $item->title }}</p>
+                            <h4 class="pl-3 text-truncate">{{ $activity->short }}</h4>
+                            <p class="pl-3 text-truncate">{{ $activity->title }}</p>
                         </div>
-                        <a href="{{ route('activity.show', $item) }}" class="position-absolute btn btn-warning text-white">去看看</a>
+                        <a href="{{ route('www.activity.show', $activity) }}" class="position-absolute btn btn-warning text-white">去看看</a>
                     </div>
                 @endforeach
             </div>
-            <div class="tab-pane fade" id="t2">
-                <div class="position-relative float-left box active">
-                    <img src="{{ asset('uploads/d/thumb_theme_1.jpg') }}" alt="thumb_theme_1" width="540" height="340">
-                    <div class="position-absolute text text-white">
-                        <h4 class="pl-3 text-truncate">西藏6天5晚自由行</h4>
-                        <p class="pl-3 text-truncate">五星度假，蜜月游圣地</p>
-                    </div>
-                    <a href="#" class="position-absolute btn btn-warning text-white">去看看</a>
+            {{--导航下活动循环数据--}}
+            @foreach($nav_tabs as $nav)
+                <div class="tab-pane fade" id="t{{ $loop->iteration }}">
+                    @foreach($nav->activities as $activity)
+                        <div class="position-relative float-left box {{ $loop->first ? 'active' : '' }}">
+                            <img src="{{ imageCut(540, 340, $activity->thumb) }}" alt="{{ $activity->title }}" width="540" height="340">
+                            <div class="position-absolute text text-white">
+                                <h4 class="pl-3 text-truncate">{{ $activity->short }}</h4>
+                                <p class="pl-3 text-truncate">{{ $activity->title }}</p>
+                            </div>
+                            <a href="{{ route('www.activity.show', $activity) }}" class="position-absolute btn btn-warning text-white">去看看</a>
+                        </div>
+                    @endforeach
                 </div>
-                <div class="position-relative float-left box">
-                    <img src="{{ asset('uploads/d/thumb_theme_2.jpg') }}" alt="thumb_theme_2" width="540" height="340">
-                    <div class="position-absolute text text-white">
-                        <h4 class="pl-3 text-truncate">活动 · 这个周末带你玩成都</h4>
-                        <p class="pl-3 text-truncate">我们不做周末宅</p>
-                    </div>
-                    <a href="#" class="position-absolute btn btn-warning text-white">去看看</a>
-                </div>
-                <div class="position-relative float-left box">
-                    <img src="{{ asset('uploads/d/thumb_theme_1.jpg') }}" alt="thumb_theme_1" width="540" height="340">
-                    <div class="position-absolute text text-white">
-                        <h4 class="pl-3 text-truncate">西藏6天5晚自由行</h4>
-                        <p class="pl-3 text-truncate">五星度假，蜜月游圣地</p>
-                    </div>
-                    <a href="#" class="position-absolute btn btn-warning text-white">去看看</a>
-                </div>
-                <div class="position-relative float-left box">
-                    <img src="{{ asset('uploads/d/thumb_theme_2.jpg') }}" alt="thumb_theme_2" width="540" height="340">
-                    <div class="position-absolute text text-white">
-                        <h4 class="pl-3 text-truncate">活动 · 这个周末带你玩成都</h4>
-                        <p class="pl-3 text-truncate">我们不做周末宅</p>
-                    </div>
-                    <a href="#" class="position-absolute btn btn-warning text-white">去看看</a>
-                </div>
-            </div>
-            <div class="tab-pane fade" id="t3">
-                <div class="position-relative float-left box active">
-                    <img src="{{ asset('uploads/d/thumb_theme_1.jpg') }}" alt="thumb_theme_1" width="540" height="340">
-                    <div class="position-absolute text text-white">
-                        <h4 class="pl-3 text-truncate">西藏6天5晚自由行</h4>
-                        <p class="pl-3 text-truncate">五星度假，蜜月游圣地</p>
-                    </div>
-                    <a href="#" class="position-absolute btn btn-warning text-white">去看看</a>
-                </div>
-                <div class="position-relative float-left box">
-                    <img src="{{ asset('uploads/d/thumb_theme_2.jpg') }}" alt="thumb_theme_2" width="540" height="340">
-                    <div class="position-absolute text text-white">
-                        <h4 class="pl-3 text-truncate">活动 · 这个周末带你玩成都</h4>
-                        <p class="pl-3 text-truncate">我们不做周末宅</p>
-                    </div>
-                    <a href="#" class="position-absolute btn btn-warning text-white">去看看</a>
-                </div>
-                <div class="position-relative float-left box">
-                    <img src="{{ asset('uploads/d/thumb_theme_1.jpg') }}" alt="thumb_theme_1" width="540" height="340">
-                    <div class="position-absolute text text-white">
-                        <h4 class="pl-3 text-truncate">西藏6天5晚自由行</h4>
-                        <p class="pl-3 text-truncate">五星度假，蜜月游圣地</p>
-                    </div>
-                    <a href="#" class="position-absolute btn btn-warning text-white">去看看</a>
-                </div>
-                <div class="position-relative float-left box">
-                    <img src="{{ asset('uploads/d/thumb_theme_2.jpg') }}" alt="thumb_theme_2" width="540" height="340">
-                    <div class="position-absolute text text-white">
-                        <h4 class="pl-3 text-truncate">活动 · 这个周末带你玩成都</h4>
-                        <p class="pl-3 text-truncate">我们不做周末宅</p>
-                    </div>
-                    <a href="#" class="position-absolute btn btn-warning text-white">去看看</a>
-                </div>
-            </div>
-            <div class="tab-pane fade" id="t4">
-                <div class="position-relative float-left box active">
-                    <img src="{{ asset('uploads/d/thumb_theme_1.jpg') }}" alt="thumb_theme_1" width="540" height="340">
-                    <div class="position-absolute text text-white">
-                        <h4 class="pl-3 text-truncate">西藏6天5晚自由行</h4>
-                        <p class="pl-3 text-truncate">五星度假，蜜月游圣地</p>
-                    </div>
-                    <a href="#" class="position-absolute btn btn-warning text-white">去看看</a>
-                </div>
-                <div class="position-relative float-left box">
-                    <img src="{{ asset('uploads/d/thumb_theme_2.jpg') }}" alt="thumb_theme_2" width="540" height="340">
-                    <div class="position-absolute text text-white">
-                        <h4 class="pl-3 text-truncate">活动 · 这个周末带你玩成都</h4>
-                        <p class="pl-3 text-truncate">我们不做周末宅</p>
-                    </div>
-                    <a href="#" class="position-absolute btn btn-warning text-white">去看看</a>
-                </div>
-                <div class="position-relative float-left box">
-                    <img src="{{ asset('uploads/d/thumb_theme_1.jpg') }}" alt="thumb_theme_1" width="540" height="340">
-                    <div class="position-absolute text text-white">
-                        <h4 class="pl-3 text-truncate">西藏6天5晚自由行</h4>
-                        <p class="pl-3 text-truncate">五星度假，蜜月游圣地</p>
-                    </div>
-                    <a href="#" class="position-absolute btn btn-warning text-white">去看看</a>
-                </div>
-                <div class="position-relative float-left box">
-                    <img src="{{ asset('uploads/d/thumb_theme_2.jpg') }}" alt="thumb_theme_2" width="540" height="340">
-                    <div class="position-absolute text text-white">
-                        <h4 class="pl-3 text-truncate">活动 · 这个周末带你玩成都</h4>
-                        <p class="pl-3 text-truncate">我们不做周末宅</p>
-                    </div>
-                    <a href="#" class="position-absolute btn btn-warning text-white">去看看</a>
-                </div>
-            </div>
-            <div class="tab-pane fade" id="t5">
-                <div class="position-relative float-left box active">
-                    <img src="{{ asset('uploads/d/thumb_theme_1.jpg') }}" alt="thumb_theme_1" width="540" height="340">
-                    <div class="position-absolute text text-white">
-                        <h4 class="pl-3 text-truncate">西藏6天5晚自由行</h4>
-                        <p class="pl-3 text-truncate">五星度假，蜜月游圣地</p>
-                    </div>
-                    <a href="#" class="position-absolute btn btn-warning text-white">去看看</a>
-                </div>
-                <div class="position-relative float-left box">
-                    <img src="{{ asset('uploads/d/thumb_theme_2.jpg') }}" alt="thumb_theme_2" width="540" height="340">
-                    <div class="position-absolute text text-white">
-                        <h4 class="pl-3 text-truncate">活动 · 这个周末带你玩成都</h4>
-                        <p class="pl-3 text-truncate">我们不做周末宅</p>
-                    </div>
-                    <a href="#" class="position-absolute btn btn-warning text-white">去看看</a>
-                </div>
-                <div class="position-relative float-left box">
-                    <img src="{{ asset('uploads/d/thumb_theme_1.jpg') }}" alt="thumb_theme_1" width="540" height="340">
-                    <div class="position-absolute text text-white">
-                        <h4 class="pl-3 text-truncate">西藏6天5晚自由行</h4>
-                        <p class="pl-3 text-truncate">五星度假，蜜月游圣地</p>
-                    </div>
-                    <a href="#" class="position-absolute btn btn-warning text-white">去看看</a>
-                </div>
-                <div class="position-relative float-left box">
-                    <img src="{{ asset('uploads/d/thumb_theme_2.jpg') }}" alt="thumb_theme_2" width="540" height="340">
-                    <div class="position-absolute text text-white">
-                        <h4 class="pl-3 text-truncate">活动 · 这个周末带你玩成都</h4>
-                        <p class="pl-3 text-truncate">我们不做周末宅</p>
-                    </div>
-                    <a href="#" class="position-absolute btn btn-warning text-white">去看看</a>
-                </div>
-            </div>
+            @endforeach
         </div>
     </section>
 
@@ -231,22 +107,16 @@
                     <div class="tab-pane fade show active" id="wan">
                         <div id="wans" class="carousel slide" data-ride="carousel">
                             <div class="carousel-inner">
-                                <div class="carousel-item active">
-                                    <img class="d-block" src="{{ asset('uploads/d/thumb_wan_1.jpg') }}" alt="First slide">
-                                    <div class="carousel-caption">
-                                        <h4 class="pl-3">活动 · 这个周末带你玩成都</h4>
-                                        <p class="pl-3">我们不做周末宅</p>
+                                @foreach($wans as $raider)
+                                    <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
+                                        <img class="d-block" src="{{ imageCut(680, 340, $raider->thumb) }}" alt="{{ $raider->short }}">
+                                        <div class="carousel-caption">
+                                            <h4 class="pl-3">{{ $raider->short }}</h4>
+                                            <p class="pl-3">{{ $raider->title }}</p>
+                                        </div>
+                                        <a href="{{ route('www.raider.show', $raider) }}" class="position-absolute btn btn-warning text-white">去看看</a>
                                     </div>
-                                    <a href="#" class="position-absolute btn btn-warning text-white">去看看</a>
-                                </div>
-                                <div class="carousel-item">
-                                    <img class="d-block" src="{{ asset('uploads/d/thumb_wan_1.jpg') }}" alt="Second slide">
-                                    <div class="carousel-caption">
-                                        <h4 class="pl-3">活动 · 这个周末带你玩成都</h4>
-                                        <p class="pl-3">我们不做周末宅</p>
-                                    </div>
-                                    <a href="#" class="position-absolute btn btn-warning text-white">去看看</a>
-                                </div>
+                                @endforeach
                             </div>
                             <a class="carousel-control-prev" href="#wans" role="button" data-slide="prev">
                                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -261,22 +131,16 @@
                     <div class="tab-pane fade show" id="di">
                         <div id="dis" class="carousel slide" data-ride="carousel">
                             <div class="carousel-inner">
-                                <div class="carousel-item active">
-                                    <img class="d-block" src="{{ asset('uploads/d/thumb_wan_1.jpg') }}" alt="First slide">
-                                    <div class="carousel-caption">
-                                        <h4 class="pl-3">活动 · 这个周末带你玩成都</h4>
-                                        <p class="pl-3">我们不做周末宅</p>
+                                @foreach($hospitals as $raider)
+                                    <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
+                                        <img class="d-block" src="{{ imageCut(680, 340, $raider->thumb) }}" alt="{{ $raider->short }}">
+                                        <div class="carousel-caption">
+                                            <h4 class="pl-3">{{ $raider->short }}</h4>
+                                            <p class="pl-3">{{ $raider->title }}</p>
+                                        </div>
+                                        <a href="{{ route('www.raider.show', $raider) }}" class="position-absolute btn btn-warning text-white">去看看</a>
                                     </div>
-                                    <a href="#" class="position-absolute btn btn-warning text-white">去看看</a>
-                                </div>
-                                <div class="carousel-item">
-                                    <img class="d-block" src="{{ asset('uploads/d/thumb_wan_1.jpg') }}" alt="Second slide">
-                                    <div class="carousel-caption">
-                                        <h4 class="pl-3">活动 · 这个周末带你玩成都</h4>
-                                        <p class="pl-3">我们不做周末宅</p>
-                                    </div>
-                                    <a href="#" class="position-absolute btn btn-warning text-white">去看看</a>
-                                </div>
+                                @endforeach
                             </div>
                             <a class="carousel-control-prev" href="#dis" role="button" data-slide="prev">
                                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -296,9 +160,9 @@
                     <a href="#" class="text-muted">更多…</a>
                 </div>
                 <div class="d-flex justify-content-between">
-                    <a href="#"><img src="{{ asset('uploads/d/leader_1.jpg') }}" alt="leader_1" width="160" height="340"></a>
-                    <a href="#"><img src="{{ asset('uploads/d/leader_2.jpg') }}" alt="leader_2" width="160" height="340"></a>
-                    <a href="#"><img src="{{ asset('uploads/d/leader_3.jpg') }}" alt="leader_3" width="160" height="340"></a>
+                    @foreach($leaders as $leader)
+                        <a href="{{ route('www.leader.show', $leader) }}"><img src="{{ imageCut(160, 340, $leader->avatar) }}" alt="{{ $leader->name }}" width="160" height="340"></a>
+                    @endforeach
                 </div>
             </div>
         </div>
@@ -610,11 +474,30 @@
 
 @push('script')
     <script>
-        // 搜索栏下方切换
-        $(document).ready(function () {
+        (function ($) {
+            // 鼠标经过切换效果
             $('.tab-theme .box').hover(function () {
                 $(this).addClass('active').siblings().removeClass('active');
             })
-        })
+
+            // 搜索栏搜索
+            $('.search-item').click(function () {
+                let pid = $(this).attr('pid');
+                $('#search-btn').text($(this).text());
+                $('#pid').val(pid);
+            })
+
+            // 热门关键词
+            $('.hot-keywords > a').click(function () {
+                $('#q').val($(this).text());
+            })
+
+            // 搜索提交
+            $('.top-search').submit(function (event) {
+                if ($('#q').val() === '') {
+                    event.preventDefault();
+                }
+            })
+        })(jQuery)
     </script>
 @endpush

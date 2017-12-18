@@ -20,9 +20,9 @@ class CreateSmsTable extends Migration
             $table->text('result');
             $table->string('op', 20);
             $table->timestamps();
-        });
 
-        DB::statement('ALTER TABLE `sms` ADD INDEX index_mobile_created(`mobile`, `created_at`)');
+            $table->index(['mobile', 'created_at']);
+        });
     }
 
     /**

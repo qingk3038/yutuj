@@ -167,16 +167,16 @@
                 @foreach($like_activities as $item)
                     <div class="col-3">
                         <div class="card">
-                            <a href="{{ route('activity.show', $item) }}"><img class="card-img-top" src="{{ imageCut(255, 170, $item->thumb) }}" alt="{{ $item->short }}"></a>
+                            <a href="{{ route('www.activity.show', $item) }}"><img class="card-img-top" src="{{ imageCut(255, 170, $item->thumb) }}" alt="{{ $item->short }}"></a>
                             <div class="card-body">
                                 <p>
-                                    <a href="{{ route('activity.show', $item) }}" class="card-title">
+                                    <a href="{{ route('www.activity.show', $item) }}" class="card-title">
                                         <span class="text-danger font-weight-bold">{{ $item->types->first()->text }}</span>
                                         {{ str_limit($item->title, 40) }}
                                     </a>
                                 </p>
                                 <p class="card-text">
-                                    <span class="text-danger font-weight-bold">¥{{ $item->price }}</span>
+                                    <span class="text-danger font-weight-bold lead">¥{{ $item->price }}</span>
                                     <small>起</small>
                                 </p>
                             </div>
@@ -201,6 +201,12 @@
 
             // 滚动
             $('body').css('position', 'relative').scrollspy({target: '#navbar', offset: 100})
+
+            $('#navbar a').click(function (event) {
+                event.preventDefault();
+                let id = $(this).attr('href');
+                $('body,html').animate({scrollTop: $(id).offset().top - 50}, 1000);
+            })
         })(jQuery);
     </script>
 @endpush

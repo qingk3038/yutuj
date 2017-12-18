@@ -53,4 +53,36 @@ class LocList extends Model
         }
         return $self->brothers()->pluck('name', 'id');
     }
+
+    /**
+     * 国家包含的活动
+     */
+    public function countryActivities()
+    {
+        return $this->hasMany(Activity::class, 'country_id');
+    }
+
+    /**
+     * 省份包含的活动
+     */
+    public function provinceActivities()
+    {
+        return $this->hasMany(Activity::class, 'province_id');
+    }
+
+    /**
+     * 城市包含的活动
+     */
+    public function cityActivities()
+    {
+        return $this->hasMany(Activity::class, 'city_id');
+    }
+
+    /**
+     * 地区包含的活动
+     */
+    public function districtActivities()
+    {
+        return $this->hasMany(Activity::class, 'district_id');
+    }
 }

@@ -22,10 +22,11 @@ class CreateNavsTable extends Migration
         Schema::create('comms', function (Blueprint $table) {
             $table->unsignedInteger('nav_id');
             $table->foreign('nav_id')->references('id')->on('navs')->onDelete('cascade');
-            $table->unsignedInteger('comm_id'); //保存游记、活动、美食等id
-            $table->string('comm_type'); // 访问关联时确定所属的模型是哪个「类型」
+            $table->unsignedInteger('comm_id');
+            $table->string('comm_type');
+
+            $table->index(['nav_id', 'comm_id', 'comm_type']);
         });
-        DB::statement('ALTER TABLE `comms` ADD INDEX index_nav(`nav_id`, `comm_id`, `comm_type`)');
     }
 
     /**

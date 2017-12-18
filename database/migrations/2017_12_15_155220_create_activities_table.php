@@ -124,6 +124,19 @@ class CreateActivitiesTable extends Migration
 
             $table->timestamps();
         });
+
+        // 领队活动关系
+        Schema::create('activity_leader', function (Blueprint $table) {
+            $table->increments('id');
+            $table->unsignedInteger('activity_id')->index()->comment('活动ID');
+            $table->foreign('activity_id')->references('id')->on('activities')->onDelete('cascade');
+
+            $table->unsignedInteger('leader_id')->index()->comment('领队ID');
+            $table->foreign('leader_id')->references('id')->on('leaders')->onDelete('cascade');
+
+            $table->timestamps();
+        });
+
     }
 
     /**
@@ -133,6 +146,7 @@ class CreateActivitiesTable extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('activity_leader');
         Schema::dropIfExists('activity_tag');
         Schema::dropIfExists('activity_type');
 

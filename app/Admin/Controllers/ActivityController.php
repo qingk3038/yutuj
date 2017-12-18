@@ -88,7 +88,7 @@ class ActivityController extends Controller
                 'on' => ['value' => 0, 'text' => '上架', 'color' => 'success'],
                 'off' => ['value' => 1, 'text' => '下架']
             ]);
-            $grid->column('admin.username', '作者');
+            $grid->column('admin.name', '作者');
             $grid->updated_at('修改日期');
             $grid->filter(function ($filter) {
                 $filter->in('navs.id', '导航')->multipleSelect(Nav::pluck('text', 'id'));

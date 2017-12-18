@@ -29,4 +29,15 @@ class Raider extends Model
     {
         return $this->morphToMany(User::class, 'like');
     }
+
+    /**
+     * 类别
+     * @param $query
+     * @param string $type
+     * @return mixed
+     */
+    public function scopeType($query, $type = 'default')
+    {
+        return $query->where('type', $type);
+    }
 }

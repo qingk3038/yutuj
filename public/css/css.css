@@ -37,13 +37,14 @@ a:hover {
     background-color: #FF9900;
     border-color: #FF9900;
 }
-.page-link:focus, .page-link:hover{
+
+.page-link:focus, .page-link:hover {
     color: #999999;
 }
 
-.page-link{
-     color: #999999;
- }
+.page-link {
+    color: #999999;
+}
 
 .btn-warning,
 .bg-warning {
@@ -53,6 +54,10 @@ a:hover {
 .text-warning,
 .btn-outline-warning {
     color: #FF9900;
+}
+
+header.bg-white {
+    box-shadow: 0 0 10px rgba(0, 0, 0, .3);
 }
 
 footer {
