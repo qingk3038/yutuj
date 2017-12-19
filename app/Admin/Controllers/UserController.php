@@ -112,9 +112,9 @@ class UserController extends Controller
             $form->image('avatar', '头像')->rules('required');
             $form->text('name', '昵称')->rules('required|string');
             $form->mobile('mobile', '绑定手机号')->rules(function ($form) {
-                $rules = 'required|string';
-                if (!$id = $form->model()->id) {
-                    $rules .= '|unique:users';
+                $rules = 'required|string|unique:users';
+                if ($id = $form->model()->id) {
+                    $rules .= ',mobile,' . $id;
                 }
                 return $rules;
             });
@@ -127,7 +127,6 @@ class UserController extends Controller
                 'off' => ['value' => 1, 'text' => '禁止'],
             ])->default(0);
 
-            $form->password('password', '密码')->rules('required|string|min:6');
             $form->date('birthday', '出生日期');
             $form->text('province', '居住省份');
             $form->text('city', '居住城市');

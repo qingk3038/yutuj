@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use URL;
 use Exception;
 use Intervention\Image\Facades\Image;
 
@@ -10,7 +11,10 @@ class ThumbController extends Controller
     public function __invoke($width, $height, $url)
     {
         try {
-            $url = storage_path('app/public/' . base64_decode($url));
+            $url = base64_decode($url);
+            if (!URL::isValidUrl($url)) {
+                $url = storage_path('app/public/' . $url);
+            }
             return Image::cache(function ($image) use ($url, $width, $height) {
                 $image->make($url)->fit($width, $height);
             }, 5, true)->response();

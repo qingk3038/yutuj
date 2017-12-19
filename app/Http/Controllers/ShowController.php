@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Activity;
 use App\Models\Leader;
 use App\Models\Raider;
+use App\Models\Travel;
 use Illuminate\Support\Facades\Cache;
 
 class ShowController extends Controller
@@ -25,6 +26,7 @@ class ShowController extends Controller
     // 显示攻略
     public function showRaider(Raider $raider)
     {
+        $raider->increment('click');
         return view('www.raider', compact('raider'));
     }
 
@@ -35,6 +37,13 @@ class ShowController extends Controller
             return $leader->load('activities', 'activities.types');
         });
         return view('www.leader', compact('leader'));
+    }
+
+    // 显示游记
+    public function showTravel(Travel $travel)
+    {
+        $travel->increment('click');
+        return view('www.travel', compact('travel'));
     }
 
 }

@@ -79,7 +79,7 @@ class TravelController extends Controller
             $grid->thumb('缩略图')->sortable()->image(null, 120, 120);
             $grid->title('标题')->sortable()->limit(30);
             $grid->click('点击量')->sortable();
-            $grid->column('full', '省份/城市')->display(function ($text) {
+            $grid->column('full', '省份/城市')->display(function () {
                 return [$this->province, $this->city];
             })->badge();
             $grid->column('user.name', '作者');
@@ -95,6 +95,11 @@ class TravelController extends Controller
                 $tools->append(new TravelAudit());
             });
             $grid->disableCreation();
+
+            $grid->actions(function ($actions) {
+                $a = sprintf('<a href="%s" target="_blank"><i class="fa fa-fw fa-paper-plane"></i></a>', route('www.travel.show', $actions->row));
+                $actions->prepend($a);
+            });
         });
     }
 
