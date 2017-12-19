@@ -5,13 +5,17 @@
  */
 
 $(document).ready(function () {
-    $('[data-toggle]').popover();
+    $('[data-toggle]').popover()
 
     // 侧边
     $('.side-right .top').click(function () {
-        $('body,html').animate({scrollTop: 0}, 1000);
+        $('body,html').animate({scrollTop: 0}, 1000)
     })
-    $('.side-right .swt').click(function () {
-        alert('还未开通在线客服。');
+
+    // 商务通
+    $('.swt').click(function (event) {
+        event.preventDefault()
+        alert('还未开通在线客服。')
     })
+
 })

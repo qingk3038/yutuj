@@ -270,6 +270,7 @@ footer .links a {
 .nav-user .nav {
     margin-left: 350px;
     font-size: 18px;
+    margin-bottom: -2px;
 }
 
 .nav-user .nav > .nav-link {
