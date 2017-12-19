@@ -31,9 +31,11 @@
                     <i class="fa fa-fw fa-eye"></i>{{ $travel->click }}
                     <i class="fa fa-fw fa-lg fa-clock-o"></i>{{ $travel->updated_at->diffForHumans() }}
                     @if($travel->status === 'audit')
-                        <i class="fa fa-fw fa-lg fa-spinner fa-spin"></i> 等待审核
+                        <span class="text-info"><i class="fa fa-fw fa-lg fa-spinner fa-spin"></i>等待审核</span>
+                    @elseif($travel->status==='adopt')
+                        <span class="text-success"><i class="fa fa-fw fa-smile-o"></i>审核通过</span>
                     @elseif($travel->status==='reject')
-                        <i class="fa fa-fw fa-lg fa-info-circle"></i> 审核拒绝
+                        <span class="text-danger"><i class="fa fa-fw fa-exclamation-circle"></i>审核拒绝</span>
                     @endif
                 </p>
                 <p class="card-text text-justify">{{ $travel->description }}</p>
@@ -70,6 +72,10 @@
     <link rel="stylesheet" href="{{ asset('/vendor/wangEditor-3.0.14/release/wangEditor.min.css') }}">
     <script src="{{ asset('/vendor/wangEditor-3.0.14/release/wangEditor.min.js') }}"></script>
     <script>
+        let modal = $('#release')
+        let msg = modal.find('.msg')
+        let icon = modal.find('.icon > span')
+
         $(document).ready(function () {
             // 删除
             $('.btn-del').click(function () {
@@ -79,9 +85,13 @@
                 let url = $(this).data('action')
                 let div = $(this).closest('.card')
                 axios.delete(url).then(res => {
-                    div.remove()
-                    alert(res.data.message)
-                    location.reload()
+                    div.hide(300, () => {
+                        $(this).remove()
+                        msg.text('删除成功')
+                        icon.eq(1).show()
+                        icon.eq(0).hide()
+                        modal.modal('show')
+                    })
                 })
             })
         })
@@ -93,10 +103,6 @@
 
         // 设置封面
         function updateThumb(e) {
-            let modal = $('#release')
-            let msg = modal.find('.msg')
-            let icon = modal.find('.icon > span')
-
             let tid = $(e).data('tid')
             let param = new FormData();
             param.append('thumb', e.files[0])
