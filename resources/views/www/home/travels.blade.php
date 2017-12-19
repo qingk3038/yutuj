@@ -5,9 +5,9 @@
         <h4>{{ $travel->title }}</h4>
         <div class="d-flex justify-content-between" style="font-size: 13px;">
             <span class="text-muted">
-                <i class="fa fa-fw fa-map-marker"></i> {{ $travel->city }}
-                <i class="fa fa-fw fa-eye"></i> {{ $travel->click }}
-                <i class="fa fa-fw fa-lg fa-clock-o"></i> {{ $travel->updated_at->toDateString() }}
+                @if($travel->city)<i class="fa fa-fw fa-map-marker"></i>{{ $travel->province }} {{ $travel->city }}@endif
+                <i class="fa fa-fw fa-eye"></i>{{ $travel->click }}
+                <i class="fa fa-fw fa-lg fa-clock-o"></i>{{ $travel->updated_at->toDateString() }}
             </span>
             <span class="btns">
                 <a href="javascript:void(0);">设置封面</a>

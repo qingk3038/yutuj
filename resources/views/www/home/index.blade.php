@@ -8,7 +8,8 @@
 
     @foreach($travels as $travel)
         <div class="card">
-            <div class="position-relative" style="height: 290px; background: url({{ Storage::url($travel->thumb) }}) center center / cover;">
+            <div class="position-relative">
+                <img class="card-img-top" src="{{ imageCut(870, 290, $travel->thumb) }}" alt="{{ $travel->title }}">
                 <div class="position-absolute p-3 btns d-flex">
                     <a href="javascript:void(0);" class="btn btn-dark border-0 mr-auto btn-del" data-action="{{ route('travel.destroy', $travel) }}"><i class="fa fa-trash-o"></i> 删除</a>
                     <a href="{{ route('travel.edit', $travel) }}" class="btn btn-dark border-0"><i class="fa fa-edit"></i> 编辑</a>

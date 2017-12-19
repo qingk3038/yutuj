@@ -33,18 +33,18 @@
                     <input type="text" class="form-control" placeholder="这里输入游记标题" name="title" value="{{ $travel->title }}">
                 </div>
                 <div class="form-group">
-                    <p><img src="{{ Storage::url($travel->thumb) }}" class="img-thumbnail showImage" alt="缩略图"></p>
+                    <p><img src="{{ imageCut(870, 290, $travel->thumb) }}" class="img-thumbnail showImage" alt="缩略图" width="870"></p>
                     <label class="custom-file">
-                        <input type="file" id="thumb" name="thumb" class="custom-file-input" required>
+                        <input type="file" id="thumb" name="thumb" class="custom-file-input">
                         <span class="custom-file-control text-muted">选择游记封面</span>
                     </label>
                 </div>
                 <div class="form-group">
-                    <textarea name="description" class="form-control text-muted" rows="5" placeholder="350字的游记摘要也很重要…">{{ $travel->description }}</textarea>
+                    <textarea name="description" class="form-control text-muted" rows="3" placeholder="游记摘要也很重要…">{{ $travel->description }}</textarea>
                 </div>
                 <div class="form-group">
                     <div id="edit"></div>
-                    <textarea name="body" hidden class="form-control" rows="10" placeholder="请在这里输入内容">{{ $travel->body }}</textarea>
+                    <textarea name="body" hidden class="form-control" rows="10" placeholder="请在这里编辑游记内容">{{ $travel->body }}</textarea>
                 </div>
                 <div class="form-group">
                     <label>
@@ -53,10 +53,30 @@
                     </label>
                 </div>
                 <div class="text-right">
+                    @if($travel->status === 'adopt')
+                        <small class="px-2 text-success"><i class="fa fa-fw fa-smile-o"></i>审核通过</small>
+                    @elseif($travel->status === 'reject')
+                        <small class="px-2 text-danger"><i class="fa fa-fw fa-exclamation-circle"></i>审核拒绝</small>
+                    @endif
                     <span class="btn btn-warning text-white px-4 py-1" onclick="release('audit')">确认发表</span>
                     <span class="btn btn-outline-warning px-4 py-1" onclick="release('draft')">保存草稿</span>
                 </div>
             </form>
+        </div>
+    </div>
+
+    <div class="modal fade" id="release" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-sm" role="document" style="top: 30%;">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <span class="close" data-dismiss="modal">&times;</span>
+                    <div class="pt-4 pb-2 icon">
+                        <span class="fa fa-fw fa-exclamation-circle fa-4x text-danger"></span>
+                        <span class="fa fa-fw fa-smile-o fa-4x text-success"></span>
+                    </div>
+                    <p class="text-muted font-weight-light msg">未填写完成的消息提示</p>
+                </div>
+            </div>
         </div>
     </div>
 @endsection
@@ -65,16 +85,19 @@
     <link rel="stylesheet" href="{{ asset('/vendor/wangEditor-3.0.14/release/wangEditor.min.css') }}">
     <script src="{{ asset('/vendor/wangEditor-3.0.14/release/wangEditor.min.js') }}"></script>
     <script>
-        const token = $('meta[name="csrf-token"]').attr('content')
-
+        let editor = new wangEditor('#edit')
         $(document).ready(function () {
             initEdit();
 
-            $('#thumb').change(function(){
+            // 刷新默认显示缩略图
+            $('#thumb').change(function () {
                 let src = window.URL.createObjectURL(this.files[0])
                 $('.showImage').prop('src', src).removeClass('d-none')
                 $(this).next().text($(this).val())
             })
+            if ($('#thumb').val() !== '') {
+                $('#thumb').trigger('change')
+            }
 
             // 删除
             $('.btn-del').click(function () {
@@ -105,9 +128,8 @@
          * 编辑器
          */
         function initEdit() {
-            let editor = new wangEditor('#edit')
             editor.customConfig.uploadImgShowBase64 = true
-            editor.customConfig.uploadImgParams = {_token: token}
+            editor.customConfig.zIndex = 1
             editor.customConfig.onchange = function (html) {
                 $('[name="body"]').val(html)
             }
@@ -122,8 +144,11 @@
          * @param status draft:草稿
          */
         function release(status = 'draft') {
+            let modal = $('#release')
+            let msg = modal.find('.msg')
+            let icon = modal.find('.icon > span')
             let param = new FormData(document.getElementById('releaseForm'));
-            param.append('_token', token)
+            param.append('_token', $('meta[name="csrf-token"]').attr('content'))
             param.append('status', status)
             param.append('_method', 'PUT')
             $.ajax({
@@ -133,12 +158,17 @@
                 contentType: false,
                 processData: false,
                 success(res) {
-                    alert(res.message);
-                    location.href = document.referrer
+                    msg.text(res.message)
+                    icon.eq(1).show()
+                    icon.eq(0).hide()
+                    return modal.modal('show')
                 },
                 error(err) {
-                    let errors = err.data.errors;
-                    alert(Object.values(errors).join("\r\n"))
+                    let errors = err.responseJSON.errors;
+                    msg.html(Object.values(errors).join("<br>"))
+                    icon.eq(0).show()
+                    icon.eq(1).hide()
+                    return modal.modal('show')
                 }
             })
         }

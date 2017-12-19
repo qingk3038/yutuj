@@ -46,8 +46,8 @@ class TravelController extends Controller
             'description' => 'required|string|between:10, 350',
             'body' => 'required|string|min:20',
             'status' => 'required|string|in:draft,audit',
-            'province' => 'required|string',
-            'city' => 'required|string',
+            'province' => 'nullable|string',
+            'city' => 'nullable|string',
         ]);
         $data['thumb'] = $request->file('thumb')->store('images');
         $request->user()->travels()->create($data);
@@ -90,12 +90,12 @@ class TravelController extends Controller
     {
         $data = $this->validate($request, [
             'title' => ['required', 'string', 'between:3,100', Rule::unique('travels')->ignore($travel->id)],
-            'thumb' => 'file',
+            'thumb' => 'image',
             'description' => 'required|string|between:10, 350',
             'body' => 'required|string|min:20',
             'status' => 'required|string|in:draft,audit',
-            'province' => 'required|string',
-            'city' => 'required|string',
+            'province' => 'nullable|string',
+            'city' => 'nullable|string',
         ]);
         if ($request->hasFile('thumb')) {
             Storage::delete($travel->thumb);
