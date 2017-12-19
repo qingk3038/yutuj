@@ -147,7 +147,7 @@
             }).then(res => {
                 msg.text(res.data.message)
                 icon.eq(1).show()
-                icon.eq(2).hide()
+                icon.eq(0).hide()
                 return modal.modal('show')
             }).catch(err => {
                 let errors = err.response.data.errors;

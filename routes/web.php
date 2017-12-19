@@ -21,6 +21,7 @@ Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm
 Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
 // 游记
+Route::post('home/travel/thumb/{travel}', 'TravelController@updateThumb');
 Route::resource('home/travel', 'TravelController');
 
 Route::redirect('home', 'home/travel')->name('home');

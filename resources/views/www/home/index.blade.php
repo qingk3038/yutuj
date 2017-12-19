@@ -5,17 +5,14 @@
         <span class="h5">我的游记</span>
         <a href="{{ route('travel.create') }}" class="btn btn-warning text-white px-3 py-1"><i class="fa fa-edit"></i> 发表游记</a>
     </div>
-
     @foreach($travels as $travel)
         <div class="card">
             <div class="position-relative">
-                <img class="card-img-top" src="{{ imageCut(870, 290, $travel->thumb) }}" alt="{{ $travel->title }}">
+                <img class="card-img-top" src="{{ imageCut(870, 290, $travel->thumb) }}" alt="{{ $travel->title }}" tid="{{ $travel->id }}">
                 <div class="position-absolute p-3 btns d-flex">
                     <a href="javascript:void(0);" class="btn btn-dark border-0 mr-auto btn-del" data-action="{{ route('travel.destroy', $travel) }}"><i class="fa fa-trash-o"></i> 删除</a>
                     <a href="{{ route('travel.edit', $travel) }}" class="btn btn-dark border-0"><i class="fa fa-edit"></i> 编辑</a>
-                    @if($travel->status === 'adopt')
-                        <a href="javascript:void(0);" class="btn btn-dark border-0 ml-2"><i class="fa fa-photo"></i> 设置封面</a>
-                    @endif
+                    <a href="javascript:void(0);" onclick="selectThumb({{ $travel->id }})" class="btn btn-dark border-0 ml-2"><i class="fa fa-photo"></i> 设置封面</a>
                 </div>
             </div>
             <div class="card-body position-relative">
@@ -30,9 +27,9 @@
                     <a href="{{ route('travel.show', $travel) }}">{{ $travel->title }}</a>
                 </h5>
                 <p class="text-muted">
-                    <i class="fa fa-fw fa-map-marker"></i> {{ $travel->city }}
-                    <i class="fa fa-fw fa-eye"></i> {{ $travel->click }}
-                    <i class="fa fa-fw fa-lg fa-clock-o"></i> {{ $travel->updated_at->diffForHumans() }}
+                    @if($travel->province)<i class="fa fa-fw fa-map-marker"></i>{{ $travel->province }} {{ $travel->city }}@endif
+                    <i class="fa fa-fw fa-eye"></i>{{ $travel->click }}
+                    <i class="fa fa-fw fa-lg fa-clock-o"></i>{{ $travel->updated_at->diffForHumans() }}
                     @if($travel->status === 'audit')
                         <i class="fa fa-fw fa-lg fa-spinner fa-spin"></i> 等待审核
                     @elseif($travel->status==='reject')
@@ -52,6 +49,21 @@
         <div class="bg-light p-5 text-center"><img src="{{ asset('img/empty_release.png') }}" alt="empty_release" width="140" height="125"></div>
     @endif
 
+    <input type="file" id="fileThumb" onchange="updateThumb(this)" style="width: 0px; height: 0px; opacity: 0;">
+    <div class="modal fade" id="release" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-sm" role="document" style="top: 30%;">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <span class="close" data-dismiss="modal">&times;</span>
+                    <div class="pt-4 pb-2 icon">
+                        <span class="fa fa-fw fa-exclamation-circle fa-4x text-danger"></span>
+                        <span class="fa fa-fw fa-smile-o fa-4x text-success"></span>
+                    </div>
+                    <p class="text-muted font-weight-light msg">未填写完成的消息提示</p>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('script')
@@ -73,5 +85,35 @@
                 })
             })
         })
+
+        // 激活图片选择
+        function selectThumb(id) {
+            $('#fileThumb').data('tid', id).trigger('click')
+        }
+
+        // 设置封面
+        function updateThumb(e) {
+            let modal = $('#release')
+            let msg = modal.find('.msg')
+            let icon = modal.find('.icon > span')
+
+            let tid = $(e).data('tid')
+            let param = new FormData();
+            param.append('thumb', e.files[0])
+            axios.post(`{{ url('home/travel/thumb') }}/${tid}`, param, {
+                headers: {'Content-Type': 'multipart/form-data'}
+            }).then(res => {
+                $('img[tid="' + tid + '"]').prop('src', res.data.path)
+                msg.text(res.data.message)
+                icon.eq(1).show()
+                icon.eq(0).hide()
+                return modal.modal('show')
+            }).catch(err => {
+                msg.html(err.response.data.message)
+                icon.eq(0).show()
+                icon.eq(1).hide()
+                return modal.modal('show')
+            })
+        }
     </script>
 @endpush

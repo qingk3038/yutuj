@@ -108,6 +108,24 @@ class TravelController extends Controller
     }
 
     /**
+     * 更新缩略图
+     * @param Travel $travel
+     * @param Request $request
+     * @return array|\Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
+    public function updateThumb(Travel $travel, Request $request)
+    {
+        if (!$request->hasFile('thumb')) {
+            return response(['message' => '必须上传图片。'], 422);
+        }
+        Storage::delete($travel->thumb);
+        $thumb = $request->file('thumb')->store('images');
+        $travel->thumb = $thumb;
+        $travel->save();
+        return ['message' => '封面设置成功。', 'path' => imageCut(870, 290, $thumb)];
+    }
+
+    /**
      * 游记删除
      * @param Travel $travel
      * @return array

@@ -2,8 +2,11 @@
 
 namespace App\Console;
 
+use App\Models\Order;
+use App\Models\Travel;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Carbon;
 
 class Kernel extends ConsoleKernel
 {
@@ -19,17 +22,20 @@ class Kernel extends ConsoleKernel
     /**
      * Define the application's command schedule.
      *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
+     * @param  \Illuminate\Console\Scheduling\Schedule $schedule
      * @return void
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        // 15分钟关闭没有支付的订单
+        $schedule->call(function () {
+            Order::where('created_at', '<', Carbon::now()->subMinute(15))->update(['status' => 'close']);
+        })->everyFifteenMinutes();
 
-        $schedule->exec('ls -al')->everyTenMinutes();
-
-        $schedule->command('route:list')->everyMinute()->sendOutputTo('d:\1.txt');;
+        // 5分钟游记通过审核
+        $schedule->call(function () {
+            Travel::where('status', 'audit')->where('updated_at', '<', Carbon::now()->subMinute(5))->update(['status' => 'adopt']);
+        })->everyFiveMinutes();
     }
 
     /**
@@ -39,7 +45,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }
