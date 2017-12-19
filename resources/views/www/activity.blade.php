@@ -12,8 +12,9 @@
             <div class="col">
                 <div id="photos" class="carousel slide" data-ride="carousel">
                     <ol class="carousel-indicators">
-                        <li data-target="#photos" data-slide-to="0" class="active"></li>
-                        <li data-target="#photos" data-slide-to="1"></li>
+                        @foreach($activity->photos as $photo)
+                        <li data-target="#photos" data-slide-to="{{ $loop->index }}" @if($loop->first) class="active" @endif></li>
+                        @endforeach
                     </ol>
                     <div class="carousel-inner">
                         @foreach($activity->photos as $photo)

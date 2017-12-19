@@ -99,7 +99,7 @@ class ActivityController extends Controller
             });
 
             $grid->actions(function ($actions) {
-                $a = sprintf('<a href="%s" target="_blank"><i class="fa fa-fw fa-paper-plane"></i></a>', route('activity.show', $actions->row));
+                $a = sprintf('<a href="%s" target="_blank"><i class="fa fa-fw fa-paper-plane"></i></a>', route('www.activity.show', $actions->row));
                 $actions->prepend($a);
             });
         });
@@ -125,7 +125,7 @@ class ActivityController extends Controller
                 $form->text('xc', '行程描述')->rules('required|string|max:200');
 
                 $form->image('thumb', '缩略图');
-                $form->multipleImage('photos', '展示图')->removable()->help('3张图片');
+                $form->multipleImage('photos', '轮播图')->removable();
                 $form->textarea('ts', '行程特色简介');
                 $form->multipleImage('tps', '行程特色图片')->removable()->help('3张图片');
                 $form->switch('closed', '上架状态')->states([
@@ -133,10 +133,10 @@ class ActivityController extends Controller
                     'off' => ['value' => 1, 'text' => '下架']
                 ]);
             })->tab('注意事项', function (Form $form) {
-                $form->textarea('baohan', '费用包含');
-                $form->textarea('buhan', '费用不含');
-                $form->textarea('zhuyi', '注意事项');
-                $form->textarea('qianyue', '签约条款');
+                $form->textarea('baohan', '费用包含')->rules('required|string');
+                $form->textarea('buhan', '费用不含')->rules('required|string');
+                $form->textarea('zhuyi', '注意事项')->rules('required|string');
+                $form->textarea('qianyue', '签约条款')->rules('required|string');
             })->tab('关联地区', function (Form $form) {
                 $form->select('country_id', '国家')->options(
                     LocList::country()->pluck('name', 'id')

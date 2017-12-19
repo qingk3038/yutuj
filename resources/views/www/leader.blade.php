@@ -79,76 +79,26 @@
         <div class="bg-white p-5">
             <h3 class="text-warning mb-4"><i class="fa fa-fw fa-flag-o"></i> TA领队的活动</h3>
             <div class="row">
-                <div class="col">
-                    <div class="card">
-                        <a href=""><img class="card-img-top" src="{{ asset('uploads/d/goods_like_1.jpg') }}" alt="Card image cap"></a>
-                        <div class="card-body">
-                            <p>
-                                <a href="#" class="card-title">
-                                    <span class="text-danger font-weight-bold">跟团游</span>
-                                    泰国普吉岛7晚5日游(2晚离岛蓝湾泳池别墅...
-                                </a>
-                            </p>
-                            <p class="card-text">
-                                <span class="text-danger font-weight-bold lead">¥3600</span>
-                                <small>起</small>
-                            </p>
+                @foreach($leader->activities as $activity)
+                    <div class="col-3">
+                        <div class="card">
+                            <a href="{{ route('www.activity.show', $activity) }}"><img class="card-img-top" src="{{ imageCut(255, 170, $activity->thumb) }}" alt="{{ $activity->short }}"></a>
+                            <div class="card-body">
+                                <p>
+                                    <a href="{{ route('www.activity.show', $activity) }}" class="card-title">
+                                        <span class="text-danger font-weight-bold">{{ $activity->types->first()->text }}</span>
+                                        {{ str_limit($activity->title, 40) }}
+                                    </a>
+                                </p>
+                                <p class="card-text">
+                                    <span class="text-danger font-weight-bold lead">¥{{ $activity->price }}</span>
+                                    <small>起</small>
+                                </p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col">
-                    <div class="card">
-                        <a href=""><img class="card-img-top" src="{{ asset('uploads/d/goods_like_1.jpg') }}" alt="Card image cap"></a>
-                        <div class="card-body">
-                             <p>
-                                <a href="#" class="card-title">
-                                    <span class="text-danger font-weight-bold">跟团游</span>
-                                    泰国普吉岛7晚5日游(2晚离岛蓝湾泳池别墅...
-                                </a>
-                            </p>
-                            <p class="card-text">
-                                <span class="text-danger font-weight-bold lead">¥3600</span>
-                                <small>起</small>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card">
-                        <a href=""><img class="card-img-top" src="{{ asset('uploads/d/goods_like_1.jpg') }}" alt="Card image cap"></a>
-                        <div class="card-body">
-                             <p>
-                                <a href="#" class="card-title">
-                                    <span class="text-danger font-weight-bold">跟团游</span>
-                                    泰国普吉岛7晚5日游(2晚离岛蓝湾泳池别墅...
-                                </a>
-                            </p>
-                            <p class="card-text">
-                                <span class="text-danger font-weight-bold lead">¥3600</span>
-                                <small>起</small>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card">
-                        <a href=""><img class="card-img-top" src="{{ asset('uploads/d/goods_like_1.jpg') }}" alt="Card image cap"></a>
-                        <div class="card-body">
-                             <p>
-                                <a href="#" class="card-title">
-                                    <span class="text-danger font-weight-bold">跟团游</span>
-                                    泰国普吉岛7晚5日游(2晚离岛蓝湾泳池别墅...
-                                </a>
-                            </p>
-                            <p class="card-text">
-                                <span class="text-danger font-weight-bold lead">¥3600</span>
-                                <small>起</small>
-                            </p>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
-
             <div class="pt-4 text-center">
                 <a href="#" class="btn btn-outline-warning">更多活动</a>
             </div>

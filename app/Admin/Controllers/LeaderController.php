@@ -92,6 +92,11 @@ class LeaderController extends Controller
             })->label();
             $grid->created_at('创建日期');
             $grid->updated_at('修改日期');
+
+            $grid->actions(function ($actions) {
+                $a = sprintf('<a href="%s" target="_blank"><i class="fa fa-fw fa-paper-plane"></i></a>', route('www.leader.show', $actions->row));
+                $actions->prepend($a);
+            });
         });
     }
 

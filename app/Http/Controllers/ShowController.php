@@ -12,7 +12,7 @@ class ShowController extends Controller
     // 显示活动
     public function showActivity(Activity $activity)
     {
-        $like_activities = Cache::remember(request()->fullUrl(), 30, function () use ($activity) {
+        $like_activities = Cache::remember(request()->fullUrl(), 5, function () use ($activity) {
             return Activity::with('types')
                 ->where('id', '!=', $activity->id)
                 ->where('province_id', $activity->province_id)
@@ -31,7 +31,9 @@ class ShowController extends Controller
     // 显示领队
     public function showLeader(Leader $leader)
     {
-//        return $leader->photos;
+        $leader = Cache::remember(request()->fullUrl(), 5, function () use ($leader) {
+            return $leader->load('activities', 'activities.types');
+        });
         return view('www.leader', compact('leader'));
     }
 
