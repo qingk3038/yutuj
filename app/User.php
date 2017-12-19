@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Models\Follow;
+use App\Models\Raider;
 use App\Models\Travel;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -61,6 +62,7 @@ class User extends Authenticatable
 
     /**
      * 粉丝
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function fans()
     {
@@ -68,11 +70,20 @@ class User extends Authenticatable
     }
 
     /**
-     * 喜欢的游记
+     * 会员喜欢的游记
      * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
      */
     public function likeTravels()
     {
         return $this->morphedByMany(Travel::class, 'like');
+    }
+
+    /**
+     * 会员喜欢的攻略
+     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
+     */
+    public function likeRaiders()
+    {
+        return $this->morphedByMany(Raider::class, 'like');
     }
 }

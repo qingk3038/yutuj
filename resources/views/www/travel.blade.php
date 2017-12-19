@@ -7,7 +7,7 @@
     <div class="bg-white p-2" style="border-bottom: 2px solid #E5E5E5;">
         <div class="container text-muted">
             <a href="{{ route('www.user.travel', $travel->user) }}">
-                <img class="rounded-circle align-bottom" src="{{ $travel->user->avatar }}" alt="头像" width="120" height="120" style="margin-top: -80px;">
+                <img class="rounded-circle align-bottom" src="{{ imageCut(120, 120, $travel->user->avatar) }}" alt="头像" width="120" height="120" style="margin-top: -80px;">
             </a>
             <a href="{{ route('www.user.travel', $travel->user) }}" class="pr-2 text-warning"><i class="fa fa-fw fa-lg {{ $travel->user->sex === 'F' ? 'text-primary fa-mercury' : 'text-danger fa-venus' }}"></i>{{ $travel->user->name }}</a>
             @if($travel->province)<span class="pr-2"><i class="fa fa-fw fa-map-marker"></i>{{ $travel->province }} {{ $travel->city }}</span>@endif

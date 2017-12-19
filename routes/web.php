@@ -42,6 +42,15 @@ Route::put('home/user', 'HomeController@update')->name('user.update');
 Route::put('home/pwd', 'HomeController@updatePwd')->name('user.pwd');
 Route::put('home/mobile', 'HomeController@updateMobile')->name('user.mobile');
 
+// 游记点赞
+Route::post('travel/like/{travel}', 'HomeController@likeTravel');
+
+// 是否已为粉丝
+Route::get('user/fans/{user}', 'HomeController@isFans');
+
+// 切换成为粉丝
+Route::post('user/fans/{user}', 'HomeController@fans');
+
 // 定制游
 Route::view('customized', 'www.customized');
 Route::post('customized', 'CustomizedController@store');

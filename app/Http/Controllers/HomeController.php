@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Follow;
 use App\Models\Travel;
 use App\Rules\Code;
 use App\Rules\Mobile;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -119,4 +121,42 @@ class HomeController extends Controller
         $request->user()->save();
         return ['message' => '绑定手机已更新。'];
     }
+
+
+    /**
+     * 会员给游记点赞
+     * @param Travel $travel
+     * @return array
+     */
+    public function likeTravel(Travel $travel)
+    {
+        $travel->likes()->toggle(auth()->id());
+        return ['likes_count' => $travel->likes()->count()];
+    }
+
+    /**
+     * 关注会员成为粉丝
+     * @param User $user
+     * @return array
+     */
+    public function fans(User $user)
+    {
+        if ($user->id !== auth()->id()) {
+            $gz = Follow::firstOrNew(['user_id' => $user->id, 'gz_id' => auth()->id()]);
+            $gz->id ? $gz->delete() : $gz->save();
+        }
+        return ['fans_count' => $user->fans()->count()];
+    }
+
+    /**
+     * 是否已经是粉丝
+     * @param User $user
+     * @return array
+     */
+    public function isFans(User $user)
+    {
+        $num = Follow::where(['user_id' => $user->id, 'gz_id' => auth()->id()])->count();
+        return ['is_fans' => !!$num];
+    }
+
 }

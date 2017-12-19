@@ -6,8 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Follow extends Model
 {
-    protected $fillable = [
-        'gz_id', 'user_id'
-    ];
-
+    protected $guarded = [];
 }

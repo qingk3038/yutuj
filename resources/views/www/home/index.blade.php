@@ -8,7 +8,7 @@
     @foreach($travels as $travel)
         <div class="card">
             <div class="position-relative">
-                <img class="card-img-top" src="{{ imageCut(870, 290, $travel->thumb) }}" alt="{{ $travel->title }}" tid="{{ $travel->id }}">
+                <img class="card-img-top" src="{{ imageCut(870, 290, $travel->thumb) }}" alt="{{ $travel->title }}" tid="{{ $travel->id }}" width="870" height="290" >
                 <div class="position-absolute p-3 btns d-flex">
                     <a href="javascript:void(0);" class="btn btn-dark border-0 mr-auto btn-del" data-action="{{ route('travel.destroy', $travel) }}"><i class="fa fa-trash-o"></i> 删除</a>
                     <a href="{{ route('travel.edit', $travel) }}" class="btn btn-dark border-0"><i class="fa fa-edit"></i> 编辑</a>
@@ -51,7 +51,7 @@
         <div class="bg-light p-5 text-center"><img src="{{ asset('img/empty_release.png') }}" alt="empty_release" width="140" height="125"></div>
     @endif
 
-    <input type="file" id="fileThumb" onchange="updateThumb(this)" style="width: 0px; height: 0px; opacity: 0;">
+    <input type="file" id="fileThumb" onchange="updateThumb(this)" hidden>
     <div class="modal fade" id="release" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-sm" role="document" style="top: 30%;">
             <div class="modal-content">
