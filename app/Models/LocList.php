@@ -84,9 +84,21 @@ class LocList extends Model
         return $this->hasMany(Activity::class, 'district_id');
     }
 
-    // 地区领队
+    // 省份领队
     public function provinceLeaders()
     {
         return $this->hasMany(Leader::class, 'province_id');
+    }
+
+    // 省份攻略
+    public function provinceRaiders()
+    {
+        return $this->hasMany(Raider::class, 'province_id');
+    }
+
+    // 城市攻略
+    public function cityRaiders()
+    {
+        return $this->hasMany(Raider::class, 'city_id');
     }
 }

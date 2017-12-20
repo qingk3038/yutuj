@@ -8,7 +8,7 @@
     @foreach($travels as $travel)
         <div class="card">
             <div class="position-relative">
-                <img class="card-img-top" src="{{ imageCut(870, 290, $travel->thumb) }}" alt="{{ $travel->title }}" tid="{{ $travel->id }}" width="870" height="290" >
+                <img class="card-img-top" src="{{ imageCut(870, 290, $travel->thumb) }}" alt="{{ $travel->title }}" tid="{{ $travel->id }}" width="870" height="290">
                 <div class="position-absolute p-3 btns d-flex">
                     <a href="javascript:void(0);" class="btn btn-dark border-0 mr-auto btn-del" data-action="{{ route('travel.destroy', $travel) }}"><i class="fa fa-trash-o"></i> 删除</a>
                     <a href="{{ route('travel.edit', $travel) }}" class="btn btn-dark border-0"><i class="fa fa-edit"></i> 编辑</a>
@@ -52,20 +52,6 @@
     @endif
 
     <input type="file" id="fileThumb" onchange="updateThumb(this)" hidden>
-    <div class="modal fade" id="release" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-sm" role="document" style="top: 30%;">
-            <div class="modal-content">
-                <div class="modal-body text-center">
-                    <span class="close" data-dismiss="modal">&times;</span>
-                    <div class="pt-4 pb-2 icon">
-                        <span class="fa fa-fw fa-exclamation-circle fa-4x text-danger"></span>
-                        <span class="fa fa-fw fa-smile-o fa-4x text-success"></span>
-                    </div>
-                    <p class="text-muted font-weight-light msg">未填写完成的消息提示</p>
-                </div>
-            </div>
-        </div>
-    </div>
 @endsection
 
 @push('script')
@@ -79,20 +65,28 @@
         $(document).ready(function () {
             // 删除
             $('.btn-del').click(function () {
-                if (!confirm('确认要删除吗')) {
-                    return
-                }
-                let url = $(this).data('action')
-                let div = $(this).closest('.card')
-                axios.delete(url).then(res => {
-                    div.hide(300, () => {
-                        $(this).remove()
-                        msg.text('删除成功')
-                        icon.eq(1).show()
-                        icon.eq(0).hide()
-                        modal.modal('show')
+                swal({
+                        title: '确定删除吗？',
+                        text: '你将无法恢复该游记！',
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#DD6B55',
+                        confirmButtonText: '确定删除',
+                        cancelButtonText: '取消删除',
+                        closeOnConfirm: false
+                    },
+                    () => {
+                        let url = $(this).data('action')
+                        let div = $(this).closest('.card')
+                        axios.delete(url).then(res => {
+                            div.hide(300, () => {
+                                $(this).remove();
+                            })
+                            swal('删除！', '你的一篇游记已经被删除。', 'success')
+                        }).catch(err => {
+                            swal('错误啦！', err.response.data.message, 'error')
+                        })
                     })
-                })
             })
         })
 

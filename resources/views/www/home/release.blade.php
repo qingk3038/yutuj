@@ -59,21 +59,6 @@
             </form>
         </div>
     </div>
-
-    <div class="modal fade" id="release" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-sm" role="document" style="top: 30%;">
-            <div class="modal-content">
-                <div class="modal-body text-center">
-                    <span class="close" data-dismiss="modal">&times;</span>
-                    <div class="pt-4 pb-2 icon">
-                        <span class="fa fa-fw fa-exclamation-circle fa-4x text-danger"></span>
-                        <span class="fa fa-fw fa-smile-o fa-4x text-success"></span>
-                    </div>
-                    <p class="text-muted font-weight-light msg">未填写完成的消息提示</p>
-                </div>
-            </div>
-        </div>
-    </div>
 @endsection
 
 @push('script')
@@ -96,13 +81,31 @@
 
             // 删除
             $('.btn-del').click(function () {
-                if (!confirm('确认要删除吗')) {
-                    return
-                }
-                let url = $(this).data('action')
-                let li = $(this).closest('li')
-                axios.delete(url).then(res => {
-                    li.remove()
+                // 删除
+                $('.btn-del').click(function () {
+                    swal({
+                            title: '确定删除吗？',
+                            text: '你将无法恢复该游记！',
+                            type: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#DD6B55',
+                            confirmButtonText: '确定删除',
+                            cancelButtonText: '取消删除',
+                            closeOnConfirm: false
+                        },
+                        () => {
+                            let url = $(this).data('action')
+                            let li = $(this).closest('li')
+                            axios.delete(url).then(res => {
+                                li.hide(300, function () {
+                                    $(this).remove();
+                                })
+                                swal('删除！', '你的一篇游记已经被删除。', 'success')
+                            }).catch(err => {
+                                let errors = err.response.data.errors
+                                swal('错误啦！', Object.values(errors).join("\r\n"), 'error')
+                            })
+                        })
                 })
             })
 
@@ -137,24 +140,15 @@
          * @param status draft:草稿
          */
         function release(status = 'draft') {
-            let modal = $('#release')
-            let msg = modal.find('.msg')
-            let icon = modal.find('.icon > span')
             let param = new FormData(document.getElementById('releaseForm'));
             param.append('status', status)
             axios.post("{{ route('travel.store') }}", param, {
                 headers: {'Content-Type': 'multipart/form-data'}
             }).then(res => {
-                msg.text(res.data.message)
-                icon.eq(1).show()
-                icon.eq(0).hide()
-                return modal.modal('show')
+                swal('干得漂亮，操作成功！', res.data.message, 'success')
             }).catch(err => {
                 let errors = err.response.data.errors;
-                msg.html(Object.values(errors).join("<br>"))
-                icon.eq(0).show()
-                icon.eq(1).hide()
-                return modal.modal('show')
+                swal('错误啦！', Object.values(errors).join("\r\n"), 'error')
             })
         }
     </script>

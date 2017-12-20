@@ -186,11 +186,10 @@
 
                 let param = $(this).serialize();
                 axios.put("{{ route('user.update') }}", param).then(res => {
-                    alert(res.data.message)
-                    location.reload()
+                    swal('成功！', res.data.message, 'success')
                 }).catch(err => {
                     let errors = err.response.data.errors;
-                    alert(Object.values(errors).join("\r\n"))
+                    swal('失败！', Object.values(errors).join("\r\n"), 'error')
                 })
             })
 
@@ -200,13 +199,13 @@
                 let param = $(this).serialize() + '&' + $.param({code: $('#code').val()});
                 axios.put("{{ route('user.pwd') }}", param).then(res => {
                     $('#pwdUpdate').modal('hide')
-                    alert(res.data.message)
+                    swal('成功！', res.data.message, 'success')
                 }).catch(err => {
                     if (err.response.data.errors.code !== 'undefined') {
                         showMobileForm()
                     }
-                    let errors = err.response.data.errors;
-                    alert(Object.values(errors).join("\r\n"))
+                    let errors = err.response.data.errors
+                    swal('失败！', Object.values(errors).join("\r\n"), 'error')
                 })
             })
 
@@ -217,10 +216,10 @@
                 let param = $(this).serialize()
                 axios.put("{{ route('user.mobile') }}", param).then(res => {
                     $('#telUpdate').modal('hide')
-                    alert(res.data.message)
+                    swal('成功！', res.data.message, 'success')
                 }).catch(err => {
                     let errors = err.response.data.errors;
-                    alert(Object.values(errors).join("\r\n"))
+                    swal('失败！', Object.values(errors).join("\r\n"), 'error')
                 })
             })
 
@@ -261,7 +260,7 @@
                 location.reload()
             }).catch(err => {
                 let errors = err.response.data.errors;
-                alert(Object.values(errors).join("\r\n"))
+                swal('失败！', Object.values(errors).join("\r\n"), 'error')
             })
         }
 
@@ -271,12 +270,12 @@
         function checkTel() {
             let mobile = $('#tel').val();
             if (mobile.length === 0) {
-                alert('请输入手机号码。')
+                swal('提示！', '请输入手机号码。', 'warning')
                 return false
             }
             let reg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
             if (!reg.test(mobile)) {
-                alert('请输入有效的手机号码。')
+                swal('提示！', '请输入有效的手机号码。', 'warning')
                 return false
             }
             return true
@@ -288,11 +287,11 @@
         function checkCode() {
             let code = $('#code').val();
             if (code.length === 0) {
-                alert('请输入验证码。')
+                swal('提示！', '请输入验证码。', 'warning')
                 return false
             }
             if (code.length < 4) {
-                alert('验证码至少4位。')
+                swal('提示！', '验证码至少4位。', 'warning')
                 return false
             }
             return true
@@ -306,10 +305,10 @@
                 return
             }
             axios.post("{{ url('sms/forgot') }}", {mobile: $('#tel').val()}).then(res => {
-                alert(res.data.message)
+                swal('成功！', res.data.message, 'success')
             }).catch(err => {
                 let errors = err.response.data.errors;
-                alert(Object.values(errors).join("\r\n"))
+                swal('失败！', Object.values(errors).join("\r\n"), 'error')
             })
         }
 
@@ -320,13 +319,14 @@
         function sendCodeTel() {
             let oldTel = $('#oldTel').val();
             if (oldTel === '') {
-                return alert('请输入原手机号。')
+                swal('提示！', '请输入原手机。', 'warning')
+                return
             }
             axios.post("{{ url('sms/update') }}", {mobile: oldTel}).then(res => {
-                alert(res.data.message)
+                swal('成功！',res.data.message, 'warning')
             }).catch(err => {
                 let errors = err.response.data.errors;
-                alert(Object.values(errors).join("\r\n"))
+                swal('失败！', Object.values(errors).join("\r\n"), 'error')
             })
         }
     </script>

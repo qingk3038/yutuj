@@ -61,8 +61,9 @@ Route::get('thumb/{width}/{height}/{url}', 'ThumbController')->name('thumb');
 // 活动详情
 Route::get('activity/show/{activity}', 'ShowController@activity')->name('www.activity.show');
 
-// 攻略详情
+// 攻略
 Route::get('raider/show/{raider}', 'ShowController@raider')->name('www.raider.show');
+Route::get('raider/list', 'ListController@raiders')->name('www.raider.list');
 
 // 领队
 Route::get('leader/show/{leader}', 'ShowController@leader')->name('www.leader.show');

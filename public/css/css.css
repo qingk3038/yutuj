@@ -603,6 +603,7 @@ footer .links a {
 }
 
 .list-param a {
+    display: inline-block;
     padding: 2px 6px;
 }
 
@@ -610,7 +611,6 @@ footer .links a {
     color: #FFFFFF;
     background: #FF9900;
     padding: 2px 10px;
-    display: inline-block;
 }
 
 .list-param span {
@@ -775,6 +775,7 @@ footer .links a {
 .page-list-box a.position-relative {
     color: #FFFFFF;
     transition: color .3s;
+    text-shadow: 3px 3px 2px #FF9900;
 }
 
 .page-list-box a.position-relative:hover {

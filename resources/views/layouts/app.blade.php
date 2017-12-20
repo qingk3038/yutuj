@@ -7,12 +7,24 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="keywords" content="{{ config('web_keywords') }}">
     <meta name="description" content="{{ config('web_description') }}">
+
+    {{--字体图标--}}
     <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href="https://cdn.bootcss.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" rel="stylesheet">
+
+    {{--VUE--}}
     <script src="https://cdn.bootcss.com/vue/2.5.9/vue.js"></script>
     <script src="https://cdn.bootcss.com/axios/0.17.1/axios.min.js"></script>
+
+    {{--Bootstrap--}}
     <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <link href="https://cdn.bootcss.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.bootcss.com/bootstrap/4.0.0-beta.2/js/bootstrap.bundle.min.js"></script>
+
+    {{--弹窗组件--}}
+    <link rel="stylesheet" href="{{ asset('vendor/laravel-admin/sweetalert/dist/sweetalert.css') }}">
+    <script src="{{ asset('vendor/laravel-admin/sweetalert/dist/sweetalert.min.js') }}"></script>
+
+    {{--WEB样式--}}
     <link rel="stylesheet" href="{{ asset('css/css.css') }}">
     <script src="{{ asset('js/bing.js') }}"></script>
 </head>
@@ -51,13 +63,13 @@
                             <a class="nav-link" href="#">活动</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">攻略</a>
+                            <a class="nav-link" href="{{ route('www.raider.list') }}">攻略</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">游记</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">大咖领路</a>
+                            <a class="nav-link" href="{{ route('www.leader.list') }}">大咖领路</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">旅拍直播</a>

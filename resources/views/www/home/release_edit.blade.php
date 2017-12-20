@@ -101,16 +101,29 @@
 
             // 删除
             $('.btn-del').click(function () {
-                if (!confirm('确认要删除吗')) {
-                    return
-                }
-                let url = $(this).data('action')
-                let li = $(this).closest('li')
-                axios.delete(url).then(res => {
-                    li.remove()
-                    alert(res.data.message)
-                    location.reload()
-                })
+                swal({
+                        title: '确定删除吗？',
+                        text: '你将无法恢复该游记！',
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#DD6B55',
+                        confirmButtonText: '确定删除',
+                        cancelButtonText: '取消删除',
+                        closeOnConfirm: false
+                    },
+                    () => {
+                        let url = $(this).data('action')
+                        let li = $(this).closest('li')
+                        axios.delete(url).then(res => {
+                            li.hide(300, function () {
+                                $(this).remove();
+                            })
+                            swal('删除！', '你的一篇游记已经被删除。', 'success')
+                        }).catch(err => {
+                            let errors = err.response.data.errors;
+                            swal('错误啦！', Object.values(errors).join("\r\n"), 'error')
+                        })
+                    })
             })
 
             // 获取当前地理位置
@@ -158,17 +171,11 @@
                 contentType: false,
                 processData: false,
                 success(res) {
-                    msg.text(res.message)
-                    icon.eq(1).show()
-                    icon.eq(0).hide()
-                    return modal.modal('show')
+                    swal('干得漂亮，操作成功！', res.message, 'success')
                 },
                 error(err) {
                     let errors = err.responseJSON.errors;
-                    msg.html(Object.values(errors).join("<br>"))
-                    icon.eq(0).show()
-                    icon.eq(1).hide()
-                    return modal.modal('show')
+                    swal('错误啦！', Object.values(errors).join("\r\n"), 'error')
                 }
             })
         }
