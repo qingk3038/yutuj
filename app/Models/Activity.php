@@ -12,6 +12,12 @@ class Activity extends Model
         'tps' => 'array',
     ];
 
+    // 上架活动
+    public function scopeActive($query)
+    {
+        return $query->where('closed', 0);
+    }
+
     // 作者
     public function admin()
     {
@@ -73,7 +79,8 @@ class Activity extends Model
     }
 
     // 领队
-    public function leaders(){
+    public function leaders()
+    {
         return $this->belongsToMany(Leader::class)->withTimestamps();
     }
 

@@ -11,27 +11,28 @@ use Illuminate\Support\Facades\Cache;
 class ShowController extends Controller
 {
     // 显示活动
-    public function showActivity(Activity $activity)
+    public function activity(Activity $activity)
     {
-        $like_activities = Cache::remember(request()->fullUrl(), 5, function () use ($activity) {
+        $activities = Cache::remember(request()->fullUrl(), 5, function () use ($activity) {
             return Activity::with('types')
+                ->active()
                 ->where('id', '!=', $activity->id)
                 ->where('province_id', $activity->province_id)
                 ->limit(4)
                 ->get(['id', 'title', 'short', 'thumb', 'price']);
         });
-        return view('www.activity', compact('activity', 'like_activities'));
+        return view('www.activity', compact('activity', 'activities'));
     }
 
     // 显示攻略
-    public function showRaider(Raider $raider)
+    public function raider(Raider $raider)
     {
         $raider->increment('click');
         return view('www.raider', compact('raider'));
     }
 
     // 显示领队
-    public function showLeader(Leader $leader)
+    public function leader(Leader $leader)
     {
         $leader = Cache::remember(request()->fullUrl(), 5, function () use ($leader) {
             return $leader->load('activities', 'activities.types');
@@ -40,7 +41,7 @@ class ShowController extends Controller
     }
 
     // 显示游记
-    public function showTravel(Travel $travel)
+    public function travel(Travel $travel)
     {
         $travel->increment('click');
         return view('www.travel', compact('travel'));

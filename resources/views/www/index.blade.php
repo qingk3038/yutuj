@@ -51,9 +51,6 @@
 
     <section class="container">
         <ul class="nav justify-content-center" role="tablist">
-            <li class="nav-item">
-                <a class="nav-link active" data-toggle="tab" href="#t0" role="tab">热门线路</a>
-            </li>
             @foreach($nav_tabs as $nav)
                 <li class="nav-item">
                     <a class="nav-link" data-toggle="tab" href="#t{{ $loop->iteration }}" role="tab">{{ $nav->text }}</a>
@@ -61,19 +58,6 @@
             @endforeach
         </ul>
         <div class="tab-content clearfix tab-theme my-4">
-            {{--热门路线--}}
-            <div class="tab-pane fade show active" id="t0">
-                @foreach($host_lines as $activity)
-                    <div class="position-relative float-left box {{ $loop->first ? 'active' : '' }}">
-                        <img src="{{ imageCut(540, 340, $activity->thumb) }}" alt="{{ $activity->title }}" width="540" height="340">
-                        <div class="position-absolute text text-white">
-                            <h4 class="pl-3 text-truncate">{{ $activity->short }}</h4>
-                            <p class="pl-3 text-truncate">{{ $activity->title }}</p>
-                        </div>
-                        <a href="{{ route('www.activity.show', $activity) }}" class="position-absolute btn btn-warning text-white">去看看</a>
-                    </div>
-                @endforeach
-            </div>
             {{--导航下活动循环数据--}}
             @foreach($nav_tabs as $nav)
                 <div class="tab-pane fade" id="t{{ $loop->iteration }}">
@@ -157,7 +141,7 @@
             <div class="col-5 pl-0">
                 <div class="d-flex justify-content-between py-2 mb-2">
                     <span class="text-warning">大咖领路</span>
-                    <a href="#" class="text-muted">更多…</a>
+                    <a href="{{ route('www.leader.list') }}" class="text-muted">更多…</a>
                 </div>
                 <div class="d-flex justify-content-between">
                     @foreach($leaders as $leader)
@@ -386,84 +370,23 @@
             <a href="#" class="text-muted">更多...</a>
         </div>
         <div class="row" style="margin: 0 -0.25rem;">
-            <div class="col-4 p-1">
-                <div class="p-2 bg-white media">
-                    <a href="#"><img class="mr-3" src="{{ asset('uploads/d/thumb_y.jpg') }}" width="168" height="110" alt="Generic placeholder image"></a>
-                    <div class="media-body">
-                        <a href="#" class="h6">带上父母游云南，有你们在的地方都充满着快乐!</a>
-                        <div class="d-flex justify-content-between">
-                            <span>2017.11.22</span>
-                            <span>BY</span>
-                            <a href="#" class="text-warning">大鲨鱼</a>
+            @foreach($travels as $travel)
+                <div class="col-4 p-1">
+                    <div class="p-2 bg-white media">
+                        <a href="{{ route('www.travel.show', $travel) }}">
+                            <img class="mr-3" src="{{ imageCut(168, 110, $travel->thumb) }}" width="168" height="110" alt="{{ $travel->title }}">
+                        </a>
+                        <div class="media-body">
+                            <a href="{{ route('www.travel.show', $travel) }}" class="h6">{{ $travel->title }}</a>
+                            <div class="d-flex justify-content-between">
+                                <span>{{ $travel->created_at->toDateString() }}</span>
+                                <span>BY</span>
+                                <a href="{{ route('www.user.travel', $travel->user) }}" class="text-warning">{{ $travel->user->name }}</a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-4 p-1">
-                <div class="p-2 bg-white media">
-                    <a href="#"><img class="mr-3" src="{{ asset('uploads/d/thumb_y.jpg') }}" width="168" height="110" alt="Generic placeholder image"></a>
-                    <div class="media-body">
-                        <a href="#" class="h6">带上父母游云南，有你们在的地方都充满着快乐!</a>
-                        <div class="d-flex justify-content-between">
-                            <span>2017.11.22</span>
-                            <span>BY</span>
-                            <a href="#" class="text-warning">大鲨鱼</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-4 p-1">
-                <div class="p-2 bg-white media">
-                    <a href="#"><img class="mr-3" src="{{ asset('uploads/d/thumb_y.jpg') }}" width="168" height="110" alt="Generic placeholder image"></a>
-                    <div class="media-body">
-                        <a href="#" class="h6">带上父母游云南，有你们在的地方都充满着快乐!</a>
-                        <div class="d-flex justify-content-between">
-                            <span>2017.11.22</span>
-                            <span>BY</span>
-                            <a href="#" class="text-warning">大鲨鱼</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-4 p-1">
-                <div class="p-2 bg-white media">
-                    <a href="#"><img class="mr-3" src="{{ asset('uploads/d/thumb_y.jpg') }}" width="168" height="110" alt="Generic placeholder image"></a>
-                    <div class="media-body">
-                        <a href="#" class="h6">带上父母游云南，有你们在的地方都充满着快乐!</a>
-                        <div class="d-flex justify-content-between">
-                            <span>2017.11.22</span>
-                            <span>BY</span>
-                            <a href="#" class="text-warning">大鲨鱼</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-4 p-1">
-                <div class="p-2 bg-white media">
-                    <a href="#"><img class="mr-3" src="{{ asset('uploads/d/thumb_y.jpg') }}" width="168" height="110" alt="Generic placeholder image"></a>
-                    <div class="media-body">
-                        <a href="#" class="h6">带上父母游云南，有你们在的地方都充满着快乐!</a>
-                        <div class="d-flex justify-content-between">
-                            <span>2017.11.22</span>
-                            <span>BY</span>
-                            <a href="#" class="text-warning">大鲨鱼</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-4 p-1">
-                <div class="p-2 bg-white media">
-                    <a href="#"><img class="mr-3" src="{{ asset('uploads/d/thumb_y.jpg') }}" width="168" height="110" alt="Generic placeholder image"></a>
-                    <div class="media-body">
-                        <a href="#" class="h6">带上父母游云南，有你们在的地方都充满着快乐!</a>
-                        <div class="d-flex justify-content-between">
-                            <span>2017.11.22</span>
-                            <span>BY</span>
-                            <a href="#" class="text-warning">大鲨鱼</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @endforeach
         </div>
     </section>
 

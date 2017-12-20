@@ -59,16 +59,17 @@ Route::post('customized', 'CustomizedController@store');
 Route::get('thumb/{width}/{height}/{url}', 'ThumbController')->name('thumb');
 
 // 活动详情
-Route::get('activity/show/{activity}', 'ShowController@showActivity')->name('www.activity.show');
+Route::get('activity/show/{activity}', 'ShowController@activity')->name('www.activity.show');
 
 // 攻略详情
-Route::get('raider/show/{raider}', 'ShowController@showRaider')->name('www.raider.show');
+Route::get('raider/show/{raider}', 'ShowController@raider')->name('www.raider.show');
 
-// 领队详情
-Route::get('leader/show/{leader}', 'ShowController@showLeader')->name('www.leader.show');
+// 领队
+Route::get('leader/show/{leader}', 'ShowController@leader')->name('www.leader.show');
+Route::get('leader/list', 'ListController@leaders')->name('www.leader.list');
 
 // 游记详情
-Route::get('travel/show/{travel}', 'ShowController@showTravel')->name('www.travel.show');
+Route::get('travel/show/{travel}', 'ShowController@travel')->name('www.travel.show');
 
 // 用户的游记列表
 Route::get('travel/list/{user}', 'ListController@userTravel')->name('www.user.travel');

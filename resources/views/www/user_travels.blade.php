@@ -75,18 +75,6 @@
         </div>
     </div>
 
-    <div class="modal fade" id="myMsg" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-sm" role="document" style="top: 30%;">
-            <div class="modal-content">
-                <div class="modal-body text-center">
-                    <span class="close" data-dismiss="modal">&times;</span>
-                    <div id="get-content">
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 @endsection
 
 @push('script')

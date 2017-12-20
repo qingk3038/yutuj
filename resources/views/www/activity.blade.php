@@ -165,7 +165,7 @@
         <div class="bg-white p-5">
             <h3 class="text-warning mb-4"><i class="fa fa-fw fa-flag-o"></i> 猜你喜欢</h3>
             <div class="row">
-                @foreach($like_activities as $item)
+                @foreach($activities as $item)
                     <div class="col-3">
                         <div class="card">
                             <a href="{{ route('www.activity.show', $item) }}"><img class="card-img-top" src="{{ imageCut(255, 170, $item->thumb) }}" alt="{{ $item->short }}"></a>
