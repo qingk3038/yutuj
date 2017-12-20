@@ -26,7 +26,7 @@ class WebController extends Controller
             // 搜索栏显示省份
             $arr['provinces'] = LocList::has('provinceActivities')->get(['id', 'name']);
 
-            // 攻略-玩
+            // 攻略-游玩
             $arr['wans'] = Raider::type()->limit(6)->latest('updated_at')->get(['id', 'title', 'short', 'thumb']);
 
             // 攻略-酒店

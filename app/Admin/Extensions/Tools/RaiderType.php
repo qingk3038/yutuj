@@ -25,7 +25,7 @@ EOT;
     public function render()
     {
         Admin::script($this->script());
-        $options = ['default' => '默认', 'line' => '路线攻略', 'food' => '美食攻略', 'hospital' => '住宿攻略', 'scenic' => '景点攻略'];
+        $options = ['default' => '玩法攻略', 'line' => '路线攻略', 'food' => '美食攻略', 'hospital' => '住宿攻略', 'scenic' => '景点攻略'];
 
         return view('admin.tools.raider', compact('options'));
     }

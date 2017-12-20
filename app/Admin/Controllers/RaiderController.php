@@ -78,7 +78,7 @@ class RaiderController extends Controller
             $grid->model()->withCount('likes')->with('admin')->where('type', request('type', 'default'));
 
             $grid->id('ID')->sortable();
-            $grid->column('type', '类别')->editable('select', ['default' => '默认', 'line' => '路线攻略', 'food' => '美食攻略', 'hospital' => '住宿攻略', 'scenic' => '景点攻略']);
+            $grid->column('type', '类别')->editable('select', ['default' => '玩法攻略', 'line' => '路线攻略', 'food' => '美食攻略', 'hospital' => '住宿攻略', 'scenic' => '景点攻略']);
             $grid->column('title', '标题')->editable();
             $grid->column('short', '短标题')->editable();
             $grid->column('click', '点击数')->sortable()->editable();
@@ -120,7 +120,7 @@ class RaiderController extends Controller
                 $form->textarea('description', '描述')->rules('required|string|max:250');
                 $form->editor('body', '内容')->rules('required|string');
 
-                $types = ['default' => '默认', 'line' => '路线攻略', 'food' => '美食攻略', 'hospital' => '住宿攻略', 'scenic' => '景点攻略'];
+                $types = ['default' => '玩法攻略', 'line' => '路线攻略', 'food' => '美食攻略', 'hospital' => '住宿攻略', 'scenic' => '景点攻略'];
                 $form->radio('type', '类别')->options($types)->default('default');
 
                 $form->multipleSelect('navs', '关联导航')->options(Nav::pluck('text', 'id'));

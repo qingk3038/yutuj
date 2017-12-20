@@ -23,7 +23,7 @@
     </div>
 
     <div class="container">
-        <div class="py-4"><a href="{{ url('/') }}">首页</a> &gt; <a href="#">大咖领路</a> &gt; <span class="text-warning">领队详情</span></div>
+        <div class="py-4"><a href="{{ url('/') }}">首页</a> &gt; <a href="{{ route('www.leader.list') }}">大咖领路</a> &gt; <span class="text-warning">领队详情</span></div>
     </div>
 
     <div class="container list-leader">

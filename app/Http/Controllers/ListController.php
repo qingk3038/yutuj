@@ -6,6 +6,7 @@ use App\Models\Activity;
 use App\Models\Leader;
 use App\Models\LocList;
 use App\User;
+use Illuminate\Support\Facades\Cache;
 
 class ListController extends Controller
 {
@@ -24,16 +25,22 @@ class ListController extends Controller
 
     /**
      * 领队列表
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @param LocList|null $province
+     * @return $this
      */
-    public function leaders()
+    public function leaders(LocList $province = null)
     {
-        $leaders = Leader::with('country', 'province', 'city')->latest('updated_at')->paginate();
+        $data = Cache::remember(request()->fullUrl(), 5, function () use ($province) {
+            $data['leaders'] = $province ?
+                $province->provinceLeaders()->select('id', 'name', 'avatar', 'brief', 'country_id', 'province_id', 'city_id')->latest('updated_at')->paginate()
+                : Leader::select('id', 'name', 'avatar', 'brief', 'country_id', 'province_id', 'city_id')->with('country', 'province', 'city')->latest('updated_at')->paginate();
 
-        $provinces = LocList::province()->get(['id', 'name']);
+            $data['provinces'] = LocList::has('provinceLeaders')->get(['id', 'name']);
 
-        $activities = Activity::active()->limit(4)->get(['id', 'title', 'short', 'thumb', 'price']);
+            $data['activities'] = Activity::active()->limit(4)->latest()->get(['id', 'title', 'short', 'thumb', 'price']);
+            return $data;
+        });
 
-        return view('www.list_leader', compact('leaders', 'provinces', 'activities'));
+        return view('www.list_leader', $data)->with('province', $province);
     }
 }

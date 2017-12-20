@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', '大咖领路')
+@section('title',  ($province->name ?? '') . '大咖领路')
 
 @section('content')
     <div class="bg-home text-hide" style="background-image: url({{ asset('img/bg_leader.jpg') }});">领队</div>
@@ -9,18 +9,15 @@
         <div class="py-4"><a href="{{ url('/') }}">首页</a> &gt; <span class="text-warning">大咖领路</span></div>
     </div>
 
-    <div class="container">
+    <div class="container" id="load">
         <div class="bg-white mb-4 py-3 list-param">
             <div class="row px-3">
                 <div class="col-1 text-center text-nowrap">区域</div>
                 <div class="col-10 text-truncate">
-                    <a href="#" class="active">全部</a>
-                    @foreach($provinces as $province)
-                        <a href="javascript:void(0);">{{ $province->name }}</a>
+                    <a href="{{ route('www.leader.list') }}" @empty($province) class="active" @endempty>全部</a>
+                    @foreach($provinces as $qu)
+                        <a href="{{ route('www.leader.list', $qu) }}" @if($province && $province->id === $qu->id) class="active" @endif>{{ $qu->name }}</a>
                     @endforeach
-                </div>
-                <div class="col-1 text-nowrap">
-                    <span class="text-warning">更多 <i class="fa fa-angle-down"></i></span>
                 </div>
             </div>
         </div>
@@ -77,22 +74,12 @@
 
 @push('script')
     <script>
-        (function ($) {
-            // 筛选 显示更多
-            $('.list-param span').click(function () {
-                $(this).children().toggleClass('fa-flip-vertical')
-                $(this).parent().prev().toggleClass('text-truncate')
+        (function () {
+            $('#load').on('click', '.list-param a', function (event) {
+                event.preventDefault()
+                let url = $(this).attr('href') + ' #load > div'
+                $('#load').load(url)
             })
-
-            // 排序
-            $('.list-orderBy a').click(function () {
-                $(this).closest('.nav').find('a').removeClass('active')
-                $(this).addClass('active')
-                let fa = $(this).children()
-                if (fa.css('opacity') === '1') {
-                    fa.toggleClass('fa-flip-vertical')
-                }
-            })
-        })(jQuery);
+        })(jQuery)
     </script>
 @endpush

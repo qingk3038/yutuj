@@ -35,7 +35,7 @@ class ShowController extends Controller
     public function leader(Leader $leader)
     {
         $leader = Cache::remember(request()->fullUrl(), 5, function () use ($leader) {
-            return $leader->load('activities', 'activities.types');
+            return $leader->load( 'activities.types');
         });
         return view('www.leader', compact('leader'));
     }

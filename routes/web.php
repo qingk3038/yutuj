@@ -66,7 +66,7 @@ Route::get('raider/show/{raider}', 'ShowController@raider')->name('www.raider.sh
 
 // 领队
 Route::get('leader/show/{leader}', 'ShowController@leader')->name('www.leader.show');
-Route::get('leader/list', 'ListController@leaders')->name('www.leader.list');
+Route::get('leader/list/{province?}', 'ListController@leaders')->name('www.leader.list');
 
 // 游记详情
 Route::get('travel/show/{travel}', 'ShowController@travel')->name('www.travel.show');

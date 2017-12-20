@@ -64,7 +64,7 @@ class Raider extends Model
                 $type = '景点';
                 break;
             default:
-                $type = '默认';
+                $type = '玩法';
         }
         return $type;
     }
