@@ -4,12 +4,16 @@
 
 @section('content')
     <div class="container">
-        <div class="py-4"><a href="{{ url('/') }}">首页</a> &gt; <a href="list_gonglue.html">攻略</a> &gt; <span class="text-warning">线路攻略</span></div>
+        <div class="py-4">
+            <a href="{{ url('/') }}">首页</a> &gt;
+            <a href="list_gonglue.html">攻略</a> &gt;
+            <span class="text-warning">{{ $raider->typeText() }}攻略</span>
+        </div>
     </div>
 
     <div class="container mb-4">
         <div class="bg-white p-4">
-            <h4>{{ $raider->title }}</h4>
+            <h4>{{ $raider->typeText() }} · {{ $raider->title }}</h4>
             <div class="text-muted pt-2">
                 <span>发布时间：{{ $raider->created_at }}</span>
                 <span class="mx-3">浏览量：{{ $raider->click }}</span>

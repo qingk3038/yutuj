@@ -28,7 +28,7 @@
         <div class="row list-leader">
             @foreach($leaders as $leader)
                 <div class="col-6">
-                    <a href="#" class="d-block bg-white px-3 py-5 mb-4">
+                    <a href="{{ route('www.leader.show', $leader) }}" class="d-block bg-white px-3 py-5 mb-4">
                         <div class="media">
                             <img class="mr-5 rounded-circle" src="{{ imageCut(180, 180, $leader->avatar) }}" alt="{{ $leader->name }}" width="180" height="180">
                             <div class="media-body">

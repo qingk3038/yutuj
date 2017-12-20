@@ -16,7 +16,10 @@ class Raider extends Model
         return $this->morphToMany(Nav::class, 'comm');
     }
 
-    // 作者
+    /**
+     * 作者
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function admin()
     {
         return $this->belongsTo(Administrator::class, 'admin_user_id');
@@ -39,5 +42,30 @@ class Raider extends Model
     public function scopeType($query, $type = 'default')
     {
         return $query->where('type', $type);
+    }
+
+    /**
+     * 攻略类别
+     * @return string
+     */
+    public function typeText()
+    {
+        switch ($this->type) {
+            case 'line':
+                $type = '线路';
+                break;
+            case 'food':
+                $type = '美食';
+                break;
+            case 'hospital':
+                $type = '住宿';
+                break;
+            case 'scenic':
+                $type = '景点';
+                break;
+            default:
+                $type = '默认';
+        }
+        return $type;
     }
 }
