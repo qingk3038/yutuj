@@ -133,10 +133,10 @@ class ActivityController extends Controller
                     'off' => ['value' => 1, 'text' => '下架']
                 ]);
             })->tab('注意事项', function (Form $form) {
-                $form->textarea('baohan', '费用包含')->rules('required|string');
-                $form->textarea('buhan', '费用不含')->rules('required|string');
-                $form->textarea('zhuyi', '注意事项')->rules('required|string');
-                $form->textarea('qianyue', '签约条款')->rules('required|string');
+                $form->textarea('baohan', '费用包含');
+                $form->textarea('buhan', '费用不含');
+                $form->textarea('zhuyi', '注意事项');
+                $form->textarea('qianyue', '签约条款');
             })->tab('关联地区', function (Form $form) {
                 $form->select('country_id', '国家')->options(
                     LocList::country()->pluck('name', 'id')

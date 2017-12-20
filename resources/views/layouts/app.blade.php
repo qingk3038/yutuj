@@ -45,7 +45,7 @@
                             </div>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">定制游</a>
+                            <a class="nav-link" href="{{ url('customized') }}">定制游</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">活动</a>
