@@ -53,35 +53,36 @@ class ListController extends Controller
      */
     public function raiders(Request $request)
     {
-        $field = $request->get('field', 'id');
-        $order = $request->get('order', 'desc');
+        $data = Cache::remember(request()->fullUrl(), 5, function () use ($request ) {
+            $field = $request->get('field', 'id');
+            $order = $request->get('order', 'desc');
+            $data['raiders'] = Raider::select('id', 'type', 'title', 'short', 'description', 'thumb', 'click', 'country_id', 'province_id', 'city_id', 'created_at')
+                ->with('country', 'province', 'city')
+                ->withCount('likes')
+                ->orderBy($field, $order)
+                ->ctegory($request->type)
+                ->where(function ($query) use ($request) {
+                    if ($pid = $request->pid) {
+                        $query->where('province_id', $pid);
+                    }
+                    if ($cid = $request->cid) {
+                        $query->where('city_id', $cid);
+                    }
+                })->paginate();
 
-        $data['raiders'] = Raider::select('id', 'type', 'title', 'short', 'description', 'thumb', 'click', 'country_id', 'province_id', 'city_id', 'created_at')
-            ->with('country', 'province', 'city')
-            ->withCount('likes')
-            ->orderBy($field, $order)
-            ->ctegory($request->type)
-            ->where(function ($query) use ($request) {
+            $data['provinces'] = LocList::whereHas('provinceRaiders', function ($query) use ($request) {
+                $query->ctegory($request->type);
+            })->get(['id', 'name']);
+
+            $data['citys'] = LocList::where(function ($query) use ($request) {
                 if ($pid = $request->pid) {
-                    $query->where('province_id', $pid);
+                    $query->where('parent_id', $pid);
                 }
-                if ($cid = $request->cid) {
-                    $query->where('city_id', $cid);
-                }
-            })->paginate();
-
-        $data['provinces'] = LocList::whereHas('provinceRaiders', function ($query) use ($request) {
-            $query->ctegory($request->type);
-        })->get(['id', 'name']);
-
-        $data['citys'] = LocList::where(function ($query) use ($request) {
-            if ($pid = $request->pid) {
-                $query->where('parent_id', $pid);
-            }
-        })->whereHas('cityRaiders', function ($query) use ($request) {
-            $query->ctegory($request->type);
-        })->get(['id', 'name']);
-
+            })->whereHas('cityRaiders', function ($query) use ($request) {
+                $query->ctegory($request->type);
+            })->get(['id', 'name']);
+            return $data;
+        });
         return view('www.list_raider', $data);
     }
 }

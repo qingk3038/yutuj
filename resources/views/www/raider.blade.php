@@ -6,7 +6,7 @@
     <div class="container">
         <div class="py-4">
             <a href="{{ url('/') }}">首页</a> &gt;
-            <a href="list_raider.blade.php">攻略</a> &gt;
+            <a href="{{ route('www.raider.list') }}">攻略</a> &gt;
             <span class="text-warning">{{ $raider->typeText() }}攻略</span>
         </div>
     </div>

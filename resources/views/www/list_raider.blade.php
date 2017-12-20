@@ -142,7 +142,7 @@
                     @endforeach
 
                     <nav class="d-flex justify-content-end pt-5 w-100">
-                        {{ $raiders->links() }}
+                        {{ $raiders->appends(Request::only('type', 'pid', 'cid', 'field', 'order'))->links() }}
                     </nav>
                 </div>
             </div>
@@ -239,20 +239,10 @@
             })
 
             // 异步加载
-            $('#load').on('click', '.list-param a, .list-orderBy a', function (event) {
+            $(document).on('click', '.list-param a, .list-orderBy a, .types > a, ul.pagination a', function (event) {
                 event.preventDefault()
                 let url = $(this).attr('href') + ' #load > div'
                 $('#load').load(url)
-            })
-
-            // 类别加载
-            $('.types > a').click(function (event) {
-                event.preventDefault()
-                let url = $(this).attr('href') + ' #load > div'
-                let title = $(this).find('h3').text()
-                $('#load').load(url, function () {
-                    swal(title, '当前类别已经加载完成！',"success")
-                })
             })
         })(jQuery);
     </script>
