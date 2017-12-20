@@ -88,6 +88,7 @@ class UserController extends Controller
             $grid->column('full', '省份/城市')->display(function ($text) {
                 return [$this->province, $this->city];
             })->label();
+
             $grid->created_at('注册日期')->sortable();
             $grid->updated_at('更新日期')->sortable();
 
@@ -95,6 +96,11 @@ class UserController extends Controller
                 $filter->like('name', '昵称');
                 $filter->like('mobile', '手机号');
                 $filter->between('created_at', '注册日期')->date();
+            });
+
+            $grid->actions(function ($actions) {
+                $a = sprintf('<a href="%s" target="_blank"><i class="fa fa-fw fa-paper-plane"></i></a>', route('www.user.travel', $actions->row));
+                $actions->prepend($a);
             });
         });
     }

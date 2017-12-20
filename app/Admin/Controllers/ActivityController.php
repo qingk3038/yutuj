@@ -158,10 +158,10 @@ class ActivityController extends Controller
                     $form->text('title', '行程标题')->rules('required|string');
                     $form->multipleFile('pictures', '展示图')->removable()->help('3张图片');
                     $form->textarea('body', '行程内容')->rules('required|string');
-                    $form->text('zaocan', '早餐')->rules('required|string')->default('包含');
-                    $form->text('wucan', '午餐')->rules('required|string')->default('包含');
-                    $form->text('wancan', '晚餐')->rules('required|string')->default('包含');
-                    $form->text('zhusu', '住宿')->rules('required|string')->default('包含');
+                    $form->text('zaocan', '早餐')->default('包含');
+                    $form->text('wucan', '午餐')->default('包含');
+                    $form->text('wancan', '晚餐')->default('包含');
+                    $form->text('zhusu', '住宿')->default('包含');
                 });
             })->tab('出团安排', function (Form $form) {
                 $form->hasMany('tuans', '出团日期', function (Form\NestedForm $form) {
