@@ -33,10 +33,10 @@
             <form class="top-search" autocomplete="off">
                 <div class="input-group">
                     <div class="input-group-btn">
-                        <button type="button" id="search-btn" class="btn dropdown-toggle down bg-white" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">不限</button>
+                        <button type="button" id="search-btn" class="btn dropdown-toggle down bg-white" data-toggle="dropdown">不限</button>
                         <div class="dropdown-menu rounded-0 other-down no-line" style="background: rgba(255,255,255, .8)">
                             <a class="dropdown-item search-item" href="javascript:void(0);">不限</a>
-                            @foreach($provinces as $province)
+                            @foreach($searchProvinces as $province)
                                 <a class="dropdown-item search-item" href="javascript:void(0);" pid="{{ $province->id }}">{{ $province->name }}</a>
                             @endforeach
                         </div>
@@ -306,58 +306,67 @@
                         <a class="nav-link" data-toggle="tab" href="#msu" role="tab">民宿</a>
                     </li>
                     <li class="nav-item ml-auto">
-                        <a class="nav-link disabled" href="javascript:void(0);">更多...</a>
+                        <a class="nav-link disabled" href="{{  route('www.raider.list') }}">更多...</a>
                     </li>
                 </ul>
+                @php
+                    $list_class = ['w-50 float-left pr-1 mb-2', 'w-50 float-right pl-1 mb-2', 'w-50 float-right pl-1', 'w-50 float-left pr-1 mb-2', 'w-50 float-left pr-1'];
+                @endphp
                 <div class="tab-content wan-gl clearfix">
                     <div class="tab-pane fade show active" id="gl">
-                        <div class="w-50 float-left pr-1 mb-2">
-                            <a href="#" class="position-relative d-block">
-                                <img src="{{ asset('uploads/d/thumb_gl_1.jpg') }}" alt="thumb_gl_1" class="w-100">
-                                <h5 class="position-absolute text-truncate">拉萨甜茶有5种吃法,你知道吗？ <br><i class="fa fa-2x fa-sign-in mt-3"></i></h5>
-                                <i class="position-absolute bg-mark"></i>
-                            </a>
-                        </div>
-                        <div class="w-50 float-right pl-1 mb-2">
-                            <a href="#" class="position-relative d-block">
-                                <img src="{{ asset('uploads/d/thumb_gl_1.jpg') }}" alt="thumb_zb_2" class="w-100">
-                                <h5 class="position-absolute text-truncate">拉萨甜茶有5种吃法,你知道吗？ <br><i class="fa fa-2x fa-sign-in mt-3"></i></h5>
-                                <i class="position-absolute bg-mark"></i>
-                            </a>
-                        </div>
-                        <div class="w-50 float-right pl-1">
-                            <a href="#" class="position-relative d-block">
-                                <img src="uploads/d/thumb_gl_4.jpg" alt="thumb_gl_4" class="w-100">
-                                <h5 class="position-absolute text-truncate">拉萨甜茶有5种吃法,你知道吗？ <br><i class="fa fa-2x fa-sign-in mt-3"></i></h5>
-                                <i class="position-absolute bg-mark"></i>
-                            </a>
-                        </div>
-                        <div class="w-50 float-left pr-1 mb-2">
-                            <a href="#" class="position-relative d-block">
-                                <img src="{{ asset('uploads/d/thumb_gl_1.jpg') }}" alt="thumb_zb_2" class="w-100">
-                                <h5 class="position-absolute text-truncate">拉萨甜茶有5种吃法,你知道吗？ <br><i class="fa fa-2x fa-sign-in mt-3"></i></h5>
-                                <i class="position-absolute bg-mark"></i>
-                            </a>
-                        </div>
-                        <div class="w-50 float-left pr-1">
-                            <a href="#" class="position-relative d-block">
-                                <img src="{{ asset('uploads/d/thumb_gl_1.jpg') }}" alt="thumb_zb_2" class="w-100">
-                                <h5 class="position-absolute text-truncate">拉萨甜茶有5种吃法,你知道吗？ <br><i class="fa fa-2x fa-sign-in mt-3"></i></h5>
-                                <i class="position-absolute bg-mark"></i>
-                            </a>
-                        </div>
+                        @foreach($z_wans as $item)
+                            <div class="{{ $list_class[$loop->index] }}">
+                                <a href="{{ route('www.raider.show', $item) }}" class="position-relative d-block">
+                                    <img src="{{ imageCut(286, $loop->index === 2 ? 378 : 186, $item->thumb) }}" alt="{{ $item->short }}" class="w-100" width="286" height="{{ $loop->index === 2 ? 378 : 186 }}">
+                                    <h5 class="position-absolute text-truncate">{{ $item->short }}<br><i class="fa fa-2x fa-sign-in mt-3"></i></h5>
+                                    <i class="position-absolute bg-mark"></i>
+                                </a>
+                            </div>
+                        @endforeach
                     </div>
                     <div class="tab-pane fade" id="xl">
-
+                        @foreach($z_lines as $item)
+                            <div class="{{ $list_class[$loop->index] }}">
+                                <a href="{{ route('www.raider.show', $item) }}" class="position-relative d-block">
+                                    <img src="{{ imageCut(286, $loop->index === 2 ? 378 : 186, $item->thumb) }}" alt="{{ $item->short }}" class="w-100" width="286" height="{{ $loop->index === 2 ? 378 : 186 }}">
+                                    <h5 class="position-absolute text-truncate">{{ $item->short }}<br><i class="fa fa-2x fa-sign-in mt-3"></i></h5>
+                                    <i class="position-absolute bg-mark"></i>
+                                </a>
+                            </div>
+                        @endforeach
                     </div>
                     <div class="tab-pane fade" id="jd">
-
+                        @foreach($z_scenics as $item)
+                            <div class="{{ $list_class[$loop->index] }}">
+                                <a href="{{ route('www.raider.show', $item) }}" class="position-relative d-block">
+                                    <img src="{{ imageCut(286, $loop->index === 2 ? 378 : 186, $item->thumb) }}" alt="{{ $item->short }}" class="w-100" width="286" height="{{ $loop->index === 2 ? 378 : 186 }}">
+                                    <h5 class="position-absolute text-truncate">{{ $item->short }}<br><i class="fa fa-2x fa-sign-in mt-3"></i></h5>
+                                    <i class="position-absolute bg-mark"></i>
+                                </a>
+                            </div>
+                        @endforeach
                     </div>
                     <div class="tab-pane fade" id="ms">
-
+                        @foreach($z_foods as $item)
+                            <div class="{{ $list_class[$loop->index] }}">
+                                <a href="{{ route('www.raider.show', $item) }}" class="position-relative d-block">
+                                    <img src="{{ imageCut(286, $loop->index === 2 ? 378 : 186, $item->thumb) }}" alt="{{ $item->short }}" class="w-100" width="286" height="{{ $loop->index === 2 ? 378 : 186 }}">
+                                    <h5 class="position-absolute text-truncate">{{ $item->short }}<br><i class="fa fa-2x fa-sign-in mt-3"></i></h5>
+                                    <i class="position-absolute bg-mark"></i>
+                                </a>
+                            </div>
+                        @endforeach
                     </div>
                     <div class="tab-pane fade" id="msu">
-
+                        @foreach($z_hospitals as $item)
+                            <div class="{{ $list_class[$loop->index] }}">
+                                <a href="{{ route('www.raider.show', $item) }}" class="position-relative d-block">
+                                    <img src="{{ imageCut(286, $loop->index === 2 ? 378 : 186, $item->thumb) }}" alt="{{ $item->short }}" class="w-100" width="286" height="{{ $loop->index === 2 ? 378 : 186 }}">
+                                    <h5 class="position-absolute text-truncate">{{ $item->short }}<br><i class="fa fa-2x fa-sign-in mt-3"></i></h5>
+                                    <i class="position-absolute bg-mark"></i>
+                                </a>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -401,25 +410,6 @@
             // 鼠标经过切换效果
             $('.tab-theme .box').hover(function () {
                 $(this).addClass('active').siblings().removeClass('active');
-            })
-
-            // 搜索栏搜索
-            $('.search-item').click(function () {
-                let pid = $(this).attr('pid');
-                $('#search-btn').text($(this).text());
-                $('#pid').val(pid);
-            })
-
-            // 热门关键词
-            $('.hot-keywords > a').click(function () {
-                $('#q').val($(this).text());
-            })
-
-            // 搜索提交
-            $('.top-search').submit(function (event) {
-                if ($('#q').val() === '') {
-                    event.preventDefault();
-                }
             })
         })(jQuery)
     </script>

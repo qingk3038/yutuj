@@ -40,11 +40,12 @@ class SmsController extends Controller
         $code = random_int(10000, 99999);
         $message = ['template' => $template, 'data' => ['code' => $code]];
         Sms::create(['mobile' => $mobile, 'vars' => $message, 'result' => 'debug', 'op' => $op]);
-
+/*
         if (env('APP_DEBUG')) {
             session()->put($op, $code);
             return ['message' => '短信发送成功。'];
         }
+*/
 
         $easySms = new EasySms(config('sms'));
         $res = $easySms->send($mobile, $message);

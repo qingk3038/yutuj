@@ -13,15 +13,20 @@ class ShowController extends Controller
     // 显示活动
     public function activity(Activity $activity)
     {
-        $activities = Cache::remember(request()->fullUrl(), 5, function () use ($activity) {
-            return Activity::with('types')
+        $data = Cache::remember(request()->fullUrl(), 5, function () use ($activity) {
+            $arr['activity'] = $activity->load('tags', 'types', 'trips', 'tuans', 'country', 'province', 'city', 'district');
+
+            $arr['activities'] = Activity::with('types')
                 ->active()
                 ->where('id', '!=', $activity->id)
                 ->where('province_id', $activity->province_id)
                 ->limit(4)
                 ->get(['id', 'title', 'short', 'thumb', 'price']);
+
+            return $arr;
         });
-        return view('www.activity', compact('activity', 'activities'));
+
+        return view('www.activity', $data);
     }
 
     // 显示攻略
@@ -35,7 +40,7 @@ class ShowController extends Controller
     public function leader(Leader $leader)
     {
         $leader = Cache::remember(request()->fullUrl(), 5, function () use ($leader) {
-            return $leader->load( 'activities.types');
+            return $leader->load('activities.types');
         });
         return view('www.leader', compact('leader'));
     }

@@ -18,4 +18,23 @@ $(document).ready(function () {
         alert('还未开通在线客服。')
     })
 
+    // 搜索栏搜索
+    $('.search-item').click(function () {
+        let pid = $(this).attr('pid');
+        $('#search-btn').text($(this).text());
+        $('#pid').val(pid);
+    })
+
+    // 热门关键词
+    $('.hot-keywords > a').click(function () {
+        $('#q').val($(this).text());
+    })
+
+    // 搜索提交
+    $('.top-search').submit(function (event) {
+        if ($('#q').val() === '') {
+            event.preventDefault();
+        }
+    })
+
 })

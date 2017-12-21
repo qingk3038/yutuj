@@ -6,8 +6,10 @@ use App\Models\Activity;
 use App\Models\Leader;
 use App\Models\LocList;
 use App\Models\Raider;
+use App\Models\Travel;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 
 class ListController extends Controller
@@ -53,14 +55,14 @@ class ListController extends Controller
      */
     public function raiders(Request $request)
     {
-        $data = Cache::remember(request()->fullUrl(), 5, function () use ($request ) {
+        $data = Cache::remember(request()->fullUrl(), 5, function () use ($request) {
             $field = $request->get('field', 'id');
             $order = $request->get('order', 'desc');
             $data['raiders'] = Raider::select('id', 'type', 'title', 'short', 'description', 'thumb', 'click', 'country_id', 'province_id', 'city_id', 'created_at')
                 ->with('country', 'province', 'city')
                 ->withCount('likes')
                 ->orderBy($field, $order)
-                ->ctegory($request->type)
+                ->type($request->type)
                 ->where(function ($query) use ($request) {
                     if ($pid = $request->pid) {
                         $query->where('province_id', $pid);
@@ -71,7 +73,7 @@ class ListController extends Controller
                 })->paginate();
 
             $data['provinces'] = LocList::whereHas('provinceRaiders', function ($query) use ($request) {
-                $query->ctegory($request->type);
+                $query->type($request->type);
             })->get(['id', 'name']);
 
             $data['citys'] = LocList::where(function ($query) use ($request) {
@@ -79,10 +81,30 @@ class ListController extends Controller
                     $query->where('parent_id', $pid);
                 }
             })->whereHas('cityRaiders', function ($query) use ($request) {
-                $query->ctegory($request->type);
+                $query->type($request->type);
             })->get(['id', 'name']);
             return $data;
         });
         return view('www.list_raider', $data);
     }
+
+
+    public function activity()
+    {
+        $data['activities'] = Activity::with(['tuans' => function ($query) {
+            $query->where('end_time', '>=', Carbon::today());
+        }])->active()->paginate();
+
+        return view('www.list_activity', $data);
+    }
+
+
+    public function travel()
+    {
+        $data['travels'] = Travel::with('user')->withCount('likes')->status('adopt')->paginate();
+
+        return view('www.list_travels', $data);
+    }
+
+
 }

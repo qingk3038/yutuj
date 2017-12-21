@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="container">
-        <div class="py-4"><a href="">首页</a> &gt; <a href="#">微旅行</a> &gt; <span class="text-warning">成都</span></div>
+        <div class="py-4"><a href="">首页</a> &gt; <a href="{{ route('www.activity.list') }}">活动</a> &gt; <span class="text-warning">成都</span></div>
     </div>
 
     <div class="container">

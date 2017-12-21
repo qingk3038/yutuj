@@ -23,11 +23,8 @@ class WebController extends Controller
             // 热门线路
             $arr['host_lines'] = Activity::limit(4)->latest('updated_at')->get(['id', 'title', 'short', 'thumb']);
 
-            // 搜索栏显示省份
-            $arr['provinces'] = LocList::has('provinceActivities')->get(['id', 'name']);
-
             // 攻略-游玩
-            $arr['wans'] = Raider::type()->limit(6)->latest('updated_at')->get(['id', 'title', 'short', 'thumb']);
+            $arr['wans'] = Raider::type('default')->limit(6)->latest('updated_at')->get(['id', 'title', 'short', 'thumb']);
 
             // 攻略-酒店
             $arr['hospitals'] = Raider::type('hospital')->limit(6)->latest('updated_at')->get(['id', 'title', 'short', 'thumb']);
@@ -38,6 +35,12 @@ class WebController extends Controller
             // 游记
             $arr['travels'] = Travel::with('user')->where('status', 'adopt')->latest('updated_at')->limit(6)->get(['id', 'title', 'thumb', 'description', 'created_at', 'user_id']);
 
+            // 直播右边 攻略
+            $arr['z_wans'] = Raider::type('default')->limit(5)->latest()->get(['id', 'title', 'short', 'thumb']);
+            $arr['z_lines'] = Raider::type('line')->limit(5)->latest()->get(['id', 'title', 'short', 'thumb']);
+            $arr['z_scenics'] = Raider::type('scenic')->limit(5)->latest()->get(['id', 'title', 'short', 'thumb']);
+            $arr['z_foods'] = Raider::type('food')->limit(5)->latest()->get(['id', 'title', 'short', 'thumb']);
+            $arr['z_hospitals'] = Raider::type('hospital')->limit(5)->latest()->get(['id', 'title', 'short', 'thumb']);
             return $arr;
         });
 

@@ -186,11 +186,15 @@ footer .links a {
     color: #FFFFFF;
 }
 
+.top-nav .active > a.nav-link {
+    color: #FF9900 !important;
+    border-bottom: 2px solid #FF9900;
+}
+
 .top-search .down {
     background: none;
     cursor: pointer;
     color: #999;
-    /*border-radius: 15px 0 0 15px;*/
     border-color: #CCC;
 }
 

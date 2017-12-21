@@ -42,7 +42,7 @@
                         @endif
                     </a>
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item active">
+                        <li class="nav-item">
                             <a class="nav-link" href="{{ url('/') }}">首页 <span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item dropdown">
@@ -56,19 +56,19 @@
                                 <a class="dropdown-item" href="#"><i class="fa fa-fw fa-institution"></i> 最6旅行</a>
                             </div>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item {{ Request::is('customized') ? 'active' : '' }}">
                             <a class="nav-link" href="{{ url('customized') }}">定制游</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">活动</a>
+                        <li class="nav-item {{ Route::is('www.activity*') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('www.activity.list') }}">活动</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item {{ Route::is('www.raider*') ? 'active' : '' }}">
                             <a class="nav-link" href="{{ route('www.raider.list') }}">攻略</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">游记</a>
+                        <li class="nav-item {{ Route::is('www.travel*') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('www.travel.list') }}">游记</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item {{ Route::is('www.leader*') ? 'active' : '' }}">
                             <a class="nav-link" href="{{ route('www.leader.list') }}">大咖领路</a>
                         </li>
                         <li class="nav-item">
@@ -81,23 +81,19 @@
                             <i class="fa fa-fw fa-phone"></i> 400-3455-456
                         </div>
                     @else
-                        <form class="form-inline mr-4 top-search">
+                        <form class="form-inline mr-4 top-search" autocomplete="off">
                             <div class="input-group">
                                 <div class="input-group-btn">
-                                    <button type="button" class="btn dropdown-toggle down" data-toggle="dropdown">
-                                        四川
-                                    </button>
+                                    <button type="button" id="search-btn" class="btn dropdown-toggle down" data-toggle="dropdown">不限</button>
                                     <div class="dropdown-menu rounded-0 other-down no-line">
-                                        <a class="dropdown-item" href="#">不限</a>
-                                        <a class="dropdown-item" href="#">四川</a>
-                                        <a class="dropdown-item" href="#">青海</a>
-                                        <a class="dropdown-item" href="#">西藏</a>
-                                        <a class="dropdown-item" href="#">新疆</a>
-                                        <a class="dropdown-item" href="#">内蒙古</a>
-                                        <a class="dropdown-item" href="#">陕甘宁</a>
+                                        <a class="dropdown-item search-item" href="javascript:void(0);">不限</a>
+                                        @foreach($searchProvinces as $province)
+                                            <a class="dropdown-item search-item" href="javascript:void(0);" pid="{{ $province->id }}">{{ $province->name }}</a>
+                                        @endforeach
                                     </div>
                                 </div>
-                                <input type="text" class="form-control" placeholder="搜目的地/攻略/游记" style="border-right: none">
+                                <input type="hidden" name="pid" id="pid">
+                                <input type="text" class="form-control"  name="q" id="q" placeholder="搜目的地/攻略/游记" style="border-right: none">
                                 <button type="submit" class="input-group-addon submit"><i class="fa fa-search text-warning fa-lg"></i></button>
                             </div>
                         </form>

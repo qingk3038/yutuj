@@ -39,9 +39,9 @@ class Raider extends Model
      * @param string $type
      * @return mixed
      */
-    public function scopeType($query, $type = 'default')
+    public function scopeType($query, $type = null)
     {
-        return $query->where('type', $type);
+        return $type ? $query->where('type', $type) : $query;
     }
 
     /**
@@ -67,12 +67,6 @@ class Raider extends Model
                 $type = '玩法';
         }
         return $type;
-    }
-
-    // 指定类型
-    public function scopeCtegory($query, $type = null)
-    {
-        return $type ? $query->where('type', $type) : $query;
     }
 
     // 国家
