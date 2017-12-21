@@ -121,7 +121,7 @@ class ActivityController extends Controller
                 $form->text('number', '产品编号')->rules('nullable|string|max:200');
                 $form->text('cfd', '出发地点')->rules('required|string|max:50')->default('四川-成都');
                 $form->number('price', '显示价格')->rules('required')->help('产品会显示此价格')->default(5000);
-                $form->textarea('description', '产品描述')->rules('required|string|max:350');
+                $form->textarea('description', '产品描述')->rules('required|string|max:250');
                 $form->text('xc', '行程描述')->rules('required|string|max:200');
 
                 $form->image('thumb', '缩略图');

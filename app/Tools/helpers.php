@@ -5,7 +5,7 @@
 if (!function_exists('imageCut')) {
     function imageCut($width, $height, $src)
     {
-        $url = base64_encode($src);
+        $url = rtrim(strtr(base64_encode($src), '+/', '-_'), '=');
         return asset("thumb/$width/$height/$url");
     }
 }
