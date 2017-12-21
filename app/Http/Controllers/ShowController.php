@@ -6,6 +6,7 @@ use App\Models\Activity;
 use App\Models\Leader;
 use App\Models\Raider;
 use App\Models\Travel;
+use App\Models\Video;
 use Illuminate\Support\Facades\Cache;
 
 class ShowController extends Controller
@@ -50,6 +51,16 @@ class ShowController extends Controller
     {
         $travel->increment('click');
         return view('www.travel', compact('travel'));
+    }
+
+    // 显示视频
+    public function video(Video $video)
+    {
+        $video->increment('click');
+        if ($video->type === 'live') {
+            return redirect($video->url);
+        }
+        return view('www.video', compact('video'));
     }
 
 }

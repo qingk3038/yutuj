@@ -71,8 +71,8 @@
                         <li class="nav-item {{ Route::is('www.leader*') ? 'active' : '' }}">
                             <a class="nav-link" href="{{ route('www.leader.list') }}">大咖领路</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">旅拍直播</a>
+                        <li class="nav-item {{ Route::is('www.video*') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('www.video.list') }}">旅拍直播</a>
                         </li>
                     </ul>
 

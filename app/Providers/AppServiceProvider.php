@@ -22,7 +22,7 @@ class AppServiceProvider extends ServiceProvider
         Carbon::setLocale('zh');
         Schema::defaultStringLength(250);
 
-        // 加载配置
+       // 加载配置
         Config::load();
 
         // 搜索栏 筛选地区

@@ -35,4 +35,5 @@ Route::group([
 
     $router->resource('customized', 'CustomizedController');
     $router->resource('order', 'OrderController');
+    $router->resource('video', 'VideoController');
 });

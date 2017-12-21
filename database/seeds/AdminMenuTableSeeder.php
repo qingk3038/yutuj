@@ -50,6 +50,7 @@ class AdminMenuTableSeeder extends Seeder
                 ['id' => '31', 'parent_id' => '0', 'order' => '0', 'title' => '攻略', 'icon' => 'fa-ra', 'uri' => 'raider', 'created_at' => '2017-12-16 15:19:26', 'updated_at' => '2017-12-16 15:19:26'],
                 ['id' => '32', 'parent_id' => '0', 'order' => '0', 'title' => '定制游', 'icon' => 'fa-leaf', 'uri' => 'customized', 'created_at' => '2017-12-16 18:17:58', 'updated_at' => '2017-12-16 18:17:58'],
                 ['id' => '33', 'parent_id' => '0', 'order' => '0', 'title' => '订单', 'icon' => 'fa-calculator', 'uri' => 'order', 'created_at' => '2017-12-16 18:18:13', 'updated_at' => '2017-12-16 18:18:42'],
+                ['id' => '34', 'parent_id' => '0', 'order' => '0', 'title' => '视频', 'icon' => 'fa-file-video-o ', 'uri' => 'video', 'created_at' => '2017-12-16 18:18:13', 'updated_at' => '2017-12-16 18:18:42'],
             ]);
         }
     }

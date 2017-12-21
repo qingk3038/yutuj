@@ -116,7 +116,7 @@ class RaiderController extends Controller
 
                 $form->text('title', '标题')->rules('required|string|max:200');
                 $form->text('short', '短标题')->rules('required|string|max:200');
-                $form->image('thumb', '缩略图');
+                $form->image('thumb', '缩略图')->rules('required');
                 $form->textarea('description', '描述')->rules('required|string|max:250');
                 $form->editor('body', '内容')->rules('required|string');
 

@@ -76,3 +76,7 @@ Route::get('travel/list', 'ListController@travel')->name('www.travel.list');
 
 // 用户的游记列表
 Route::get('travel/list/{user}', 'ListController@userTravel')->name('www.user.travel');
+
+// 视频
+Route::get('video/show/{video}', 'ShowController@video')->name('www.video.show');
+Route::get('video/list', 'ListController@video')->name('www.video.list');

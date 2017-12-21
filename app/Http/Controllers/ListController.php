@@ -7,6 +7,7 @@ use App\Models\Leader;
 use App\Models\LocList;
 use App\Models\Raider;
 use App\Models\Travel;
+use App\Models\Video;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -106,5 +107,12 @@ class ListController extends Controller
         return view('www.list_travels', $data);
     }
 
+    public function video()
+    {
+        $data['lives'] = Video::active()->type('live')->paginate(6);
+        $data['films'] = Video::active()->type('film')->paginate(6);
+
+        return view('www.list_video', $data);
+    }
 
 }
