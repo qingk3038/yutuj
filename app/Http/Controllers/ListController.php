@@ -57,8 +57,16 @@ class ListController extends Controller
     public function raiders(Request $request)
     {
         $data = Cache::remember(request()->fullUrl(), 5, function () use ($request) {
+            $this->validate($request, [
+                'field' => 'nullable|in:id,click,created_at',
+                'order' => 'nullable|in:asc,desc',
+                'pid' => 'nullable|integer|exists:activities,province_id',
+                'cid' => 'nullable|integer|exists:activities,city_id',
+            ]);
+
             $field = $request->get('field', 'id');
             $order = $request->get('order', 'desc');
+
             $data['raiders'] = Raider::select('id', 'type', 'title', 'short', 'description', 'thumb', 'click', 'country_id', 'province_id', 'city_id', 'created_at')
                 ->with('country', 'province', 'city')
                 ->withCount('likes')
@@ -77,7 +85,7 @@ class ListController extends Controller
                 $query->type($request->type);
             })->get(['id', 'name']);
 
-            $data['citys'] = LocList::where(function ($query) use ($request) {
+            $data['cities'] = LocList::where(function ($query) use ($request) {
                 if ($pid = $request->pid) {
                     $query->where('parent_id', $pid);
                 }
@@ -89,20 +97,72 @@ class ListController extends Controller
         return view('www.list_raider', $data);
     }
 
-
-    public function activity()
+    /**
+     * 活动列表
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function activity(Request $request)
     {
-        $data['activities'] = Activity::with(['tuans' => function ($query) {
-            $query->where('end_time', '>=', Carbon::today());
-        }])->active()->paginate();
+        $this->validate($request, [
+            'field' => 'nullable|in:id,price,created_at',
+            'order' => 'nullable|in:asc,desc',
+            'pid' => 'nullable|integer|exists:activities,province_id',
+            'cid' => 'nullable|integer|exists:activities,city_id',
+            'price.min' => 'nullable|integer|min:0',
+            'price.max' => 'nullable|integer|min:0',
+        ]);
+        $field = $request->get('field', 'id');
+        $order = $request->get('order', 'desc');
+
+        $data['activities'] = Activity::select('id', 'title', 'short', 'title', 'xc', 'description', 'thumb', 'price', 'province_id', 'city_id')
+            ->active()->with(['tuans' => function ($query) {
+                $query->where('end_time', '>=', Carbon::today());
+            }])->where(function ($query) use ($request) {
+                if ($pid = $request->pid) {
+                    $query->where('province_id', $pid);
+                }
+                if ($cid = $request->cid) {
+                    $query->where('city_id', $cid);
+                }
+                if ($min = $request->input('price.min')) {
+                    $query->where('price', '>=', $min);
+                }
+                if ($max = $request->input('price.max')) {
+                    $query->where('price', '<=', $max);
+                }
+            })->orderBy($field, $order)->paginate();
+
+        $data['provinces'] = LocList::whereHas('provinceActivities', function ($query) {
+            $query->active();
+        })->get(['id', 'name']);
+
+        $data['cities'] = LocList::where(function ($query) use ($request) {
+            if ($pid = $request->pid) {
+                $query->where('parent_id', $pid);
+            }
+        })->whereHas('cityActivities', function ($query) {
+            $query->active();
+        })->get(['id', 'name']);
 
         return view('www.list_activity', $data);
     }
 
-
+    /**
+     * 游记列表
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function travel(Request $request)
     {
         $data = Cache::remember(request()->fullUrl(), 5, function () use ($request) {
+            $this->validate($request, [
+                'field' => 'nullable|in:id,click,created_at',
+                'order' => 'nullable|in:asc,desc',
+                'province' => 'nullable|string|exists:travels',
+                'city' => 'nullable|string|exists:travels',
+            ]);
+
             $field = $request->get('field', 'id');
             $order = $request->get('order', 'desc');
 

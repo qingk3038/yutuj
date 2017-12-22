@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', '游记')
+@section('title', implode('-', Request::only('province', 'city')) . '游记')
 
 @section('content')
     <div class="container">

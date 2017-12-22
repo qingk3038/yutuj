@@ -26,25 +26,21 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-8">
+            <div class="col-8" id="load">
                 <div class="bg-white mb-2 py-3 list-param">
                     <div class="row px-3">
                         <div class="col-1 text-nowrap">区域</div>
                         <div class="col-10 text-truncate">
-                            <a href="#" class="active">全部</a>
-                            <a href="#">四川</a>
-                            <a href="#">云南</a>
-                            <a href="#">青海</a>
-                            <a href="#">西藏</a>
-                            <a href="#">新疆</a>
-                            <a href="#">贵州</a>
-                            <a href="#">陕甘宁</a>
-                            <a href="#">内蒙古</a>
-                            <a href="#">广西</a>
+                            <a href="{{ route('www.activity.list') }}" @empty(request('pid')) class="active" @endempty>全部</a>
+                            @foreach($provinces as $qu)
+                                <a href="{{ route('www.activity.list', ['pid' => $qu]) }}" @if(request('pid') == $qu->id) class="active" @endif>{{ $qu->name }}</a>
+                            @endforeach
                         </div>
-                        <div class="col-1 text-nowrap">
-                            <span class="text-warning">更多 <i class="fa fa-angle-down"></i></span>
-                        </div>
+                        @if(count($provinces) >= 12)
+                            <div class="col-1 text-nowrap">
+                                <span class="text-warning">更多 <i class="fa fa-angle-down"></i></span>
+                            </div>
+                        @endif
                     </div>
                 </div>
 
@@ -52,23 +48,16 @@
                     <div class="row px-3">
                         <div class="col-1 text-nowrap">目的地</div>
                         <div class="col-10 text-truncate">
-                            <a href="#" class="active">全部</a>
-                            <a href="#">成都</a>
-                            <a href="#">昆明</a>
-                            <a href="#">西安</a>
-                            <a href="#">拉萨</a>
-                            <a href="#">西宁</a>
-                            <a href="#">桂林</a>
-                            <a href="#">林芝</a>
-                            <a href="#">喀纳斯</a>
-                            <a href="#">大理</a>
-                            <a href="#">峨眉山</a>
-                            <a href="#">丽江</a>
-                            <a href="#">珠峰</a>
+                            <a href="{{ route('www.activity.list', Request::only('pid')) }}" @empty(request('cid')) class="active" @endempty>全部</a>
+                            @foreach($cities as $city)
+                                <a href="{{ route('www.activity.list', array_merge(Request::only('pid'), ['cid' => $city])) }}" @if(request('cid') == $city->id) class="active" @endif>{{ $city->name }}</a>
+                            @endforeach
                         </div>
-                        <div class="col-1 text-nowrap">
-                            <span class="text-warning">更多 <i class="fa fa-angle-down"></i></span>
-                        </div>
+                        @if(count($cities) >= 12)
+                            <div class="col-1 text-nowrap">
+                                <span class="text-warning">更多 <i class="fa fa-angle-down"></i></span>
+                            </div>
+                        @endif
                     </div>
                 </div>
 
@@ -92,15 +81,14 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="bg-white py-3 list-param">
                     <div class="row px-3">
                         <div class="col-1 text-nowrap">价格</div>
                         <div class="col-10 text-truncate">
-                            <a href="#" class="active">全部</a>
-                            <a href="#">500元以下</a>
-                            <a href="#">500-1000元</a>
-                            <a href="#">1000以上</a>
+                            <a href="{{ route('www.activity.list', Request::only('pid', 'cid')) }}" @empty(request('price')) class="active" @endempty>全部</a>
+                            <a href="{{ route('www.activity.list', array_merge(Request::only('pid', 'cid'), ['price[max]' => 499])) }}" @if(Request::input('price.max') == 499) class="active" @endif>500元以下</a>
+                            <a href="{{ route('www.activity.list', array_merge(Request::only('pid', 'cid'), ['price[min]' => 500, 'price[max]' => 1000])) }}" @if(Request::input('price.max') == 1000) class="active" @endif>500-1000元</a>
+                            <a href="{{ route('www.activity.list', array_merge(Request::only('pid', 'cid'), ['price[min]' => 1001])) }}" @if(Request::input('price.min') == 1001) class="active" @endif>1000以上</a>
                         </div>
                     </div>
                 </div>
@@ -108,13 +96,13 @@
                 <div class="bg-white list-orderBy py-2 my-2">
                     <ul class="nav">
                         <li class="nav-item">
-                            <a class="nav-link active" href="javascript:void(0);">综合排序 <i class="fa fa-angle-down"></i></a>
+                            <a class="nav-link {{ request('field', 'id') === 'id' ? 'active' : '' }}" href="{{ route('www.activity.list', array_merge(Request::only('type', 'pid', 'cid'), ['field' => 'id', 'order' => request('field', 'id') == 'id' &&  request('order', 'desc') === 'desc' ? 'asc' : 'desc'])) }}">综合排序 <i class="fa fa-angle-{{  request('field', 'id') === 'id' && request('order', 'desc') === 'desc' ? 'down' : 'up' }}"></i></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="javascript:void(0);">价格 <i class="fa fa-angle-down"></i></a>
+                            <a class="nav-link {{ request('field') === 'price' ? 'active' : '' }}" href="{{ route('www.activity.list', array_merge(Request::only('type', 'pid', 'cid'), ['field' => 'price', 'order' => request('field') == 'price' &&  request('order') === 'desc' ? 'asc' : 'desc'])) }}">价格 <i class="fa fa-angle-{{  request('field') == 'price' && request('order') === 'desc' ? 'down' : 'up' }}"></i></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="javascript:void(0);">发布时间 <i class="fa fa-angle-down"></i></a>
+                            <a class="nav-link {{ request('field') === 'created_at' ? 'active' : '' }}" href="{{ route('www.activity.list', array_merge(Request::only('type', 'pid', 'cid'), ['field' => 'created_at', 'order' => request('field') == 'created_at' &&  request('order') === 'desc' ? 'asc' : 'desc'])) }}">发布时间 <i class="fa fa-angle-{{ request('field') == 'created_at' &&  request('order') === 'desc' ? 'down' : 'up' }}"></i></a>
                         </li>
                     </ul>
                 </div>
@@ -265,25 +253,22 @@
     <script>
         (function ($) {
             // 筛选 显示更多
-            $('.list-param span').click(function () {
+            $('#load').on('click', '.list-param span', function () {
                 $(this).children().toggleClass('fa-flip-vertical')
                 $(this).parent().prev().toggleClass('text-truncate')
             })
 
-            // 排序
-            $('.list-orderBy a').click(function () {
-                $(this).closest('.nav').find('a').removeClass('active')
-                $(this).addClass('active')
-                let fa = $(this).children()
-                if (fa.css('opacity') === '1') {
-                    fa.toggleClass('fa-flip-vertical')
-                }
-            })
-
             // 显示发团日期
-            $('a.btn-fatuan').click(function () {
+            $('#load').on('click', 'a.btn-fatuan', function () {
                 $(this).children().toggleClass('fa-flip-vertical')
                 $(this).closest('div').find('.list-fatuan').toggleClass('d-none').mCustomScrollbar()
+            })
+
+            // 异步加载
+            $(document).on('click', '.list-param a, .list-orderBy a, ul.pagination a', function (event) {
+                event.preventDefault()
+                let url = $(this).attr('href') + ' #load > div'
+                $('#load').load(url)
             })
         })(jQuery);
     </script>

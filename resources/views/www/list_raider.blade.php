@@ -86,11 +86,11 @@
                         <div class="col-1 text-nowrap">目的地</div>
                         <div class="col-10 text-truncate">
                             <a href="{{ route('www.raider.list', Request::only('type', 'pid')) }}" @empty(request('cid')) class="active" @endempty>全部</a>
-                            @foreach($citys as $cy)
-                                <a href="{{ route('www.raider.list', array_merge(Request::only('type', 'pid'), ['cid' => $cy])) }}" @if(request('cid') == $cy->id) class="active" @endif>{{ $cy->name }}</a>
+                            @foreach($cities as $city)
+                                <a href="{{ route('www.raider.list', array_merge(Request::only('type', 'pid'), ['cid' => $city])) }}" @if(request('cid') == $city->id) class="active" @endif>{{ $city->name }}</a>
                             @endforeach
                         </div>
-                        @if(count($citys) >= 12)
+                        @if(count($cities) >= 12)
                             <div class="col-1 text-nowrap">
                                 <span class="text-warning">更多 <i class="fa fa-angle-down"></i></span>
                             </div>
