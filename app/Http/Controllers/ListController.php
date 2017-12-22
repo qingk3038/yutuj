@@ -192,38 +192,42 @@ class ListController extends Controller
         return view('www.list_travels', $data);
     }
 
+    /**
+     * 视频列表
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function video(Request $request)
     {
-        $this->validate($request, [
-            'film.field' => 'nullable|in:click,updated_at,created_at',
-            'film.pid' => 'nullable|integer|exists:videos,province_id',
+        $data = Cache::remember(request()->fullUrl(), 5, function () use ($request) {
+            $this->validate($request, [
+                '*.field' => 'nullable|in:click,updated_at,created_at',
+                '*.pid' => 'nullable|integer|exists:videos,province_id',
+            ]);
 
-            'live.field' => 'nullable|in:click,updated_at,created_at',
-            'live.pid' => 'nullable|integer|exists:videos,province_id',
-        ]);
+            $film_field = $request->input('film.field', 'click');
+            $data['films'] = Video::active()->type('film')->where(function ($query) use ($request) {
+                if ($pid = $request->input('film.pid')) {
+                    $query->where('province_id', $pid);
+                }
+            })->latest($film_field)->paginate(6);
 
-        $film_field = $request->input('film.field', 'click');
-        $data['films'] = Video::active()->type('film')->where(function ($query) use ($request) {
-            if ($pid = $request->input('film.pid')) {
-                $query->where('province_id', $pid);
-            }
-        })->latest($film_field)->paginate(6);
+            $live_field = $request->input('live.field', 'click');
+            $data['lives'] = Video::active()->type('live')->where(function ($query) use ($request) {
+                if ($pid = $request->input('live.pid')) {
+                    $query->where('province_id', $pid);
+                }
+            })->latest($live_field)->paginate(6);
 
-        $live_field = $request->input('live.field', 'click');
-        $data['lives'] = Video::active()->type('live')->where(function ($query) use ($request) {
-            if ($pid = $request->input('live.pid')) {
-                $query->where('province_id', $pid);
-            }
-        })->latest($live_field)->paginate(6);
+            $data['provinces_films'] = LocList::whereHas('provinceVideos', function ($query) {
+                $query->active()->type('film');
+            })->get(['id', 'name']);
 
-        $data['provinces_films'] = LocList::whereHas('provinceVideos', function ($query) {
-            $query->active()->type('film');
-        })->get(['id', 'name']);
-
-        $data['provinces_lives'] = LocList::whereHas('provinceVideos', function ($query) {
-            $query->active()->type('live');
-        })->get(['id', 'name']);
-
+            $data['provinces_lives'] = LocList::whereHas('provinceVideos', function ($query) {
+                $query->active()->type('live');
+            })->get(['id', 'name']);
+            return $data;
+        });
         return view('www.list_video', $data);
     }
 
