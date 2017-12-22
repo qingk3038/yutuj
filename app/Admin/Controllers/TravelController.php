@@ -114,7 +114,7 @@ class TravelController extends Controller
 
             $form->display('id', 'ID');
             $form->text('title', '标题')->rules('required');
-            $form->image('thumb', '缩略图');
+            $form->image('thumb', '缩略图')->rules('required')->uniqueName();
             $form->textarea('description', '摘要')->rules('required|between:10,350');
             $form->editor('body', '游记内容')->rules('required|min:20');
 

@@ -123,7 +123,7 @@ class VideoController extends Controller
             $form->display('id', 'ID');
 
             $form->text('title', '标题')->rules('required');
-            $form->image('thumb', '预览图')->rules('required');
+            $form->image('thumb', '预览图')->rules('required')->uniqueName();
 
             $form->radio('type', '类别')->options(['film' => '短拍', 'live' => '直播'])->default('film');
             $form->url('url', '视频地址')->rules('required');

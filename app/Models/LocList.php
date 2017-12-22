@@ -101,4 +101,11 @@ class LocList extends Model
     {
         return $this->hasMany(Raider::class, 'city_id');
     }
+
+    // 省份视频
+    public function provinceVideos()
+    {
+        return $this->hasMany(Video::class, 'province_id');
+    }
+
 }

@@ -11,32 +11,26 @@
         <div class="py-4"><a href="{{ url('/') }}">首页</a> &gt; <span class="text-warning">旅拍直播</span></div>
     </div>
 
-    <div class="container">
+    <div class="container" id="film">
         <div class="bg-white p-3 list-video">
             <div class="title-video">
                 <span class="lead text-warning mr-5">旅行短拍</span>
                 <span>
-                <a href="javascript:void(0);" class="active">全部</a>
-                <a href="javascript:void(0);">四川</a>
-                <a href="javascript:void(0);">西藏</a>
-                <a href="javascript:void(0);">新疆</a>
-                <a href="javascript:void(0);">云南</a>
-                <a href="javascript:void(0);">青海</a>
-                <a href="javascript:void(0);">陕甘宁</a>
-                <a href="javascript:void(0);">内蒙古</a>
-                <a href="javascript:void(0);">贵州</a>
-                <a href="javascript:void(0);">重庆</a>
-            </span>
+                   <a href="{{ route('www.video.list') }}" @empty(Request::input('film.pid')) class="active" @endempty>全部</a>
+                    @foreach($provinces_films as $province)
+                        <a href="{{ route('www.video.list', ['film[pid]' => $province]) }}" @if(Request::input('film.pid') == $province->id) class="active" @endif>{{ $province->name }}</a>
+                    @endforeach
+                </span>
             </div>
             <hr class="my-2">
             <p class="title-video-subtitle">
-                <a href="javascript:void(0);" class="active">最热点击</a>
-                <a href="javascript:void(0);">精彩推荐</a>
-                <a href="javascript:void(0);">最新上传</a>
+                <a href="{{ route('www.video.list', array_merge(Request::only('film.pid'), ['film[field]' => 'click'])) }}" @if(Request::input('film.field', 'click') === 'click') class="active" @endif>最热点击</a>
+                <a href="{{ route('www.video.list', array_merge(Request::only('film.pid'), ['film[field]' => 'updated_at'])) }}" @if(Request::input('film.field') === 'updated_at') class="active" @endif>最近更新</a>
+                <a href="{{ route('www.video.list', array_merge(Request::only('film.pid'), ['film[field]' => 'created_at'])) }}" @if(Request::input('film.field') === 'created_at') class="active" @endif>最新上传</a>
             </p>
             <div class="row" style="margin: 0 -5px;">
                 @foreach($films as $film)
-                    <a class="col-4 box" href="{{ route('www.video.show', $film) }}" title="{{ $film->title }}"  target="_blank">
+                    <a class="col-4 box" href="{{ route('www.video.show', $film) }}" title="{{ $film->title }}" target="_blank">
                         <p class="position-relative">
                             <img class="img-fluid" src="{{ imageCut(380, 214, $film->thumb) }}" alt="{{ $film->title }}" width="380" height="214">
                             <i class="fa fa-2x fa-play-circle-o position-absolute"></i>
@@ -51,29 +45,22 @@
             </nav>
         </div>
     </div>
-
-    <div class="container mt-5">
-        <div class="bg-white p-3 list-video">
+    <div class="container" id="live">
+        <div class="bg-white p-3 list-video mt-5">
             <div class="title-video">
                 <span class="lead text-warning mr-5">大咖直播</span>
                 <span>
-                <a href="javascript:void(0);" class="active">全部</a>
-                <a href="javascript:void(0);">四川</a>
-                <a href="javascript:void(0);">西藏</a>
-                <a href="javascript:void(0);">新疆</a>
-                <a href="javascript:void(0);">云南</a>
-                <a href="javascript:void(0);">青海</a>
-                <a href="javascript:void(0);">陕甘宁</a>
-                <a href="javascript:void(0);">内蒙古</a>
-                <a href="javascript:void(0);">贵州</a>
-                <a href="javascript:void(0);">重庆</a>
-            </span>
+                   <a href="{{ route('www.video.list') }}" @empty(Request::input('live.pid')) class="active" @endempty>全部</a>
+                    @foreach($provinces_lives as $province)
+                        <a href="{{ route('www.video.list', ['live[pid]' => $province]) }}" @if(Request::input('live.pid') == $province->id) class="active" @endif>{{ $province->name }}</a>
+                    @endforeach
+                </span>
             </div>
             <hr class="my-2">
             <p class="title-video-subtitle">
-                <a href="javascript:void(0);" class="active">最热点击</a>
-                <a href="javascript:void(0);">精彩推荐</a>
-                <a href="javascript:void(0);">最新上传</a>
+                <a href="{{ route('www.video.list', array_merge(Request::only('live.pid'), ['live[field]' => 'click'])) }}" @if(Request::input('live.field', 'click') === 'click') class="active" @endif>最热点击</a>
+                <a href="{{ route('www.video.list', array_merge(Request::only('live.pid'), ['live[field]' => 'updated_at'])) }}" @if(Request::input('live.field') === 'updated_at') class="active" @endif>最近更新</a>
+                <a href="{{ route('www.video.list', array_merge(Request::only('live.pid'), ['live[field]' => 'created_at'])) }}" @if(Request::input('live.field') === 'created_at') class="active" @endif>最新上传</a>
             </p>
             <div class="row" style="margin: 0 -5px;">
                 @foreach($lives as $life)
@@ -87,10 +74,28 @@
                     </a>
                 @endforeach
             </div>
-
             <nav class="d-flex justify-content-end pt-4 w-100">
                 {{ $lives->links() }}
             </nav>
         </div>
     </div>
 @endsection
+
+@push('script')
+    <script>
+        (function ($) {
+            // 异步加载
+            $('#film').on('click', '.title-video a, .title-video-subtitle > a, ul.pagination a', function (event) {
+                event.preventDefault()
+                let url = $(this).attr('href') + ' #film > div'
+                $('#film').load(url)
+            })
+
+            $('#live').on('click', '.title-video a, .title-video-subtitle > a, ul.pagination a', function (event) {
+                event.preventDefault()
+                let url = $(this).attr('href') + ' #live > div'
+                $('#live').load(url)
+            })
+        })(jQuery);
+    </script>
+@endpush

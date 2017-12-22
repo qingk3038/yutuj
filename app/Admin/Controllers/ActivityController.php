@@ -76,7 +76,7 @@ class ActivityController extends Controller
     protected function grid()
     {
         return Admin::grid(Activity::class, function (Grid $grid) {
-            $grid->model()->with('admin', 'types', 'tags')->withCount('trips');
+            $grid->model()->latest()->with('admin', 'types', 'tags')->withCount('trips');
             $grid->id('ID')->sortable();
             $grid->column('title', '标题')->editable();
             $grid->column('short', '短标题')->editable();
@@ -119,8 +119,8 @@ class ActivityController extends Controller
                 $form->text('title', '标题')->rules('required|string|max:200');
                 $form->text('short', '短标题')->rules('required|string|max:200');
 
-                $form->image('thumb', '缩略图')->rules('required');
-                $form->multipleImage('photos', '轮播图')->removable();
+                $form->image('thumb', '缩略图')->rules('required')->uniqueName();
+                $form->multipleImage('photos', '轮播图')->removable()->uniqueName();
 
                 $form->text('number', '产品编号')->rules('nullable|string|max:200');
                 $form->text('cfd', '出发地点')->rules('required|string|max:50')->default('四川-成都');
@@ -129,7 +129,7 @@ class ActivityController extends Controller
                 $form->text('xc', '行程描述')->rules('required|string|max:200');
 
                 $form->textarea('ts', '行程特色简介')->rules('required');
-                $form->multipleImage('tps', '行程特色图片')->removable()->help('3张图片');
+                $form->multipleImage('tps', '行程特色图片')->removable()->help('3张图片')->uniqueName();
 
                 $form->switch('closed', '上架状态')->states([
                     'on' => ['value' => 0, 'text' => '上架', 'color' => 'success'],
@@ -159,7 +159,7 @@ class ActivityController extends Controller
             })->tab('行程安排', function (Form $form) {
                 $form->hasMany('trips', '行程', function (Form\NestedForm $form) {
                     $form->text('title', '行程标题')->rules('required|string');
-                    $form->multipleFile('pictures', '展示图')->removable()->help('3张图片');
+                    $form->multipleFile('pictures', '展示图')->removable()->help('3张图片')->uniqueName();
                     $form->textarea('body', '行程内容')->rules('required|string');
                     $form->text('zaocan', '早餐')->default('包含');
                     $form->text('wucan', '午餐')->default('包含');

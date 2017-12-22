@@ -115,7 +115,7 @@ class UserController extends Controller
         return Admin::form(User::class, function (Form $form) {
 
             $form->display('id', 'ID');
-            $form->image('avatar', '头像')->rules('required');
+            $form->image('avatar', '头像')->rules('required')->uniqueName();
             $form->text('name', '昵称')->rules('required|string');
             $form->mobile('mobile', '绑定手机号')->rules(function ($form) {
                 $rules = 'required|string|unique:users';

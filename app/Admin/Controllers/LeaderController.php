@@ -112,8 +112,8 @@ class LeaderController extends Controller
             $form->display('id', 'ID');
             $form->text('name', '名字')->rules('required|string');
             $form->image('avatar', '头像')->rules('required');
-            $form->image('bg_home', '主页背景')->rules('required');
-            $form->multipleImage('photos', '展示图')->removable();
+            $form->image('bg_home', '主页背景')->rules('required')->uniqueName();
+            $form->multipleImage('photos', '展示图')->removable()->uniqueName();
 
             $form->switch('sex', '性别')->states([
                 'on' => ['value' => 'F', 'text' => '女性', 'color' => 'warning'],
