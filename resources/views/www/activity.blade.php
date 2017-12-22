@@ -173,7 +173,7 @@
                                 <p>
                                     <a href="{{ route('www.activity.show', $item) }}" class="card-title">
                                         <span class="text-danger font-weight-bold">{{ $item->types->first()->text }}</span>
-                                        {{ str_limit($item->title, 40) }}
+                                        {{ str_limit($item->title, 36) }}
                                     </a>
                                 </p>
                                 <p class="card-text">

@@ -56,7 +56,7 @@
                                 <p>
                                     <a href="{{ route('www.activity.show', $activity) }}" class="card-title">
                                         <span class="text-danger font-weight-bold">{{ $activity->types->first()->text }}</span>
-                                        {{ str_limit($activity->title, 40) }}
+                                        {{ str_limit($activity->title, 36) }}
                                     </a>
                                 </p>
                                 <p class="card-text">

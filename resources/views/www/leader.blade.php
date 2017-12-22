@@ -87,7 +87,7 @@
                                 <p>
                                     <a href="{{ route('www.activity.show', $activity) }}" class="card-title" target="_blank">
                                         <span class="text-danger font-weight-bold">{{ $activity->types->first()->text }}</span>
-                                        {{ str_limit($activity->title, 40) }}
+                                        {{ str_limit($activity->title, 36) }}
                                     </a>
                                 </p>
                                 <p class="card-text">
@@ -100,7 +100,7 @@
                 @endforeach
             </div>
             <div class="pt-4 text-center">
-                <a href="#" class="btn btn-outline-warning">更多活动</a>
+                <a href="{{ route('www.activity.list') }}" class="btn btn-outline-warning">更多活动</a>
             </div>
         </div>
     </div>
