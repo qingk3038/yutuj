@@ -14,4 +14,9 @@ class Category extends Model
     {
         return $this->hasMany(static::class, 'parent_id');
     }
+
+    public function articles()
+    {
+        return $this->hasMany(Article::class);
+    }
 }

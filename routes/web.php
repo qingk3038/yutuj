@@ -80,3 +80,6 @@ Route::get('travel/list/{user}', 'ListController@userTravel')->name('www.user.tr
 // 视频
 Route::get('video/show/{video}', 'ShowController@video')->name('www.video.show');
 Route::get('video/list', 'ListController@video')->name('www.video.list');
+
+// 文章
+Route::get('article/show/{article}', 'ShowController@article')->name('www.article.show');

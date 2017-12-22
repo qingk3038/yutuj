@@ -111,7 +111,7 @@
                     @foreach($activities as $activity)
                         <div class="media">
                             <div class="mr-3 position-relative">
-                                <a href="{{ route('www.activity.show', $activity) }}">
+                                <a href="{{ route('www.activity.show', $activity) }}" target="_blank">
                                     <img src="{{ imageCut(280, 180, $activity->thumb) }}" alt="{{ $activity->short }}" width="280" height="180">
                                 </a>
                                 <span class="bg-warning text-white text-center p-1 position-absolute day">
@@ -120,7 +120,7 @@
                                 </span>
                             </div>
                             <div class="media-body">
-                                <a href="{{ route('www.activity.show', $activity) }}" class="text-warning d-block">
+                                <a href="{{ route('www.activity.show', $activity) }}" class="text-warning d-block" target="_blank">
                                     <h3>{{ str_limit($activity->short, 30) }}</h3>
                                     <h5>{{ str_limit($activity->title, 80) }}</h5>
                                 </a>

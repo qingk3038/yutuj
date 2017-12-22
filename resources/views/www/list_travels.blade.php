@@ -80,11 +80,11 @@
                 <div class="bg-white p-3 my-2 list-media">
                     @foreach($travels as $travel)
                         <div class="media">
-                            <a href="{{ route('www.travel.show', $travel) }}">
+                            <a href="{{ route('www.travel.show', $travel) }}" target="_blank">
                                 <img class="mr-3" src="{{ imageCut(280, 180, $travel->thumb) }}" alt="{{ $travel->title }}" width="280" height="180">
                             </a>
                             <div class="media-body">
-                                <a href="{{ route('www.travel.show', $travel) }}" class="text-warning d-block h5">{{ str_limit($travel->title, 80) }}</a>
+                                <a href="{{ route('www.travel.show', $travel) }}" class="text-warning d-block h5" target="_blank">{{ str_limit($travel->title, 80) }}</a>
                                 <p class="text-muted">
                                     <small>{{ str_limit($travel->description, 280) }}</small>
                                 </p>

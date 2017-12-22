@@ -28,7 +28,7 @@
                 </div>
                 <div class="bg-white p-4">
                     <h5>内容简介</h5>
-                    {!! $video->body !!}
+                    {!! nl2br($video->description) !!}
                 </div>
             </div>
             <div class="col-4 pl-0">

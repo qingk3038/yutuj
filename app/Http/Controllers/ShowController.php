@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Activity;
+use App\Models\Article;
 use App\Models\Leader;
 use App\Models\Raider;
 use App\Models\Travel;
@@ -63,4 +64,9 @@ class ShowController extends Controller
         return view('www.video', compact('video'));
     }
 
+    // 显示文章
+    public function article(Article $article)
+    {
+        return view('www.article', compact('article'));
+    }
 }

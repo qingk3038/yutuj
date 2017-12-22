@@ -74,7 +74,7 @@ class VideoController extends Controller
     protected function grid()
     {
         return Admin::grid(Video::class, function (Grid $grid) {
-            $grid->model()->with('admin', 'country', 'province')->latest()->type(request('type'));
+            $grid->model()->with('admin', 'country', 'province')->latest()->type(request('type', 'film'));
 
             $grid->id('ID')->sortable();
             $grid->column('title', '标题')->editable();
@@ -84,7 +84,10 @@ class VideoController extends Controller
                 return [$this->country['name'], $this->province['name']];
             })->label();
 
-            $grid->column('closed', '关闭')->sortable()->editable();
+            $grid->column('closed', '状态')->sortable()->switch([
+                'on' => ['value' => 0, 'text' => '上线', 'color' => 'success'],
+                'off' => ['value' => 1, 'text' => '下线']
+            ]);
             $grid->column('admin.name', '上传者');
 
             $grid->created_at('创建日期');
@@ -133,10 +136,13 @@ class VideoController extends Controller
                 LocList::province()->pluck('name', 'id')
             )->load('city_id', '/admin/api/city')->rules('required');
 
-            $form->textarea('description', '描述')->rules('nullable|max:200');
-            $form->editor('body', '内容')->rules('required');
+            $form->textarea('description', '描述')->rules('required|max:200');
 
             $form->number('click', '点击量')->rules('required|numeric|min:0')->default(mt_rand(100, 1000))->help('随机数 100-1000');
+            $form->switch('closed', '状态')->states([
+                'on' => ['value' => 0, 'text' => '上线', 'color' => 'success'],
+                'off' => ['value' => 1, 'text' => '下线']
+            ]);
             $form->display('created_at', '创建日期');
             $form->display('updated_at', '更新日期');
 

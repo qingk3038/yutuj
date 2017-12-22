@@ -24,8 +24,6 @@ class CreateVideosTable extends Migration
             $table->unsignedInteger('click')->default(0)->comment('点击量');
             $table->boolean('closed')->default(false)->comment('关闭');
 
-            $table->text('body')->nullable()->comment('内容');
-
             $table->unsignedInteger('country_id')->index()->comment('国家');
             $table->foreign('country_id')->references('id')->on('loclists')->onDelete('cascade');
 

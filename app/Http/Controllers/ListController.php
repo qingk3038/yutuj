@@ -193,8 +193,8 @@ class ListController extends Controller
 
     public function video()
     {
-        $data['lives'] = Video::active()->type('live')->paginate(6);
-        $data['films'] = Video::active()->type('film')->paginate(6);
+        $data['lives'] = Video::active()->latest()->type('live')->paginate(6);
+        $data['films'] = Video::active()->latest()->type('film')->paginate(6);
 
         return view('www.list_video', $data);
     }

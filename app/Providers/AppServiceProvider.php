@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Article;
+use App\Models\Category;
 use App\Models\LocList;
 use Encore\Admin\Config\Config;
 use Illuminate\Support\Carbon;
@@ -22,7 +24,7 @@ class AppServiceProvider extends ServiceProvider
         Carbon::setLocale('zh');
         Schema::defaultStringLength(250);
 
-       // 加载配置
+        // 加载配置
         Config::load();
 
         // 搜索栏 筛选地区
@@ -31,6 +33,19 @@ class AppServiceProvider extends ServiceProvider
                 return LocList::has('provinceActivities')->get(['id', 'name']);
             });
             $view->with('searchProvinces', $searchProvinces);
+        });
+
+        // 底部栏目与文章
+        View::composer('layouts.app', function ($view) {
+            $categories = Cache::remember('footer', 5, function () {
+                return Category::with(['articles' => function ($query) {
+                    $query->select('id', 'title', 'category_id')->limit(5);
+                }])->where('parent_id', 0)->offset(1)->limit(4)->get(['id', 'title']);
+            });
+            $abouts = Cache::remember('abouts', 5, function () {
+                return Article::where('category_id', 1)->get(['id', 'title']);
+            });
+            $view->with(compact('categories', 'abouts'));
         });
     }
 

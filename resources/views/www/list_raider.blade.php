@@ -116,12 +116,12 @@
                     @foreach($raiders as $raider)
                         <div class="media">
                             @if($raider->thumb)
-                                <a href="{{ route('www.raider.show', $raider) }}">
+                                <a href="{{ route('www.raider.show', $raider) }}" target="_blank">
                                     <img class="mr-3" src="{{ imageCut(280, 180, $raider->thumb) }}" alt="{{ $raider->short }}" width="280" height="180">
                                 </a>
                             @endif
                             <div class="media-body">
-                                <a href="{{ route('www.raider.show', $raider) }}" class="text-warning d-block">
+                                <a href="{{ route('www.raider.show', $raider) }}" class="text-warning d-block" target="_blank">
                                     <h3>{{ $raider->typeText() }} · {{ str_limit($raider->short, 26) }}</h3>
                                     <h5>{{ $raider->title }}</h5>
                                 </a>

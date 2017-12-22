@@ -93,7 +93,7 @@
                                     </div>
                                 </div>
                                 <input type="hidden" name="pid" id="pid">
-                                <input type="text" class="form-control"  name="q" id="q" placeholder="搜目的地/攻略/游记" style="border-right: none">
+                                <input type="text" class="form-control" name="q" id="q" placeholder="搜目的地/攻略/游记" style="border-right: none">
                                 <button type="submit" class="input-group-addon submit"><i class="fa fa-search text-warning fa-lg"></i></button>
                             </div>
                         </form>
@@ -132,51 +132,28 @@
         <footer>
             <div class="container">
                 <nav class="nav nav-justified">
-                    <a class="nav-item nav-link" href="#">首页</a>
+                    <a class="nav-item nav-link" href="{{ url('/') }}">首页</a>
                     <a class="nav-item nav-link active" href="#">纵横西部</a>
                     <a class="nav-item nav-link" href="#">西行漫游</a>
                     <a class="nav-item nav-link" href="#">超级周末</a>
                     <a class="nav-item nav-link" href="#">最6旅行</a>
-                    <a class="nav-item nav-link" href="#">定制旅行</a>
-                    <a class="nav-item nav-link" href="#">超级攻略</a>
-                    <a class="nav-item nav-link" href="#">精彩游记</a>
-                    <a class="nav-item nav-link" href="#">大咖领路</a>
+                    <a class="nav-item nav-link" href="{{ url('customized') }}">定制旅行</a>
+                    <a class="nav-item nav-link" href="{{ route('www.raider.list') }}">超级攻略</a>
+                    <a class="nav-item nav-link" href="{{ route('www.travel.list') }}">精彩游记</a>
+                    <a class="nav-item nav-link" href="{{ route('www.leader.list') }}">大咖领路</a>
                 </nav>
                 <hr>
                 <div class="row py-4 links">
                     <div class="col-8">
                         <div class="row">
-                            <div class="col-3">
-                                <h6>活动报名流程</h6>
-                                <a href="#">报名须知</a>
-                                <a href="#">网上报名信息修改</a>
-                                <a href="#">网上报名流程及状态</a>
-                                <a href="#">报名方式</a>
-                                <a href="#">网上报名费用支付问题</a>
-                            </div>
-                            <div class="col-3">
-                                <h6>预订常见问题</h6>
-                                <a href="#">遇到恶劣天气是否取消？遇到恶劣天气是否取消遇到恶劣天气是否取消遇到恶劣天气是否取消</a>
-                                <a href="#">必须填写身份证吗？</a>
-                                <a href="#">独立成团可以吗？</a>
-                                <a href="#">什么是单房差？</a>
-                                <a href="#">纯玩是什么意思？</a>
-                            </div>
-                            <div class="col-3">
-                                <h6>网站条款</h6>
-                                <a href="#">网站免责声明</a>
-                                <a href="#">网站用户协议</a>
-                                <a href="#">网站版权说明</a>
-                                <a href="#">签订旅游合同</a>
-                            </div>
-                            <div class="col-3">
-                                <h6>付款和发票</h6>
-                                <a href="#">付款流程</a>
-                                <a href="#">三种付款方式</a>
-                                <a href="#">发票相关问题</a>
-                                <a href="#">如何支付尾款</a>
-                                <a href="#">退款付款说明</a>
-                            </div>
+                            @foreach($categories as $category)
+                                <div class="col-3">
+                                    <h6>{{ $category->title }}</h6>
+                                    @foreach($category->articles as $article)
+                                        <a href="{{ route('www.article.show', $article) }}" target="_blank">{{ $article->title }}</a>
+                                    @endforeach
+                                </div>
+                            @endforeach
                         </div>
                     </div>
                     <div class="col-4">
@@ -195,12 +172,9 @@
                 </div>
                 <div class="about text-center">
                     <p>
-                        <a href="#">关于我们</a>
-                        <a href="#">人才招聘</a>
-                        <a href="#">帮助中心</a>
-                        <a href="#">网站地图</a>
-                        <a href="#">商务洽谈</a>
-                        <a href="#">营业执照</a>
+                        @foreach($abouts as $about)
+                            <a href="{{ route('www.article.show', $about) }}" target="_blank">{{ $about->title }}</a>
+                        @endforeach
                     </p>
                     <hr>
                     <p>

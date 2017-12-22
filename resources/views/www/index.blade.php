@@ -230,7 +230,7 @@
 
     <div class="container my-5">
         <div class="row">
-            <div class="col">
+            <div class="col-6 pr-0">
                 <ul class="nav mb-2" role="tablist" style="margin-left: -15px">
                     <li class="nav-item">
                         <a class="nav-link active" data-toggle="tab" href="#vp" role="tab">旅途短拍</a>
@@ -239,56 +239,68 @@
                         <a class="nav-link" data-toggle="tab" href="#zb" role="tab">大咖直播</a>
                     </li>
                     <li class="nav-item ml-auto">
-                        <a class="nav-link disabled" href="javascript:void(0);">更多...</a>
+                        <a class="nav-link disabled" href="{{ route('www.video.list') }}">更多...</a>
                     </li>
                 </ul>
-
                 <div class="tab-content wan-video">
                     <div class="tab-pane fade show active" id="vp">
                         <div class="mb-2 position-relative">
-                            <a href="#">
-                                <img src="{{ asset('uploads/d/thumb_zb_1.jpg') }}" alt="thumb_zb_1">
-                                <h5 class="position-absolute text text-truncate">世界很小，相遇在路上，泸沽湖纪念 旅途的点点滴滴</h5>
-                                <p class="position-absolute icon"><i class="fa fa-5x fa-play-circle-o"></i></p>
-                            </a>
+                            @isset($films[0])
+                                <a href="{{ route('www.video.show', $films[0]) }}" title="{{ $films[0]->title }}" target="_blank">
+                                    <img src="{{ imageCut(600, 380, $films[0]->thumb) }}" alt="{{ $films[0]->title }}" width="600" height="380">
+                                    <h5 class="position-absolute text text-truncate">{{ $films[0]->title }}</h5>
+                                    <p class="position-absolute icon"><i class="fa fa-5x fa-play-circle-o"></i></p>
+                                </a>
+                            @endisset
                         </div>
                         <div class="d-flex justify-content-between">
-                            <a class="position-relative">
-                                <img src="{{ asset('uploads/d/thumb_zb_2.jpg') }}" alt="thumb_zb_2">
-                                <h5 class="position-absolute text text-truncate">世界很小，相遇在路上，泸沽湖纪念 旅途的点点滴滴</h5>
-                                <p class="position-absolute icon"><i class="fa fa-3x fa-play-circle-o"></i></p>
-                            </a>
-                            <a class="position-relative">
-                                <img src="{{ asset('uploads/d/thumb_zb_3.jpg') }}" alt="thumb_zb_3">
-                                <h5 class="position-absolute text text-truncate">珠峰大本营留念2017</h5>
-                                <p class="position-absolute icon"><i class="fa fa-3x fa-play-circle-o"></i></p>
-                            </a>
+                            @isset($films[1])
+                                <a class="position-relative" href="{{ route('www.video.show', $films[1]) }}" title="{{ $films[1]->title }}" target="_blank">
+                                    <img src="{{ imageCut(294, 186, $films[1]->thumb) }}" alt="{{ $films[1]->title }}" width="294" height="186">
+                                    <h5 class="position-absolute text text-truncate">{{ $films[1]->title }}</h5>
+                                    <p class="position-absolute icon"><i class="fa fa-3x fa-play-circle-o"></i></p>
+                                </a>
+                            @endisset
+                            @isset($films[2])
+                                <a class="position-relative" href="{{ route('www.video.show', $films[2]) }}" title="{{ $films[2]->title }}" target="_blank">
+                                    <img src="{{ imageCut(294, 186, $films[2]->thumb) }}" alt="{{ $films[2]->title }}" width="294" height="186">
+                                    <h5 class="position-absolute text text-truncate">{{ $films[2]->title }}</h5>
+                                    <p class="position-absolute icon"><i class="fa fa-3x fa-play-circle-o"></i></p>
+                                </a>
+                            @endisset
                         </div>
                     </div>
+
                     <div class="tab-pane fade show" id="zb">
                         <div class="mb-2 position-relative">
-                            <a href="#">
-                                <img src="{{ asset('uploads/d/thumb_zb_1.jpg') }}" alt="thumb_zb_1">
-                                <h5 class="position-absolute text text-truncate">世界很小，相遇在路上，泸沽湖纪念 旅途的点点滴滴</h5>
-                                <p class="position-absolute icon"><i class="fa fa-5x fa-play-circle-o"></i></p>
-                            </a>
+                            @isset($lives[0])
+                                <a href="{{ route('www.video.show', $lives[0]) }}" title="{{ $lives[0]->title }}" target="_blank">
+                                    <img src="{{ imageCut(600, 380, $lives[0]->thumb) }}" alt="{{ $lives[0]->title }}" width="600" height="380">
+                                    <h5 class="position-absolute text text-truncate">{{ $lives[0]->title }}</h5>
+                                    <p class="position-absolute icon"><i class="fa fa-3x fa-play-circle-o"></i></p>
+                                </a>
+                            @endisset
                         </div>
                         <div class="d-flex justify-content-between">
-                            <a class="position-relative">
-                                <img src="{{ asset('uploads/d/thumb_zb_3.jpg') }}" alt="thumb_zb_2">
-                                <h5 class="position-absolute text text-truncate">世界很小，相遇在路上，泸沽湖纪念 旅途的点点滴滴</h5>
-                                <p class="position-absolute icon"><i class="fa fa-3x fa-play-circle-o"></i></p>
-                            </a>
-                            <a class="position-relative">
-                                <img src="{{ asset('uploads/d/thumb_zb_2.jpg') }}" alt="thumb_zb_3">
-                                <h5 class="position-absolute text text-truncate">珠峰大本营留念2017</h5>
-                                <p class="position-absolute icon"><i class="fa fa-3x fa-play-circle-o"></i></p>
-                            </a>
+                            @isset($lives[1])
+                                <a class="position-relative" href="{{ route('www.video.show', $lives[1]) }}" title="{{ $lives[1]->title }}" target="_blank">
+                                    <img src="{{ imageCut(294, 186, $lives[1]->thumb) }}" alt="{{ $lives[1]->title }}" width="294" height="186">
+                                    <h5 class="position-absolute text text-truncate">{{ $lives[1]->title }}</h5>
+                                    <p class="position-absolute icon"><i class="fa fa-3x fa-play-circle-o"></i></p>
+                                </a>
+                            @endisset
+                            @isset($lives[2])
+                                <a class="position-relative" href="{{ route('www.video.show', $lives[2]) }}" title="{{ $lives[2]->title }}" target="_blank">
+                                    <img src="{{ imageCut(294, 186, $lives[2]->thumb) }}" alt="{{ $lives[2]->title }}" width="294" height="186">
+                                    <h5 class="position-absolute text text-truncate">{{ $lives[2]->title }}</h5>
+                                    <p class="position-absolute icon"><i class="fa fa-3x fa-play-circle-o"></i></p>
+                                </a>
+                            @endisset
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col">
+            <div class="col-6">
                 <ul class="nav mb-2" role="tablist" style="margin-left: -10px">
                     <li class="nav-item">
                         <a class="nav-link active" data-toggle="tab" href="#gl" role="tab">超强攻略</a>
