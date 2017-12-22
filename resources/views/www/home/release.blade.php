@@ -145,7 +145,19 @@
             axios.post("{{ route('travel.store') }}", param, {
                 headers: {'Content-Type': 'multipart/form-data'}
             }).then(res => {
-                swal('干得漂亮，操作成功！', res.data.message, 'success')
+                swal({
+                        title: '干得漂亮，操作成功！',
+                        text: res.data.message,
+                        type: 'success',
+                        showCancelButton: true,
+                        confirmButtonText: '返回个人主页',
+                        cancelButtonText: '继续发布',
+                        closeOnConfirm: false,
+                        closeOnCancel: false
+                    },
+                    function (isConfirm) {
+                        isConfirm ? location.href = "{{ route('home') }}" : location.reload(true)
+                    })
             }).catch(err => {
                 let errors = err.response.data.errors;
                 swal('错误啦！', Object.values(errors).join("\r\n"), 'error')

@@ -100,10 +100,34 @@ class ListController extends Controller
     }
 
 
-    public function travel()
+    public function travel(Request $request)
     {
-        $data['travels'] = Travel::with('user')->withCount('likes')->status('adopt')->paginate();
+        $data = Cache::remember(request()->fullUrl(), 5, function () use ($request) {
+            $field = $request->get('field', 'id');
+            $order = $request->get('order', 'desc');
 
+            $data['travels'] = Travel::with('user')
+                ->withCount('likes')
+                ->orderBy($field, $order)
+                ->status('adopt')
+                ->where(function ($query) use ($request) {
+                    if ($province = $request->province) {
+                        $query->where('province', $province);
+                    }
+                    if ($city = $request->city) {
+                        $query->where('city', $city);
+                    }
+                })->paginate();
+
+            $data['provinces'] = Travel::status('adopt')->distinct()->get(['province as title']);
+            $data['cities'] = Travel::status('adopt')->where(function ($query) use ($request) {
+                if ($province = $request->province) {
+                    $names = LocList::province()->where('name', $province)->first()->children->pluck('name');
+                    $query->whereIn('city', $names);
+                }
+            })->distinct()->get(['city as title']);
+            return $data;
+        });
         return view('www.list_travels', $data);
     }
 

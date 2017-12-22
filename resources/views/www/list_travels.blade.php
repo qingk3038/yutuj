@@ -26,25 +26,22 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-8">
+            <div class="col-8" id="load">
                 <div class="bg-white mb-2 py-3 list-param">
                     <div class="row px-3">
                         <div class="col-1 text-nowrap">区域</div>
                         <div class="col-10 text-truncate">
-                            <a href="#" class="active">全部</a>
-                            <a href="#">四川</a>
-                            <a href="#">云南</a>
-                            <a href="#">青海</a>
-                            <a href="#">西藏</a>
-                            <a href="#">新疆</a>
-                            <a href="#">贵州</a>
-                            <a href="#">陕甘宁</a>
-                            <a href="#">内蒙古</a>
-                            <a href="#">广西</a>
+                            <a href="{{ route('www.travel.list') }}" @empty(request('province'))class="active"@endempty>全部</a>
+                            @foreach($provinces as $province)
+                                <a href="{{ route('www.travel.list', ['province' => $province->title]) }}" @if(request('province') === $province->title) class="active" @endif>{{ $province->title }}</a>
+                            @endforeach
                         </div>
-                        <div class="col-1 text-nowrap">
-                            <span class="text-warning">更多 <i class="fa fa-angle-down"></i></span>
-                        </div>
+
+                        @if(count($provinces) >= 12)
+                            <div class="col-1 text-nowrap">
+                                <span class="text-warning">更多 <i class="fa fa-angle-down"></i></span>
+                            </div>
+                        @endif
                     </div>
                 </div>
 
@@ -52,36 +49,30 @@
                     <div class="row px-3">
                         <div class="col-1 text-nowrap">目的地</div>
                         <div class="col-10 text-truncate">
-                            <a href="#" class="active">全部</a>
-                            <a href="#">成都</a>
-                            <a href="#">昆明</a>
-                            <a href="#">西安</a>
-                            <a href="#">拉萨</a>
-                            <a href="#">西宁</a>
-                            <a href="#">桂林</a>
-                            <a href="#">林芝</a>
-                            <a href="#">喀纳斯</a>
-                            <a href="#">大理</a>
-                            <a href="#">峨眉山</a>
-                            <a href="#">丽江</a>
-                            <a href="#">珠峰</a>
+                            <a href="{{ route('www.travel.list', Request::only('province')) }}" @empty(request('city'))class="active"@endempty>全部</a>
+                            @foreach($cities as $city)
+                                <a href="{{ route('www.travel.list', array_merge(Request::only('province'), ['city' => $city->title])) }}" @if(request('city') === $city->title)class="active"@endif>{{ $city->title }}</a>
+                            @endforeach
                         </div>
-                        <div class="col-1 text-nowrap">
-                            <span class="text-warning">更多 <i class="fa fa-angle-down"></i></span>
-                        </div>
+
+                        @if(count($cities) >= 12)
+                            <div class="col-1 text-nowrap">
+                                <span class="text-warning">更多 <i class="fa fa-angle-down"></i></span>
+                            </div>
+                        @endif
                     </div>
                 </div>
 
                 <div class="bg-white list-orderBy py-2 my-2">
                     <ul class="nav">
                         <li class="nav-item">
-                            <a class="nav-link active" href="javascript:void(0);">综合排序 <i class="fa fa-angle-down"></i></a>
+                            <a class="nav-link {{ request('field', 'id') === 'id' ? 'active' : '' }}" href="{{ route('www.travel.list', array_merge(Request::only('province', 'city'), ['field' => 'id', 'order' => request('field', 'id') == 'id' &&  request('order', 'desc') === 'desc' ? 'asc' : 'desc'])) }}">综合排序 <i class="fa fa-angle-{{  request('field', 'id') === 'id' && request('order', 'desc') === 'desc' ? 'down' : 'up' }}"></i></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="javascript:void(0);">热门度 <i class="fa fa-angle-down"></i></a>
+                            <a class="nav-link {{ request('field') === 'click' ? 'active' : '' }}" href="{{ route('www.travel.list', array_merge(Request::only('province', 'city'), ['field' => 'click', 'order' => request('field') == 'click' &&  request('order') === 'desc' ? 'asc' : 'desc'])) }}">热门度 <i class="fa fa-angle-{{  request('field') == 'click' && request('order') === 'desc' ? 'down' : 'up' }}"></i></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="javascript:void(0);">发布时间 <i class="fa fa-angle-down"></i></a>
+                            <a class="nav-link {{ request('field') === 'created_at' ? 'active' : '' }}" href="{{ route('www.travel.list', array_merge(Request::only('province', 'city'), ['field' => 'created_at', 'order' => request('field') == 'created_at' &&  request('order') === 'desc' ? 'asc' : 'desc'])) }}">发布时间 <i class="fa fa-angle-{{ request('field') == 'created_at' &&  request('order') === 'desc' ? 'down' : 'up' }}"></i></a>
                         </li>
                     </ul>
                 </div>
@@ -111,7 +102,7 @@
                     @endforeach
 
                     <nav class="d-flex justify-content-end pt-5 w-100">
-                        {{ $travels->appends(Request::only( 'p', 'c', 'field', 'order'))->links() }}
+                        {{ $travels->appends(Request::only( 'province', 'city', 'field', 'order'))->links() }}
                     </nav>
                 </div>
             </div>
@@ -207,3 +198,22 @@
         </div>
     </div>
 @endsection
+
+@push('script')
+    <script>
+        (function ($) {
+            // 筛选 显示更多
+            $('#load').on('click', '.list-param span', function () {
+                $(this).children().toggleClass('fa-flip-vertical')
+                $(this).parent().prev().toggleClass('text-truncate')
+            })
+
+            // 异步加载
+            $(document).on('click', '.list-param a, .list-orderBy a, ul.pagination a', function (event) {
+                event.preventDefault()
+                let url = $(this).attr('href') + ' #load > div'
+                $('#load').load(url)
+            })
+        })(jQuery);
+    </script>
+@endpush
