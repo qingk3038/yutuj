@@ -141,11 +141,15 @@ class HomeController extends Controller
      */
     public function fans(User $user)
     {
-        if ($user->id !== auth()->id()) {
-            $gz = Follow::firstOrNew(['user_id' => $user->id, 'gz_id' => auth()->id()]);
-            $gz->id ? $gz->delete() : $gz->save();
-        }
-        return ['fans_count' => $user->fans()->count()];
+        $gz = Follow::firstOrNew(['user_id' => auth()->id(), 'gz_id' => $user->id]);
+        if ($gz->id) {
+            $is_fans = false;
+            $gz->delete();
+        } else {
+            $is_fans = true;
+            $gz->save();
+        };
+        return ['fans_count' => $user->fans()->count(), 'follows_count' => $user->follows()->count(), 'is_fans' => $is_fans];
     }
 
     /**
@@ -155,7 +159,7 @@ class HomeController extends Controller
      */
     public function isFans(User $user)
     {
-        $num = Follow::where(['user_id' => $user->id, 'gz_id' => auth()->id()])->count();
+        $num = Follow::where(['user_id' => auth()->id(), 'gz_id' => $user->id])->count();
         return ['is_fans' => !!$num];
     }
 

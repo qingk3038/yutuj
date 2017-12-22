@@ -26,22 +26,6 @@
             @endif
         </p>
     </div>
-
-    <input type="file" id="fileThumb" onchange="updateThumb(this)" style="width: 0px; height: 0px; opacity: 0;">
-    <div class="modal fade" id="release" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-sm" role="document" style="top: 30%;">
-            <div class="modal-content">
-                <div class="modal-body text-center">
-                    <span class="close" data-dismiss="modal">&times;</span>
-                    <div class="pt-4 pb-2 icon">
-                        <span class="fa fa-fw fa-exclamation-circle fa-4x text-danger"></span>
-                        <span class="fa fa-fw fa-smile-o fa-4x text-success"></span>
-                    </div>
-                    <p class="text-muted font-weight-light msg">未填写完成的消息提示</p>
-                </div>
-            </div>
-        </div>
-    </div>
 @endsection
 
 @push('script')

@@ -60,8 +60,8 @@ class ListController extends Controller
             $this->validate($request, [
                 'field' => 'nullable|in:id,click,created_at',
                 'order' => 'nullable|in:asc,desc',
-                'pid' => 'nullable|integer|exists:activities,province_id',
-                'cid' => 'nullable|integer|exists:activities,city_id',
+                'pid' => 'nullable|integer|exists:raiders,province_id',
+                'cid' => 'nullable|integer|exists:raiders,city_id',
             ]);
 
             $field = $request->get('field', 'id');

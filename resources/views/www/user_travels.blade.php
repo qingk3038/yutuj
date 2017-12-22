@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $user->name . '的游记')
+@section('title', ($user->name ?? $user->mobile) . '的游记')
 
 @section('content')
     <div class="bg-home text-hide" style="background-image: url({{ imageCut(1920, 500, $user->bg_home) }});">封面</div>
@@ -24,16 +24,16 @@
                 {{ $user->description ?? '这家伙太懒了，还没有完善个人信息。' }}
             </p>
             <p class="text-center">
-                <span class="btn btn-warning text-white btn-sm px-4 btn-follow disabled" data-uid="{{ $user->id }}"><i class="fa fa-plus"></i> 关注</span>
+                <span class="btn btn-warning text-white btn-sm px-4 btn-follow" data-uid="{{ $user->id }}"><i class="fa fa-plus"></i> 关注</span>
             </p>
             <table class="table table-bordered text-center">
                 <tr>
                     <td class="w-50">
-                        <b>{{ $user->follows()->count() }}</b>
+                        <b id="follows_count">{{ $user->follows()->count() }}</b>
                         <br>关注
                     </td>
                     <td class="w-50">
-                        <b id="fs_count">{{ $user->fans()->count() }}</b>
+                        <b id="fans_count">{{ $user->fans()->count() }}</b>
                         <br>粉丝
                     </td>
                 </tr>
@@ -68,10 +68,13 @@
                     </div>
                 </div>
             @endforeach
-
-            <nav class="d-flex justify-content-center">
-                {{ $travels->links() }}
-            </nav>
+            @if($travels->total())
+                <nav class="d-flex justify-content-center">
+                    {{ $travels->links() }}
+                </nav>
+            @else
+                <div class="bg-light p-5 text-center">TA还没有发表过游记。</div>
+            @endif
         </div>
     </div>
 
@@ -81,34 +84,37 @@
     <script>
         // 点赞
         $('.btn-dz').css('cursor', 'pointer').click(function () {
-            let tid = $(this).data('tid');
+            let tid = $(this).data('tid')
             axios.post(`{{ url('travel/like') }}/${tid}`).then(res => {
-                $(this).prev().text(res.data.likes_count);
+                $(this).prev().text(res.data.likes_count)
             }).catch(err => {
-
+                swal('失败啦！', err.response.data.message, 'error')
             })
         })
 
         // 成为粉丝
         $('.btn-follow').css('cursor', 'pointer').click(function () {
-            if($(this).hasClass('disabled')){
-                return
-            }
             let uid = $(this).data('uid');
             axios.post(`{{ url('user/fans') }}/${uid}`).then(res => {
-                $('#fs_count').text(res.data.fans_count);
-            }).catch(err => {
+                $('#fans_count').text(res.data.fans_count)
+                $('#follows_count').text(res.data.follows_count)
 
+                $(this).html(res.data.is_fans ? '<i class="fa fa-minus"></i> 取消关注' : '<i class="fa fa-plus"></i> 关注')
+                swal({
+                    title: (res.data.is_fans ? '关注' : '取消') + '成功',
+                    type: 'success',
+                    timer: 2000
+                })
+            }).catch(err => {
+                swal('失败啦！', err.response.data.message, 'error')
             })
         })
 
         let uid = $('.btn-follow').data('uid');
         axios.get(`{{ url('user/fans') }}/${uid}`).then(res => {
-            if (!res.data.is_fans) {
-                $('.btn-follow').removeClass('disabled')
+            if (res.data.is_fans) {
+                $('.btn-follow').html('<i class="fa fa-minus"></i> 取消关注')
             }
-        }).catch(err => {
-
         })
     </script>
 @endpush

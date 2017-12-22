@@ -104,15 +104,9 @@
                 headers: {'Content-Type': 'multipart/form-data'}
             }).then(res => {
                 $('img[tid="' + tid + '"]').prop('src', res.data.path)
-                msg.text(res.data.message)
-                icon.eq(1).show()
-                icon.eq(0).hide()
-                return modal.modal('show')
+                swal('操作已成功！', res.data.message, 'success')
             }).catch(err => {
-                msg.html(err.response.data.message)
-                icon.eq(0).show()
-                icon.eq(1).hide()
-                return modal.modal('show')
+                swal('失败啦！', err.response.data.message, 'error')
             })
         }
     </script>
