@@ -78,7 +78,7 @@
 
                     @if(Request::is('/'))
                         <div class="text-white pr-5">
-                            <i class="fa fa-fw fa-phone"></i> 400-3455-456
+                            <i class="fa fa-fw fa-phone"></i> {{ config('tel_400') }}
                         </div>
                     @else
                         <form class="form-inline mr-4 top-search" autocomplete="off">
@@ -133,10 +133,10 @@
             <div class="container">
                 <nav class="nav nav-justified">
                     <a class="nav-item nav-link" href="{{ url('/') }}">首页</a>
-                    <a class="nav-item nav-link active" href="#">纵横西部</a>
-                    <a class="nav-item nav-link" href="#">西行漫游</a>
-                    <a class="nav-item nav-link" href="#">超级周末</a>
-                    <a class="nav-item nav-link" href="#">最6旅行</a>
+                    <a class="nav-item nav-link" href="{{ route('www.activity.list', ['nid' => 2]) }}">纵横西部</a>
+                    <a class="nav-item nav-link" href="{{ route('www.activity.list', ['nid' => 3]) }}">微上西部</a>
+                    <a class="nav-item nav-link" href="{{ route('www.activity.list', ['nid' => 4]) }}">超级周末</a>
+                    <a class="nav-item nav-link" href="{{ route('www.activity.list', ['nid' => 5]) }}">最6旅行</a>
                     <a class="nav-item nav-link" href="{{ url('customized') }}">定制旅行</a>
                     <a class="nav-item nav-link" href="{{ route('www.raider.list') }}">超级攻略</a>
                     <a class="nav-item nav-link" href="{{ route('www.travel.list') }}">精彩游记</a>
@@ -160,8 +160,8 @@
                         <div class="row">
                             <div class="col">
                                 <img src="{{ asset('img/logo_footer.png') }}" alt="logo_footer" width="170" height="56">
-                                <h4 class="text-center">400-3455-456</h4>
-                                <span class="btn btn-warning btn-block text-white">在线咨询</span>
+                                <h4 class="text-center">{{ config('tel_400') }}</h4>
+                                <span class="btn btn-warning btn-block text-white swt">在线咨询</span>
                             </div>
                             <div class="col text-center">
                                 <img src="{{ asset('img/weixin.jpg') }}" alt="weixin" width="114" height="114">

@@ -83,3 +83,6 @@ Route::get('video/list', 'ListController@video')->name('www.video.list');
 
 // 文章
 Route::get('article/show/{article}', 'ShowController@article')->name('www.article.show');
+
+// 搜索
+Route::get('search', 'ListController@search');
