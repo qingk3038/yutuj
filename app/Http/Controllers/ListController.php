@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Activity;
 use App\Models\Leader;
 use App\Models\LocList;
+use App\Models\Nav;
 use App\Models\Raider;
 use App\Models\Travel;
 use App\Models\Video;
@@ -35,14 +36,14 @@ class ListController extends Controller
     public function leaders(LocList $province = null)
     {
         $data = Cache::remember(request()->fullUrl(), 5, function () use ($province) {
-            $data['leaders'] = $province ?
+            $arr['leaders'] = $province ?
                 $province->provinceLeaders()->select('id', 'name', 'avatar', 'brief', 'country_id', 'province_id', 'city_id')->latest('updated_at')->get()
                 : Leader::select('id', 'name', 'avatar', 'brief', 'country_id', 'province_id', 'city_id')->with('country', 'province', 'city')->latest('updated_at')->get();
 
-            $data['provinces'] = LocList::has('provinceLeaders')->get(['id', 'name']);
+            $arr['provinces'] = LocList::has('provinceLeaders')->get(['id', 'name']);
 
-            $data['activities'] = Activity::active()->limit(4)->latest()->get(['id', 'title', 'short', 'thumb', 'price']);
-            return $data;
+            $arr['activities'] = Activity::active()->limit(4)->latest()->get(['id', 'title', 'short', 'thumb', 'price']);
+            return $arr;
         });
 
         return view('www.list_leader', $data)->with('province', $province);
@@ -66,7 +67,7 @@ class ListController extends Controller
             $field = $request->get('field', 'id');
             $order = $request->get('order', 'desc');
 
-            $data['raiders'] = Raider::select('id', 'type', 'title', 'short', 'description', 'thumb', 'click', 'country_id', 'province_id', 'city_id', 'created_at')
+            $arr['raiders'] = Raider::select('id', 'type', 'title', 'short', 'description', 'thumb', 'click', 'country_id', 'province_id', 'city_id', 'created_at')
                 ->with('country', 'province', 'city')
                 ->withCount('likes')
                 ->orderBy($field, $order)
@@ -80,18 +81,18 @@ class ListController extends Controller
                     }
                 })->paginate(10);
 
-            $data['provinces'] = LocList::whereHas('provinceRaiders', function ($query) use ($request) {
+            $arr['provinces'] = LocList::whereHas('provinceRaiders', function ($query) use ($request) {
                 $query->type($request->type);
             })->get(['id', 'name']);
 
-            $data['cities'] = LocList::where(function ($query) use ($request) {
+            $arr['cities'] = LocList::where(function ($query) use ($request) {
                 if ($pid = $request->pid) {
                     $query->where('parent_id', $pid);
                 }
             })->whereHas('cityRaiders', function ($query) use ($request) {
                 $query->type($request->type);
             })->get(['id', 'name']);
-            return $data;
+            return $arr;
         });
         return view('www.list_raider', $data);
     }
@@ -109,13 +110,14 @@ class ListController extends Controller
                 'order' => 'nullable|in:asc,desc',
                 'pid' => 'nullable|integer|exists:activities,province_id',
                 'cid' => 'nullable|integer|exists:activities,city_id',
+                'nid' => 'nullable|integer|exists:navs,id',
                 'price.min' => 'nullable|integer|min:0',
                 'price.max' => 'nullable|integer|min:0',
             ]);
             $field = $request->get('field', 'id');
             $order = $request->get('order', 'desc');
 
-            $data['activities'] = Activity::select('id', 'title', 'short', 'title', 'xc', 'description', 'thumb', 'price', 'province_id', 'city_id')
+            $arr['activities'] = Activity::select('id', 'title', 'short', 'title', 'xc', 'description', 'thumb', 'price', 'province_id', 'city_id')
                 ->active()->with('tuans')->withCount('trips')->where(function ($query) use ($request) {
                     if ($pid = $request->pid) {
                         $query->where('province_id', $pid);
@@ -129,21 +131,38 @@ class ListController extends Controller
                     if ($max = $request->input('price.max')) {
                         $query->where('price', '<=', $max);
                     }
+                    if ($nid = $request->nid) {
+                        $query->whereHas('navs', function ($query) use ($nid) {
+                            $query->where('id', $nid);
+                        });
+                    }
                 })->orderBy($field, $order)->paginate(10);
 
-            $data['provinces'] = LocList::whereHas('provinceActivities', function ($query) {
+            $arr['provinces'] = LocList::whereHas('provinceActivities', function ($query) use ($request) {
                 $query->active();
+                if ($nid = $request->nid) {
+                    $query->whereHas('navs', function ($query) use ($nid) {
+                        $query->where('id', $nid);
+                    });
+                }
             })->get(['id', 'name']);
 
-            $data['cities'] = LocList::where(function ($query) use ($request) {
+            $arr['cities'] = LocList::where(function ($query) use ($request) {
                 if ($pid = $request->pid) {
                     $query->where('parent_id', $pid);
                 }
-            })->whereHas('cityActivities', function ($query) {
+            })->whereHas('cityActivities', function ($query) use ($request) {
                 $query->active();
+                if ($nid = $request->nid) {
+                    $query->whereHas('navs', function ($query) use ($nid) {
+                        $query->where('id', $nid);
+                    });
+                }
             })->get(['id', 'name']);
 
-            return $data;
+            $arr['nav'] = Nav::find($request->nid);
+
+            return $arr;
         });
 
         return view('www.list_activity', $data);
@@ -154,7 +173,8 @@ class ListController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function travel(Request $request)
+    public
+    function travel(Request $request)
     {
         $data = Cache::remember(request()->fullUrl(), 5, function () use ($request) {
             $this->validate($request, [
@@ -197,7 +217,8 @@ class ListController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function video(Request $request)
+    public
+    function video(Request $request)
     {
         $data = Cache::remember(request()->fullUrl(), 5, function () use ($request) {
             $this->validate($request, [
@@ -231,7 +252,8 @@ class ListController extends Controller
         return view('www.list_video', $data);
     }
 
-    public function search(Request $request)
+    public
+    function search(Request $request)
     {
         return $request->all();
     }

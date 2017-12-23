@@ -21,7 +21,7 @@
     </div>
 
     <div class="container">
-        <div class="py-4"><a href="{{ url('/') }}">首页</a> &gt; <span class="text-warning">活动</span></div>
+        <div class="py-4"><a href="{{ url('/') }}">首页</a> &gt; @isset($nav)<span>{{ $nav->text }}</span> &gt;@endisset <span class="text-warning">活动</span></div>
     </div>
 
     <div class="container">
@@ -31,9 +31,9 @@
                     <div class="row px-3">
                         <div class="col-1 text-nowrap">区域</div>
                         <div class="col-10 text-truncate">
-                            <a href="{{ route('www.activity.list') }}" @empty(request('pid')) class="active" @endempty>全部</a>
+                            <a href="{{ route('www.activity.list', Request::only('nid')) }}" @empty(request('pid')) class="active" @endempty>全部</a>
                             @foreach($provinces as $province)
-                                <a href="{{ route('www.activity.list', ['pid' => $province]) }}" @if(request('pid') == $province->id) class="active" @endif>{{ $province->name }}</a>
+                                <a href="{{ route('www.activity.list', array_merge(Request::only('nid'), ['pid' => $province])) }}" @if(request('pid') == $province->id) class="active" @endif>{{ $province->name }}</a>
                             @endforeach
                         </div>
                         @if(count($provinces) >= 12)
@@ -48,9 +48,9 @@
                     <div class="row px-3">
                         <div class="col-1 text-nowrap">目的地</div>
                         <div class="col-10 text-truncate">
-                            <a href="{{ route('www.activity.list', Request::only('pid')) }}" @empty(request('cid')) class="active" @endempty>全部</a>
+                            <a href="{{ route('www.activity.list', Request::only('nid', 'pid')) }}" @empty(request('cid')) class="active" @endempty>全部</a>
                             @foreach($cities as $city)
-                                <a href="{{ route('www.activity.list', array_merge(Request::only('pid'), ['cid' => $city])) }}" @if(request('cid') == $city->id) class="active" @endif>{{ $city->name }}</a>
+                                <a href="{{ route('www.activity.list', array_merge(Request::only('nid', 'pid'), ['cid' => $city])) }}" @if(request('cid') == $city->id) class="active" @endif>{{ $city->name }}</a>
                             @endforeach
                         </div>
                         @if(count($cities) >= 12)
@@ -64,12 +64,12 @@
                     <div class="row px-3">
                         <div class="col-1 text-nowrap">价格</div>
                         <div class="col-10 text-truncate">
-                            <a href="{{ route('www.activity.list', Request::only('pid', 'cid')) }}" @empty(request('price')) class="active" @endempty>全部</a>
-                            <a href="{{ route('www.activity.list', array_merge(Request::only('pid', 'cid'), ['price[max]' => 499])) }}" @if(Request::input('price.max') == 499) class="active" @endif>500元以下</a>
-                            <a href="{{ route('www.activity.list', array_merge(Request::only('pid', 'cid'), ['price[min]' => 500, 'price[max]' => 999])) }}" @if(Request::input('price.max') == 1000) class="active" @endif>500-999元</a>
-                            <a href="{{ route('www.activity.list', array_merge(Request::only('pid', 'cid'), ['price[min]' => 1000, 'price[max]' => 1999])) }}" @if(Request::input('price.max') == 2000) class="active" @endif>1000-1999元</a>
-                            <a href="{{ route('www.activity.list', array_merge(Request::only('pid', 'cid'), ['price[min]' => 2000, 'price[max]' => 5000])) }}" @if(Request::input('price.max') == 2000) class="active" @endif>2000-5000元</a>
-                            <a href="{{ route('www.activity.list', array_merge(Request::only('pid', 'cid'), ['price[min]' => 5001])) }}" @if(Request::input('price.min') == 1001) class="active" @endif>5000以上</a>
+                            <a href="{{ route('www.activity.list', Request::only('nid', 'pid', 'cid')) }}" @empty(request('price')) class="active" @endempty>全部</a>
+                            <a href="{{ route('www.activity.list', array_merge(Request::only('nid', 'pid', 'cid'), ['price[max]' => 499])) }}" @if(Request::input('price.max') == 499) class="active" @endif>500元以下</a>
+                            <a href="{{ route('www.activity.list', array_merge(Request::only('nid', 'pid', 'cid'), ['price[min]' => 500, 'price[max]' => 999])) }}" @if(Request::input('price.max') == 1000) class="active" @endif>500-999元</a>
+                            <a href="{{ route('www.activity.list', array_merge(Request::only('nid', 'pid', 'cid'), ['price[min]' => 1000, 'price[max]' => 1999])) }}" @if(Request::input('price.max') == 2000) class="active" @endif>1000-1999元</a>
+                            <a href="{{ route('www.activity.list', array_merge(Request::only('nid', 'pid', 'cid'), ['price[min]' => 2000, 'price[max]' => 5000])) }}" @if(Request::input('price.max') == 2000) class="active" @endif>2000-5000元</a>
+                            <a href="{{ route('www.activity.list', array_merge(Request::only('nid', 'pid', 'cid'), ['price[min]' => 5001])) }}" @if(Request::input('price.min') == 1001) class="active" @endif>5000以上</a>
                         </div>
                     </div>
                 </div>
@@ -77,13 +77,13 @@
                 <div class="bg-white list-orderBy py-2 my-2">
                     <ul class="nav">
                         <li class="nav-item">
-                            <a class="nav-link {{ request('field', 'id') === 'id' ? 'active' : '' }}" href="{{ route('www.activity.list', array_merge(Request::only('pid', 'cid', 'price'), ['field' => 'id', 'order' => request('field', 'id') == 'id' &&  request('order', 'desc') === 'desc' ? 'asc' : 'desc'])) }}">综合排序 <i class="fa fa-angle-{{  request('field', 'id') === 'id' && request('order', 'desc') === 'desc' ? 'down' : 'up' }}"></i></a>
+                            <a class="nav-link {{ request('field', 'id') === 'id' ? 'active' : '' }}" href="{{ route('www.activity.list', array_merge(Request::only('nid', 'pid', 'cid', 'price'), ['field' => 'id', 'order' => request('field', 'id') == 'id' &&  request('order', 'desc') === 'desc' ? 'asc' : 'desc'])) }}">综合排序 <i class="fa fa-angle-{{  request('field', 'id') === 'id' && request('order', 'desc') === 'desc' ? 'down' : 'up' }}"></i></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ request('field') === 'price' ? 'active' : '' }}" href="{{ route('www.activity.list', array_merge(Request::only('pid', 'cid', 'price'), ['field' => 'price', 'order' => request('field') == 'price' &&  request('order') === 'desc' ? 'asc' : 'desc'])) }}">价格 <i class="fa fa-angle-{{  request('field') == 'price' && request('order') === 'desc' ? 'down' : 'up' }}"></i></a>
+                            <a class="nav-link {{ request('field') === 'price' ? 'active' : '' }}" href="{{ route('www.activity.list', array_merge(Request::only('nid', 'pid', 'cid', 'price'), ['field' => 'price', 'order' => request('field') == 'price' &&  request('order') === 'desc' ? 'asc' : 'desc'])) }}">价格 <i class="fa fa-angle-{{  request('field') == 'price' && request('order') === 'desc' ? 'down' : 'up' }}"></i></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ request('field') === 'created_at' ? 'active' : '' }}" href="{{ route('www.activity.list', array_merge(Request::only('pid', 'cid', 'price'), ['field' => 'created_at', 'order' => request('field') == 'created_at' &&  request('order') === 'desc' ? 'asc' : 'desc'])) }}">发布时间 <i class="fa fa-angle-{{ request('field') == 'created_at' &&  request('order') === 'desc' ? 'down' : 'up' }}"></i></a>
+                            <a class="nav-link {{ request('field') === 'created_at' ? 'active' : '' }}" href="{{ route('www.activity.list', array_merge(Request::only('nid', 'pid', 'cid', 'price'), ['field' => 'created_at', 'order' => request('field') == 'created_at' &&  request('order') === 'desc' ? 'asc' : 'desc'])) }}">发布时间 <i class="fa fa-angle-{{ request('field') == 'created_at' &&  request('order') === 'desc' ? 'down' : 'up' }}"></i></a>
                         </li>
                     </ul>
                 </div>
@@ -110,7 +110,7 @@
                                     {{ str_limit($activity->xc, 90) }}
                                 </p>
                                 <p class="text-muted">
-                                    <small>{{ $activity->description }}</small>
+                                    <small>{{ str_limit($activity->description, 200) }}</small>
                                 </p>
                                 <h5 class="d-flex justify-content-between">
                                     <a href="javascript:void(0);" class="btn-fatuan text-info">出团日期 <i class="fa fa-lg fa-caret-down"></i></a>
@@ -141,7 +141,7 @@
                     @endforeach
 
                     <nav class="d-flex justify-content-end pt-5 w-100">
-                        {{ $activities->appends(Request::only( 'pid', 'cid', '', 'field', 'order'))->links() }}
+                        {{ $activities->appends(Request::only('nid', 'pid', 'cid', 'field', 'order'))->links() }}
                     </nav>
                 </div>
             </div>
