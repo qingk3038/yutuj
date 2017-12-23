@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Carbon;
 
 class Tuan extends Model
 {
@@ -14,9 +13,9 @@ class Tuan extends Model
     ];
 
     // 活动
-    public function activities()
+    public function activity()
     {
-        return $this->belongsToMany(Activity::class)->withTimestamps();
+        return $this->belongsTo(Activity::class);
     }
 
     // 订单
@@ -36,6 +35,6 @@ class Tuan extends Model
     public function available()
     {
         $num = $this->remainder();
-        return $num > 0 && Carbon::today()->lte($this->end_time);
+        return $num > 0 && today()->lte($this->end_time);
     }
 }

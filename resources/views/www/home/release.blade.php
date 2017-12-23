@@ -93,7 +93,7 @@
                             cancelButtonText: '取消删除',
                             closeOnConfirm: false
                         },
-                        () => {
+                        function() {
                             let url = $(this).data('action')
                             let li = $(this).closest('li')
                             axios.delete(url).then(res => {

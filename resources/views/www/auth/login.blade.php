@@ -5,7 +5,7 @@
 @section('footer', false)
 
 @section('content')
-    <div class="bg-login position-fixed">
+    <div class="bg-login position-fixed" id="app">
         <div class="panel-login position-fixed">
             <p class="text-center"><img src="{{ asset('img/logo_login.png') }}" alt="logo_login"></p>
             <form class="position-relative" v-on:submit.prevent="onSubmit">
@@ -60,18 +60,28 @@
                 form: {
                     mobile: '',
                     password: ''
-                }
+                },
+                wp: window.opener
             },
             methods: {
                 onSubmit() {
                     if (this.checkTel() && this.checkPwd()) {
                         this.resetError()
                         axios.post("{{ route('login') }}", this.form).then(res => {
-                            location.href = res.data.url
+                            if (this.wp) {
+                                this.wp.location.reload(true)
+                                window.close()
+                            } else {
+                                location.href = res.data.url
+                            }
                         }).catch(err => {
-                            let errors = err.response.data.errors;
-                            this.error = true
-                            this.errMsg = Object.values(errors).join("\r\n")
+                            if (err.response !== 'undefined') {
+                                let errors = err.response.data.errors;
+                                this.error = true
+                                this.errMsg = Object.values(errors).join("\r\n")
+                            } else {
+                                location.reload()
+                            }
                         })
                     }
                 },

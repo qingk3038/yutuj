@@ -86,3 +86,17 @@ Route::get('article/show/{article}', 'ShowController@article')->name('www.articl
 
 // 搜索
 Route::get('search', 'ListController@search');
+
+// 报名页面
+Route::get('tuan/{tuan}', 'PayController@create')->name('pay.order.create');
+// 填写报名信息的提交
+Route::post('tuan/{tuan}', 'PayController@store');
+// 显示二维码的支付页面和支付结果
+Route::get('order/{order}/pay', 'PayController@showQrcode')->name('order.qrcode');
+// 生成微信订单
+Route::get('pay/wechat/{order}', 'PayController@wechat')->name('pay.wechat');
+// 订单支付状态
+Route::get('pay/status/{order}', 'PayController@orderStatus')->name('pay.status');
+
+// 微信异步通知
+Route::post('notice/wechat', 'PayController@wechatNotice');

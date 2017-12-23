@@ -5,7 +5,7 @@
 @section('footer', false)
 
 @section('content')
-    <div class="bg-forgot position-fixed">
+    <div class="bg-forgot position-fixed" id="app">
         <div class="panel-login position-fixed">
             <p class="text-center"><img src="{{ asset('img/logo_login.png') }}" alt="logo_login"></p>
             <form class="position-relative" v-on:submit.prevent="onSubmit">

@@ -66,7 +66,7 @@
                                     <td class="align-middle text-danger">{{ $tuan->price }}元/人</td>
                                     <td class="align-middle text-right pr-3">
                                         @if($tuan->available())
-                                            <a href="#{{ $tuan->id }}" class="btn btn-warning text-white btn-sm rounded-0">去报名</a>
+                                            <a href="{{ route('pay.order.create', $tuan) }}" target="_blank" class="btn btn-warning text-white btn-sm rounded-0">去报名</a>
                                         @elseif($tuan->remainder() <= 0)
                                             <a href="javascript:void(0);" class="btn btn-warning text-white btn-sm rounded-0 disabled">已满员</a>
                                         @else
