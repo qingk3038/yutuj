@@ -51,7 +51,9 @@ class ShowController extends Controller
     public function travel(Travel $travel)
     {
         $travel->increment('click');
-        return view('www.travel', compact('travel'));
+        $activities= Activity::active()->latest()->limit(3)->get(['id', 'title', 'thumb', 'description', 'price']);
+
+        return view('www.travel', compact('travel', 'activities'));
     }
 
     // 显示视频

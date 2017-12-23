@@ -51,17 +51,17 @@ class AppServiceProvider extends ServiceProvider
             $view->with(compact('categories', 'abouts'));
         });
 
-        // 列表页右边
+        // 页面右边
         View::composer('www.right', function ($view) {
-            $data = Cache::remember('right.blade', 5, function () {
+            $data = Cache::remember('right.blade', 5, function () use ($view) {
+                $arr['raiders'] = Raider::latest()->limit(3)->get(['id', 'title', 'thumb', 'description']);
+                $arr['raiders_count'] = Raider::count();
+
                 $arr['film'] = Video::type('film')->latest()->first();
                 $arr['film_count'] = Video::type('film')->count();
 
                 $arr['live'] = Video::type('live')->latest()->first();
                 $arr['live_count'] = Video::type('live')->count();
-
-                $arr['raiders'] = Raider::latest()->limit(3)->get(['id', 'title', 'thumb', 'description']);
-                $arr['raiders_count'] = Raider::count();
 
                 $arr['travels'] = Travel::status('adopt')->latest()->limit(3)->get(['id', 'title', 'thumb', 'description']);
                 $arr['travels_count'] = Travel::status('adopt')->count();

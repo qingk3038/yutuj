@@ -78,7 +78,7 @@ class ListController extends Controller
                     if ($cid = $request->cid) {
                         $query->where('city_id', $cid);
                     }
-                })->paginate();
+                })->paginate(10);
 
             $data['provinces'] = LocList::whereHas('provinceRaiders', function ($query) use ($request) {
                 $query->type($request->type);
@@ -103,44 +103,48 @@ class ListController extends Controller
      */
     public function activity(Request $request)
     {
-        $this->validate($request, [
-            'field' => 'nullable|in:id,price,created_at',
-            'order' => 'nullable|in:asc,desc',
-            'pid' => 'nullable|integer|exists:activities,province_id',
-            'cid' => 'nullable|integer|exists:activities,city_id',
-            'price.min' => 'nullable|integer|min:0',
-            'price.max' => 'nullable|integer|min:0',
-        ]);
-        $field = $request->get('field', 'id');
-        $order = $request->get('order', 'desc');
+        $data = Cache::remember(request()->fullUrl(), 5, function () use ($request) {
+            $this->validate($request, [
+                'field' => 'nullable|in:id,price,created_at',
+                'order' => 'nullable|in:asc,desc',
+                'pid' => 'nullable|integer|exists:activities,province_id',
+                'cid' => 'nullable|integer|exists:activities,city_id',
+                'price.min' => 'nullable|integer|min:0',
+                'price.max' => 'nullable|integer|min:0',
+            ]);
+            $field = $request->get('field', 'id');
+            $order = $request->get('order', 'desc');
 
-        $data['activities'] = Activity::select('id', 'title', 'short', 'title', 'xc', 'description', 'thumb', 'price', 'province_id', 'city_id')
-            ->active()->with('tuans')->where(function ($query) use ($request) {
+            $data['activities'] = Activity::select('id', 'title', 'short', 'title', 'xc', 'description', 'thumb', 'price', 'province_id', 'city_id')
+                ->active()->with('tuans')->withCount('trips')->where(function ($query) use ($request) {
+                    if ($pid = $request->pid) {
+                        $query->where('province_id', $pid);
+                    }
+                    if ($cid = $request->cid) {
+                        $query->where('city_id', $cid);
+                    }
+                    if ($min = $request->input('price.min')) {
+                        $query->where('price', '>=', $min);
+                    }
+                    if ($max = $request->input('price.max')) {
+                        $query->where('price', '<=', $max);
+                    }
+                })->orderBy($field, $order)->paginate(10);
+
+            $data['provinces'] = LocList::whereHas('provinceActivities', function ($query) {
+                $query->active();
+            })->get(['id', 'name']);
+
+            $data['cities'] = LocList::where(function ($query) use ($request) {
                 if ($pid = $request->pid) {
-                    $query->where('province_id', $pid);
+                    $query->where('parent_id', $pid);
                 }
-                if ($cid = $request->cid) {
-                    $query->where('city_id', $cid);
-                }
-                if ($min = $request->input('price.min')) {
-                    $query->where('price', '>=', $min);
-                }
-                if ($max = $request->input('price.max')) {
-                    $query->where('price', '<=', $max);
-                }
-            })->orderBy($field, $order)->paginate();
+            })->whereHas('cityActivities', function ($query) {
+                $query->active();
+            })->get(['id', 'name']);
 
-        $data['provinces'] = LocList::whereHas('provinceActivities', function ($query) {
-            $query->active();
-        })->get(['id', 'name']);
-
-        $data['cities'] = LocList::where(function ($query) use ($request) {
-            if ($pid = $request->pid) {
-                $query->where('parent_id', $pid);
-            }
-        })->whereHas('cityActivities', function ($query) {
-            $query->active();
-        })->get(['id', 'name']);
+            return $data;
+        });
 
         return view('www.list_activity', $data);
     }
