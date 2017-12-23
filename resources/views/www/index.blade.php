@@ -68,7 +68,7 @@
                                 <h4 class="pl-3 text-truncate">{{ $activity->short }}</h4>
                                 <p class="pl-3 text-truncate">{{ $activity->title }}</p>
                             </div>
-                            <a href="{{ route('www.activity.show', $activity) }}" class="position-absolute btn btn-warning text-white">去看看</a>
+                            <a href="{{ route('www.activity.show', $activity) }}" class="position-absolute btn btn-warning text-white" target="_blank">去看看</a>
                         </div>
                     @endforeach
                 </div>
@@ -98,7 +98,7 @@
                                             <h4 class="pl-3">{{ $raider->short }}</h4>
                                             <p class="pl-3">{{ $raider->title }}</p>
                                         </div>
-                                        <a href="{{ route('www.raider.show', $raider) }}" class="position-absolute btn btn-warning text-white">去看看</a>
+                                        <a href="{{ route('www.raider.show', $raider) }}" class="position-absolute btn btn-warning text-white" target="_blank">去看看</a>
                                     </div>
                                 @endforeach
                             </div>
@@ -122,7 +122,7 @@
                                             <h4 class="pl-3">{{ $raider->short }}</h4>
                                             <p class="pl-3">{{ $raider->title }}</p>
                                         </div>
-                                        <a href="{{ route('www.raider.show', $raider) }}" class="position-absolute btn btn-warning text-white">去看看</a>
+                                        <a href="{{ route('www.raider.show', $raider) }}" class="position-absolute btn btn-warning text-white" target="_blank">去看看</a>
                                     </div>
                                 @endforeach
                             </div>
@@ -145,7 +145,7 @@
                 </div>
                 <div class="d-flex justify-content-between">
                     @foreach($leaders as $leader)
-                        <a href="{{ route('www.leader.show', $leader) }}"><img src="{{ imageCut(160, 340, $leader->avatar) }}" alt="{{ $leader->name }}" width="160" height="340"></a>
+                        <a href="{{ route('www.leader.show', $leader) }}" target="_blank"><img src="{{ imageCut(160, 340, $leader->avatar) }}" alt="{{ $leader->name }}" width="160" height="340"></a>
                     @endforeach
                 </div>
             </div>
@@ -277,7 +277,7 @@
                                 <a href="{{ route('www.video.show', $lives[0]) }}" title="{{ $lives[0]->title }}" target="_blank">
                                     <img src="{{ imageCut(600, 380, $lives[0]->thumb) }}" alt="{{ $lives[0]->title }}" width="600" height="380">
                                     <h5 class="position-absolute text text-truncate">{{ $lives[0]->title }}</h5>
-                                    <p class="position-absolute icon"><i class="fa fa-3x fa-play-circle-o"></i></p>
+                                    <p class="position-absolute icon"><i class="fa fa-5x fa-play-circle-o"></i></p>
                                 </a>
                             @endisset
                         </div>
@@ -328,7 +328,7 @@
                     <div class="tab-pane fade show active" id="gl">
                         @foreach($z_wans as $item)
                             <div class="{{ $list_class[$loop->index] }}">
-                                <a href="{{ route('www.raider.show', $item) }}" class="position-relative d-block">
+                                <a href="{{ route('www.raider.show', $item) }}" class="position-relative d-block" title="{{ $item->title }}" target="_blank">
                                     <img src="{{ imageCut(286, $loop->index === 2 ? 378 : 186, $item->thumb) }}" alt="{{ $item->short }}" class="w-100" width="286" height="{{ $loop->index === 2 ? 378 : 186 }}">
                                     <h5 class="position-absolute text-truncate">{{ $item->short }}<br><i class="fa fa-2x fa-sign-in mt-3"></i></h5>
                                     <i class="position-absolute bg-mark"></i>
@@ -339,7 +339,7 @@
                     <div class="tab-pane fade" id="xl">
                         @foreach($z_lines as $item)
                             <div class="{{ $list_class[$loop->index] }}">
-                                <a href="{{ route('www.raider.show', $item) }}" class="position-relative d-block">
+                                <a href="{{ route('www.raider.show', $item) }}" class="position-relative d-block" title="{{ $item->title }}" target="_blank">
                                     <img src="{{ imageCut(286, $loop->index === 2 ? 378 : 186, $item->thumb) }}" alt="{{ $item->short }}" class="w-100" width="286" height="{{ $loop->index === 2 ? 378 : 186 }}">
                                     <h5 class="position-absolute text-truncate">{{ $item->short }}<br><i class="fa fa-2x fa-sign-in mt-3"></i></h5>
                                     <i class="position-absolute bg-mark"></i>
@@ -350,7 +350,7 @@
                     <div class="tab-pane fade" id="jd">
                         @foreach($z_scenics as $item)
                             <div class="{{ $list_class[$loop->index] }}">
-                                <a href="{{ route('www.raider.show', $item) }}" class="position-relative d-block">
+                                <a href="{{ route('www.raider.show', $item) }}" class="position-relative d-block" title="{{ $item->title }}" target="_blank">
                                     <img src="{{ imageCut(286, $loop->index === 2 ? 378 : 186, $item->thumb) }}" alt="{{ $item->short }}" class="w-100" width="286" height="{{ $loop->index === 2 ? 378 : 186 }}">
                                     <h5 class="position-absolute text-truncate">{{ $item->short }}<br><i class="fa fa-2x fa-sign-in mt-3"></i></h5>
                                     <i class="position-absolute bg-mark"></i>
@@ -361,7 +361,7 @@
                     <div class="tab-pane fade" id="ms">
                         @foreach($z_foods as $item)
                             <div class="{{ $list_class[$loop->index] }}">
-                                <a href="{{ route('www.raider.show', $item) }}" class="position-relative d-block">
+                                <a href="{{ route('www.raider.show', $item) }}" class="position-relative d-block" title="{{ $item->title }}" target="_blank">
                                     <img src="{{ imageCut(286, $loop->index === 2 ? 378 : 186, $item->thumb) }}" alt="{{ $item->short }}" class="w-100" width="286" height="{{ $loop->index === 2 ? 378 : 186 }}">
                                     <h5 class="position-absolute text-truncate">{{ $item->short }}<br><i class="fa fa-2x fa-sign-in mt-3"></i></h5>
                                     <i class="position-absolute bg-mark"></i>
@@ -372,7 +372,7 @@
                     <div class="tab-pane fade" id="msu">
                         @foreach($z_hospitals as $item)
                             <div class="{{ $list_class[$loop->index] }}">
-                                <a href="{{ route('www.raider.show', $item) }}" class="position-relative d-block">
+                                <a href="{{ route('www.raider.show', $item) }}" class="position-relative d-block" title="{{ $item->title }}" target="_blank">
                                     <img src="{{ imageCut(286, $loop->index === 2 ? 378 : 186, $item->thumb) }}" alt="{{ $item->short }}" class="w-100" width="286" height="{{ $loop->index === 2 ? 378 : 186 }}">
                                     <h5 class="position-absolute text-truncate">{{ $item->short }}<br><i class="fa fa-2x fa-sign-in mt-3"></i></h5>
                                     <i class="position-absolute bg-mark"></i>
@@ -388,17 +388,17 @@
     <section class="container list-youji mb-5">
         <div class="d-flex justify-content-between">
             <span class="h5 text-warning">精彩游记</span>
-            <a href="#" class="text-muted">更多...</a>
+            <a href="{{ route('www.travel.list') }}" class="text-muted">更多...</a>
         </div>
         <div class="row" style="margin: 0 -0.25rem;">
             @foreach($travels as $travel)
                 <div class="col-4 p-1">
                     <div class="p-2 bg-white media">
-                        <a href="{{ route('www.travel.show', $travel) }}">
+                        <a href="{{ route('www.travel.show', $travel) }}" target="_blank">
                             <img class="mr-3" src="{{ imageCut(168, 110, $travel->thumb) }}" width="168" height="110" alt="{{ $travel->title }}">
                         </a>
                         <div class="media-body">
-                            <a href="{{ route('www.travel.show', $travel) }}" class="h6">{{ $travel->title }}</a>
+                            <a href="{{ route('www.travel.show', $travel) }}" class="h6" target="_blank">{{ $travel->title }}</a>
                             <div class="d-flex justify-content-between">
                                 <span>{{ $travel->created_at->toDateString() }}</span>
                                 <span>BY</span>
@@ -412,7 +412,7 @@
     </section>
 
     <div>
-        <a href="{{ url('customized') }}"><img src="{{ asset('img/dingzhi.jpg') }}" alt="dingzhi" class="img-fluid"></a>
+        <a href="{{ url('customized') }}" target="_blank"><img src="{{ asset('img/dingzhi.jpg') }}" alt="dingzhi" class="img-fluid"></a>
     </div>
 @endsection
 

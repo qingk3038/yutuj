@@ -5,6 +5,9 @@ namespace App\Providers;
 use App\Models\Article;
 use App\Models\Category;
 use App\Models\LocList;
+use App\Models\Raider;
+use App\Models\Travel;
+use App\Models\Video;
 use Encore\Admin\Config\Config;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
@@ -46,6 +49,25 @@ class AppServiceProvider extends ServiceProvider
                 return Article::where('category_id', 1)->get(['id', 'title']);
             });
             $view->with(compact('categories', 'abouts'));
+        });
+
+        // 列表页右边
+        View::composer('www.right', function ($view) {
+            $data = Cache::remember('right.blade', 5, function () {
+                $arr['film'] = Video::type('film')->latest()->first();
+                $arr['film_count'] = Video::type('film')->count();
+
+                $arr['live'] = Video::type('live')->latest()->first();
+                $arr['live_count'] = Video::type('live')->count();
+
+                $arr['raiders'] = Raider::latest()->limit(3)->get(['id', 'title', 'thumb', 'description']);
+                $arr['raiders_count'] = Raider::count();
+
+                $arr['travels'] = Travel::status('adopt')->latest()->limit(3)->get(['id', 'title', 'thumb', 'description']);
+                $arr['travels_count'] = Travel::status('adopt')->count();
+                return $arr;
+            });
+            $view->with($data);
         });
     }
 

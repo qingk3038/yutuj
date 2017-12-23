@@ -19,9 +19,7 @@ class ThumbController extends Controller
                 $image->make($url)->fit($width, $height);
             }, 5, true)->response();
         } catch (Exception $e) {
-            return Image::canvas(150, 150, '#DDD')->text('Image Not Found.', 35, 80, function ($font) {
-                $font->color('#666666');
-            })->response();
+            return Image::canvas($width, $height, '#EEEEEE')->text('Image Not Found.', $width / 2 - 40, $height / 2)->response();
         }
     }
 }

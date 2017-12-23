@@ -10,9 +10,7 @@ use App\Models\Travel;
 use App\Models\Video;
 use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
 
 class ListController extends Controller
 {
@@ -117,9 +115,7 @@ class ListController extends Controller
         $order = $request->get('order', 'desc');
 
         $data['activities'] = Activity::select('id', 'title', 'short', 'title', 'xc', 'description', 'thumb', 'price', 'province_id', 'city_id')
-            ->active()->with(['tuans' => function ($query) {
-                $query->where('end_time', '>=', Carbon::today());
-            }])->where(function ($query) use ($request) {
+            ->active()->with('tuans')->where(function ($query) use ($request) {
                 if ($pid = $request->pid) {
                     $query->where('province_id', $pid);
                 }
@@ -229,6 +225,11 @@ class ListController extends Controller
             return $data;
         });
         return view('www.list_video', $data);
+    }
+
+    public function search(Request $request)
+    {
+        return $request->all();
     }
 
 }

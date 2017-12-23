@@ -17,8 +17,11 @@ class Travel extends Model
      * @param $status
      * @return mixed
      */
-    public function scopeStatus($query, $status)
+    public function scopeStatus($query, $status = null)
     {
+        if (!in_array($status, ['draft', 'audit', 'adopt', 'reject'])) {
+            return $query;
+        }
         return $query->where('status', $status);
     }
 
