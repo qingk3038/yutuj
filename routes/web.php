@@ -33,7 +33,7 @@ Route::resource('home/travel', 'TravelController');
 Route::redirect('home', 'home/travel')->name('home');
 Route::view('home/setting', 'www.home.setting')->name('home.setting');
 Route::view('home/message', 'www.home.message')->name('home.message');
-Route::view('home/order', 'www.home.order')->name('home.order');
+Route::get('home/order', 'HomeController@order')->name('home.order');
 Route::view('home/order/info', 'www.home.order_info')->name('home.order.info');
 
 Route::post('home/bg', 'HomeController@backgroundImage')->name('user.bg');
@@ -100,4 +100,14 @@ Route::get('pay/status/{order}', 'PayController@orderStatus')->name('pay.status'
 
 // 微信异步通知
 Route::post('notice/wechat', 'PayController@wechatNotice');
+
+// 生成支付宝订单 二维码
+Route::get('pay/alipay/{order}', 'PayController@alipay')->name('pay.alipay');
+// 支付宝官方网站支付
+Route::get('pay/alipay/{order}/web', 'PayController@alipayWeb')->name('pay.alipay.web');
+
+// 支付宝异步通知
+Route::post('notice/alipay', 'PayController@alipayNotice');
+// 支付宝同步通知
+Route::get('notice/alipay/return', 'PayController@alipayReturn');
 

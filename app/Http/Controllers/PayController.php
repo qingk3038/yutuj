@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\OrderPay;
 use App\Models\Baoming;
 use App\Models\Order;
-use App\Models\Sms;
 use App\Models\Tuan;
 use App\Rules\Mobile;
 use EasyWeChat\Payment\Application;
 use Illuminate\Http\Request;
-use Overtrue\EasySms\EasySms;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class PayController extends Controller
@@ -17,7 +16,7 @@ class PayController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth')->except('create', 'wechatNotice');
+        $this->middleware('auth')->except('create', 'wechatNotice', 'alipayNotice', 'alipayReturn');
     }
 
     // 填写报名信息
@@ -110,8 +109,6 @@ class PayController extends Controller
     public function wechatNotice(Application $app)
     {
         return $app->handlePaidNotify(function ($message, $fail) {
-            \Log::info('微信异步通知', $message);
-
             $order = Order::where('out_trade_no', $message['out_trade_no'])->latest()->first();
             if (!$order) {
                 $fail('Order not exist.');
@@ -121,8 +118,11 @@ class PayController extends Controller
             }
             if ($message['result_code'] === 'SUCCESS') {
                 $order->status = 'success';
-                // 短信通知
-                @$this->sendPaySms($order);
+                try {
+                    event(new OrderPay($order));
+                } catch (\Exception $exception) {
+                    \Log::error('异步通知 微信支付错误', $exception);
+                }
             } else {
                 $order->status = 'fail';
             }
@@ -136,15 +136,89 @@ class PayController extends Controller
         });
     }
 
-    /**
-     * 支付短信通知
-     */
-    private function sendPaySms(Order $order)
+    // 创建支付宝订单
+    public function alipay(Order $order)
     {
-        $user = $order->baomings()->first();
-        $easySms = new EasySms(config('sms'));
-        $message = ['template' => config('sms_pay'), 'data' => ['userNick' => $user->name, 'activityNcik' => $order->tuan->activity->title, 'adTime' => $order->tuan->start_time->toDateString()]];
-        $res = $easySms->send($user->mobile, $message);
-        Sms::create(['mobile' => $user->mobile, 'vars' => $message, 'result' => $res, 'op' => 'pay']);
+        $total_fee = env('APP_DEBUG') ? 0.01 : $order->tuan->price;
+        $out_trade_no = date('Ymd') . str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT);
+
+        $alipay = app('alipay.web');
+        $alipay->setOutTradeNo($out_trade_no);
+        $alipay->setTotalFee($total_fee);
+        $alipay->setSubject('遇途记-活动报名缴费');
+        $alipay->setBody(str_limit($order->tuan->activity->title, 60));
+        $alipay->setQrPayMode('4'); // 二维码样式
+
+        $order->out_trade_no = $out_trade_no;
+        $order->save();
+        return redirect($alipay->getPayLink());
     }
+
+    // 转跳支付宝官网支付
+    public function alipayWeb(Order $order)
+    {
+        $total_fee = env('APP_DEBUG') ? 0.01 : $order->tuan->price;
+        $out_trade_no = date('Ymd') . str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT);
+
+        $alipay = app('alipay.web');
+        $alipay->setOutTradeNo($out_trade_no);
+        $alipay->setTotalFee($total_fee);
+        $alipay->setSubject('遇途记-活动报名缴费');
+        $alipay->setBody(str_limit($order->tuan->activity->title, 60));
+
+        $order->out_trade_no = $out_trade_no;
+        $order->save();
+
+        return redirect($alipay->getPayLink());
+    }
+
+    // 支付宝异步通知
+    public function alipayNotice(Request $request)
+    {
+        if (!app('alipay.web')->verify()) {
+            return 'fail';
+        }
+        $order = Order::where('out_trade_no', $request->get('out_trade_no'))->latest()->first();
+        if (!$order) {
+            return 'Order not exist.';
+        }
+
+        if ($order->pay_at) {
+            return 'success';
+        }
+
+        $trade_status = $request->get('trade_status');
+        if ($trade_status === 'TRADE_SUCCESS') {
+            $order->status = 'success';
+            try {
+                event(new OrderPay($order));
+            } catch (\Exception $exception) {
+                \Log::error('异步通知 支付宝支付错误', $exception);
+            }
+        } else {
+            $order->status = 'fail';
+        }
+
+        $order->type = 'alipay';
+        $order->total_fee = $request->get('total_fee') * 100;
+        $order->transaction_id = $request->get('trade_no');
+        $order->pay_at = now();
+        $order->save();
+
+        return 'success';
+    }
+
+    // 支付宝同步支付
+    public function alipayReturn(Request $request)
+    {
+        if (!app('alipay.web')->verify()) {
+            return redirect('/');
+        }
+        $order = Order::where('out_trade_no', $request->out_trade_no)->latest()->first();
+        if (!$order) {
+            return 'Order not exist.';
+        }
+        return redirect()->route('order.qrcode', $order);
+    }
+
 }

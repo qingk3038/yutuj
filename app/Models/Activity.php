@@ -12,6 +12,12 @@ class Activity extends Model
         'tps' => 'array',
     ];
 
+    // 订单
+    public function orders()
+    {
+        return $this->hasManyThrough(Order::class, Tuan::class);
+    }
+
     // 上架活动
     public function scopeActive($query)
     {

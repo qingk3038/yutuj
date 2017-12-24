@@ -94,16 +94,17 @@ class OrderController extends Controller
 
             $grid->column('remarks', '报名备注');
 
-            $grid->column('transaction_id', '交易号')->sortable();
             $grid->pay_at('支付日期')->sortable();
+            $grid->column('transaction_id', '交易号')->sortable();
             $grid->column('status', '状态')->sortable()->display(function () {
-                return $this->statusTest();
+                return $this->statusText();
             });
             $grid->column('author.name', '订单创建')->sortable();
 
             $grid->disableCreation();
             $grid->filter(function ($filter) {
                 $filter->equal('type', '支付类别')->radio(['' => '所有', 'wechat' => '微信', 'alipay' => '支付宝']);
+                $filter->equal('status', '支付状态')->radio(['' => '所有', 'success' => '成功', 'fail' => '失败', 'close' => '关闭', 'cancel' => '退款', 'wait' => '等待']);
                 $filter->between('total_fee', '支付金额');
                 $filter->equal('transaction_id', '交易号');
                 $filter->between('pay_at', '支付日期')->datetime();

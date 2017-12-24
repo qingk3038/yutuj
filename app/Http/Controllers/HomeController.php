@@ -163,4 +163,26 @@ class HomeController extends Controller
         return ['is_fans' => !!$num];
     }
 
+
+    public function order(Request $request)
+    {
+        $this->validate($request, [
+            'status' => 'nullable|string|in:wait,cancel',
+            'tno' => 'nullable',
+        ]);
+        $orders = $request->user()->orders()->whereHas('tuan', function ($query) use ($request) {
+            if ($request->get('tno')) {
+                $query->where('start_time', '>', today());
+            }
+        })->where(function ($query) use ($request) {
+            if ($status = $request->get('status')) {
+                $query->where('status', $status);
+            }
+        })->with(['tuan.activity' => function ($query) {
+            $query->select('id', 'title', 'thumb');
+        }])->withCount('baomings')->paginate();
+
+
+        return view('www.home.order', compact('orders'));
+    }
 }

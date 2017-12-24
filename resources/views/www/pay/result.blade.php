@@ -5,7 +5,7 @@
 @section('content')
     <div class="container-fluid bg-warning">
         <h3 class="text-white text-center" style="padding-top: 160px; padding-bottom: 100px;">
-            {{ $order->statusTest() }}
+            {{ $order->statusText() }}
         </h3>
     </div>
     <div class="container" id="app">
@@ -20,7 +20,7 @@
             <hr class="mt-1 mb-5">
             @if($order->status === 'success')
                 <div class="m-auto w-50">
-                    <h2 class="text-success"><i class="fa fa-fw fa-3x fa-smile-o align-middle" style="margin-left: -124px"></i>支付成功！祝您出行愉快！</h2>
+                    <h2 class="text-success"><i class="fa fa-fw fa-3x fa-smile-o align-middle" style="margin-left: -124px"></i>{{ $order->statusText() }}！祝您出行愉快！</h2>
                     <p>
                         支付金额：<span class="text-danger">￥{{ number_format($order->total_fee / 100, 2) }}</span>
                         <br>交易号：{{ $order->transaction_id  }}
@@ -31,7 +31,7 @@
                 </div>
             @else
                 <div class="m-auto w-50">
-                    <h2 class="text-danger"><i class="fa fa-fw fa-3x fa-meh-o align-middle" style="margin-left: -124px"></i>支付失败！</h2>
+                    <h2 class="text-danger"><i class="fa fa-fw fa-3x fa-meh-o align-middle" style="margin-left: -124px"></i>{{ $order->statusText() }}！</h2>
                     <p>
                         <span class="text-danger">需要重新下单，才能再次支付。</span>
                         <br>订单号：{{ $order->out_trade_no  }}

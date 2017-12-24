@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Models\Follow;
+use App\Models\Order;
 use App\Models\Raider;
 use App\Models\Travel;
 use Illuminate\Notifications\Notifiable;
@@ -85,5 +86,14 @@ class User extends Authenticatable
     public function likeRaiders()
     {
         return $this->morphedByMany(Raider::class, 'like');
+    }
+
+    /**
+     * 用户订单
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
     }
 }

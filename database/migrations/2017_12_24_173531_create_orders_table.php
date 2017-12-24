@@ -17,7 +17,7 @@ class CreateOrdersTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('tuan_id')->comment('出团ID');
             $table->enum('type', ['alipay', 'wechat'])->comment('支付类型');
-            $table->enum('status', ['success', 'fail', 'close', 'wait'])->default('wait')->comment('订单状态');
+            $table->enum('status', ['success', 'fail', 'close', 'wait', 'cancel'])->default('wait')->comment('订单状态');
             $table->string('remarks', 500)->nullable()->comment('用户备信息');
 
             $table->unsignedInteger('total_fee')->nullable()->comment('支付金额（分）');

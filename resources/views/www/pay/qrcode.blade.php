@@ -18,7 +18,7 @@
                         <span></span>
                     </div>
                     <div @click="changePay('wechat')" :class="{active: type === 'wechat'}">
-                        <img src="{{ asset('img/pay_weixin.jpg') }}" alt="pay wechat">
+                        <img src="{{ asset('img/pay_weixin.jpg') }}" alt="wechat">
                         <span></span>
                     </div>
                 </div>
@@ -27,24 +27,25 @@
             <div class="d-flex justify-content-center text-center p-5" v-if="type === 'alipay'">
                 <div class="pr-4">
                     <p><img src="{{ asset('img/pay_ali_left.jpg') }}" alt="pay_ali_left"></p>
-                    无法通过手机支付的，您可以选择 <a href="#" class="text-warning">电脑在线支付</a>
+                    无法通过手机支付的，您可以选择 <a href="{{ route('pay.alipay.web', $order) }}" class="text-warning">电脑在线支付</a>
                 </div>
                 <div class="pt-3 pl-5">
-                    <p><img src="{{ asset('uploads/d/qrcode.jpg') }}" alt="qrcode" width="268" height="268"></p>
+                    <iframe :src="pay_url.alipay" width="268" height="268" allowfullscreen frameborder="0" class="d-block"></iframe>
                     用支付宝扫描二维码支付
                 </div>
             </div>
+
             <div class="d-flex justify-content-center text-center p-5" v-if="type === 'wechat'">
                 <div class="pr-4">
                     <p><img src="{{ asset('img/pay_weixin_left.jpg') }}" alt="pay_ali_left"></p>
                     无法通过微信支付的，您可以选择 <a href="javascript:void(0);" class="text-warning" @click="changePay('alipay')">支付宝支付</a>
                 </div>
                 <div class="pt-3 pl-5">
-                    <p><img src="{{ route('pay.wechat', $order) }}" alt="微信支付" width="268" height="268"></p>
+                    <p><img :src="pay_url.wechat" width="268" height="268" alt="微信支付"></p>
                     用微信扫描二维码支付
                 </div>
             </div>
-            <p class="text-danger text-center">请注意，如果你正在支付中，在未结束之前不要切换[支付方式].</p>
+            <p class="text-danger text-center">请注意！<br>如果你正在支付中，在支付未结束之前，不要切换[支付方式].</p>
         </div>
     </div>
 @endsection
@@ -54,20 +55,28 @@
         new Vue({
             el: '#app',
             data: {
-                url: "{{ route('pay.status', $order) }}",
-                type: 'wechat'
+                type: null,
+                urls: {
+                    alipay: "{{ route('pay.alipay', $order) }}",
+                    wechat: "{{ route('pay.wechat', $order) }}",
+                    status: "{{ route('pay.status', $order) }}",
+                },
+                pay_url: {
+                    alipay: null,
+                    wechat: null
+                }
             },
             methods: {
                 changePay(e) {
                     this.type = e
+                    this.pay_url[e] = this.urls[e] + '?' + new Date().getTime()
                 },
                 refreshStatus() {
                     window.setTimeout(() => {
-                        axios.get(this.url).then(res => {
+                        axios.get(this.urls.status).then(res => {
                             switch (res.data.status) {
                                 case 'wait' :
                                     window.setTimeout(this.refreshStatus, 300);
-                                    console.log('继续等待支付。')
                                     break;
 
                                 case 'success' :
@@ -111,6 +120,7 @@
             },
             mounted() {
                 this.refreshStatus()
+                this.changePay("{{ $order->type }}");
             }
         })
     </script>

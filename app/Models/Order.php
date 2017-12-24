@@ -24,7 +24,7 @@ class Order extends Model
         return $this->hasMany(Baoming::class);
     }
 
-    public function statusTest()
+    public function statusText()
     {
         switch ($this->status) {
             case 'close':
@@ -41,6 +41,10 @@ class Order extends Model
 
             case 'success':
                 return '支付成功';
+                break;
+
+            case 'cancel':
+                return '已取消';
                 break;
 
             default :

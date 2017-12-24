@@ -109,8 +109,7 @@
         }
     </style>
     <script>
-        // let user = {name: null, mobile: null, cardType: 'ID', cardID: null, nameJ: null, mobileJ: null}
-        let user = {name: 'bing', mobile: '18613233254', cardType: 'ID', cardID: '511023198903188772', nameJ: '周芳', mobileJ: '13208192916'}
+        let user = {name: null, mobile: null, cardType: 'ID', cardID: null, nameJ: null, mobileJ: null}
 
         new Vue({
             el: '#app',

@@ -76,15 +76,15 @@ class ActivityController extends Controller
     protected function grid()
     {
         return Admin::grid(Activity::class, function (Grid $grid) {
-            $grid->model()->latest()->with('admin', 'types', 'tags')->withCount('trips');
+            $grid->model()->latest()->with('admin')->withCount(['trips', 'orders' => function($query){
+                $query->where('status', 'success');
+            }]);
             $grid->id('ID')->sortable();
             $grid->column('title', '标题')->editable();
             $grid->column('short', '短标题')->editable();
             $grid->column('price', '显示价格')->sortable()->editable();
+            $grid->column('orders_count', '已支付')->badge();
             $grid->column('trips_count', '游玩天数')->badge();
-            $grid->types('类别')->pluck('text')->badge();
-            $grid->tags('标签')->pluck('text')->badge();
-            $grid->column('cfd', '出发地')->badge();
             $grid->column('closed', '上架状态')->switch([
                 'on' => ['value' => 0, 'text' => '上架', 'color' => 'success'],
                 'off' => ['value' => 1, 'text' => '下架']
