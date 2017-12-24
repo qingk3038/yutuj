@@ -91,7 +91,13 @@
                                     break;
 
                                 case 'close' :
-                                    swal('订单已经关闭！', '请你重新下单。', 'warning')
+                                    swal({
+                                        title: '订单已经关闭！',
+                                        text: '请你重新下单。',
+                                        type: 'warning'
+                                    }, () => {
+                                        location.reload()
+                                    })
                                     break;
 
                                 default :

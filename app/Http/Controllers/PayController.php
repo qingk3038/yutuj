@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Baoming;
 use App\Models\Order;
 use App\Models\Sms;
 use App\Models\Tuan;
@@ -35,14 +36,30 @@ class PayController extends Controller
             'users.*.cardType' => 'required|in:ID,officer,passport',
             'users.*.cardID' => 'required|distinct',
             'users.*.nameJ' => 'required|between:2,10',
-            'users.*.mobileJ' => ['required', 'distinct', new Mobile],
+            'users.*.mobileJ' => ['required', new Mobile],
             'remarks' => 'nullable',
             'type' => 'required|in:alipay,wechat',
+        ], [], [
+            'users.*.name' => '用户名',
+            'users.*.mobile' => '手机号',
+            'users.*.cardType' => '证件类型',
+            'users.*.cardID' => '证件号码',
+            'users.*.nameJ' => '紧急联系人',
+            'users.*.mobileJ' => '紧急联系人手机号',
         ]);
-        $arr = ['status' => 'wait', 'user_id' => auth()->id()];
 
-        $order = $tuan->orders()->create(array_merge($data, $arr));
+        if (!$tuan->available()) {
+            return response(['errors' => ['message' => '本活动已满员或已结束。']], 422);
+        }
 
+        $baomings = [];
+        foreach ($data['users'] as $user) {
+            $baomings[] = new Baoming($user);
+        }
+
+        $order = new Order(array_merge($request->only('remarks', 'type'), ['status' => 'wait', 'user_id' => auth()->id()]));
+        $tuan->orders()->save($order);
+        $order->baomings()->saveMany($baomings);
         return ['message' => '订单已生成，请前往页面支付。', 'path' => route('order.qrcode', $order)];
     }
 
@@ -104,6 +121,8 @@ class PayController extends Controller
             }
             if ($message['result_code'] === 'SUCCESS') {
                 $order->status = 'success';
+                // 短信通知
+                @$this->sendPaySms($order);
             } else {
                 $order->status = 'fail';
             }
@@ -119,14 +138,13 @@ class PayController extends Controller
 
     /**
      * 支付短信通知
-     * @param $order
      */
     private function sendPaySms(Order $order)
     {
-        $user = head($order->users);
+        $user = $order->baomings()->first();
         $easySms = new EasySms(config('sms'));
         $message = ['template' => config('sms_pay'), 'data' => ['userNick' => $user->name, 'activityNcik' => $order->tuan->activity->title, 'adTime' => $order->tuan->start_time->toDateString()]];
-        $res = @$easySms->send($user->mobile, $message);
+        $res = $easySms->send($user->mobile, $message);
         Sms::create(['mobile' => $user->mobile, 'vars' => $message, 'result' => $res, 'op' => 'pay']);
     }
 }

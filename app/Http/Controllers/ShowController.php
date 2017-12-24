@@ -16,7 +16,7 @@ class ShowController extends Controller
     public function activity(Activity $activity)
     {
         $data = Cache::remember(request()->fullUrl(), 5, function () use ($activity) {
-            $arr['activity'] = $activity->load('tags', 'types', 'trips', 'tuans', 'country', 'province', 'city', 'district');
+            $arr['activity'] = $activity->load('tags', 'types', 'trips', 'country', 'province', 'city', 'district');
 
             $arr['activities'] = Activity::with('types')
                 ->active()

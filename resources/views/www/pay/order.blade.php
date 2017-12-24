@@ -129,11 +129,16 @@
                 ],
                 seed: false,
                 agreement: true,
+                max: {{ $tuan->remainder() }},
                 price: {{ $tuan->price }}
             },
             methods: {
                 addUser() {
-                    this.order.users.push({...user})
+                    if (this.max > this.order.users.length) {
+                        this.order.users.push({...user})
+                    } else {
+                        swal('当前活动批次名额有限！', `当前最多可报名 ${this.max} 个。`, 'warning')
+                    }
                 },
                 removeUser(index) {
                     this.order.users.splice(index, 1)
@@ -155,8 +160,8 @@
                                 location.href = res.data.path
                             }).catch(err => {
                                 this.seed = false
-                                let text = err.response.status === 401 ? '你还未认证！' : err.response.data.message;
-                                swal('你的提交未成功！', '原因：' + text, 'error')
+                                let text = err.response.status === 401 ? '你还未认证！' : Object.values(err.response.data.errors).join("\r\n");
+                                swal('你的提交未成功！', text, 'error')
                             })
                         } else {
                             this.$message({

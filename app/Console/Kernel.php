@@ -6,7 +6,6 @@ use App\Models\Order;
 use App\Models\Travel;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use Illuminate\Support\Carbon;
 
 class Kernel extends ConsoleKernel
 {
@@ -29,12 +28,12 @@ class Kernel extends ConsoleKernel
     {
         // 15分钟关闭没有支付的订单
         $schedule->call(function () {
-            Order::where('created_at', '<', Carbon::now()->subMinute(15))->update(['status' => 'close']);
+            Order::where('status', 'wait')->where('created_at', '<', now()->subMinute(15))->update(['status' => 'close']);
         })->everyFifteenMinutes();
 
         // 5分钟游记通过审核
         $schedule->call(function () {
-            Travel::where('status', 'audit')->where('updated_at', '<', Carbon::now()->subMinute(5))->update(['status' => 'adopt']);
+            Travel::where('status', 'audit')->where('updated_at', '<', now()->subMinute(5))->update(['status' => 'adopt']);
         })->everyFiveMinutes();
     }
 

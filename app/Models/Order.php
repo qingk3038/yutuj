@@ -9,18 +9,19 @@ class Order extends Model
 {
     protected $guarded = [];
 
-    protected $casts = [
-        'users' => 'object'
-    ];
-
     public function tuan()
     {
         return $this->belongsTo(Tuan::class);
     }
 
-    public function user()
+    public function author()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function baomings()
+    {
+        return $this->hasMany(Baoming::class);
     }
 
     public function statusTest()

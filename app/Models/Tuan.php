@@ -24,10 +24,17 @@ class Tuan extends Model
         return $this->hasMany(Order::class);
     }
 
+    // 报名信息
+    public function baomings()
+    {
+        return $this->hasManyThrough(Baoming::class, Order::class);
+    }
+
     // 剩余名额
     public function remainder()
     {
-        $num = $this->orders()->whereIn('status', ['success', 'wait'])->count();
+        $ids = $this->orders()->whereIn('status', ['success', 'wait'])->pluck('id');
+        $num = count($ids) ? Baoming::whereIn('order_id', $ids)->count() : 0;
         return $this->end_num - $this->start_num - $num;
     }
 
@@ -35,6 +42,9 @@ class Tuan extends Model
     public function available()
     {
         $num = $this->remainder();
-        return $num > 0 && today()->lte($this->end_time);
+        $active = $this->activity->closed === 0;
+        return $active && $num > 0 && today()->lte($this->end_time);
     }
+
+
 }

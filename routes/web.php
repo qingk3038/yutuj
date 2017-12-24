@@ -100,3 +100,4 @@ Route::get('pay/status/{order}', 'PayController@orderStatus')->name('pay.status'
 
 // 微信异步通知
 Route::post('notice/wechat', 'PayController@wechatNotice');
+
