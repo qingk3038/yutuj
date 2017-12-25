@@ -100,7 +100,7 @@
                 @endforeach
             </div>
             <div class="pt-4 text-center">
-                <a href="{{ route('www.activity.list') }}" class="btn btn-outline-warning">更多活动</a>
+                <a href="{{ route('www.activity.list') }}" class="btn btn-outline-warning" target="_blank">更多活动</a>
             </div>
         </div>
     </div>

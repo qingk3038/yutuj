@@ -141,7 +141,7 @@
                     @endforeach
 
                     <nav class="d-flex justify-content-end pt-5 w-100">
-                        {{ $activities->appends(Request::only('nid', 'pid', 'cid', 'field', 'order'))->links() }}
+                        {{ $activities->appends(Request::only('nid', 'lid', 'pid', 'cid', 'field', 'order'))->links() }}
                     </nav>
                 </div>
             </div>

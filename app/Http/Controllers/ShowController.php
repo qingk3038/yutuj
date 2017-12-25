@@ -51,7 +51,7 @@ class ShowController extends Controller
     public function travel(Travel $travel)
     {
         $travel->increment('click');
-        $activities= Activity::active()->latest()->limit(3)->get(['id', 'title', 'thumb', 'description', 'price']);
+        $activities = Activity::active()->latest()->limit(3)->get(['id', 'title', 'thumb', 'description', 'price']);
 
         return view('www.travel', compact('travel', 'activities'));
     }
@@ -63,7 +63,19 @@ class ShowController extends Controller
         if ($video->type === 'live') {
             return redirect($video->url);
         }
-        return view('www.video', compact('video'));
+
+        $data = Cache::remember(request()->fullUrl(), 5, function () use ($video) {
+            $arr['video'] = $video;
+
+            $arr['videos_count'] = $video->province->provinceVideos()->active()->type($video->type)->count();
+            $arr['videos'] = $video->province->provinceVideos()->active()->type($video->type)->latest()->limit(3)->get(['id', 'thumb', 'title', 'description', 'type', 'province_id']);
+
+            $arr['activities_count'] = $video->province->provinceActivities()->active()->count();
+            $arr['activities'] = $video->province->provinceActivities()->active()->limit(3)->get(['id', 'title', 'thumb', 'price', 'description']);
+
+            return $arr;
+        });
+        return view('www.video', $data);
     }
 
     // 显示文章

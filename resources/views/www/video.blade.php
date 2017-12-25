@@ -32,53 +32,38 @@
                 </div>
             </div>
             <div class="col-4 pl-0">
-                <div class="bg-white mb-4 p-3">
-                    <div class="text-warning">推荐视频</div>
-                    <hr>
+                    <div class="bg-white mb-4 p-3">
+                        <div class="text-warning">推荐视频</div>
+                        <hr>
+                        @foreach($videos as $video)
+                            <a href="{{ route('www.video.show', $video) }}" title="{{ $video->title }}" target="_blank">
+                                <img src="{{ imageCut(363, 200, $video->thumb) }}" alt="{{ $video->title }}" class="img-fluid">
+                            </a>
+                            <p class="px-4 py-2">{{ str_limit($video->description, 70) }}</p>
+                        @endforeach
+                        <a class="row text-right" href="{{ route('www.video.list', ["{$video->type}[pid]" => $video->province_id]) }}" target="_blank">
+                            <span class="col-10 font-weight-light">有<strong style="font-size: 26px;">{{ $videos_count }}</strong>条相关视频</span>
+                            <span class="col-2"><i class="fa fa-angle-right text-warning"></i></span>
+                        </a>
+                    </div>
+                    <div class="bg-white p-3">
+                        <div class="text-warning">推荐活动</div>
+                        <hr>
+                        @foreach($activities as $activity)
+                            <a href="{{ route('www.activity.show', $activity) }}" title="{{ $activity->title }}" target="_blank">
+                                <img src="{{ imageCut(363, 200, $activity->thumb) }}" alt="{{ $activity->title }}" class="img-fluid">
+                            </a>
+                            <p class="px-4 py-2">
+                                <span class="float-right text-warning"><strong style="font-size: 26px;">{{ $activity->price }}</strong>元起</span>
+                                {{ str_limit($activity->description, 70) }}
+                            </p>
+                        @endforeach
 
-                    <a href="#"><img src="{{ asset('uploads/d/list_2.jpg') }}" alt="list_2" class="img-fluid"></a>
-                    <p class="px-4 py-2">骨灰级成都吃货地图，天啊再也没有哪比成都的馆子多了</p>
-
-
-                    <a href="#"><img src="{{ asset('uploads/d/list_2.jpg') }}" alt="list_2" class="img-fluid"></a>
-                    <p class="px-4 py-2">骨灰级成都吃货地图，天啊再也没有哪比成都的馆子多了</p>
-
-                    <a href="#"><img src="{{ asset('uploads/d/list_2.jpg') }}" alt="list_2" class="img-fluid"></a>
-                    <p class="px-4 py-2">骨灰级成都吃货地图，天啊再也没有哪比成都的馆子多了</p>
-
-                    <a class="row text-right" href="#">
-                        <span class="col-10">有2361条相关活动</span>
-                        <span class="col-2"><i class="fa fa-angle-right text-warning"></i></span>
-                    </a>
-                </div>
-
-                <div class="bg-white p-3">
-                    <div class="text-warning">推荐活动</div>
-                    <hr>
-
-                    <a href="#"><img src="{{ asset('uploads/d/list_2.jpg') }}" alt="list_2" class="img-fluid"></a>
-                    <p class="px-4 py-2">
-                        <span class="float-right text-warning"><b>360</b>元起</span>
-                        骨灰级成都吃货地图，天啊再也没有哪比成都的馆子多了
-                    </p>
-
-                    <a href="#"><img src="{{ asset('uploads/d/list_2.jpg') }}" alt="list_2" class="img-fluid"></a>
-                    <p class="px-4 py-2">
-                        <span class="float-right text-warning"><b>360</b>元起</span>
-                        骨灰级成都吃货地图，天啊再也没有哪比成都的馆子多了
-                    </p>
-
-                    <a href="#"><img src="{{ asset('uploads/d/list_2.jpg') }}" alt="list_2" class="img-fluid"></a>
-                    <p class="px-4 py-2">
-                        <span class="float-right text-warning"><b>360</b>元起</span>
-                        骨灰级成都吃货地图，天啊再也没有哪比成都的馆子多了
-                    </p>
-
-                    <a class="row text-right" href="#">
-                        <span class="col-10">有2361条相关活动</span>
-                        <span class="col-2"><i class="fa fa-angle-right text-warning"></i></span>
-                    </a>
-                </div>
+                        <a class="row text-right" href="{{ route('www.activity.list', ['pid' => $video->province_id]) }}" target="_blank">
+                            <span class="col-10 font-weight-light">有<strong style="font-size: 26px;">{{ $activities_count }}</strong>条相关活动</span>
+                            <span class="col-2"><i class="fa fa-angle-right text-warning"></i></span>
+                        </a>
+                    </div>
             </div>
         </div>
     </div>

@@ -173,8 +173,7 @@ class ListController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public
-    function travel(Request $request)
+    public function travel(Request $request)
     {
         $data = Cache::remember(request()->fullUrl(), 5, function () use ($request) {
             $this->validate($request, [
@@ -217,8 +216,7 @@ class ListController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public
-    function video(Request $request)
+    public function video(Request $request)
     {
         $data = Cache::remember(request()->fullUrl(), 5, function () use ($request) {
             $this->validate($request, [
