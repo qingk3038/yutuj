@@ -15,7 +15,7 @@ class CreateTravelsTable extends Migration
     {
         Schema::create('travels', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title')->index();
+            $table->string('title');
             $table->string('thumb')->nullable();
             $table->string('description', 350);
             $table->longText('body');
@@ -27,6 +27,8 @@ class CreateTravelsTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
+
+        DB::statement('ALTER TABLE `travels` ADD FULLTEXT(`title`, `description`) WITH PARSER ngram');
     }
 
     /**

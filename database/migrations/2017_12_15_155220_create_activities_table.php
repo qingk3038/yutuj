@@ -70,6 +70,8 @@ class CreateActivitiesTable extends Migration
             $table->timestamps();
         });
 
+        DB::statement('ALTER TABLE `activities` ADD FULLTEXT(`title`, `description`) WITH PARSER ngram');
+
         // 行程
         Schema::create('trips', function (Blueprint $table) {
             $table->increments('id');

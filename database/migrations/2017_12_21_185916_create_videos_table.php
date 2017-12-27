@@ -17,7 +17,7 @@ class CreateVideosTable extends Migration
             $table->increments('id');
 
             $table->enum('type', ['live', 'film'])->index()->default('film');
-            $table->string('title')->index();
+            $table->string('title');
             $table->string('url');
             $table->string('description')->nullable()->comment('描述');
             $table->string('thumb')->nullable()->comment('缩略图');
@@ -35,6 +35,8 @@ class CreateVideosTable extends Migration
 
             $table->timestamps();
         });
+
+        DB::statement('ALTER TABLE `videos` ADD FULLTEXT(`title`, `description`) WITH PARSER ngram');
     }
 
     /**

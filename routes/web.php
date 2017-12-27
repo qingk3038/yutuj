@@ -85,7 +85,7 @@ Route::get('video/list', 'ListController@video')->name('www.video.list');
 Route::get('article/show/{article}', 'ShowController@article')->name('www.article.show');
 
 // 搜索
-Route::get('search', 'ListController@search');
+Route::get('search', 'ListController@search')->name('search');
 
 // 报名页面
 Route::get('tuan/{tuan}', 'PayController@create')->name('pay.order.create');

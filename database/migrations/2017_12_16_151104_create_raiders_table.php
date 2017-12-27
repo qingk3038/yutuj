@@ -16,7 +16,7 @@ class CreateRaidersTable extends Migration
         Schema::create('raiders', function (Blueprint $table) {
             $table->increments('id');
             $table->enum('type', ['default', 'line', 'food', 'hospital', 'scenic'])->index()->default('default');
-            $table->string('title')->index();
+            $table->string('title');
             $table->string('short')->comment('短标题');
             $table->string('description')->nullable()->comment('描述');
             $table->string('thumb')->nullable()->comment('缩略图');
@@ -41,6 +41,8 @@ class CreateRaidersTable extends Migration
 
             $table->timestamps();
         });
+
+        DB::statement('ALTER TABLE `raiders` ADD FULLTEXT(`title`, `description`) WITH PARSER ngram');
     }
 
     /**

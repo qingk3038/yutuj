@@ -254,6 +254,28 @@ class ListController extends Controller
     public function search(Request $request)
     {
         $data['navs'] = Nav::get(['id', 'text']);
+        // 在load和with不能使用paginate的情况下加载可以分页的 活动
+        foreach ($data['navs'] as $nav) {
+            $nav->activities = $nav->activities()->active()->with('tuans')->withCount('trips')->where(function ($query) use ($request) {
+                $query->orWhere('title', 'like', '%' . $request->get('q') . '%')->orWhere('description', 'like', '%' . $request->get('q') . '%');
+            })->select(['id', 'title', 'short', 'title', 'xc', 'description', 'thumb', 'price', 'province_id'])->paginate(5);
+        }
+
+        $data['raider_types'] = ['default' => '攻略', 'line' => '线路', 'scenic' => '景点', 'food' => '美食', 'hospital' => '民宿'];
+
+        // 攻略
+        foreach ($data['raider_types'] as $key => $type) {
+            $data['raiders'][$key] = Raider::where('type', $key)->where(function ($query) use ($request) {
+                $query->orWhere('title', 'like', '%' . $request->get('q') . '%')->orWhere('description', 'like', '%' . $request->get('q') . '%');
+            })->paginate(5);
+        }
+
+        $data['travels'] = Travel::status('adopt')->where(function ($query) use ($request) {
+            $query->orWhere('title', 'like', '%' . $request->get('q') . '%')->orWhere('description', 'like', '%' . $request->get('q') . '%');
+        })->paginate(2);
+
+        $data['films'] = Video::active()->type('film')->latest()->paginate(2);
+        $data['lives'] = Video::active()->type('live')->latest()->paginate(2);
 
         return view('www.search', $data);
     }

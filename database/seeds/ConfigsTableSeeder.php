@@ -24,7 +24,7 @@ class ConfigsTableSeeder extends Seeder
                 ['name' => 'sms_register', 'value' => 'SMS_94550039', 'description' => '注册短信', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
                 ['name' => 'sms_forgot', 'value' => 'SMS_100925095', 'description' => '找回密码短信', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
                 ['name' => 'sms_update', 'value' => 'SMS_100725128', 'description' => '更新号码短信', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-                ['name' => 'sms_update', 'value' => 'SMS_94415034', 'description' => '支付后发送短信', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+                ['name' => 'sms_pay', 'value' => 'SMS_94415034', 'description' => '支付后发送短信', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
                 ['name' => 'sms_max', 'value' => '20', 'description' => '短信每天发送（每个号码）的最多次', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ]);
         }
