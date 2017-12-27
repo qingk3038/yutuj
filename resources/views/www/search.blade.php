@@ -15,7 +15,7 @@
                         @foreach($navs as $nav)
                             <li class="nav-item">
                                 <a href="#nav{{ $loop->iteration }}" data-toggle="tab" class="nav-link @if($loop->first) active @endif">
-                                    {{ $nav->text }}
+                                    {{ $nav->text }}<small>（{{ $nav->activities->total() }}）</small>
                                 </a>
                             </li>
                         @endforeach
@@ -74,7 +74,7 @@
                                         </div>
                                     </div>
                                 @endforeach
-                                <nav class="d-flex justify-content-end pt-5 w-100">
+                                <nav class="d-flex justify-content-end w-100">
                                     {{ $nav->activities->links() }}
                                 </nav>
                             </div>
@@ -87,7 +87,7 @@
                         @foreach($raider_types as $key => $type)
                             <li class="nav-item">
                                 <a href="#raider_{{$key }}" data-toggle="tab" class="nav-link @if($loop->first) active @endif">
-                                    {{ $type }}
+                                    {{ $type }}<small>（{{ $raiders[$key]->total() }}）</small>
                                 </a>
                             </li>
                         @endforeach
@@ -123,7 +123,7 @@
                                         </div>
                                     </div>
                                 @endforeach
-                                <nav class="d-flex justify-content-end pt-5 w-100">
+                                <nav class="d-flex justify-content-end w-100">
                                     {{ $raiders[$key]->links() }}
                                 </nav>
                             </div>
@@ -134,7 +134,7 @@
                 <div class="bg-white p-3 mb-4 list-media">
                     <ul class="nav" style="margin-left: -15px;">
                         <li class="nav-item">
-                            <a href="javascript:void(0);" class="nav-link active">游记</a>
+                            <a href="javascript:void(0);" class="nav-link active">游记<small>（{{ $travels->total() }}）</small></a>
                         </li>
                     </ul>
                     <hr class="mt-0">
@@ -160,7 +160,7 @@
                             </div>
                         </div>
                     @endforeach
-                    <nav class="d-flex justify-content-end pt-5 w-100">
+                    <nav class="d-flex justify-content-end w-100">
                         {{ $travels->links() }}
                     </nav>
                 </div>
@@ -168,10 +168,10 @@
                 <div class="bg-white p-3 mb-4 list-video">
                     <ul class="nav" style="margin-left: -15px;">
                         <li class="nav-item">
-                            <a href="#films" data-toggle="tab" class="nav-link active">旅途短拍</a>
+                            <a href="#films" data-toggle="tab" class="nav-link active">旅途短拍<small>（{{ $films->total() }}）</small></a>
                         </li>
                         <li class="nav-item">
-                            <a href="#live" data-toggle="tab" class="nav-link">大咖直播</a>
+                            <a href="#live" data-toggle="tab" class="nav-link">大咖直播<small>（{{ $lives->total() }}）</small></a>
                         </li>
                     </ul>
                     <hr class="mt-0">

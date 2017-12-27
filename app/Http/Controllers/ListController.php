@@ -38,7 +38,7 @@ class ListController extends Controller
         $data = Cache::remember(request()->fullUrl(), 5, function () use ($province) {
             $arr['leaders'] = $province ?
                 $province->provinceLeaders()->select('id', 'name', 'avatar', 'brief', 'country_id', 'province_id', 'city_id')->latest('updated_at')->get()
-                : Leader::select('id', 'name', 'avatar', 'brief', 'country_id', 'province_id', 'city_id')->with('country', 'province', 'city')->latest('updated_at')->get();
+                : Leader::with('country', 'province', 'city')->latest('updated_at')->get(['id', 'name', 'avatar', 'brief', 'country_id', 'province_id', 'city_id']);
 
             $arr['provinces'] = LocList::has('provinceLeaders')->get(['id', 'name']);
 
@@ -67,8 +67,7 @@ class ListController extends Controller
             $field = $request->get('field', 'id');
             $order = $request->get('order', 'desc');
 
-            $arr['raiders'] = Raider::select('id', 'type', 'title', 'short', 'description', 'thumb', 'click', 'country_id', 'province_id', 'city_id', 'created_at')
-                ->with('country', 'province', 'city')
+            $arr['raiders'] = Raider::with('country', 'province', 'city')
                 ->withCount('likes')
                 ->orderBy($field, $order)
                 ->type($request->type)
@@ -79,7 +78,7 @@ class ListController extends Controller
                     if ($cid = $request->cid) {
                         $query->where('city_id', $cid);
                     }
-                })->paginate(10);
+                })->paginate(10, ['id', 'type', 'title', 'short', 'description', 'thumb', 'click', 'country_id', 'province_id', 'city_id', 'created_at']);
 
             $arr['provinces'] = LocList::whereHas('provinceRaiders', function ($query) use ($request) {
                 $query->type($request->type);
@@ -117,8 +116,8 @@ class ListController extends Controller
             $field = $request->get('field', 'id');
             $order = $request->get('order', 'desc');
 
-            $arr['activities'] = Activity::select('id', 'title', 'short', 'title', 'xc', 'description', 'thumb', 'price', 'province_id', 'city_id')
-                ->active()->with('tuans')->withCount('trips')->where(function ($query) use ($request) {
+            $arr['activities'] = Activity::active()->with('tuans')->withCount('trips')
+                ->where(function ($query) use ($request) {
                     if ($pid = $request->pid) {
                         $query->where('province_id', $pid);
                     }
@@ -136,7 +135,7 @@ class ListController extends Controller
                             $query->where('id', $nid);
                         });
                     }
-                })->orderBy($field, $order)->paginate(10);
+                })->orderBy($field, $order)->paginate(10, ['id', 'title', 'short', 'title', 'xc', 'description', 'thumb', 'price', 'province_id', 'city_id']);
 
             $arr['provinces'] = LocList::whereHas('provinceActivities', function ($query) use ($request) {
                 $query->active();
@@ -186,10 +185,10 @@ class ListController extends Controller
             $field = $request->get('field', 'id');
             $order = $request->get('order', 'desc');
 
-            $arr['travels'] = Travel::with('user')
+            $arr['travels'] = Travel::status('adopt')
+                ->with('user')
                 ->withCount('likes')
                 ->orderBy($field, $order)
-                ->status('adopt')
                 ->where(function ($query) use ($request) {
                     if ($province = $request->province) {
                         $query->where('province', $province);
@@ -253,29 +252,47 @@ class ListController extends Controller
     // 搜索页面
     public function search(Request $request)
     {
+        $keyword = $request->get('q');
+        if (!$keyword) {
+            return redirect('/');
+        }
+
         $data['navs'] = Nav::get(['id', 'text']);
-        // 在load和with不能使用paginate的情况下加载可以分页的 活动
+
         foreach ($data['navs'] as $nav) {
-            $nav->activities = $nav->activities()->active()->with('tuans')->withCount('trips')->where(function ($query) use ($request) {
-                $query->orWhere('title', 'like', '%' . $request->get('q') . '%')->orWhere('description', 'like', '%' . $request->get('q') . '%');
-            })->select(['id', 'title', 'short', 'title', 'xc', 'description', 'thumb', 'price', 'province_id'])->paginate(5);
+            // 活动
+            $nav->activities = $nav->activities()
+                ->active()
+                ->latest()
+                ->with('tuans')
+                ->withCount('trips')
+                ->whereRaw('match (title, description) against(?)', $keyword)
+                ->paginate(5, ['id', 'title', 'short', 'title', 'xc', 'description', 'thumb', 'price', 'province_id'], 'a_page');
         }
 
         $data['raider_types'] = ['default' => '攻略', 'line' => '线路', 'scenic' => '景点', 'food' => '美食', 'hospital' => '民宿'];
 
         // 攻略
         foreach ($data['raider_types'] as $key => $type) {
-            $data['raiders'][$key] = Raider::where('type', $key)->where(function ($query) use ($request) {
-                $query->orWhere('title', 'like', '%' . $request->get('q') . '%')->orWhere('description', 'like', '%' . $request->get('q') . '%');
-            })->paginate(5);
+            $data['raiders'][$key] = Raider::where('type', $key)
+                ->latest()
+                ->with('country', 'province', 'city')
+                ->withCount('likes')
+                ->whereRaw('match (title, description) against(?)', $keyword)
+                ->paginate(5, ['id', 'type', 'title', 'short', 'description', 'thumb', 'click', 'created_at'], 'r_page');
         }
 
-        $data['travels'] = Travel::status('adopt')->where(function ($query) use ($request) {
-            $query->orWhere('title', 'like', '%' . $request->get('q') . '%')->orWhere('description', 'like', '%' . $request->get('q') . '%');
-        })->paginate(2);
+        // 游记
+        $data['travels'] = Travel::status('adopt')
+            ->with('user')
+            ->withCount('likes')
+            ->latest()
+            ->whereRaw('match (title, description) against(?)', $keyword)
+            ->paginate(5, ['id', 'title', 'description', 'thumb'], 't_page');
 
-        $data['films'] = Video::active()->type('film')->latest()->paginate(2);
-        $data['lives'] = Video::active()->type('live')->latest()->paginate(2);
+        // 视频
+        $data['films'] = Video::active()->type('film')->whereRaw('match (title, description) against(?)', $keyword)->latest()->paginate(5, ['*'], 'f_page');
+        $data['lives'] = Video::active()->type('live')->whereRaw('match (title, description) against(?)', $keyword)->latest()->paginate(5, ['*'], 'l_page');
 
         return view('www.search', $data);
     }
