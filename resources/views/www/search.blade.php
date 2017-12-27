@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="container">
-        <div class="py-4"><a href="index.html">首页</a> &gt; <span class="text-warning">搜索“成都”</span></div>
+        <div class="py-4"><a href="{{ url('/') }}">首页</a> &gt; <span class="text-warning">{{ sprintf('搜索"%s"的结果', request('q')) }}</span></div>
     </div>
 
     <div class="container">
@@ -12,29 +12,24 @@
             <div class="col-8">
                 <div class="bg-white p-3 mb-4 list-media">
                     <ul class="nav" style="margin-left: -15px;">
-                        <li class="nav-item">
-                            <a href="javascript:void(0);" class="nav-link active">活动线路</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="javascript:void(0);" class="nav-link">纵横西部</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="javascript:void(0);" class="nav-link">微上西部</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="javascript:void(0);" class="nav-link">超级周末</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="javascript:void(0);" class="nav-link">最6旅行</a>
-                        </li>
+                        @foreach($navs as $nav)
+                            <li class="nav-item">
+                                <a href="{{ url('serach', ['nid' => $nav]) }}" class="nav-link @if(!Request::get('nid') && $loop->first ||  Request::get('nid') == $nav->id ) acitve @endif">
+                                    {{ $nav->text }}
+                                </a>
+                            </li>
+                        @endforeach
                     </ul>
+
                     <hr class="mt-0">
+
                     <div class="media">
                         <div class="mr-3 position-relative">
-                            <a href="activity.blade.php"><img src="{{ asset('uploads/d/list_pic.jpg') }}" alt="Generic placeholder image" width="280" height="180"></a>
+                            <a href="activity.blade.php"><img src="{{ asset('uploads/d/list_pic.jpg') }}"
+                                                              alt="Generic placeholder image" width="280" height="180"></a>
                             <span class="bg-warning text-white text-center p-1 position-absolute day">
-                        <b>1</b> <br>DAY
-                    </span>
+                                <b>1</b> <br>DAY
+                            </span>
                         </div>
                         <div class="media-body">
                             <a href="activity.blade.php" class="text-warning d-block">
@@ -46,10 +41,13 @@
                                 人民公园—宽窄巷子—奎星楼—锦里—东郊记忆—成都博物馆—望江楼公园
                             </p>
                             <p class="text-muted">
-                                <small>如今，当你走在琴台路上，在那块块铺路石上，你依稀可以看到司马相如和卓文君为追求自由爱情，冲破封建枷锁而私奔的脚印，依稀可以看到卓文君和司马相如的那段文君当垆的故事，琴台路上的那架古琴，仿佛仍然在演奏着《凤求凰》，那低沉婉转的琴声，在天府之国的上空飘荡，他们那段浪漫的爱情故事，传颂了千年百年。</small>
+                                <small>
+                                    如今，当你走在琴台路上，在那块块铺路石上，你依稀可以看到司马相如和卓文君为追求自由爱情，冲破封建枷锁而私奔的脚印，依稀可以看到卓文君和司马相如的那段文君当垆的故事，琴台路上的那架古琴，仿佛仍然在演奏着《凤求凰》，那低沉婉转的琴声，在天府之国的上空飘荡，他们那段浪漫的爱情故事，传颂了千年百年。
+                                </small>
                             </p>
                             <h5 class="d-flex justify-content-between">
-                                <a href="javascript:void(0);" class="btn-fatuan text-info">出团日期 <i class="fa fa-lg fa-caret-down"></i></a>
+                                <a href="javascript:void(0);" class="btn-fatuan text-info">出团日期 <i
+                                            class="fa fa-lg fa-caret-down"></i></a>
                                 <span>￥360/人</span>
                             </h5>
                             <div class="list-fatuan d-none">
@@ -58,304 +56,73 @@
                                         <td class="align-middle">017-12-03 - 2017-12-03</td>
                                         <td class="align-middle text-muted">已报名 33 人</td>
                                         <td class="align-middle text-danger">360元/人</td>
-                                        <td class="align-middle text-right"><a href="#" class="btn btn-warning text-white btn-sm rounded-0">去报名</a></td>
+                                        <td class="align-middle text-right"><a href="#"
+                                                                               class="btn btn-warning text-white btn-sm rounded-0">去报名</a>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td class="align-middle">017-12-03 - 2017-12-03</td>
                                         <td class="align-middle text-muted">已报名 33 人</td>
                                         <td class="align-middle text-danger">360元/人</td>
-                                        <td class="align-middle text-right"><a href="#" class="btn btn-warning text-white btn-sm rounded-0">去报名</a></td>
+                                        <td class="align-middle text-right"><a href="#"
+                                                                               class="btn btn-warning text-white btn-sm rounded-0">去报名</a>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td class="align-middle">017-12-03 - 2017-12-03</td>
                                         <td class="align-middle text-muted">已报名 33 人</td>
                                         <td class="align-middle text-danger">360元/人</td>
-                                        <td class="align-middle text-right"><a href="#" class="btn btn-warning text-white btn-sm rounded-0">去报名</a></td>
+                                        <td class="align-middle text-right"><a href="#"
+                                                                               class="btn btn-warning text-white btn-sm rounded-0">去报名</a>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td class="align-middle">017-12-03 - 2017-12-03</td>
                                         <td class="align-middle text-muted">已报名 33 人</td>
                                         <td class="align-middle text-danger">360元/人</td>
-                                        <td class="align-middle text-right"><a href="#" class="btn btn-warning text-white btn-sm rounded-0">去报名</a></td>
+                                        <td class="align-middle text-right"><a href="#"
+                                                                               class="btn btn-warning text-white btn-sm rounded-0">去报名</a>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td class="align-middle">017-12-03 - 2017-12-03</td>
                                         <td class="align-middle text-muted">已报名 33 人</td>
                                         <td class="align-middle text-danger">360元/人</td>
-                                        <td class="align-middle text-right"><a href="#" class="btn btn-warning text-white btn-sm rounded-0">去报名</a></td>
+                                        <td class="align-middle text-right"><a href="#"
+                                                                               class="btn btn-warning text-white btn-sm rounded-0">去报名</a>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td class="align-middle">017-12-03 - 2017-12-03</td>
                                         <td class="align-middle text-muted">已报名 33 人</td>
                                         <td class="align-middle text-danger">360元/人</td>
-                                        <td class="align-middle text-right"><a href="#" class="btn btn-warning text-white btn-sm rounded-0">去报名</a></td>
+                                        <td class="align-middle text-right"><a href="#"
+                                                                               class="btn btn-warning text-white btn-sm rounded-0">去报名</a>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td class="align-middle">017-12-03 - 2017-12-03</td>
                                         <td class="align-middle text-muted">已报名 33 人</td>
                                         <td class="align-middle text-danger">360元/人</td>
-                                        <td class="align-middle text-right"><a href="#" class="btn btn-warning text-white btn-sm rounded-0">去报名</a></td>
+                                        <td class="align-middle text-right"><a href="#"
+                                                                               class="btn btn-warning text-white btn-sm rounded-0">去报名</a>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td class="align-middle">017-12-03 - 2017-12-03</td>
                                         <td class="align-middle text-muted">已报名 33 人</td>
                                         <td class="align-middle text-danger">360元/人</td>
-                                        <td class="align-middle text-right"><a href="#" class="btn btn-warning text-white btn-sm rounded-0">去报名</a></td>
+                                        <td class="align-middle text-right"><a href="#"
+                                                                               class="btn btn-warning text-white btn-sm rounded-0">去报名</a>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td class="align-middle">017-12-03 - 2017-12-03</td>
                                         <td class="align-middle text-muted">已报名 33 人</td>
                                         <td class="align-middle text-danger">360元/人</td>
-                                        <td class="align-middle text-right"><a href="#" class="btn btn-warning text-white btn-sm rounded-0">去报名</a></td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="media">
-                        <div class="mr-3 position-relative">
-                            <a href="activity.blade.php"><img src="{{ asset('uploads/d/list_pic.jpg') }}" alt="Generic placeholder image" width="280" height="180"></a>
-                            <span class="bg-warning text-white text-center p-1 position-absolute day">
-                        <b>1</b> <br>DAY
-                    </span>
-                        </div>
-                        <div class="media-body">
-                            <a href="activity.blade.php" class="text-warning d-block">
-                                <h3>漫步老成都</h3>
-                                <h5>微服私访入蓉城，一街一尘皆故事</h5>
-                            </a>
-                            <p class="pt-2">
-                                <span class="text-info pr-3">行程</span>
-                                人民公园—宽窄巷子—奎星楼—锦里—东郊记忆—成都博物馆—望江楼公园
-                            </p>
-                            <p class="text-muted">
-                                <small>如今，当你走在琴台路上，在那块块铺路石上，你依稀可以看到司马相如和卓文君为追求自由爱情，冲破封建枷锁而私奔的脚印，依稀可以看到卓文君和司马相如的那段文君当垆的故事，琴台路上的那架古琴，仿佛仍然在演奏着《凤求凰》，那低沉婉转的琴声，在天府之国的上空飘荡，他们那段浪漫的爱情故事，传颂了千年百年。</small>
-                            </p>
-                            <h5 class="d-flex justify-content-between">
-                                <a href="javascript:void(0);" class="btn-fatuan text-info">出团日期 <i class="fa fa-lg fa-caret-down"></i></a>
-                                <span>￥360/人</span>
-                            </h5>
-                            <div class="list-fatuan d-none">
-                                <table class="table text-nowrap ">
-                                    <tr>
-                                        <td class="align-middle">017-12-03 - 2017-12-03</td>
-                                        <td class="align-middle text-muted">已报名 33 人</td>
-                                        <td class="align-middle text-danger">360元/人</td>
-                                        <td class="align-middle text-right"><a href="#" class="btn btn-warning text-white btn-sm rounded-0">去报名</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="align-middle">017-12-03 - 2017-12-03</td>
-                                        <td class="align-middle text-muted">已报名 33 人</td>
-                                        <td class="align-middle text-danger">360元/人</td>
-                                        <td class="align-middle text-right"><a href="#" class="btn btn-warning text-white btn-sm rounded-0">去报名</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="align-middle">017-12-03 - 2017-12-03</td>
-                                        <td class="align-middle text-muted">已报名 33 人</td>
-                                        <td class="align-middle text-danger">360元/人</td>
-                                        <td class="align-middle text-right"><a href="#" class="btn btn-warning text-white btn-sm rounded-0">去报名</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="align-middle">017-12-03 - 2017-12-03</td>
-                                        <td class="align-middle text-muted">已报名 33 人</td>
-                                        <td class="align-middle text-danger">360元/人</td>
-                                        <td class="align-middle text-right"><a href="#" class="btn btn-warning text-white btn-sm rounded-0">去报名</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="align-middle">017-12-03 - 2017-12-03</td>
-                                        <td class="align-middle text-muted">已报名 33 人</td>
-                                        <td class="align-middle text-danger">360元/人</td>
-                                        <td class="align-middle text-right"><a href="#" class="btn btn-warning text-white btn-sm rounded-0">去报名</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="align-middle">017-12-03 - 2017-12-03</td>
-                                        <td class="align-middle text-muted">已报名 33 人</td>
-                                        <td class="align-middle text-danger">360元/人</td>
-                                        <td class="align-middle text-right"><a href="#" class="btn btn-warning text-white btn-sm rounded-0">去报名</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="align-middle">017-12-03 - 2017-12-03</td>
-                                        <td class="align-middle text-muted">已报名 33 人</td>
-                                        <td class="align-middle text-danger">360元/人</td>
-                                        <td class="align-middle text-right"><a href="#" class="btn btn-warning text-white btn-sm rounded-0">去报名</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="align-middle">017-12-03 - 2017-12-03</td>
-                                        <td class="align-middle text-muted">已报名 33 人</td>
-                                        <td class="align-middle text-danger">360元/人</td>
-                                        <td class="align-middle text-right"><a href="#" class="btn btn-warning text-white btn-sm rounded-0">去报名</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="align-middle">017-12-03 - 2017-12-03</td>
-                                        <td class="align-middle text-muted">已报名 33 人</td>
-                                        <td class="align-middle text-danger">360元/人</td>
-                                        <td class="align-middle text-right"><a href="#" class="btn btn-warning text-white btn-sm rounded-0">去报名</a></td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="media">
-                        <div class="mr-3 position-relative">
-                            <a href="activity.blade.php"><img src="{{ asset('uploads/d/list_pic.jpg') }}" alt="Generic placeholder image" width="280" height="180"></a>
-                            <span class="bg-warning text-white text-center p-1 position-absolute day">
-                        <b>1</b> <br>DAY
-                    </span>
-                        </div>
-                        <div class="media-body">
-                            <a href="activity.blade.php" class="text-warning d-block">
-                                <h3>漫步老成都</h3>
-                                <h5>微服私访入蓉城，一街一尘皆故事</h5>
-                            </a>
-                            <p class="pt-2">
-                                <span class="text-info pr-3">行程</span>
-                                人民公园—宽窄巷子—奎星楼—锦里—东郊记忆—成都博物馆—望江楼公园
-                            </p>
-                            <p class="text-muted">
-                                <small>如今，当你走在琴台路上，在那块块铺路石上，你依稀可以看到司马相如和卓文君为追求自由爱情，冲破封建枷锁而私奔的脚印，依稀可以看到卓文君和司马相如的那段文君当垆的故事，琴台路上的那架古琴，仿佛仍然在演奏着《凤求凰》，那低沉婉转的琴声，在天府之国的上空飘荡，他们那段浪漫的爱情故事，传颂了千年百年。</small>
-                            </p>
-                            <h5 class="d-flex justify-content-between">
-                                <a href="javascript:void(0);" class="btn-fatuan text-info">出团日期 <i class="fa fa-lg fa-caret-down"></i></a>
-                                <span>￥360/人</span>
-                            </h5>
-                            <div class="list-fatuan d-none">
-                                <table class="table text-nowrap ">
-                                    <tr>
-                                        <td class="align-middle">017-12-03 - 2017-12-03</td>
-                                        <td class="align-middle text-muted">已报名 33 人</td>
-                                        <td class="align-middle text-danger">360元/人</td>
-                                        <td class="align-middle text-right"><a href="#" class="btn btn-warning text-white btn-sm rounded-0">去报名</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="align-middle">017-12-03 - 2017-12-03</td>
-                                        <td class="align-middle text-muted">已报名 33 人</td>
-                                        <td class="align-middle text-danger">360元/人</td>
-                                        <td class="align-middle text-right"><a href="#" class="btn btn-warning text-white btn-sm rounded-0">去报名</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="align-middle">017-12-03 - 2017-12-03</td>
-                                        <td class="align-middle text-muted">已报名 33 人</td>
-                                        <td class="align-middle text-danger">360元/人</td>
-                                        <td class="align-middle text-right"><a href="#" class="btn btn-warning text-white btn-sm rounded-0">去报名</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="align-middle">017-12-03 - 2017-12-03</td>
-                                        <td class="align-middle text-muted">已报名 33 人</td>
-                                        <td class="align-middle text-danger">360元/人</td>
-                                        <td class="align-middle text-right"><a href="#" class="btn btn-warning text-white btn-sm rounded-0">去报名</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="align-middle">017-12-03 - 2017-12-03</td>
-                                        <td class="align-middle text-muted">已报名 33 人</td>
-                                        <td class="align-middle text-danger">360元/人</td>
-                                        <td class="align-middle text-right"><a href="#" class="btn btn-warning text-white btn-sm rounded-0">去报名</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="align-middle">017-12-03 - 2017-12-03</td>
-                                        <td class="align-middle text-muted">已报名 33 人</td>
-                                        <td class="align-middle text-danger">360元/人</td>
-                                        <td class="align-middle text-right"><a href="#" class="btn btn-warning text-white btn-sm rounded-0">去报名</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="align-middle">017-12-03 - 2017-12-03</td>
-                                        <td class="align-middle text-muted">已报名 33 人</td>
-                                        <td class="align-middle text-danger">360元/人</td>
-                                        <td class="align-middle text-right"><a href="#" class="btn btn-warning text-white btn-sm rounded-0">去报名</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="align-middle">017-12-03 - 2017-12-03</td>
-                                        <td class="align-middle text-muted">已报名 33 人</td>
-                                        <td class="align-middle text-danger">360元/人</td>
-                                        <td class="align-middle text-right"><a href="#" class="btn btn-warning text-white btn-sm rounded-0">去报名</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="align-middle">017-12-03 - 2017-12-03</td>
-                                        <td class="align-middle text-muted">已报名 33 人</td>
-                                        <td class="align-middle text-danger">360元/人</td>
-                                        <td class="align-middle text-right"><a href="#" class="btn btn-warning text-white btn-sm rounded-0">去报名</a></td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="media">
-                        <div class="mr-3 position-relative">
-                            <a href="activity.blade.php"><img src="{{ asset('uploads/d/list_pic.jpg') }}" alt="Generic placeholder image" width="280" height="180"></a>
-                            <span class="bg-warning text-white text-center p-1 position-absolute day">
-                        <b>1</b> <br>DAY
-                    </span>
-                        </div>
-                        <div class="media-body">
-                            <a href="activity.blade.php" class="text-warning d-block">
-                                <h3>漫步老成都</h3>
-                                <h5>微服私访入蓉城，一街一尘皆故事</h5>
-                            </a>
-                            <p class="pt-2">
-                                <span class="text-info pr-3">行程</span>
-                                人民公园—宽窄巷子—奎星楼—锦里—东郊记忆—成都博物馆—望江楼公园
-                            </p>
-                            <p class="text-muted">
-                                <small>如今，当你走在琴台路上，在那块块铺路石上，你依稀可以看到司马相如和卓文君为追求自由爱情，冲破封建枷锁而私奔的脚印，依稀可以看到卓文君和司马相如的那段文君当垆的故事，琴台路上的那架古琴，仿佛仍然在演奏着《凤求凰》，那低沉婉转的琴声，在天府之国的上空飘荡，他们那段浪漫的爱情故事，传颂了千年百年。</small>
-                            </p>
-                            <h5 class="d-flex justify-content-between">
-                                <a href="javascript:void(0);" class="btn-fatuan text-info">出团日期 <i class="fa fa-lg fa-caret-down"></i></a>
-                                <span>￥360/人</span>
-                            </h5>
-                            <div class="list-fatuan d-none">
-                                <table class="table text-nowrap ">
-                                    <tr>
-                                        <td class="align-middle">017-12-03 - 2017-12-03</td>
-                                        <td class="align-middle text-muted">已报名 33 人</td>
-                                        <td class="align-middle text-danger">360元/人</td>
-                                        <td class="align-middle text-right"><a href="#" class="btn btn-warning text-white btn-sm rounded-0">去报名</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="align-middle">017-12-03 - 2017-12-03</td>
-                                        <td class="align-middle text-muted">已报名 33 人</td>
-                                        <td class="align-middle text-danger">360元/人</td>
-                                        <td class="align-middle text-right"><a href="#" class="btn btn-warning text-white btn-sm rounded-0">去报名</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="align-middle">017-12-03 - 2017-12-03</td>
-                                        <td class="align-middle text-muted">已报名 33 人</td>
-                                        <td class="align-middle text-danger">360元/人</td>
-                                        <td class="align-middle text-right"><a href="#" class="btn btn-warning text-white btn-sm rounded-0">去报名</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="align-middle">017-12-03 - 2017-12-03</td>
-                                        <td class="align-middle text-muted">已报名 33 人</td>
-                                        <td class="align-middle text-danger">360元/人</td>
-                                        <td class="align-middle text-right"><a href="#" class="btn btn-warning text-white btn-sm rounded-0">去报名</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="align-middle">017-12-03 - 2017-12-03</td>
-                                        <td class="align-middle text-muted">已报名 33 人</td>
-                                        <td class="align-middle text-danger">360元/人</td>
-                                        <td class="align-middle text-right"><a href="#" class="btn btn-warning text-white btn-sm rounded-0">去报名</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="align-middle">017-12-03 - 2017-12-03</td>
-                                        <td class="align-middle text-muted">已报名 33 人</td>
-                                        <td class="align-middle text-danger">360元/人</td>
-                                        <td class="align-middle text-right"><a href="#" class="btn btn-warning text-white btn-sm rounded-0">去报名</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="align-middle">017-12-03 - 2017-12-03</td>
-                                        <td class="align-middle text-muted">已报名 33 人</td>
-                                        <td class="align-middle text-danger">360元/人</td>
-                                        <td class="align-middle text-right"><a href="#" class="btn btn-warning text-white btn-sm rounded-0">去报名</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="align-middle">017-12-03 - 2017-12-03</td>
-                                        <td class="align-middle text-muted">已报名 33 人</td>
-                                        <td class="align-middle text-danger">360元/人</td>
-                                        <td class="align-middle text-right"><a href="#" class="btn btn-warning text-white btn-sm rounded-0">去报名</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="align-middle">017-12-03 - 2017-12-03</td>
-                                        <td class="align-middle text-muted">已报名 33 人</td>
-                                        <td class="align-middle text-danger">360元/人</td>
-                                        <td class="align-middle text-right"><a href="#" class="btn btn-warning text-white btn-sm rounded-0">去报名</a></td>
+                                        <td class="align-middle text-right"><a href="#"
+                                                                               class="btn btn-warning text-white btn-sm rounded-0">去报名</a>
+                                        </td>
                                     </tr>
                                 </table>
                             </div>
@@ -371,6 +138,7 @@
                             <li class="page-item"><a class="page-link" href="#">下一页</a></li>
                         </ul>
                     </nav>
+
                 </div>
 
                 <div class="bg-white p-3 mb-4 list-media">
@@ -393,7 +161,8 @@
                     </ul>
                     <hr class="mt-0">
                     <div class="media">
-                        <a href="show.html"><img class="mr-3" src="{{ asset('uploads/d/list_pic.jpg') }}" alt="Generic placeholder image" width="280" height="180"></a>
+                        <a href="show.html"><img class="mr-3" src="{{ asset('uploads/d/list_pic.jpg') }}"
+                                                 alt="Generic placeholder image" width="280" height="180"></a>
                         <div class="media-body">
                             <a href="show.html" class="text-warning d-block">
                                 <h3>漫步老成都</h3>
@@ -411,7 +180,8 @@
                         </div>
                     </div>
                     <div class="media">
-                        <a href="show.html"><img class="mr-3" src="{{ asset('uploads/d/list_pic.jpg') }}" alt="Generic placeholder image" width="280" height="180"></a>
+                        <a href="show.html"><img class="mr-3" src="{{ asset('uploads/d/list_pic.jpg') }}"
+                                                 alt="Generic placeholder image" width="280" height="180"></a>
                         <div class="media-body">
                             <a href="show.html" class="text-warning d-block">
                                 <h3>漫步老成都</h3>
@@ -429,7 +199,8 @@
                         </div>
                     </div>
                     <div class="media">
-                        <a href="show.html"><img class="mr-3" src="{{ asset('uploads/d/list_pic.jpg') }}" alt="Generic placeholder image" width="280" height="180"></a>
+                        <a href="show.html"><img class="mr-3" src="{{ asset('uploads/d/list_pic.jpg') }}"
+                                                 alt="Generic placeholder image" width="280" height="180"></a>
                         <div class="media-body">
                             <a href="show.html" class="text-warning d-block">
                                 <h3>漫步老成都</h3>
@@ -447,7 +218,8 @@
                         </div>
                     </div>
                     <div class="media">
-                        <a href="show.html"><img class="mr-3" src="{{ asset('uploads/d/list_pic.jpg') }}" alt="Generic placeholder image" width="280" height="180"></a>
+                        <a href="show.html"><img class="mr-3" src="{{ asset('uploads/d/list_pic.jpg') }}"
+                                                 alt="Generic placeholder image" width="280" height="180"></a>
                         <div class="media-body">
                             <a href="show.html" class="text-warning d-block">
                                 <h3>漫步老成都</h3>
@@ -483,7 +255,8 @@
                     </ul>
                     <hr class="mt-0">
                     <div class="media">
-                        <a href="show.html"><img class="mr-3" src="{{ asset('uploads/d/list_pic.jpg') }}" alt="Generic placeholder image" width="280" height="180"></a>
+                        <a href="show.html"><img class="mr-3" src="{{ asset('uploads/d/list_pic.jpg') }}"
+                                                 alt="Generic placeholder image" width="280" height="180"></a>
                         <div class="media-body">
                             <a href="show.html" class="text-warning d-block">
                                 <h3>漫步老成都</h3>
@@ -501,7 +274,8 @@
                         </div>
                     </div>
                     <div class="media">
-                        <a href="show.html"><img class="mr-3" src="{{ asset('uploads/d/list_pic.jpg') }}" alt="Generic placeholder image" width="280" height="180"></a>
+                        <a href="show.html"><img class="mr-3" src="{{ asset('uploads/d/list_pic.jpg') }}"
+                                                 alt="Generic placeholder image" width="280" height="180"></a>
                         <div class="media-body">
                             <a href="show.html" class="text-warning d-block">
                                 <h3>漫步老成都</h3>
@@ -519,7 +293,8 @@
                         </div>
                     </div>
                     <div class="media">
-                        <a href="show.html"><img class="mr-3" src="{{ asset('uploads/d/list_pic.jpg') }}" alt="Generic placeholder image" width="280" height="180"></a>
+                        <a href="show.html"><img class="mr-3" src="{{ asset('uploads/d/list_pic.jpg') }}"
+                                                 alt="Generic placeholder image" width="280" height="180"></a>
                         <div class="media-body">
                             <a href="show.html" class="text-warning d-block">
                                 <h3>漫步老成都</h3>
@@ -537,7 +312,8 @@
                         </div>
                     </div>
                     <div class="media">
-                        <a href="show.html"><img class="mr-3" src="{{ asset('uploads/d/list_pic.jpg') }}" alt="Generic placeholder image" width="280" height="180"></a>
+                        <a href="show.html"><img class="mr-3" src="{{ asset('uploads/d/list_pic.jpg') }}"
+                                                 alt="Generic placeholder image" width="280" height="180"></a>
                         <div class="media-body">
                             <a href="show.html" class="text-warning d-block">
                                 <h3>漫步老成都</h3>
@@ -579,7 +355,8 @@
                     <div class="row" style="margin: 0 -5px;">
                         <a class="col-6 box" href="video.blade.php">
                             <p class="position-relative">
-                                <img class="img-fluid" src="{{ asset('uploads/d/list_video.jpg') }}" alt="list_video" width="380" height="214">
+                                <img class="img-fluid" src="{{ asset('uploads/d/list_video.jpg') }}" alt="list_video"
+                                     width="380" height="214">
                                 <i class="fa fa-2x fa-play-circle-o position-absolute"></i>
                             </p>
                             <h5>成都 · 大熊猫6天5晚自由行</h5>
@@ -587,7 +364,8 @@
                         </a>
                         <a class="col-6 box" href="video.blade.php">
                             <p class="position-relative">
-                                <img class="img-fluid" src="{{ asset('uploads/d/list_video.jpg') }}" alt="list_video" width="380" height="214">
+                                <img class="img-fluid" src="{{ asset('uploads/d/list_video.jpg') }}" alt="list_video"
+                                     width="380" height="214">
                                 <i class="fa fa-2x fa-play-circle-o position-absolute"></i>
                             </p>
                             <h5>成都 · 大熊猫6天5晚自由行</h5>
@@ -595,7 +373,8 @@
                         </a>
                         <a class="col-6 box" href="video.blade.php">
                             <p class="position-relative">
-                                <img class="img-fluid" src="{{ asset('uploads/d/list_video.jpg') }}" alt="list_video" width="380" height="214">
+                                <img class="img-fluid" src="{{ asset('uploads/d/list_video.jpg') }}" alt="list_video"
+                                     width="380" height="214">
                                 <i class="fa fa-2x fa-play-circle-o position-absolute"></i>
                             </p>
                             <h5>成都 · 大熊猫6天5晚自由行</h5>
@@ -604,7 +383,8 @@
 
                         <a class="col-6 box" href="video.blade.php">
                             <p class="position-relative">
-                                <img class="img-fluid" src="{{ asset('uploads/d/list_video.jpg') }}" alt="list_video" width="380" height="214">
+                                <img class="img-fluid" src="{{ asset('uploads/d/list_video.jpg') }}" alt="list_video"
+                                     width="380" height="214">
                                 <i class="fa fa-2x fa-play-circle-o position-absolute"></i>
                             </p>
                             <h5>成都 · 大熊猫6天5晚自由行</h5>
@@ -612,7 +392,8 @@
                         </a>
                         <a class="col-6 box" href="video.blade.php">
                             <p class="position-relative">
-                                <img class="img-fluid" src="{{ asset('uploads/d/list_video.jpg') }}" alt="list_video" width="380" height="214">
+                                <img class="img-fluid" src="{{ asset('uploads/d/list_video.jpg') }}" alt="list_video"
+                                     width="380" height="214">
                                 <i class="fa fa-2x fa-play-circle-o position-absolute"></i>
                             </p>
                             <h5>成都 · 大熊猫6天5晚自由行</h5>
@@ -620,7 +401,8 @@
                         </a>
                         <a class="col-6 box" href="video.blade.php">
                             <p class="position-relative">
-                                <img class="img-fluid" src="{{ asset('uploads/d/list_video.jpg') }}" alt="list_video" width="380" height="214">
+                                <img class="img-fluid" src="{{ asset('uploads/d/list_video.jpg') }}" alt="list_video"
+                                     width="380" height="214">
                                 <i class="fa fa-2x fa-play-circle-o position-absolute"></i>
                             </p>
                             <h5>成都 · 大熊猫6天5晚自由行</h5>
@@ -648,7 +430,8 @@
 @endsection
 
 @push('script')
-    <link href="https://cdn.bootcss.com/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css"
+          rel="stylesheet">
     <script src="https://cdn.bootcss.com/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.js"></script>
     <script>
         (function ($) {

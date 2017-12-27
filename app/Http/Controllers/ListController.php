@@ -250,9 +250,12 @@ class ListController extends Controller
         return view('www.list_video', $data);
     }
 
+    // 搜索页面
     public function search(Request $request)
     {
-        return view('www.search');
+        $data['navs'] = Nav::get(['id', 'text']);
+
+        return view('www.search', $data);
     }
 
 }
