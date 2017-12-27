@@ -110,13 +110,12 @@
     </style>
     <script>
         let user = {name: null, mobile: null, cardType: 'ID', cardID: null, nameJ: null, mobileJ: null}
-
         new Vue({
             el: '#app',
             data: {
                 order: {
                     users: [
-                        {...user}
+                        $.extend({}, user)
                     ],
                     remarks: null,
                     type: 'alipay',
@@ -134,7 +133,7 @@
             methods: {
                 addUser() {
                     if (this.max > this.order.users.length) {
-                        this.order.users.push({...user})
+                        this.order.users.push($.extend({}, user))
                     } else {
                         swal('当前活动批次名额有限！', `当前最多可报名 ${this.max} 个。`, 'warning')
                     }
