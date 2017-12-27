@@ -33,7 +33,9 @@ class AppServiceProvider extends ServiceProvider
         // 搜索栏 筛选地区
         View::composer(['layouts.app', 'www.index'], function ($view) {
             $searchProvinces = Cache::remember('searchProvinces', 5, function () {
-                return LocList::has('provinceActivities')->get(['id', 'name']);
+                return LocList::whereHas('provinceActivities', function ($query) {
+                    $query->active();
+                })->orWhereHas('provinceRaiders')->orWhereHas('provinceVideos')->get(['id', 'name']);
             });
             $view->with('searchProvinces', $searchProvinces);
         });

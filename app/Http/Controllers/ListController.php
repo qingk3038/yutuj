@@ -256,43 +256,46 @@ class ListController extends Controller
         if (!$keyword) {
             return redirect('/');
         }
+        $data = Cache::remember(request()->fullUrl(), 5, function () use ($keyword) {
 
-        $data['navs'] = Nav::get(['id', 'text']);
+            $arr['navs'] = Nav::get(['id', 'text']);
+            foreach ($arr['navs'] as $nav) {
+                // 活动
+                $nav->activities = $nav->activities()
+                    ->active()
+                    ->latest()
+                    ->with('tuans')
+                    ->withCount('trips')
+                    ->whereRaw('match (title, description) against(?)', $keyword)
+                    ->paginate(5, ['id', 'title', 'short', 'title', 'xc', 'description', 'thumb', 'price', 'province_id'], 'a_page');
+            }
 
-        foreach ($data['navs'] as $nav) {
-            // 活动
-            $nav->activities = $nav->activities()
-                ->active()
-                ->latest()
-                ->with('tuans')
-                ->withCount('trips')
-                ->whereRaw('match (title, description) against(?)', $keyword)
-                ->paginate(5, ['id', 'title', 'short', 'title', 'xc', 'description', 'thumb', 'price', 'province_id'], 'a_page');
-        }
+            $arr['raider_types'] = ['default' => '攻略', 'line' => '线路', 'scenic' => '景点', 'food' => '美食', 'hospital' => '民宿'];
 
-        $data['raider_types'] = ['default' => '攻略', 'line' => '线路', 'scenic' => '景点', 'food' => '美食', 'hospital' => '民宿'];
+            // 攻略
+            foreach ($arr['raider_types'] as $key => $type) {
+                $arr['raiders'][$key] = Raider::where('type', $key)
+                    ->latest()
+                    ->with('country', 'province', 'city')
+                    ->withCount('likes')
+                    ->whereRaw('match (title, description) against(?)', $keyword)
+                    ->paginate(5, ['id', 'type', 'title', 'short', 'description', 'thumb', 'click', 'created_at'], 'r_page');
+            }
 
-        // 攻略
-        foreach ($data['raider_types'] as $key => $type) {
-            $data['raiders'][$key] = Raider::where('type', $key)
-                ->latest()
-                ->with('country', 'province', 'city')
+            // 游记
+            $arr['travels'] = Travel::status('adopt')
+                ->with('user')
                 ->withCount('likes')
+                ->latest()
                 ->whereRaw('match (title, description) against(?)', $keyword)
-                ->paginate(5, ['id', 'type', 'title', 'short', 'description', 'thumb', 'click', 'created_at'], 'r_page');
-        }
+                ->paginate(5, ['id', 'title', 'description', 'thumb'], 't_page');
 
-        // 游记
-        $data['travels'] = Travel::status('adopt')
-            ->with('user')
-            ->withCount('likes')
-            ->latest()
-            ->whereRaw('match (title, description) against(?)', $keyword)
-            ->paginate(5, ['id', 'title', 'description', 'thumb'], 't_page');
+            // 视频
+            $arr['films'] = Video::active()->type('film')->whereRaw('match (title, description) against(?)', $keyword)->latest()->paginate(5, ['*'], 'f_page');
+            $arr['lives'] = Video::active()->type('live')->whereRaw('match (title, description) against(?)', $keyword)->latest()->paginate(5, ['*'], 'l_page');
 
-        // 视频
-        $data['films'] = Video::active()->type('film')->whereRaw('match (title, description) against(?)', $keyword)->latest()->paginate(5, ['*'], 'f_page');
-        $data['lives'] = Video::active()->type('live')->whereRaw('match (title, description) against(?)', $keyword)->latest()->paginate(5, ['*'], 'l_page');
+            return $arr;
+        });
 
         return view('www.search', $data);
     }
