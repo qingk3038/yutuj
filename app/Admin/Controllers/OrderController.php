@@ -99,7 +99,7 @@ class OrderController extends Controller
             $grid->column('status', '状态')->sortable()->display(function () {
                 return $this->statusText();
             });
-            $grid->column('author.name', '订单创建')->sortable();
+            $grid->column('author.name', '下单会员');
 
             $grid->disableCreation();
             $grid->filter(function ($filter) {
@@ -138,6 +138,8 @@ class OrderController extends Controller
             $form->radio('status', '订单状态')->options(['success' => '成功', 'fail' => '失败', 'close' => '关闭', 'cancel' => '退款', 'wait' => '等待']);
 
             $form->textarea('remarks', '报名备注');
+
+            $form->display('author.name', '下单会员');
 
             $form->hasMany('baomings', '报名信息', function (Form\NestedForm $form) {
                 $form->text('name', '姓名');
