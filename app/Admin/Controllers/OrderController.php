@@ -122,7 +122,30 @@ class OrderController extends Controller
     {
         return Admin::form(Order::class, function (Form $form) {
 
-            $form->display('id', 'ID');
+            $form->display('transaction_id', '交易号');
+            $form->display('out_trade_no', '订单号');
+
+
+            $form->display('pay_at', '支付日期');
+            $form->display('total_fee', '金额（元）')->with(function ($total_fee) {
+                return $total_fee / 100;
+            });
+
+            $form->display('type', '支付方式')->with(function ($type) {
+                return $type === 'alipay' ? '支付宝' : '微信';
+            });
+
+            $form->radio('status', '订单状态')->options(['success' => '成功', 'fail' => '失败', 'close' => '关闭', 'cancel' => '退款', 'wait' => '等待']);
+
+            $form->textarea('remarks', '报名备注');
+
+            $form->hasMany('baomings', '报名信息', function (Form\NestedForm $form) {
+                $form->text('name', '姓名');
+                $form->mobile('mobile', '手机');
+
+                $form->text('nameJ', '紧急联系人');
+                $form->mobile('mobileJ', '紧急联系手机号码');
+            });
 
             $form->display('created_at', '创建日期');
             $form->display('updated_at', '修改日期');

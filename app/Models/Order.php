@@ -44,7 +44,7 @@ class Order extends Model
                 break;
 
             case 'cancel':
-                return '已取消';
+                return '退款';
                 break;
 
             default :
