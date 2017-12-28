@@ -66,10 +66,10 @@
                         <div class="col-10 text-truncate">
                             <a href="{{ route('www.activity.list', Request::only('nid', 'pid', 'cid')) }}" @empty(request('price')) class="active" @endempty>全部</a>
                             <a href="{{ route('www.activity.list', array_merge(Request::only('nid', 'pid', 'cid'), ['price[max]' => 499])) }}" @if(Request::input('price.max') == 499) class="active" @endif>500元以下</a>
-                            <a href="{{ route('www.activity.list', array_merge(Request::only('nid', 'pid', 'cid'), ['price[min]' => 500, 'price[max]' => 999])) }}" @if(Request::input('price.max') == 1000) class="active" @endif>500-999元</a>
-                            <a href="{{ route('www.activity.list', array_merge(Request::only('nid', 'pid', 'cid'), ['price[min]' => 1000, 'price[max]' => 1999])) }}" @if(Request::input('price.max') == 2000) class="active" @endif>1000-1999元</a>
-                            <a href="{{ route('www.activity.list', array_merge(Request::only('nid', 'pid', 'cid'), ['price[min]' => 2000, 'price[max]' => 5000])) }}" @if(Request::input('price.max') == 2000) class="active" @endif>2000-5000元</a>
-                            <a href="{{ route('www.activity.list', array_merge(Request::only('nid', 'pid', 'cid'), ['price[min]' => 5001])) }}" @if(Request::input('price.min') == 1001) class="active" @endif>5000以上</a>
+                            <a href="{{ route('www.activity.list', array_merge(Request::only('nid', 'pid', 'cid'), ['price[min]' => 500, 'price[max]' => 999])) }}" @if(Request::input('price.max') == 999) class="active" @endif>500-999元</a>
+                            <a href="{{ route('www.activity.list', array_merge(Request::only('nid', 'pid', 'cid'), ['price[min]' => 1000, 'price[max]' => 1999])) }}" @if(Request::input('price.max') == 1999) class="active" @endif>1000-1999元</a>
+                            <a href="{{ route('www.activity.list', array_merge(Request::only('nid', 'pid', 'cid'), ['price[min]' => 2000, 'price[max]' => 5000])) }}" @if(Request::input('price.max') == 5000) class="active" @endif>2000-5000元</a>
+                            <a href="{{ route('www.activity.list', array_merge(Request::only('nid', 'pid', 'cid'), ['price[min]' => 5001])) }}" @if(Request::input('price.min') == 5001) class="active" @endif>5000以上</a>
                         </div>
                     </div>
                 </div>
