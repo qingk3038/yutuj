@@ -104,7 +104,7 @@
 
             <div class="goods-list-box" id="ts">
                 <h3 class="text-warning"><i class="fa fa-fw fa-camera-retro"></i> 行程特色</h3>
-                <p class="text-muted d-block">
+                <p class="text-muted d-block text-justify">
                     {!! nl2br($activity->ts) !!}
                 </p>
                 <p class="d-flex justify-content-between py-3">
@@ -122,7 +122,7 @@
                         <strong class="pr-4 text-warning">第{{ numberToChinese($loop->iteration) }}天</strong>
                         {{ $trip->title }}
                     </h5>
-                    <p class="pl-5">
+                    <p class="pl-5 text-justify">
                         {!! nl2br($trip->body) !!}
                     </p>
                     <ul class="list-unstyled list-inline pl-5">
@@ -143,20 +143,20 @@
             <div class="goods-list-box" id="fy">
                 <h3 class="text-warning"><i class="fa fa-fw fa-dollar"></i> 费用说明</h3>
                 <p class="lead">费用包含</p>
-                <div class="text-muted mb-3">{!! nl2br($activity->baohan) !!}</div>
+                <div class="text-muted mb-3 text-justify">{!! nl2br($activity->baohan) !!}</div>
 
                 <p class="lead">费用不含</p>
-                <div class="text-muted">{!! nl2br($activity->buhan) !!}</div>
+                <div class="text-muted text-justify">{!! nl2br($activity->buhan) !!}</div>
             </div>
 
             <div class="goods-list-box" id="zy">
                 <h3 class="text-warning"><i class="fa fa-fw fa-file-text-o"></i> 注意事项</h3>
-                <div class="text-muted">{!! nl2br($activity->zhuyi) !!}</div>
+                <div class="text-muted text-justify">{!! nl2br($activity->zhuyi) !!}</div>
             </div>
 
             <div class="goods-list-box" id="qy">
                 <h3 class="text-warning"><i class="fa fa-fw fa-edit"></i> 签约条款</h3>
-                <div class="text-muted">{!! nl2br($activity->qianyue) !!}</div>
+                <div class="text-muted text-justify">{!! nl2br($activity->qianyue) !!}</div>
             </div>
         </div>
     </div>
