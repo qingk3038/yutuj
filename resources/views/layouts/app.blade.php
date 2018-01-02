@@ -185,7 +185,7 @@
     </footer>
     <aside class="position-fixed side-right">
         <div class="mb-1 text-center">
-            <span class="d-block" data-toggle="popover" data-placement="left" data-trigger="hover" data-html="true" data-content="<p class='mb-0 text-center'>客服电话</p><b>400-3455-456</b>">
+            <span class="d-block" data-toggle="popover" data-placement="left" data-trigger="hover" data-html="true" data-content="<p class='mb-0 text-center'>客服电话</p><b>{{ config('tel_400') }}</b>">
                 <i class="fa fa-fw fa-3x text-white fa-phone"></i>
             </span>
             <span class="d-block swt">
