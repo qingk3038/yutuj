@@ -121,7 +121,7 @@
                                         @foreach($activity->tuans as $tuan)
                                             <tr>
                                                 <td class="align-middle">{{ $tuan->start_time->toDateString() }} - {{ $tuan->end_time->toDateString() }}</td>
-                                                <td class="align-middle text-muted">已报名 {{ $tuan->start_num }} 人</td>
+                                                <td class="align-middle text-muted">已报名 {{ $tuan->start_num + $tuan->usersOkCount() }} 人</td>
                                                 <td class="align-middle text-danger">{{ $tuan->price }}元/人</td>
                                                 <td class="align-middle text-right pr-3">
                                                     @if($tuan->available())
