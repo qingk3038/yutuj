@@ -122,8 +122,8 @@
                             @endif
                             <div class="media-body">
                                 <a href="{{ route('www.raider.show', $raider) }}" class="text-warning d-block" target="_blank">
-                                    <h3>{{ $raider->typeText() }} · {{ str_limit($raider->short, 26) }}</h3>
-                                    <h5>{{ $raider->title }}</h5>
+                                    <h3>{{ $raider->typeText() }} · {{ str_limit($raider->short, 24) }}</h3>
+                                    <h5>{{ str_limit($raider->title, 40) }}</h5>
                                 </a>
                                 <p class="text-muted">
                                     <small>{{ str_limit($raider->description, 200) }}</small>
