@@ -160,7 +160,7 @@ class ActivityController extends Controller
                 $form->hasMany('trips', '行程', function (Form\NestedForm $form) {
                     $form->text('title', '行程标题')->rules('required|string');
                     $form->multipleFile('pictures', '展示图')->removable()->help('3张图片')->uniqueName();
-                    $form->textarea('body', '行程内容')->rules('required|string');
+                    $form->editor('body', '行程内容')->rules('required|string');
                     $form->text('zaocan', '早餐')->default('包含');
                     $form->text('wucan', '午餐')->default('包含');
                     $form->text('wancan', '晚餐')->default('包含');
