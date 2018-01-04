@@ -24,13 +24,13 @@
         <div class="px-4 py-3 rounded m-auto" style="width: 630px; background: rgba(0,0,0, .2);">
             <p class="text-white hot-keywords">
                 热搜：
-                <a href="javascript:void(0);" class="text-white mr-2">西部</a>
-                <a href="javascript:void(0);" class="text-white mr-2">微旅行</a>
-                <a href="javascript:void(0);" class="text-white mr-2">成都</a>
-                <a href="javascript:void(0);" class="text-white mr-2">周末</a>
-                <a href="javascript:void(0);" class="text-white mr-2">一日游</a>
+                <a href="{{ route('search', ['q' => '西部']) }}" class="text-white mr-2" target="_blank">西部</a>
+                <a href="{{ route('search', ['q' => '微旅行']) }}" class="text-white mr-2" target="_blank">微旅行</a>
+                <a href="{{ route('search', ['q' => '成都']) }}" class="text-white mr-2" target="_blank">成都</a>
+                <a href="{{ route('search', ['q' => '周末']) }}" class="text-white mr-2" target="_blank">周末</a>
+                <a href="{{ route('search', ['q' => '一日游']) }}" class="text-white mr-2" target="_blank">一日游</a>
             </p>
-            <form class="top-search" autocomplete="off">
+            <form action="{{ route('search') }}" class="top-search" autocomplete="off">
                 <div class="input-group">
                     <div class="input-group-btn">
                         <button type="button" id="search-btn" class="btn dropdown-toggle down bg-white" data-toggle="dropdown">不限</button>

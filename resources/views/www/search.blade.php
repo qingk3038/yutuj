@@ -74,7 +74,7 @@
                                         </div>
                                     </div>
                                 @endforeach
-                                <nav class="d-flex justify-content-end w-100">
+                                <nav class="d-flex justify-content-end mt-4">
                                     {{ $nav->activities->links() }}
                                 </nav>
                             </div>
@@ -123,7 +123,7 @@
                                         </div>
                                     </div>
                                 @endforeach
-                                <nav class="d-flex justify-content-end w-100">
+                                <nav class="d-flex justify-content-end mt-4">
                                     {{ $raiders[$key]->links() }}
                                 </nav>
                             </div>
@@ -160,7 +160,7 @@
                             </div>
                         </div>
                     @endforeach
-                    <nav class="d-flex justify-content-end w-100">
+                    <nav class="d-flex justify-content-end mt-4">
                         {{ $travels->links() }}
                     </nav>
                 </div>
@@ -189,7 +189,7 @@
                                     </a>
                                 @endforeach
                             </div>
-                            <nav class="d-flex justify-content-end">
+                            <nav class="d-flex justify-content-end mt-4">
                                 {{ $films->appends(['v' => 'film'])->links() }}
                             </nav>
                         </div>
@@ -206,7 +206,7 @@
                                     </a>
                                 @endforeach
                             </div>
-                            <nav class="d-flex justify-content-end">
+                            <nav class="d-flex justify-content-end mt-4">
                                 {{ $films->appends(['v' => 'live'])->links() }}
                             </nav>
                         </div>
@@ -222,9 +222,8 @@
 @endsection
 
 @push('script')
-    <link href="https://cdn.bootcss.com/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css"
-          rel="stylesheet">
-    <script src="https://cdn.bootcss.com/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.js"></script>
+    <link rel="stylesheet" href="{{ asset('css/jquery.mCustomScrollbar.min.css') }}">
+    <script src="{{ asset('js/jquery.mCustomScrollbar.min.js') }}"></script>
     <script>
         (function ($) {
             // 筛选 显示更多

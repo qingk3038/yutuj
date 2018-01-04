@@ -12,7 +12,7 @@
     <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
     {{--VUE--}}
-    <script src="https://cdn.bootcss.com/vue/2.5.9/vue.js"></script>
+    <script src="https://cdn.bootcss.com/vue/2.5.9/vue.min.js"></script>
     <script src="https://cdn.bootcss.com/axios/0.17.1/axios.min.js"></script>
 
     {{--Bootstrap--}}
@@ -91,7 +91,7 @@
                                     @endforeach
                                 </div>
                             </div>
-                            <input type="hidden" name="pid" id="pid">
+                            <input type="hidden" name="pid" id="pid" value="{{ request('pid') }}">
                             <input type="text" class="form-control" name="q" id="q" placeholder="搜目的地/攻略/游记" value="{{ request('q') }}" style="border-right: none">
                             <button type="submit" class="input-group-addon submit"><i class="fa fa-search text-warning fa-lg"></i></button>
                         </div>

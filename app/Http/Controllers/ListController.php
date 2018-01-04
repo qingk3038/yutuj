@@ -267,6 +267,11 @@ class ListController extends Controller
                     ->with('tuans')
                     ->withCount('trips')
                     ->whereRaw('match (title, description) against(?)', $keyword)
+                    ->where(function ($query) {
+                        if ($pid = request()->get('pid')) {
+                            $query->where('province_id', $pid);
+                        }
+                    })
                     ->paginate(5, ['id', 'title', 'short', 'title', 'xc', 'description', 'thumb', 'price', 'province_id'], 'a_page');
             }
 
@@ -279,6 +284,11 @@ class ListController extends Controller
                     ->with('country', 'province', 'city')
                     ->withCount('likes')
                     ->whereRaw('match (title, description) against(?)', $keyword)
+                    ->where(function ($query) {
+                        if ($pid = request()->get('pid')) {
+                            $query->where('province_id', $pid);
+                        }
+                    })
                     ->paginate(5, ['id', 'type', 'title', 'short', 'description', 'thumb', 'click', 'created_at'], 'r_page');
             }
 
@@ -290,9 +300,29 @@ class ListController extends Controller
                 ->whereRaw('match (title, description) against(?)', $keyword)
                 ->paginate(5, ['id', 'title', 'description', 'thumb'], 't_page');
 
-            // 视频
-            $arr['films'] = Video::active()->type('film')->whereRaw('match (title, description) against(?)', $keyword)->latest()->paginate(5, ['*'], 'f_page');
-            $arr['lives'] = Video::active()->type('live')->whereRaw('match (title, description) against(?)', $keyword)->latest()->paginate(5, ['*'], 'l_page');
+            // 短拍
+            $arr['films'] = Video::active()
+                ->type('film')
+                ->latest()
+                ->whereRaw('match (title, description) against(?)', $keyword)
+                ->where(function ($query) {
+                    if ($pid = request()->get('pid')) {
+                        $query->where('province_id', $pid);
+                    }
+                })
+                ->paginate(5, ['*'], 'f_page');
+
+            // 直播
+            $arr['lives'] = Video::active()
+                ->type('live')
+                ->latest()
+                ->whereRaw('match (title, description) against(?)', $keyword)
+                ->where(function ($query) {
+                    if ($pid = request()->get('pid')) {
+                        $query->where('province_id', $pid);
+                    }
+                })
+                ->paginate(5, ['*'], 'l_page');
 
             return $arr;
         });

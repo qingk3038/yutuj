@@ -153,8 +153,8 @@
 @endsection
 
 @push('script')
-    <link href="https://cdn.bootcss.com/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css" rel="stylesheet">
-    <script src="https://cdn.bootcss.com/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.js"></script>
+    <link rel="stylesheet" href="{{ asset('css/jquery.mCustomScrollbar.min.css') }}">
+    <script src="{{ asset('js/jquery.mCustomScrollbar.min.js') }}"></script>
     <script>
         (function ($) {
             // 筛选 显示更多
