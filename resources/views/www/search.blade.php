@@ -74,9 +74,6 @@
                                         </div>
                                     </div>
                                 @endforeach
-                                <nav class="d-flex justify-content-end mt-4">
-                                    {{ $nav->activities->links() }}
-                                </nav>
                             </div>
                         @endforeach
                     </div>
@@ -123,9 +120,6 @@
                                         </div>
                                     </div>
                                 @endforeach
-                                <nav class="d-flex justify-content-end mt-4">
-                                    {{ $raiders[$key]->links() }}
-                                </nav>
                             </div>
                         @endforeach
                     </div>
@@ -160,9 +154,6 @@
                             </div>
                         </div>
                     @endforeach
-                    <nav class="d-flex justify-content-end mt-4">
-                        {{ $travels->links() }}
-                    </nav>
                 </div>
 
                 <div class="bg-white p-3 mb-4 list-video">
@@ -189,9 +180,6 @@
                                     </a>
                                 @endforeach
                             </div>
-                            <nav class="d-flex justify-content-end mt-4">
-                                {{ $films->appends(['v' => 'film'])->links() }}
-                            </nav>
                         </div>
                         <div class="list-media tab-pane fade" id="live">
                             <div class="row" style="margin: 0 -5px;">
@@ -206,9 +194,6 @@
                                     </a>
                                 @endforeach
                             </div>
-                            <nav class="d-flex justify-content-end mt-4">
-                                {{ $films->appends(['v' => 'live'])->links() }}
-                            </nav>
                         </div>
                     </div>
                 </div>

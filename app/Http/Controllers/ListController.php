@@ -272,7 +272,7 @@ class ListController extends Controller
                             $query->where('province_id', $pid);
                         }
                     })
-                    ->paginate(5, ['id', 'title', 'short', 'title', 'xc', 'description', 'thumb', 'price', 'province_id'], 'a_page');
+                    ->get(['id', 'title', 'short', 'title', 'xc', 'description', 'thumb', 'price', 'province_id'], 'a_page');
             }
 
             $arr['raider_types'] = ['default' => '攻略', 'line' => '线路', 'scenic' => '景点', 'food' => '美食', 'hospital' => '民宿'];
@@ -289,7 +289,7 @@ class ListController extends Controller
                             $query->where('province_id', $pid);
                         }
                     })
-                    ->paginate(5, ['id', 'type', 'title', 'short', 'description', 'thumb', 'click', 'created_at'], 'r_page');
+                    ->get(['id', 'type', 'title', 'short', 'description', 'thumb', 'click', 'created_at'], 'r_page');
             }
 
             // 游记
@@ -298,7 +298,7 @@ class ListController extends Controller
                 ->withCount('likes')
                 ->latest()
                 ->whereRaw('match (title, description) against(?)', $keyword)
-                ->paginate(5, ['id', 'title', 'description', 'thumb'], 't_page');
+                ->get(['id', 'title', 'description', 'thumb'], 't_page');
 
             // 短拍
             $arr['films'] = Video::active()
@@ -310,7 +310,7 @@ class ListController extends Controller
                         $query->where('province_id', $pid);
                     }
                 })
-                ->paginate(5, ['*'], 'f_page');
+                ->get();
 
             // 直播
             $arr['lives'] = Video::active()
@@ -322,7 +322,7 @@ class ListController extends Controller
                         $query->where('province_id', $pid);
                     }
                 })
-                ->paginate(5, ['*'], 'l_page');
+                ->get();
 
             return $arr;
         });
