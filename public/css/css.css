@@ -876,3 +876,8 @@ footer .links a {
 .list-video .box:hover i.position-absolute {
     opacity: 1;
 }
+
+.div-body img {
+    max-width: 100%;
+    height: auto !important;
+}

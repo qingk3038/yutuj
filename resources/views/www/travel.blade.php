@@ -28,7 +28,7 @@
     <div class="container">
         <div class="row">
             <div class="col-8">
-                <div class="bg-white p-4 h-100">{!! $travel->body !!}</div>
+                <div class="bg-white p-4 h-100 div-body">{!! $travel->body !!}</div>
             </div>
             <div class="col-4 pl-0">
                 @include('www.right')
