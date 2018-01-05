@@ -35,7 +35,7 @@ class AppServiceProvider extends ServiceProvider
             $searchProvinces = Cache::remember('searchProvinces', 5, function () {
                 return LocList::whereHas('provinceActivities', function ($query) {
                     $query->active();
-                })->orWhereHas('provinceRaiders')->orWhereHas('provinceVideos')->get(['id', 'name']);
+                })->orWhereHas('provinceRaiders')->orWhereHas('provinceVideos')->limit(10)->get(['id', 'name']);
             });
             $view->with('searchProvinces', $searchProvinces);
         });
