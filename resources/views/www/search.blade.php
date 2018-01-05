@@ -15,7 +15,7 @@
                         @foreach($navs as $nav)
                             <li class="nav-item">
                                 <a href="#nav{{ $loop->iteration }}" data-toggle="tab" class="nav-link @if($loop->first) active @endif">
-                                    {{ $nav->text }}<small>（{{ $nav->activities->total() }}）</small>
+                                    {{ $nav->text }}
                                 </a>
                             </li>
                         @endforeach
@@ -83,9 +83,7 @@
                     <ul class="nav" style="margin-left: -15px;">
                         @foreach($raider_types as $key => $type)
                             <li class="nav-item">
-                                <a href="#raider_{{$key }}" data-toggle="tab" class="nav-link @if($loop->first) active @endif">
-                                    {{ $type }}<small>（{{ $raiders[$key]->total() }}）</small>
-                                </a>
+                                <a href="#raider_{{$key }}" data-toggle="tab" class="nav-link @if($loop->first) active @endif">{{ $type }}</a>
                             </li>
                         @endforeach
                     </ul>
@@ -128,7 +126,7 @@
                 <div class="bg-white p-3 mb-4 list-media">
                     <ul class="nav" style="margin-left: -15px;">
                         <li class="nav-item">
-                            <a href="javascript:void(0);" class="nav-link active">游记<small>（{{ $travels->total() }}）</small></a>
+                            <a href="javascript:void(0);" class="nav-link active">游记</a>
                         </li>
                     </ul>
                     <hr class="mt-0">
@@ -159,10 +157,10 @@
                 <div class="bg-white p-3 mb-4 list-video">
                     <ul class="nav" style="margin-left: -15px;">
                         <li class="nav-item">
-                            <a href="#films" data-toggle="tab" class="nav-link active">旅途短拍<small>（{{ $films->total() }}）</small></a>
+                            <a href="#films" data-toggle="tab" class="nav-link active">旅途短拍</a>
                         </li>
                         <li class="nav-item">
-                            <a href="#live" data-toggle="tab" class="nav-link">大咖直播<small>（{{ $lives->total() }}）</small></a>
+                            <a href="#live" data-toggle="tab" class="nav-link">大咖直播</a>
                         </li>
                     </ul>
                     <hr class="mt-0">
@@ -231,6 +229,11 @@
             $('a.btn-fatuan').click(function () {
                 $(this).children().toggleClass('fa-flip-vertical')
                 $(this).closest('div').find('.list-fatuan').toggleClass('d-none').mCustomScrollbar()
+            })
+
+            // 鼠标移动切换
+            $('.nav a[data-toggle]').hover(function () {
+                $(this).tab('show')
             })
         })(jQuery);
     </script>
