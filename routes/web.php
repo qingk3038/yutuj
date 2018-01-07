@@ -1,5 +1,9 @@
 <?php
 
+Route::domain('m.yutuj.com')->group(function () {
+    Route::get('/', 'MController@index');
+});
+
 // 首页
 Route::get('/', 'WebController@index');
 

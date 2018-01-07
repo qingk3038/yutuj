@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>游记详情</title>
+    <link rel="stylesheet" href="../fontawesome/css/fontawesome-all.css">
+    <script src="../../../../public/m/js/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <script src="../../../../public/m/js/bootstrap.bundle.js"></script>
+    <script src="../../../../public/m/js/holder.min.js"></script>
+
+    <link rel="stylesheet" href="../css/sweetalert.css">
+    <script src="../../../../public/m/js/sweetalert.min.js"></script>
+
+    <link rel="stylesheet" href="../css/m.css">
+    <script src="../../../../public/m/js/bing.js"></script>
+</head>
+<body>
+<header class="position-absolute bg-white">
+    <div class="text-warning d-flex justify-content-between">
+        <span onclick="history.back();"><i class="fas fa-lg fa-angle-left"></i></span>
+        <span>游记</span>
+        <div>
+            <a href="../auth/login.html" class="text-warning">
+                <i class="fa fa-fw fa-user"></i>
+                <!--<img class="rounded-circle" src="img/avatar.png" alt="avatar" width="22" height="22">-->
+            </a>
+            <a href="#menu" class="text-warning" data-toggle="collapse">
+                <i class="fa fa-fw fa-align-justify"></i>
+            </a>
+        </div>
+    </div>
+</header>
+
+<nav class="collapse font-weight-light position-absolute" id="menu">
+    <a href="#">纵横西部</a>
+    <a href="#">微上西部</a>
+    <a href="#">超级周末</a>
+    <a href="#">最6旅行</a>
+    <a href="#">定制游</a>
+    <a href="#">活动</a>
+    <a href="#">攻略</a>
+    <a href="#">游记</a>
+    <a href="#">大咖领路</a>
+    <a href="#">旅拍直播</a>
+    <a href="#">关于我们</a>
+</nav>
+
+<div class="home-travels" style="margin-top: 2.7rem;">
+    <div class="card">
+        <div class="position-relative">
+            <a href="#">
+                <img class="card-img-top rounded-0" src="holder.js/100px220?random=yes" alt="">
+            </a>
+            <div class="position-absolute up">
+                <small class="text-white">330</small>
+                <span class="fa-stack btn-dz" data-tid="3" style="cursor: pointer;">
+                    <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                    <i class="fa fa-thumbs-up fa-stack-1x fa-inverse"></i>
+                </span>
+            </div>
+        </div>
+        <div class="card-body py-2">
+            <h6 class="card-title text-truncate">
+                <a class="text-dark" href="#">天台山、平乐古镇两日游记（含详细行程、费用）</a>
+            </h6>
+            <p class="card-text mb-2 text-muted small d-flex justify-content-between">
+                <span class="mr-3"><i class="fa fa-fw fa-map-marker-alt"></i> 四川 成都</span>
+                <span class="mr-3"><i class="fa fa-fw fa-eye"></i> 25</span>
+                <span class="ml-auto"><i class="far fa-fw fa-clock"></i> 2017-12-25</span>
+            </p>
+            <p class="card-text small d-flex justify-content-between">
+                <a href="#" class="text-secondary pr-2"><i class="fa fa-fw fa-edit text-info"></i>编辑</a>
+                <a href="#" class="text-secondary pr-2"><i class="fa fa-fw fa-image text-info"></i>设置封面</a>
+                <a href="#" class="text-secondary ml-auto"><i class="fa fa-fw fa-trash-alt text-danger"></i> 删除</a>
+            </p>
+        </div>
+    </div>
+</div>
+<hr>
+<div class="div-body container-fluid text-justify small">
+    <p>
+        在上世纪的90年代，我曾四次到上海。分别是1991年、1992年、1998年和1999年。<br>
+        第一次是1991年，那次是去庐山，因为天津当时没有直接到九江的火车，所以要到上海中转。<br>
+        在上海去了外滩、南京路、大世界、城隍庙旅游区（没有进豫园），还坐游船游览了黄浦江。<br>
+        去的时候因为是6月份，已经很热了，逛街的时候，看到有冷面馆，很多人在吃，之前我从未吃过冷面，在天津吃面条，像打卤面、炸酱面、麻酱面、汤面都是热的。看别人吃得很香，我也买了一碗试一下，这一试就爱上了，以至于在上海的几天，吃了好几次冷面，最喜欢的是鳝丝面，在天津很少吃鳝鱼，在这却爱上了这个面，还有大排面也不错，很大一块排骨，至于价格因为浇头不同也略有不同，但大致在两块多到叁块多之间。炎炎夏日，坐在冷面馆里，吃着凉丝丝、香喷喷的冷面，别提多舒坦了。<br>
+        第一次到上海，城隍庙也是不能不去的，在那吃了南翔馒头店的小笼包，很好吃。
+    </p>
+</div>
+
+<div class="d-flex justify-content-between p-3">
+    <a href="#" class="btn btn-sm btn-outline-warning"><i class="fa fa-fw fa-chevron-circle-left"></i>上一篇</a>
+    <a href="#" class="btn btn-sm btn-outline-warning">下一篇<i class="fa fa-fw fa-chevron-circle-right"></i></a>
+</div>
+
+<footer class="top-border text-center py-2 font-weight-light">
+    <ul class="nav nav-justified text-nowrap mb-2">
+        <li class="nav-item">
+            <a class="nav-link active" href="index.html">
+                <i class="fa fa-home"></i>
+                <br>返回首页
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">
+                <i class="fa fa-user"></i>
+                <br>我的遇途记
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">
+                <i class="fa fa-list-alt"></i>
+                <br>我的订单
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">
+                <i class="fa fa-desktop"></i>
+                <br>电脑版
+            </a>
+        </li>
+    </ul>
+    <div class="small">
+        <p><a href="#">关于我们</a> | <a href="#">联系我们</a></p>
+        <p class="text-secondary">
+            Copyright © 2004 - 2018 遇途记 <br>
+            版权所有 蜀ICP备12001888号-8
+        </p>
+    </div>
+    <span class="return-top">
+        <i class="fa fa-2x fa-arrow-alt-circle-up"></i>
+    </span>
+</footer>
+</body>
+</html>

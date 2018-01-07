@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>个人中心</title>
+    <link rel="stylesheet" href="../fontawesome/css/fontawesome-all.css">
+    <script src="../../../../public/m/js/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <script src="../../../../public/m/js/bootstrap.bundle.js"></script>
+    <script src="../../../../public/m/js/holder.min.js"></script>
+
+    <link rel="stylesheet" href="../css/sweetalert.css">
+    <script src="../../../../public/m/js/sweetalert.min.js"></script>
+
+    <link rel="stylesheet" href="../css/m.css">
+    <script src="../../../../public/m/js/bing.js"></script>
+</head>
+<body>
+<header class="position-absolute bg-white">
+    <div class="text-warning d-flex justify-content-between">
+        <span onclick="history.back();"><i class="fas fa-lg fa-angle-left"></i></span>
+        <span>个人中心</span>
+        <div>
+            <a href="../auth/login.html" class="text-warning">
+                <i class="fa fa-fw fa-user"></i>
+                <!--<img class="rounded-circle" src="img/avatar.png" alt="avatar" width="22" height="22">-->
+            </a>
+            <a href="#menu" class="text-warning" data-toggle="collapse">
+                <i class="fa fa-fw fa-align-justify"></i>
+            </a>
+        </div>
+    </div>
+</header>
+
+<nav class="collapse font-weight-light position-absolute" id="menu">
+    <a href="#">纵横西部</a>
+    <a href="#">微上西部</a>
+    <a href="#">超级周末</a>
+    <a href="#">最6旅行</a>
+    <a href="#">定制游</a>
+    <a href="#">活动</a>
+    <a href="#">攻略</a>
+    <a href="#">游记</a>
+    <a href="#">大咖领路</a>
+    <a href="#">旅拍直播</a>
+    <a href="#">关于我们</a>
+</nav>
+
+<div class="position-relative" style="margin-top: 2.7rem;">
+    <img class="img-fluid" src="holder.js/100px220?random=yes" alt="100px220">
+    <div class="position-absolute" style="left: 0; top: 0; right: 0; bottom: 0;">
+        <div class="d-flex align-items-center justify-content-center h-100">
+            <span class="btn btn-outline-warning text-white">选一张好看的头图</span>
+        </div>
+    </div>
+</div>
+<div class="text-center">
+    <p class="mb-0 position-relative"><img src="holder.js/110x110?random=yes" alt="110x110" class="p-2 rounded-circle" style="background: rgba(255, 255, 255, .3); margin-top: -55px;"></p>
+    <h5>HEHE <i class="fa fa-venus text-danger"></i></h5>
+    <!--
+        信息完整显示
+        <small>现居：四川 成都</small>
+        <p class="text-secondary">“世界那么大，东看看，西看看”</p>
+    -->
+    <p>
+        <a href="#" class="bg-light rounded text-secondary py-2 px-5 small">填写个人简介</a>
+    </p>
+    <p>
+        <a href="#" class="btn btn-sm btn-warning py-2 px-5"><i class="fa fa-edit"></i> 发表游记</a>
+    </p>
+</div>
+
+<div class="top-border">
+    <div class="list-group">
+        <a href="#" class="list-group-item list-group-item-action d-flex align-items-center rounded-0">
+            <i class="fa fa-fw fa-star text-info"></i> 我的游记
+            <i class="fa fa-angle-right ml-auto"></i>
+        </a>
+        <a href="#" class="list-group-item list-group-item-action d-flex align-items-center rounded-0">
+            <i class="fa fa-fw fa-comment-alt text-info"></i> 我的消息
+            <i class="fa fa-angle-right ml-auto"></i>
+        </a>
+        <a href="#" class="list-group-item list-group-item-action d-flex align-items-center rounded-0">
+            <i class="fa fa-fw fa-list-alt text-info"></i> 我的订单
+            <i class="fa fa-angle-right ml-auto"></i>
+        </a>
+        <a href="#" class="list-group-item list-group-item-action d-flex align-items-center rounded-0">
+            <i class="fa fa-fw fa-cog text-info"></i> 我的设置
+            <i class="fa fa-angle-right ml-auto"></i>
+        </a>
+    </div>
+</div>
+</body>
+</html>
