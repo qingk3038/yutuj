@@ -91,9 +91,11 @@
         <h6 class="left-border-orange">行程特色</h6>
         <p class="text-justify small">{!! nl2br($activity->ts) !!}</p>
 
-        <div class="d-flex justify-content-between">
+        <div class="row px-2">
             @foreach($activity->tps as $tp)
-                <img class="img-fluid" src="{{ imageCut(220, 160, $tp) }}" alt="特色{{ $loop->iteration }}">
+                <div class="col-4 px-2">
+                    <img class="img-fluid" src="{{ imageCut(220, 160, $tp) }}" alt="特色{{ $loop->iteration }}">
+                </div>
             @endforeach
         </div>
     </div>
@@ -103,14 +105,12 @@
         @foreach($activity->trips as $trip)
             <div class="small xcap">
                 <i class="far fa-circle text-warning position-absolute"></i>
-                <h6><span class="text-warning">第{{ numberToChinese($loop->iteration) }}天</span> {{ $trip->title }}</h6>
-                <div class="mb-1">
-                    <div class="d-flex">
-                        <span class="align-self-start text-nowrap">
-                            <i class="fa fa-fw text-warning fa-utensils"></i> 行程：
-                        </span>
-                        <div class="text-justify">{!! nl2br($trip->body) !!}</div>
-                    </div>
+                <h6 class="text-truncate"><span class="text-warning">第{{ numberToChinese($loop->iteration) }}天</span> {{ $trip->title }}</h6>
+                <div class="mb-1 text-justify clearfix">
+                    <span class="float-left">
+                        <i class="fa fa-fw text-warning fa-flag"></i> 行程：
+                    </span>
+                    {!! nl2br($trip->body) !!}
                 </div>
                 <p class="mb-1"><i class="fa fa-fw text-warning fa-hospital"></i> 住宿：{{ $trip->zhusu }} </p>
                 <p class="d-flex">

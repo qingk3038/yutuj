@@ -339,7 +339,7 @@
                         </div>
                         <div class="position-absolute btn-see">
                             <small class="text-white d-block">¥<strong class="lead">{{ activity.price }}</strong>起</small>
-                            <a href="#" class="btn btn-sm btn-block btn-outline-light">去看看</a>
+                            <a :href="`/activity/show/${activity.id}`" class="btn btn-sm btn-block btn-outline-light">去看看</a>
                         </div>
                     </div>
                     <p class="text-right mb-0 p-2 small">
