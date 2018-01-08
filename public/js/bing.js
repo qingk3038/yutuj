@@ -15,7 +15,7 @@ $(document).ready(function () {
     // 商务通
     $('.swt').click(function (event) {
         event.preventDefault()
-        alert('还未开通在线客服。')
+        openZoosUrl('chatwin');
     })
 
     // 搜索栏搜索

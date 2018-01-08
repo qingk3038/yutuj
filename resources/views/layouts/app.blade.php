@@ -176,10 +176,7 @@
                     @endforeach
                 </p>
                 <hr>
-                <p>
-                    {{ config('web_footer') }}
-                    {!! config('js_pc') !!}
-                </p>
+                <p>{{ config('web_footer') }}</p>
             </div>
         </div>
     </footer>
@@ -200,6 +197,8 @@
         </div>
     </aside>
 @show
+
 @stack('script')
+{!! config('js_pc') !!}
 </body>
 </html>

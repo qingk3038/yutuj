@@ -223,6 +223,7 @@ footer > .nav a {
     padding-bottom: 1.25rem;
 }
 
+.xcap > svg.position-absolute,
 .xcap > i.position-absolute {
     position: absolute;
     left: -7px;

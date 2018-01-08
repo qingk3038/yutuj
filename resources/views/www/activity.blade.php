@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="container">
-        <div class="py-4"><a href="">首页</a> &gt; <a href="{{ route('www.activity.list') }}">活动</a> &gt; <span class="text-warning">成都</span></div>
+        <div class="py-4"><a href="{{ url('/') }}">首页</a> &gt; <a href="{{ route('www.activity.list') }}">活动</a> &gt; <span class="text-warning">成都</span></div>
     </div>
 
     <div class="container">
@@ -27,7 +27,7 @@
             </div>
             <div class="col bg-white pr-0 mr-3">
                 <p class="text-muted small mt-4">产品编号：{{ $activity->number }}</p>
-                <h4 class="my-3 text-truncate">{{ str_limit($activity->title, 46) }}</h4>
+                <h4 class="my-3 text-truncate">{{ $activity->title }}</h4>
                 <ul class="list-inline">
                     @php
                         $tag_btns = ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark'];

@@ -12,6 +12,12 @@
             $('#pid').val(pid);
         })
 
+        // 商务通
+        $('.swt').click(function (event) {
+            event.preventDefault()
+            openZoosUrl('chatwin');
+        })
+
         // 返回顶部
         $('.return-top').click(function () {
             $('body,html').animate({scrollTop: 0}, 500)

@@ -1,7 +1,17 @@
 <?php
 
-Route::domain('m.yutuj.com')->group(function () {
+Route::domain('m.yutuj.com')->namespace('Mobile')->group(function () {
     Route::get('/', 'MController@index');
+
+    // 加载首页导航的活动
+    Route::get('nav/{nav}/activities', 'MController@loadActivities');
+
+    Route::get('activity/show/{activity}', 'ShowController@activity')->name('m.activity.show');
+
+    Route::get('raider/show/{raider}', 'ShowController@raider')->name('m.raider.show');
+
+    Route::get('leader/show/{leader}', 'ShowController@leader')->name('m.leader.show');
+
 });
 
 // 首页

@@ -8,7 +8,13 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="keywords" content="{{ config('web_keywords') }}">
     <meta name="description" content="{{ config('web_description') }}">
+    {{--字体--}}
     <script defer src="{{ asset('js/fontawesome.all.js') }}"></script>
+
+    {{--VUE--}}
+    <script src="https://cdn.bootcss.com/vue/2.5.9/vue.js"></script>
+    <script src="https://cdn.bootcss.com/axios/0.17.1/axios.min.js"></script>
+
     {{--Bootstrap--}}
     <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
     <link href="https://cdn.bootcss.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" rel="stylesheet">
@@ -64,7 +70,6 @@
             <p><a href="#">关于我们</a> | <a href="#">联系我们</a></p>
             <p class="text-secondary">
                 {!! nl2br(config('web_footer')) !!}
-                {!! config('js_mobile') !!}
             </p>
         </div>
         <span class="return-top">
@@ -74,5 +79,6 @@
 @show
 
 @stack('script')
+{!! config('js_mobile') !!}
 </body>
 </html>

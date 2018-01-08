@@ -1,0 +1,175 @@
+@extends('layouts.m')
+
+@section('title', $activity->title)
+
+@section('header')
+    <header class="position-absolute">
+        <div class="text-white d-flex justify-content-between">
+            <span onclick="history.back();"><i class="fas fa-lg fa-angle-left"></i></span>
+            <span>产品详情</span>
+            <a href="auth/login.html">
+                <i class="fa fa-fw fa-user"></i>
+                <!--<img class="rounded-circle" src="img/avatar.png" alt="avatar" width="22" height="22">-->
+            </a>
+        </div>
+    </header>
+@endsection
+
+@section('content')
+    <div id="photos" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            @foreach($activity->photos as $photo)
+                <li data-target="#photos" data-slide-to="{{ $loop->index }}" @if($loop->first) class="active" @endif></li>
+            @endforeach
+        </ol>
+        <div class="carousel-inner">
+            @foreach($activity->photos as $photo)
+                <div class="carousel-item @if($loop->first) active @endif">
+                    <img class="d-block w-100" src="{{ imageCut(414, 220, $photo) }}" alt="展示图 {{ $loop->iteration }}">
+                </div>
+            @endforeach
+        </div>
+    </div>
+
+    <div class="p-4">
+        <h6 class="text-truncate left-border-orange">{{ $activity->title }}</h6>
+        <div class="mb-1">
+            @php
+                $tag_btns = ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark'];
+            @endphp
+            @foreach($activity->tags as $tag)
+                <span class="badge badge-{{ $tag_btns[mt_rand(0, 7)] }}">{{ $tag->text }}</span>
+            @endforeach
+            <span class="text-warning ml-2">
+                <i class="fa fa-fw fa-map-marker-alt"></i>
+                <small>{{ $activity->country->name }}</small>
+                <small>{{ $activity->province->name }}</small>
+                <small>{{ $activity->city->name ?? '' }}</small>
+                <small>{{ $activity->district->name ?? '' }}</small>
+            </span>
+        </div>
+        <div class="mb-1 d-flex justify-content-between">
+            <span>产品编号：{{ $activity->number }}</span>
+            <small class="text-danger">¥<span class="lead font-weight-bold">{{ $activity->price }}</span> 起</small>
+        </div>
+        <hr style="margin: 1rem -1.5rem;">
+        <div class="font-weight-light">
+            产品类型：{{ $activity->types->pluck('text')->implode('、') }} <br>
+            游玩天数：{{ $activity->trips->count() }}天 <br>
+            发团日期：每月多团 <br>
+            出发地点：{{ $activity->cfd }} <br>
+            付款方式：支付宝、微信
+        </div>
+    </div>
+
+    <div class="small py-2 text-truncate text-center" style="border-top: 5px solid #dddddd; border-bottom: 5px solid #dddddd;" data-toggle="collapse" data-target="#tuans">
+        选择批次：
+        <div class="d-inline-block">
+            <span>2018-05-23 - 2018-05-27</span>
+            <span>已报名33人</span>
+            <span class="text-danger">4390元/人</span>
+        </div>
+    </div>
+
+    <div class="collapse fixed-top bg-white h-100" id="tuans">
+        <header class="text-warning">
+            <span class="float-left" data-toggle="collapse" data-target="#tuans"><i class="fas fa-lg fa-angle-left"></i></span>
+            <div class="text-center">选择批次</div>
+        </header>
+        <ul class="list-group small">
+            @foreach($activity->tuans as $tuan)
+                <li class="list-group-item d-flex justify-content-between border-right-0 border-left-0 rounded-0">
+                    <span>{{ $tuan->start_time->toDateString() }} - {{ $tuan->end_time->toDateString() }}</span>
+                    <span>已报名{{ $tuan->start_num + $tuan->usersOkCount() }}人</span>
+                    <span class="text-danger">{{ $tuan->price }}元/人</span>
+                </li>
+            @endforeach
+        </ul>
+    </div>
+
+    <div class="p-4">
+        <h6 class="left-border-orange">行程特色</h6>
+        <p class="text-justify small">{!! nl2br($activity->ts) !!}</p>
+
+        <div class="d-flex justify-content-between">
+            @foreach($activity->tps as $tp)
+                <img class="img-fluid" src="{{ imageCut(220, 160, $tp) }}" alt="特色{{ $loop->iteration }}">
+            @endforeach
+        </div>
+    </div>
+
+    <div class="top-border p-4">
+        <h6 class="text-truncate left-border-orange mb-3">行程安排</h6>
+        @foreach($activity->trips as $trip)
+            <div class="small xcap">
+                <i class="far fa-circle text-warning position-absolute"></i>
+                <h6><span class="text-warning">第{{ numberToChinese($loop->iteration) }}天</span> {{ $trip->title }}</h6>
+                <div class="mb-1">
+                    <div class="d-flex">
+                        <span class="align-self-start text-nowrap">
+                            <i class="fa fa-fw text-warning fa-utensils"></i> 行程：
+                        </span>
+                        <div class="text-justify">{!! nl2br($trip->body) !!}</div>
+                    </div>
+                </div>
+                <p class="mb-1"><i class="fa fa-fw text-warning fa-hospital"></i> 住宿：{{ $trip->zhusu }} </p>
+                <p class="d-flex">
+                    <span class="align-self-start">
+                        <i class="fa fa-fw text-warning fa-utensils"></i> 餐饮：
+                    </span>
+                    <span>
+                        早餐：{{ $trip->zaocan }} <br>
+                        午餐：{{ $trip->wucan }} <br>
+                        晚餐：{{ $trip->wancan }}
+                    </span>
+                </p>
+
+                @if(is_array($trip->pictures))
+                    <img class="img-fluid" src="{{ imageCut(350, 150, head($trip->pictures)) }}" alt="行程安排">
+                @endif
+            </div>
+        @endforeach
+    </div>
+
+    <div class="top-border p-4 small">
+        <h6 class="text-truncate left-border-orange mb-3">费用说明</h6>
+        <p>
+            费用包含 <br>
+            {!! nl2br($activity->baohan) !!}
+        </p>
+        费用不含 <br>
+        {!! nl2br($activity->buhan) !!}
+    </div>
+
+    <div class="top-border p-4 small">
+        <h6 class="text-truncate left-border-orange mb-3">注意事项</h6>
+        {!! nl2br($activity->zhuyi) !!}
+    </div>
+
+    <div class="top-border p-4 small mb-5">
+        <h6 class="text-truncate left-border-orange mb-3">签约条款</h6>
+        {!! nl2br($activity->qianyue) !!}
+    </div>
+@endsection
+
+@section('footer')
+    <footer class="fixed-bottom activity-bottom">
+        <div class="text-center d-flex justify-content-between align-items-stretch small">
+            <a href="#" class="swt w-25 pt-2">
+                <i class="fa fa-lg fa-comment-alt"></i>
+                <br>在线咨询
+            </a>
+            <a href="tel:{{ config('tel_400') }}" class="w-25 pt-2">
+                <i class="fa fa-lg fa-phone fa-rotate-90"></i>
+                <br>电话咨询
+            </a>
+            <span class="w-50">
+            <button class="btn btn-block btn-warning rounded-0 h-100">下一步</button>
+        </span>
+        </div>
+    </footer>
+
+    <aside class="return-top" style="bottom: 60px;">
+        <i class="fa fa-2x fa-arrow-alt-circle-up"></i>
+    </aside>
+@endsection
