@@ -84,6 +84,7 @@ class HomeController extends Controller
             'birthday' => 'required|date',
             'description' => 'required|string|between:3,250',
         ]);
+
         $request->user()->update($data);
         return ['message' => '个人资料已更新。'];
     }
@@ -172,7 +173,7 @@ class HomeController extends Controller
             'tno' => 'nullable',
         ]);
         $orders = $request->user()->orders()->whereHas('tuan', function ($query) use ($request) {
-            if ($request->get('tno')) {
+            if ($request->filled('tno')) {
                 $query->where('start_time', '>', today());
             }
         })->where(function ($query) use ($request) {
@@ -182,7 +183,6 @@ class HomeController extends Controller
         })->with(['tuan.activity' => function ($query) {
             $query->select('id', 'title', 'thumb');
         }])->withCount('baomings')->paginate();
-
 
         return view('www.home.order', compact('orders'));
     }
