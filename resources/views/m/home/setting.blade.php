@@ -3,21 +3,7 @@
 @section('title', '我的设置')
 
 @section('header')
-    <header class="position-absolute bg-white">
-        <div class="text-warning d-flex justify-content-between">
-            <span onclick="history.back();"><i class="fas fa-lg fa-angle-left"></i></span>
-            <span>我的设置</span>
-            <div>
-                <a href="{{ route('home') }}">
-                    <img class="rounded-circle" src="{{ auth()->user()->avatar }}" alt="avatar" width="22" height="22">
-                </a>
-                <a href="#menu" class="text-warning" data-toggle="collapse">
-                    <i class="fa fa-fw fa-align-justify"></i>
-                </a>
-            </div>
-        </div>
-    </header>
-    @include('m.header')
+    @include('m.header', ['title' => '我的设置'])
 @endsection
 
 @section('content')

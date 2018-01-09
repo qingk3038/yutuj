@@ -26,8 +26,8 @@ Route::domain('m.yutuj.app')->namespace('Mobile')->group(function () {
     Route::get('home/order', 'HomeController@order')->name('home.order');
     Route::get('home/order/{order}/show', 'HomeController@orderInfo')->name('home.order.show');
 
-    Route::view('home/setting', 'm.home.setting')->name('home.setting');
-    Route::view('home/message', 'm.home.message')->name('home.message');
+    Route::view('home/setting', 'm.home.setting')->name('home.setting')->middleware('auth');
+    Route::view('home/message', 'm.home.message')->name('home.message')->middleware('auth');
 });
 
 // 首页
@@ -61,11 +61,11 @@ Route::resource('home/travel', 'TravelController');
 
 // 会员中心
 Route::redirect('home', 'home/travel')->name('home');
-Route::view('home/setting', 'www.home.setting')->name('home.setting');
-Route::view('home/message', 'www.home.message')->name('home.message');
+Route::view('home/setting', 'www.home.setting')->name('home.setting')->middleware('auth');
+Route::view('home/message', 'www.home.message')->name('home.message')->middleware('auth');
 Route::get('home/order', 'HomeController@order')->name('home.order');
 Route::get('home/order/{order}/show', 'HomeController@orderInfo')->name('home.order.show');
-Route::view('home/order/info', 'www.home.order_info')->name('home.order.info');
+Route::view('home/order/info', 'www.home.order_info')->name('home.order.info')->middleware('auth');
 
 Route::post('home/bg', 'HomeController@backgroundImage')->name('user.bg');
 Route::post('home/avatar', 'HomeController@uploadAvatar')->name('user.avatar');
