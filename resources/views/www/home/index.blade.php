@@ -75,7 +75,7 @@
                         cancelButtonText: '取消删除',
                         closeOnConfirm: false
                     },
-                    function () {
+                    () => {
                         let url = $(this).data('action')
                         let div = $(this).closest('.card')
                         axios.delete(url).then(res => {

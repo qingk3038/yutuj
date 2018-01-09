@@ -48,13 +48,13 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{{ route('home') }}">
                     <i class="fa fa-user"></i>
                     <br>我的遇途记
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{{ route('home.order') }}">
                     <i class="fa fa-list-alt"></i>
                     <br>我的订单
                 </a>

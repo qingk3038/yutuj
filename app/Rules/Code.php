@@ -36,6 +36,6 @@ class Code implements Rule
      */
     public function message()
     {
-        return '验证码错误。';
+        return '验证码 错误。';
     }
 }

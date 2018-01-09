@@ -1,6 +1,6 @@
 <?php
 
-Route::domain('m.yutuj.com')->namespace('Mobile')->group(function () {
+Route::domain('m.yutuj.app')->namespace('Mobile')->group(function () {
     Route::get('/', 'MController@index');
 
     // 加载首页导航的活动
@@ -12,6 +12,22 @@ Route::domain('m.yutuj.com')->namespace('Mobile')->group(function () {
 
     Route::get('leader/show/{leader}', 'ShowController@leader')->name('m.leader.show');
 
+    Route::view('login', 'm.auth/login')->middleware('guest');
+    Route::view('register', 'm.auth/register')->middleware('guest');
+
+    // 忘记密码
+    Route::view('password/reset', 'm.auth.forgot')->name('password.request');
+
+
+    Route::view('home', 'm.home.index');
+
+    Route::resource('home/travel', 'TravelController');
+
+    Route::get('home/order', 'HomeController@order')->name('home.order');
+    Route::get('home/order/{order}/show', 'HomeController@orderInfo')->name('home.order.show');
+
+    Route::view('home/setting', 'm.home.setting')->name('home.setting');
+    Route::view('home/message', 'm.home.message')->name('home.message');
 });
 
 // 首页
@@ -48,6 +64,7 @@ Route::redirect('home', 'home/travel')->name('home');
 Route::view('home/setting', 'www.home.setting')->name('home.setting');
 Route::view('home/message', 'www.home.message')->name('home.message');
 Route::get('home/order', 'HomeController@order')->name('home.order');
+Route::get('home/order/{order}/show', 'HomeController@orderInfo')->name('home.order.show');
 Route::view('home/order/info', 'www.home.order_info')->name('home.order.info');
 
 Route::post('home/bg', 'HomeController@backgroundImage')->name('user.bg');

@@ -35,6 +35,6 @@ class Mobile implements Rule
      */
     public function message()
     {
-        return '手机号码格式错误。';
+        return '手机 格式错误。';
     }
 }

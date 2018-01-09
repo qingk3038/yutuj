@@ -7,7 +7,7 @@
         <div class="text-white d-flex justify-content-between">
             <span onclick="history.back();"><i class="fas fa-lg fa-angle-left"></i></span>
             <span>产品详情</span>
-            <a href="auth/login.html">
+            <a href="auth/login.blade.php">
                 <i class="fa fa-fw fa-user"></i>
                 <!--<img class="rounded-circle" src="img/avatar.png" alt="avatar" width="22" height="22">-->
             </a>

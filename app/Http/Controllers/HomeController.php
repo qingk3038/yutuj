@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Follow;
+use App\Models\Order;
 use App\Models\Travel;
 use App\Rules\Code;
 use App\Rules\Mobile;
@@ -163,7 +164,7 @@ class HomeController extends Controller
         return ['is_fans' => !!$num];
     }
 
-
+    // 订单列表
     public function order(Request $request)
     {
         $this->validate($request, [
@@ -185,4 +186,11 @@ class HomeController extends Controller
 
         return view('www.home.order', compact('orders'));
     }
+
+    // 订单详情
+    public function orderInfo(Order $order)
+    {
+        return view('www.home.order_info', compact('order'));
+    }
+
 }

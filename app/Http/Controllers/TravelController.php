@@ -64,8 +64,8 @@ class TravelController extends Controller
     public function show(Travel $travel)
     {
         $this->authorize('view', $travel);
-        $prevId = Travel::where('id', '<', $travel->id)->max('id');
-        $nextId = Travel::where('id', '>', $travel->id)->min('id');
+        $prevId = Travel::where('user_id', auth()->id())->where('status', $travel->status)->where('id', '<', $travel->id)->max('id');
+        $nextId = Travel::where('user_id', auth()->id())->where('status', $travel->status)->where('id', '>', $travel->id)->min('id');
 
         return view('www.home.travels', compact('travel', 'prevId', 'nextId'));
     }

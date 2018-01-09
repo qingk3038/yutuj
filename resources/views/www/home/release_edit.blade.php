@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', (auth()->user()->name ?? auth()->user()->mobile) . '的游记')
+@section('title', '编辑游记')
 
 @section('content')
     <div class="container pt-4">
@@ -96,7 +96,7 @@
                         cancelButtonText: '取消删除',
                         closeOnConfirm: false
                     },
-                    function() {
+                    () => {
                         let url = $(this).data('action')
                         let li = $(this).closest('li')
                         axios.delete(url).then(res => {

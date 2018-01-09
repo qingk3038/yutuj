@@ -1,7 +1,5 @@
 @extends('layouts.home')
 
-@section('title', (auth()->user()->name ?? auth()->user()->mobile) . '的主页')
-
 @section('body')
     <div class="p-4">
         <ul class="nav nav-tabs mb-3" role="tablist">

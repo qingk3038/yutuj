@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
+use Jenssegers\Agent\Facades\Agent;
 
 class ResetPasswordController extends Controller
 {
@@ -50,7 +51,7 @@ class ResetPasswordController extends Controller
         if ($obj === null) {
             return redirect()->route('password.request');
         }
-        return view('www.auth.passwords.reset', compact('token'));
+        return view(Agent::ismobile() ? 'm.auth.reset' : 'www.auth.passwords.reset', compact('token'));
     }
 
     public function reset(Request $request)

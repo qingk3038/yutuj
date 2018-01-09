@@ -91,7 +91,9 @@
                         axios.post("{{ url('sms/forgot') }}", {mobile: this.form.mobile}).then(res => {
                             alert(res.data.message)
                         }).catch(err => {
-                            alert(err.response.data.message)
+                            let errors = err.response.data.errors;
+                            this.error = true
+                            this.errMsg = Object.values(errors).join("\r\n")
                         })
                     }
                 }

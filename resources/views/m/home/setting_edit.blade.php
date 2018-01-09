@@ -1,23 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>设置中心</title>
-    <link rel="stylesheet" href="../fontawesome/css/fontawesome-all.css">
-    <script src="../../../../public/m/js/jquery.min.js"></script>
 
-    <link rel="stylesheet" href="../css/bootstrap.css">
-    <script src="../../../../public/m/js/bootstrap.bundle.js"></script>
-    <script src="../../../../public/m/js/holder.min.js"></script>
-
-    <link rel="stylesheet" href="../css/sweetalert.css">
-    <script src="../../../../public/m/js/sweetalert.min.js"></script>
-
-    <link rel="stylesheet" href="../css/m.css">
-    <script src="../../../../public/m/js/bing.js"></script>
-</head>
-<body>
 <!--
 <header class="position-absolute bg-white">
     <div class="text-warning d-flex justify-content-between">
@@ -142,5 +123,3 @@
     </form>
     <!--重做，mui中插件-->
 </div>
-</body>
-</html>

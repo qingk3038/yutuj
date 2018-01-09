@@ -34,7 +34,7 @@
                         <tr>
                             <td><img src="{{ imageCut(80, 50, $order->tuan->activity->thumb) }}" alt="{{ $order->tuan->activity->title }}" width="82" height="51"></td>
                             <td>
-                                <a href="{{ route('www.activity.show', $order->tuan->activity) }}" class="d-block" target="_blank">{{ str_limit($order->tuan->activity->title, 40) }}</a>
+                                <a href="{{ route('home.order.show', $order) }}" class="d-block">{{ str_limit($order->tuan->activity->title, 40) }}</a>
                                 {{ $order->tuan->start_time->toDateString() }}
                             </td>
                             <td>{{ $order->baomings_count }}</td>

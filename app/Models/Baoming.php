@@ -12,4 +12,25 @@ class Baoming extends Model
     {
         return $this->belongsTo(Order::class);
     }
+
+    public function typeText()
+    {
+        switch ($this->cardType) {
+            case 'ID':
+                return '身份证';
+                break;
+
+            case 'officer':
+                return '军官证';
+                break;
+
+            case 'passport':
+                return '护照';
+                break;
+
+            default :
+                return '未知';
+                break;
+        }
+    }
 }

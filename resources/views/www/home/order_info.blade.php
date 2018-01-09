@@ -5,56 +5,37 @@
     <hr>
     <ul class="px-4 list-unstyled order-info">
         <li>
-            <p>产品编号：YTJ66823</p>
-            <h4>探索成都·微旅行 成都纯玩团一日游</h4>
+            <p>产品编号：{{ $order->tuan->activity->number }}</p>
+            <h4 class="text-truncate">{{ $order->tuan->activity->title }}</h4>
         </li>
         <li>
-            产品类型：自由行
-            <br>游玩天数：3天
+            产品类型：{{ $order->tuan->activity->types->pluck('text')->implode('、') }}
+            <br>游玩天数：{{ $order->tuan->activity->trips->count() }}天
             <br>发团日期：每月多团
-            <br>出发地点：成都
-            <br>活动批次：2017-12-12 - 2017-12-15
+            <br>出发地点：{{ $order->tuan->activity->cfd }}
+            <br>活动批次：{{ $order->tuan->start_time->toDateString() }} - {{ $order->tuan->end_time->toDateString() }}
         </li>
+        @foreach($order->baomings as $baoming)
+            <li>
+                <h6>报名人{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</h6>
+                <div class="row">
+                    <div class="col-4">姓名：{{ $baoming->name }}</div>
+                    <div class="col-4">证件类型：{{ $baoming->typeText() }}</div>
+                    <div class="col-4 text-truncate">证件号：{{ $baoming->cardID }}</div>
+                    <div class="col-4">联系电话：{{ $baoming->mobile }}</div>
+                    <div class="col-4">紧急联系人：{{ $baoming->nameJ }}</div>
+                    <div class="col-4  text-truncate">紧急电话：{{ $baoming->mobileJ }}</div>
+                </div>
+            </li>
+        @endforeach
+        <li>备注：{{ $order->remarks }}</li>
         <li>
-            <h6>报名人1</h6>
-            <div class="row">
-                <div class="col-3">姓名：张三</div>
-                <div class="col-3">证件类型：身份证</div>
-                <div class="col-3 text-truncate">证件号：999999999999999999</div>
-                <div class="col-3">联系电话：13684445999</div>
-                <div class="col-3">紧急联系人：李四</div>
-                <div class="col-3  text-truncate">紧急电话：1555555555523</div>
-                <div class="col-3">备注：李四不来了</div>
-            </div>
-        </li>
-        <li>
-            <h6>报名人2</h6>
-            <div class="row">
-                <div class="col-3">姓名：张三</div>
-                <div class="col-3">证件类型：身份证</div>
-                <div class="col-3 text-truncate">证件号：999999999999999999</div>
-                <div class="col-3">联系电话：13684445999</div>
-                <div class="col-3">紧急联系人：李四</div>
-                <div class="col-3  text-truncate">紧急电话：1555555555523</div>
-                <div class="col-3">备注：李四不来了</div>
-            </div>
-        </li>
-        <li>
-            <h6>报名人3</h6>
-            <div class="row">
-                <div class="col-3">姓名：张三</div>
-                <div class="col-3">证件类型：身份证</div>
-                <div class="col-3 text-truncate">证件号：999999999999999999</div>
-                <div class="col-3">联系电话：13684445999</div>
-                <div class="col-3">紧急联系人：李四</div>
-                <div class="col-3  text-truncate">紧急电话：1555555555523</div>
-                <div class="col-3">备注：李四不来了</div>
-            </div>
-        </li>
-        <li>
-            总人数：3人
-            <br>总金额：<span class="text-danger">¥2360元</span>
-            <br>活动状态：未支付 <a href="#" class="text-warning text-white">去支付</a>
+            总人数：{{ count($order->baomings) }}人
+            <br>总金额：<span class="text-danger">¥{{ $order->tuan->price * count($order->baomings) }}元</span>
+            <br>支付状态：{{ $order->statusText() }}
+            @if($order->status === 'wait')
+                <a href="{{ route('order.qrcode', $order) }}" target="_blank" class="text-warning text-white">去支付</a>
+            @endif
         </li>
     </ul>
 @endsection
