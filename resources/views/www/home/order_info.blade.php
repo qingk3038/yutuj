@@ -6,7 +6,7 @@
     <ul class="px-4 list-unstyled order-info">
         <li>
             <p>产品编号：{{ $order->tuan->activity->number }}</p>
-            <h4 class="text-truncate">{{ $order->tuan->activity->title }}</h4>
+            <h5 class="text-truncate">{{ $order->tuan->activity->title }}</h5>
         </li>
         <li>
             产品类型：{{ $order->tuan->activity->types->pluck('text')->implode('、') }}

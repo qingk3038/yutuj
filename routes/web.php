@@ -1,35 +1,5 @@
 <?php
 
-Route::domain('m.yutuj.app')->namespace('Mobile')->group(function () {
-    Route::get('/', 'MController@index');
-
-    // 加载首页导航的活动
-    Route::get('nav/{nav}/activities', 'MController@loadActivities');
-
-    Route::get('activity/show/{activity}', 'ShowController@activity')->name('m.activity.show');
-
-    Route::get('raider/show/{raider}', 'ShowController@raider')->name('m.raider.show');
-
-    Route::get('leader/show/{leader}', 'ShowController@leader')->name('m.leader.show');
-
-    Route::view('login', 'm.auth/login')->middleware('guest');
-    Route::view('register', 'm.auth/register')->middleware('guest');
-
-    // 忘记密码
-    Route::view('password/reset', 'm.auth.forgot')->name('password.request');
-
-
-    Route::view('home', 'm.home.index');
-
-    Route::resource('home/travel', 'TravelController');
-
-    Route::get('home/order', 'HomeController@order')->name('home.order');
-    Route::get('home/order/{order}/show', 'HomeController@orderInfo')->name('home.order.show');
-
-    Route::view('home/setting', 'm.home.setting')->name('home.setting')->middleware('auth');
-    Route::view('home/message', 'm.home.message')->name('home.message')->middleware('auth');
-});
-
 // 首页
 Route::get('/', 'WebController@index');
 
