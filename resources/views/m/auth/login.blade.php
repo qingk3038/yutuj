@@ -59,8 +59,8 @@
                 error: false,
                 errMsg: '',
                 form: {
-                    mobile: '',
-                    password: ''
+                    mobile: '18613233254',
+                    password: 'bing8u',
                 },
             },
             methods: {
