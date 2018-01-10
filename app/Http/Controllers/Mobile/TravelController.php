@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Mobile;
 
+use App\Http\Controllers\Controller;
 use App\Models\Travel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Validation\Rule;
 
 class TravelController extends Controller
 {
@@ -20,9 +20,10 @@ class TravelController extends Controller
      */
     public function index()
     {
-        $travels = auth()->user()->travels()->withCount('likes')->where('status', '!=', 'draft')->orderByDesc('updated_at')->paginate();
+        $data['releases'] = auth()->user()->travels()->withCount('likes')->where('status', '!=', 'draft')->orderByDesc('updated_at')->paginate();
+        $data['drafts'] = auth()->user()->travels()->where('status', 'draft')->orderByDesc('updated_at')->get();
 
-        return view('www.home.index', compact('travels'));
+        return view('m.home.list_travel', $data);
     }
 
     /**
@@ -30,7 +31,7 @@ class TravelController extends Controller
      */
     public function create()
     {
-        return view('www.home.release');
+        return view('m.home.release');
     }
 
     /**
@@ -64,36 +65,30 @@ class TravelController extends Controller
     public function show(Travel $travel)
     {
         $this->authorize('view', $travel);
-
         $prevId = Travel::where('user_id', auth()->id())->where('status', $travel->status)->where('id', '<', $travel->id)->max('id');
         $nextId = Travel::where('user_id', auth()->id())->where('status', $travel->status)->where('id', '>', $travel->id)->min('id');
 
-        return view('www.home.travels', compact('travel', 'prevId', 'nextId'));
+        return view('m.home.travels', compact('travel', 'prevId', 'nextId'));
     }
 
     /**
      * 游记更新
      * @param Travel $travel
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @return Travel
      */
     public function edit(Travel $travel)
     {
-        $this->authorize('update', $travel);
-        return view('www.home.release_edit', compact('travel'));
+        return view('m.home.release_edit', compact('travel'));
     }
 
     /**
      * 游记更新
-     * @param Travel $travel
      * @param Request $request
+     * @param Travel $travel
      * @return array
-     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function update(Travel $travel, Request $request)
     {
-        $this->authorize('update', $travel);
-
         $data = $this->validate($request, [
             'title' => ['required', 'string', 'between:3,100', Rule::unique('travels')->ignore($travel->id)],
             'thumb' => 'image',
@@ -118,12 +113,9 @@ class TravelController extends Controller
      * @param Travel $travel
      * @param Request $request
      * @return array|\Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
-     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function updateThumb(Travel $travel, Request $request)
     {
-        $this->authorize('update', $travel);
-
         if (!$request->hasFile('thumb')) {
             return response(['message' => '必须上传图片。'], 422);
         }
@@ -142,11 +134,10 @@ class TravelController extends Controller
      */
     public function destroy(Travel $travel)
     {
-        $this->authorize('delete', $travel);
-
         Storage::delete($travel->thumb);
         $travel->delete();
         return ['message' => '成功删除。'];
     }
+
 
 }

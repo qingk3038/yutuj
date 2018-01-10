@@ -43,13 +43,6 @@ $(document).ready(function () {
         }
     })
 
-    // 图片懒加载
-    $('img.lazy').lazyload({
-        effect: 'fadeIn',
-        threshold: 200,
-        failure_limit: 5000,
-    });
-
     // 设置默认显示地区
     showDq()
 })
