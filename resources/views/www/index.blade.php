@@ -93,7 +93,7 @@
                             <div class="carousel-inner">
                                 @foreach($wans as $raider)
                                     <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
-                                        <img class="d-block" src="{{ imageCut(680, 340, $raider->thumb) }}" alt="{{ $raider->short }}">
+                                        <img class=" d-block" src="{{ imageCut(680, 340, $raider->thumb) }}" alt="{{ $raider->short }}" width="680" height="340">
                                         <div class="carousel-caption">
                                             <h4 class="pl-3">{{ $raider->short }}</h4>
                                             <p class="pl-3">{{ $raider->title }}</p>
@@ -117,7 +117,7 @@
                             <div class="carousel-inner">
                                 @foreach($hospitals as $raider)
                                     <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
-                                        <img class="d-block" src="{{ imageCut(680, 340, $raider->thumb) }}" alt="{{ $raider->short }}">
+                                        <img class=" d-block" src="{{ imageCut(680, 340, $raider->thumb) }}" alt="{{ $raider->short }}" width="680" height="340">
                                         <div class="carousel-caption">
                                             <h4 class="pl-3">{{ $raider->short }}</h4>
                                             <p class="pl-3">{{ $raider->title }}</p>
@@ -145,7 +145,9 @@
                 </div>
                 <div class="d-flex justify-content-between">
                     @foreach($leaders as $leader)
-                        <a href="{{ route('www.leader.show', $leader) }}" target="_blank"><img src="{{ imageCut(160, 340, $leader->avatar) }}" alt="{{ $leader->name }}" width="160" height="340"></a>
+                        <a href="{{ route('www.leader.show', $leader) }}" target="_blank">
+                            <img src="{{ imageCut(160, 340, $leader->avatar) }}" alt="{{ $leader->name }}" width="160" height="340">
+                        </a>
                     @endforeach
                 </div>
             </div>
@@ -163,10 +165,10 @@
         </ol>
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img class="d-block w-100" src="{{ asset('uploads/d/carousel_1_1.jpg') }}" alt="First slide">
+                <img class="img-responsive" height="500" src="{{ asset('uploads/d/carousel_1_1.jpg') }}" alt="First slide">
             </div>
             <div class="carousel-item">
-                <img class="d-block w-100" src="{{ asset('uploads/d/carousel_1_1.jpg') }}" alt="Second slide">
+                <img class="img-responsive" height="500" src="{{ asset('uploads/d/carousel_1_1.jpg') }}" alt="Second slide">
             </div>
         </div>
     </div>
@@ -182,10 +184,10 @@
         </ol>
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img class="d-block w-100" src="{{ asset('uploads/d/carousel_2_1.jpg') }}" alt="First slide">
+                <img class="img-responsive" height="500" src="{{ asset('uploads/d/carousel_2_1.jpg') }}" alt="First slide">
             </div>
             <div class="carousel-item">
-                <img class="d-block w-100" src="{{ asset('uploads/d/carousel_2_1.jpg') }}" alt="Second slide">
+                <img class="img-responsive" height="500" src="{{ asset('uploads/d/carousel_2_1.jpg') }}" alt="Second slide">
             </div>
         </div>
     </div>
@@ -201,10 +203,10 @@
         </ol>
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img class="d-block w-100" src="{{ asset('uploads/d/carousel_3_1.jpg') }}" alt="First slide">
+                <img class="img-responsive" height="500" src="{{ asset('uploads/d/carousel_3_1.jpg') }}" alt="First slide">
             </div>
             <div class="carousel-item">
-                <img class="d-block w-100" src="{{ asset('uploads/d/carousel_3_1.jpg') }}" alt="Second slide">
+                <img class="img-responsive" height="500" src="{{ asset('uploads/d/carousel_3_1.jpg') }}" alt="Second slide">
             </div>
         </div>
     </div>
@@ -220,10 +222,10 @@
         </ol>
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img class="d-block w-100" src="{{ asset('uploads/d/carousel_4_1.jpg') }}" alt="First slide">
+                <img class="img-responsive" height="500" src="{{ asset('uploads/d/carousel_4_1.jpg') }}" alt="First slide">
             </div>
             <div class="carousel-item">
-                <img class="d-block w-100" src="{{ asset('uploads/d/carousel_4_1.jpg') }}" alt="Second slide">
+                <img class="img-responsive" height="500" src="{{ asset('uploads/d/carousel_4_1.jpg') }}" alt="Second slide">
             </div>
         </div>
     </div>
@@ -329,7 +331,7 @@
                         @foreach($z_wans as $item)
                             <div class="{{ $list_class[$loop->index] }}">
                                 <a href="{{ route('www.raider.show', $item) }}" class="position-relative d-block" title="{{ $item->title }}" target="_blank">
-                                    <img src="{{ imageCut(286, $loop->index === 2 ? 378 : 186, $item->thumb) }}" alt="{{ $item->short }}" class="w-100" width="286" height="{{ $loop->index === 2 ? 378 : 186 }}">
+                                    <img class="w-100 " src="{{ imageCut(286, $loop->index === 2 ? 378 : 186, $item->thumb) }}" alt="{{ $item->short }}" width="286" height="{{ $loop->index === 2 ? 378 : 186 }}">
                                     <h5 class="position-absolute text-truncate">{{ $item->short }}<br><i class="fa fa-2x fa-sign-in mt-3"></i></h5>
                                     <i class="position-absolute bg-mark"></i>
                                 </a>
@@ -340,7 +342,7 @@
                         @foreach($z_lines as $item)
                             <div class="{{ $list_class[$loop->index] }}">
                                 <a href="{{ route('www.raider.show', $item) }}" class="position-relative d-block" title="{{ $item->title }}" target="_blank">
-                                    <img src="{{ imageCut(286, $loop->index === 2 ? 378 : 186, $item->thumb) }}" alt="{{ $item->short }}" class="w-100" width="286" height="{{ $loop->index === 2 ? 378 : 186 }}">
+                                    <img class="w-100 " src="{{ imageCut(286, $loop->index === 2 ? 378 : 186, $item->thumb) }}" alt="{{ $item->short }}" width="286" height="{{ $loop->index === 2 ? 378 : 186 }}">
                                     <h5 class="position-absolute text-truncate">{{ $item->short }}<br><i class="fa fa-2x fa-sign-in mt-3"></i></h5>
                                     <i class="position-absolute bg-mark"></i>
                                 </a>
@@ -351,7 +353,7 @@
                         @foreach($z_scenics as $item)
                             <div class="{{ $list_class[$loop->index] }}">
                                 <a href="{{ route('www.raider.show', $item) }}" class="position-relative d-block" title="{{ $item->title }}" target="_blank">
-                                    <img src="{{ imageCut(286, $loop->index === 2 ? 378 : 186, $item->thumb) }}" alt="{{ $item->short }}" class="w-100" width="286" height="{{ $loop->index === 2 ? 378 : 186 }}">
+                                    <img class="w-100 " src="{{ imageCut(286, $loop->index === 2 ? 378 : 186, $item->thumb) }}" alt="{{ $item->short }}" width="286" height="{{ $loop->index === 2 ? 378 : 186 }}">
                                     <h5 class="position-absolute text-truncate">{{ $item->short }}<br><i class="fa fa-2x fa-sign-in mt-3"></i></h5>
                                     <i class="position-absolute bg-mark"></i>
                                 </a>
@@ -362,7 +364,7 @@
                         @foreach($z_foods as $item)
                             <div class="{{ $list_class[$loop->index] }}">
                                 <a href="{{ route('www.raider.show', $item) }}" class="position-relative d-block" title="{{ $item->title }}" target="_blank">
-                                    <img src="{{ imageCut(286, $loop->index === 2 ? 378 : 186, $item->thumb) }}" alt="{{ $item->short }}" class="w-100" width="286" height="{{ $loop->index === 2 ? 378 : 186 }}">
+                                    <img class="w-100 " src="{{ imageCut(286, $loop->index === 2 ? 378 : 186, $item->thumb) }}" alt="{{ $item->short }}"  width="286" height="{{ $loop->index === 2 ? 378 : 186 }}">
                                     <h5 class="position-absolute text-truncate">{{ $item->short }}<br><i class="fa fa-2x fa-sign-in mt-3"></i></h5>
                                     <i class="position-absolute bg-mark"></i>
                                 </a>
@@ -373,7 +375,7 @@
                         @foreach($z_hospitals as $item)
                             <div class="{{ $list_class[$loop->index] }}">
                                 <a href="{{ route('www.raider.show', $item) }}" class="position-relative d-block" title="{{ $item->title }}" target="_blank">
-                                    <img src="{{ imageCut(286, $loop->index === 2 ? 378 : 186, $item->thumb) }}" alt="{{ $item->short }}" class="w-100" width="286" height="{{ $loop->index === 2 ? 378 : 186 }}">
+                                    <img class="w-100 " src="{{ imageCut(286, $loop->index === 2 ? 378 : 186, $item->thumb) }}" alt="{{ $item->short }}" class="w-100" width="286" height="{{ $loop->index === 2 ? 378 : 186 }}">
                                     <h5 class="position-absolute text-truncate">{{ $item->short }}<br><i class="fa fa-2x fa-sign-in mt-3"></i></h5>
                                     <i class="position-absolute bg-mark"></i>
                                 </a>
@@ -395,7 +397,7 @@
                 <div class="col-4 p-1">
                     <div class="p-2 bg-white media">
                         <a href="{{ route('www.travel.show', $travel) }}" target="_blank">
-                            <img class="mr-3" src="{{ imageCut(168, 110, $travel->thumb) }}" width="168" height="110" alt="{{ $travel->title }}">
+                            <img class="mr-3 " src="{{ imageCut(168, 110, $travel->thumb) }}" width="168" height="110" alt="{{ $travel->title }}">
                         </a>
                         <div class="media-body">
                             <a href="{{ route('www.travel.show', $travel) }}" class="h6" target="_blank">{{ $travel->title }}</a>
