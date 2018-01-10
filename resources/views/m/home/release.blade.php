@@ -106,7 +106,7 @@
         function release(status = 'draft') {
             let param = new FormData(document.getElementById('releaseForm'));
             param.append('status', status)
-            axios.post("{{ route('travel.store') }}", param, {
+            axios.post("{{ route('home.travel.store') }}", param, {
                 headers: {'Content-Type': 'multipart/form-data'}
             }).then(res => {
                 swal({

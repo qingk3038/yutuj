@@ -114,7 +114,7 @@
                             <div class="dropdown-menu rounded-0 {{ Request::is('/') ? 'index-down' : 'other-down' }}">
                                 <a class="dropdown-item" href="{{ route('home.setting') }}"><i class="fa fa-fw fa-user"></i> 个人中心</a>
                                 <a class="dropdown-item" href="{{ url('home/order') }}"><i class="fa fa-fw fa-list-alt"></i> 我的订单</a>
-                                <a class="dropdown-item" href="{{ route('travel.index') }}"><i class="fa fa-fw fa-book"></i> 我的游记</a>
+                                <a class="dropdown-item" href="{{ route('home.travel.index') }}"><i class="fa fa-fw fa-book"></i> 我的游记</a>
                                 <a class="dropdown-item" href="{{ route('logout') }}"><i class="fa fa-fw fa-sign-out"></i> 退出</a>
                             </div>
                         </div>

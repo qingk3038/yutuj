@@ -6,7 +6,6 @@
     "type": "project",
     "require": {
         "php": ">=7.0.0",
-        "barryvdh/laravel-ide-helper": "^2.4",
         "encore/laravel-admin": "1.5.x-dev",
         "fideloper/proxy": "~3.3",
         "intervention/image": "^2.4",
@@ -29,6 +28,7 @@
         "simplesoftwareio/simple-qrcode": "^2.0"
     },
     "require-dev": {
+        "barryvdh/laravel-ide-helper": "^2.4",
         "filp/whoops": "~2.0",
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "~1.0",

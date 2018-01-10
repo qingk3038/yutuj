@@ -10,19 +10,19 @@
                 <i class="fa fa-fw fa-lg fa-clock-o"></i>{{ $travel->updated_at->toDateString() }}
             </span>
             <span class="btns">
-                <a href="{{ route('travel.edit', $travel) }}">编辑</a>
-                <a class="btn-del" href="javascript:void(0);" data-action="{{ route('travel.destroy', $travel) }}">删除</a>
+                <a href="{{ route('home.travel.edit', $travel) }}">编辑</a>
+                <a class="btn-del" href="javascript:void(0);" data-action="{{ route('home.travel.destroy', $travel) }}">删除</a>
             </span>
         </div>
         <hr>
         <div class="body">{!! $travel->body !!}</div>
         <p class="text-center mt-5">
             @if($prevId)
-                <a href="{{ route('travel.show', $prevId) }}" class="btn btn-warning text-white px-3 mr-5">&lt;&lt;上一篇</a>
+                <a href="{{ route('home.travel.show', $prevId) }}" class="btn btn-warning text-white px-3 mr-5">&lt;&lt;上一篇</a>
             @endif
 
             @if($nextId)
-                <a href="{{ route('travel.show', $nextId) }}" class="btn btn-warning text-white px-3 mr-5">下一篇&gt;&gt;</a>
+                <a href="{{ route('home.travel.show', $nextId) }}" class="btn btn-warning text-white px-3 mr-5">下一篇&gt;&gt;</a>
             @endif
         </p>
     </div>

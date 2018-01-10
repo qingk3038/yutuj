@@ -29,13 +29,13 @@
             </p>
         @endif
         <p>
-            <a href="{{ route('travel.create') }}" class="btn btn-sm btn-warning py-2 px-5"><i class="fa fa-edit"></i> 发表游记</a>
+            <a href="{{ route('home.travel.create') }}" class="btn btn-sm btn-warning py-2 px-5"><i class="fa fa-edit"></i> 发表游记</a>
         </p>
     </div>
 
     <div class="top-border">
         <div class="list-group">
-            <a href="{{ route('travel.index') }}" class="list-group-item list-group-item-action d-flex align-items-center rounded-0 border-left-0 border-right-0">
+            <a href="{{ route('home.travel.index') }}" class="list-group-item list-group-item-action d-flex align-items-center rounded-0 border-left-0 border-right-0">
                 <i class="fa fa-fw fa-star text-info"></i> 我的游记
                 <i class="fa fa-angle-right ml-auto"></i>
             </a>

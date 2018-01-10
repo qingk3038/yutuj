@@ -3,15 +3,15 @@
 @section('body')
     <div class="d-flex justify-content-between p-3">
         <span class="h5">我的游记</span>
-        <a href="{{ route('travel.create') }}" class="btn btn-warning text-white px-3 py-1"><i class="fa fa-edit"></i> 发表游记</a>
+        <a href="{{ route('home.travel.create') }}" class="btn btn-warning text-white px-3 py-1"><i class="fa fa-edit"></i> 发表游记</a>
     </div>
     @foreach($travels as $travel)
         <div class="card">
             <div class="position-relative">
                 <img class="card-img-top" src="{{ imageCut(870, 290, $travel->thumb) }}" alt="{{ $travel->title }}" tid="{{ $travel->id }}" width="870" height="290">
                 <div class="position-absolute p-3 btns d-flex">
-                    <a href="javascript:void(0);" class="btn btn-dark border-0 mr-auto btn-del" data-action="{{ route('travel.destroy', $travel) }}"><i class="fa fa-trash-o"></i> 删除</a>
-                    <a href="{{ route('travel.edit', $travel) }}" class="btn btn-dark border-0"><i class="fa fa-edit"></i> 编辑</a>
+                    <a href="javascript:void(0);" class="btn btn-dark border-0 mr-auto btn-del" data-action="{{ route('home.travel.destroy', $travel) }}"><i class="fa fa-trash-o"></i> 删除</a>
+                    <a href="{{ route('home.travel.edit', $travel) }}" class="btn btn-dark border-0"><i class="fa fa-edit"></i> 编辑</a>
                     <a href="javascript:void(0);" onclick="selectThumb({{ $travel->id }})" class="btn btn-dark border-0 ml-2"><i class="fa fa-photo"></i> 设置封面</a>
                 </div>
             </div>
@@ -24,7 +24,7 @@
                     </span>
                 </div>
                 <h5 class="card-title pr-5 mr-5">
-                    <a href="{{ route('travel.show', $travel) }}">{{ $travel->title }}</a>
+                    <a href="{{ route('home.travel.show', $travel) }}">{{ $travel->title }}</a>
                 </h5>
                 <p class="text-muted">
                     @if($travel->province)<i class="fa fa-fw fa-map-marker"></i>{{ $travel->province }} {{ $travel->city }}@endif

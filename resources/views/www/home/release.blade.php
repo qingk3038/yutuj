@@ -10,12 +10,12 @@
                 @forelse(auth()->user()->travels()->status('draft')->get() as $travel)
                     <li>
                         <span class="float-left">
-                            <a href="{{ route('travel.show', $travel) }}">{{ str_limit($travel->title, 30) }}</a><br>
+                            <a href="{{ route('home.travel.show', $travel) }}">{{ str_limit($travel->title, 30) }}</a><br>
                             <small>{{ $travel->updated_at }}</small>
                         </span>
                         <span class="float-right">
-                            <a href="{{ route('travel.edit', $travel) }}" class="fa fa-fw fa-lg fa-edit"></a>
-                            <a href="javascript:void(0);" class="fa fa-fw fa-lg fa-trash-o btn-del" data-action="{{ route('travel.destroy', $travel) }}"></a>
+                            <a href="{{ route('home.travel.edit', $travel) }}" class="fa fa-fw fa-lg fa-edit"></a>
+                            <a href="javascript:void(0);" class="fa fa-fw fa-lg fa-trash-o btn-del" data-action="{{ route('home.travel.destroy', $travel) }}"></a>
                         </span>
                     </li>
                 @empty
@@ -142,7 +142,7 @@
         function release(status = 'draft') {
             let param = new FormData(document.getElementById('releaseForm'));
             param.append('status', status)
-            axios.post("{{ route('travel.store') }}", param, {
+            axios.post("{{ route('home.travel.store') }}", param, {
                 headers: {'Content-Type': 'multipart/form-data'}
             }).then(res => {
                 swal({

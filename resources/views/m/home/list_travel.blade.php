@@ -35,7 +35,7 @@
                 @forelse($releases as $release)
                     <div class="card">
                         <div class="position-relative mx-3">
-                            <a href="{{ route('travel.show', $release) }}">
+                            <a href="{{ route('home.travel.show', $release) }}">
                                 <img class="card-img-top rounded-0" src="{{ imageCut(382, 160, $release->thumb) }}" alt="{{ $release->title }}">
                             </a>
                             <div class="position-absolute up">
@@ -48,7 +48,7 @@
                         </div>
                         <div class="card-body py-2">
                             <h6 class="card-title text-truncate">
-                                <a class="text-dark" href="{{ route('travel.show', $release) }}">{{ $release->title }}</a>
+                                <a class="text-dark" href="{{ route('home.travel.show', $release) }}">{{ $release->title }}</a>
                             </h6>
                             <p class="card-text mb-2 text-muted small d-flex justify-content-between">
                                 @isset($release->province)
@@ -58,9 +58,9 @@
                                 <span class="ml-auto"><i class="far fa-fw fa-clock"></i> {{ $release->updated_at->toDateString() }}</span>
                             </p>
                             <p class="card-text small d-flex justify-content-between">
-                                <a href="{{ route('travel.edit', $release) }}" class="text-secondary pr-2"><i class="fa fa-fw fa-edit text-info"></i>编辑</a>
+                                <a href="{{ route('home.travel.edit', $release) }}" class="text-secondary pr-2"><i class="fa fa-fw fa-edit text-info"></i>编辑</a>
                                 <a href="#" class="text-secondary pr-2"><i class="fa fa-fw fa-image text-info"></i>设置封面</a>
-                                <a href="{{ route('travel.destroy', $release) }}" class="text-secondary ml-auto btn-del"><i class="fa fa-fw fa-trash-alt text-danger"></i> 删除</a>
+                                <a href="{{ route('home.travel.destroy', $release) }}" class="text-secondary ml-auto btn-del"><i class="fa fa-fw fa-trash-alt text-danger"></i> 删除</a>
                             </p>
                         </div>
                         <hr>
@@ -82,11 +82,11 @@
                     <div class="card">
                         <div class="card-body py-2">
                             <h6 class="card-title text-truncate">
-                                <a class="text-dark" href="{{ route('travel.edit', $draft) }}">{{ $draft->title }}</a>
+                                <a class="text-dark" href="{{ route('home.travel.edit', $draft) }}">{{ $draft->title }}</a>
                             </h6>
                             <p class="card-text small d-flex justify-content-between">
                                 <span class="text-secondary">更新时间：{{ $draft->updated_at->diffForHumans() }}</span>
-                                <a href="{{ route('travel.destroy', $draft) }}" class="text-secondary btn-del"><i class="fa fa-fw fa-trash-alt text-danger"></i> 删除</a>
+                                <a href="{{ route('home.travel.destroy', $draft) }}" class="text-secondary btn-del"><i class="fa fa-fw fa-trash-alt text-danger"></i> 删除</a>
                             </p>
                         </div>
                         <hr>

@@ -40,7 +40,7 @@
             </table>
         </div>
 
-        @if(!auth()->user()->description && Route::is('travel.index'))
+        @if(!auth()->user()->description && Route::is('home.travel.index'))
             <div class="home-travels float-right mt-4 p-4" style="background: #FFF100;">
                 <p class="text-dark mb-4">
                     <span class="text-info h5 mb-0">{{ auth()->user()->name ?? auth()->user()->mobile }}</span>，欢迎来到遇途记！
@@ -48,7 +48,7 @@
                 </p>
                 <p class="text-center">
                     <a href="{{ url('home/setting') }}" class="mr-3"><img src="{{ asset('img/empty_userinfo.png') }}" alt="empty_userinfo" width="347" height="102"></a>
-                    <a href="{{ route('travel.create') }}" class="ml-3"><img src="{{ asset('img/empty_youji.png') }}" alt="empty_youji" width="347" height="102"></a>
+                    <a href="{{ route('home.travel.create') }}" class="ml-3"><img src="{{ asset('img/empty_youji.png') }}" alt="empty_youji" width="347" height="102"></a>
                 </p>
             </div>
         @endif

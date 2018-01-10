@@ -31,7 +31,7 @@
                 <p class="card-text small d-flex justify-content-between">
                     <a href="#" class="text-secondary pr-2"><i class="fa fa-fw fa-edit text-info"></i>编辑</a>
                     <a href="#" class="text-secondary pr-2"><i class="fa fa-fw fa-image text-info"></i>设置封面</a>
-                    <a href="{{ route('travel.destroy', $travel) }}" class="text-secondary ml-auto btn-del"><i class="fa fa-fw fa-trash-alt text-danger"></i> 删除</a>
+                    <a href="{{ route('home.travel.destroy', $travel) }}" class="text-secondary ml-auto btn-del"><i class="fa fa-fw fa-trash-alt text-danger"></i> 删除</a>
                 </p>
             </div>
         </div>
@@ -43,11 +43,11 @@
 
     <div class="d-flex justify-content-between p-3">
         @if($prevId)
-            <a href="{{ route('travel.show', $prevId) }}" class="btn btn-sm btn-outline-warning"><i class="fa fa-fw fa-chevron-circle-left"></i>上一篇</a>
+            <a href="{{ route('home.travel.show', $prevId) }}" class="btn btn-sm btn-outline-warning"><i class="fa fa-fw fa-chevron-circle-left"></i>上一篇</a>
         @endif
 
         @if($nextId)
-            <a href="{{ route('travel.show', $nextId) }}" class="btn btn-sm btn-outline-warning">下一篇<i class="fa fa-fw fa-chevron-circle-right"></i></a>
+            <a href="{{ route('home.travel.show', $nextId) }}" class="btn btn-sm btn-outline-warning">下一篇<i class="fa fa-fw fa-chevron-circle-right"></i></a>
         @endif
     </div>
 @endsection

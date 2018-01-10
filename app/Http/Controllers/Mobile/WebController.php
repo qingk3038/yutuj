@@ -8,7 +8,7 @@ use App\Models\Nav;
 use App\Models\Raider;
 use App\Models\Video;
 
-class MController extends Controller
+class WebController extends Controller
 {
     // 首页数据
     public function index()

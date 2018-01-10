@@ -10,12 +10,12 @@
                 @forelse(auth()->user()->travels()->status('draft')->get() as $travel)
                     <li>
                         <span class="float-left">
-                             <a href="{{ route('travel.show', $travel) }}">{{ str_limit($travel->title, 30) }}</a><br>
+                             <a href="{{ route('home.travel.show', $travel) }}">{{ str_limit($travel->title, 30) }}</a><br>
                             <small>{{ $travel->updated_at }}</small>
                         </span>
                         <span class="float-right">
-                            <a href="{{ route('travel.edit', $travel) }}" class="fa fa-fw fa-lg fa-edit"></a>
-                            <a href="javascript:void(0);" class="fa fa-fw fa-lg fa-trash-o btn-del" data-action="{{ route('travel.destroy', $travel) }}"></a>
+                            <a href="{{ route('home.travel.edit', $travel) }}" class="fa fa-fw fa-lg fa-edit"></a>
+                            <a href="javascript:void(0);" class="fa fa-fw fa-lg fa-trash-o btn-del" data-action="{{ route('home.travel.destroy', $travel) }}"></a>
                         </span>
                     </li>
                 @empty
@@ -147,7 +147,7 @@
             param.append('status', status)
             param.append('_method', 'PUT')
             $.ajax({
-                url: "{{ route('travel.update', $travel) }}",
+                url: "{{ route('home.travel.update', $travel) }}",
                 type: "POST",
                 data: param,
                 contentType: false,
