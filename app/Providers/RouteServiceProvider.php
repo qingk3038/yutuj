@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Jenssegers\Agent\Agent;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -39,7 +40,7 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapWebRoutes();
 
-        //
+        $this->mapDomainRoutes();
     }
 
     /**
@@ -52,8 +53,8 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapWebRoutes()
     {
         Route::middleware('web')
-             ->namespace($this->namespace)
-             ->group(base_path('routes/web.php'));
+            ->namespace($this->namespace)
+            ->group(base_path('routes/web.php'));
     }
 
     /**
@@ -66,8 +67,22 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapApiRoutes()
     {
         Route::prefix('api')
-             ->middleware('api')
-             ->namespace($this->namespace)
-             ->group(base_path('routes/api.php'));
+            ->middleware('api')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/api.php'));
     }
+
+    /**
+     * 判断加载电脑或手机站
+     */
+    protected function mapDomainRoutes()
+    {
+        $agent = new Agent();
+        $file = $agent->isMobile() ? 'routes/mobile.php' : 'routes/pc.php';
+        Route::middleware('web')
+            ->namespace($this->namespace)
+            ->group(base_path($file));
+    }
+
+
 }

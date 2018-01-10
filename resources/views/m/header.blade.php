@@ -4,7 +4,7 @@
         <span>{{ $title }}</span>
         <div>
             @guest
-                <a href="{{ route('login') }}">
+                <a href="{{ route('login') }}" class="text-warning">
                     <i class="fa fa-fw fa-user"></i>
                 </a>
             @else
@@ -12,7 +12,7 @@
                     <img class="rounded-circle" src="{{ auth()->user()->avatar }}" alt="avatar" width="22" height="22">
                 </a>
             @endguest
-            <a href="#menu" data-toggle="collapse">
+            <a href="#menu" data-toggle="collapse" class="text-warning">
                 <i class="fa fa-fw fa-align-justify"></i>
             </a>
         </div>
