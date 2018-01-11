@@ -1,8 +1,8 @@
-<header class="position-absolute bg-white">
-    <div class="text-warning d-flex justify-content-between">
-        <span onclick="history.back();"><i class="fas fa-lg fa-angle-left"></i></span>
-        <span>{{ $title }}</span>
-        <div>
+<header class="position-absolute bg-white container-fluid">
+    <div class="text-warning row">
+        <span class="col" onclick="history.back();"><i class="fas fa-lg fa-angle-left"></i></span>
+        <span class="col text-center">{{ $title }}</span>
+        <div class="col text-right">
             @guest
                 <a href="{{ route('login') }}" class="text-warning">
                     <i class="fa fa-fw fa-user"></i>
@@ -12,7 +12,7 @@
                     <img class="rounded-circle" src="{{ auth()->user()->avatar }}" alt="avatar" width="22" height="22">
                 </a>
             @endguest
-            <a href="#menu" data-toggle="collapse" class="text-warning">
+            <a href="#menu" data-toggle="collapse" class="text-warning align-middle">
                 <i class="fa fa-fw fa-align-justify"></i>
             </a>
         </div>

@@ -14,7 +14,7 @@ Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm
 // 游记
 Route::resource('home/travel', 'TravelController')->names('home.travel');
 // 会员中心
-Route::redirect('home', 'home/travel')->name('home');
+Route::get('home', 'TravelController@index')->name('home');
 Route::view('home/setting', 'www.home.setting')->name('home.setting')->middleware('auth');
 Route::view('home/message', 'www.home.message')->name('home.message')->middleware('auth');
 Route::get('home/order', 'HomeController@order')->name('home.order');
