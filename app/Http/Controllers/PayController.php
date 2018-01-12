@@ -77,7 +77,7 @@ class PayController extends Controller
     // 微信 - 生成二维码
     public function wechat(Application $app, Order $order)
     {
-        $total_fee = env('APP_DEBUG') ? 1 : $order->tuan->price * 100;
+        $total_fee = env('APP_DEBUG') ? 1 : $order->money() * 100;
         $out_trade_no = date('Ymd') . str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT);
         $attributes = [
             'body' => '遇途记-活动报名缴费',
@@ -139,7 +139,7 @@ class PayController extends Controller
     // 创建支付宝订单
     public function alipay(Order $order)
     {
-        $total_fee = env('APP_DEBUG') ? 0.01 : $order->tuan->price;
+        $total_fee = env('APP_DEBUG') ? 0.01 : $order->money();
         $out_trade_no = date('Ymd') . str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT);
 
         $alipay = app('alipay.web');
@@ -157,7 +157,7 @@ class PayController extends Controller
     // 转跳支付宝官网支付
     public function alipayWeb(Order $order)
     {
-        $total_fee = env('APP_DEBUG') ? 0.01 : $order->tuan->price;
+        $total_fee = env('APP_DEBUG') ? 0.01 : $order->money();
         $out_trade_no = date('Ymd') . str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT);
 
         $alipay = app('alipay.web');

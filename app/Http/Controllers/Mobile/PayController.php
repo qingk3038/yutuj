@@ -24,8 +24,8 @@ class PayController extends Controller
         return view('m.pay.order', compact('tuan'));
     }
 
-    // Wap支付和显示支付结果
-    public function showQrcode(Application $app, Order $order)
+    // 显示支付结果
+    public function showQrcode(Order $order)
     {
         // 下单状态
         if ($order->status === 'wait') {
@@ -33,8 +33,23 @@ class PayController extends Controller
             $order->out_trade_no = $out_trade_no;
             $order->save();
 
+            return view('m.pay.qrcode', compact('order'));
+        }
+
+        $activity = $order->tuan->activity;
+        $activities = Activity::where('province_id', $activity->province_id)->active()->latest()->limit(4)->get(['id', 'title', 'thumb']);
+
+        // 结果状态
+        return view('m.pay.result', compact('order', 'activities'));
+    }
+
+    // Wap支付
+    public function pay(Application $app, Order $order)
+    {
+        // 下单状态
+        if ($order->status === 'wait' && $order->user_id === auth()->id()) {
             if ($order->type === 'alipay') {
-                $total_fee = env('APP_DEBUG') ? 0.01 : $order->money / 100;
+                $total_fee = env('APP_DEBUG') ? 0.01 : $order->money();
                 $alipay = app('alipay.wap');
                 $alipay->setOutTradeNo($order->out_trade_no);
                 $alipay->setTotalFee($total_fee);
@@ -42,7 +57,7 @@ class PayController extends Controller
                 $alipay->setBody(str_limit($order->tuan->activity->title));
                 return redirect()->to($alipay->getPayLink());
             } else {
-                $total_fee = env('APP_DEBUG') ? 1 : $order->money;
+                $total_fee = env('APP_DEBUG') ? 1 : $order->money * 100;
                 $attributes = [
                     'body' => '遇途记-活动报名缴费',
                     'out_trade_no' => $order->out_trade_no,
@@ -54,11 +69,5 @@ class PayController extends Controller
                 return redirect()->to($result['mweb_url']);
             }
         }
-
-        $activity = $order->tuan->activity;
-        $activities = Activity::where('province_id', $activity->province_id)->active()->latest()->limit(4)->get(['id', 'title', 'thumb']);
-
-        // 结果状态
-        return view('m.pay.result', compact('order', 'activities'));
     }
 }

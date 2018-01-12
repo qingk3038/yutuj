@@ -26,5 +26,7 @@ Route::get('home/setting/{edit?}', 'Mobile\HomeController@index')->name('home.se
 Route::view('home/message', 'm.home.message')->name('home.message')->middleware('auth');
 // 报名页面
 Route::get('tuan/{tuan}', 'Mobile\PayController@create')->name('pay.order.create');
-// Wap支付和显示支付结果
+// Wap支付
+Route::get('order/{order}/wap', 'Mobile\PayController@pay')->name('order.pay');
+// 显示支付结果
 Route::get('order/{order}/pay', 'Mobile\PayController@showQrcode')->name('order.qrcode');

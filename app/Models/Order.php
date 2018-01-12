@@ -24,6 +24,11 @@ class Order extends Model
         return $this->hasMany(Baoming::class);
     }
 
+    public function money()
+    {
+        return $this->tuan->price * $this->baomings()->count();
+    }
+
     public function statusText()
     {
         switch ($this->status) {
