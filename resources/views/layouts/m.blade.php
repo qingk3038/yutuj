@@ -10,6 +10,7 @@
     <meta name="description" content="{{ config('web_description') }}">
     {{--字体--}}
     <script defer src="{{ asset('js/fontawesome.all.js') }}"></script>
+    <script src="https://cdn.bootcss.com/hammer.js/2.0.8/hammer.min.js"></script>
 
     {{--VUE--}}
     <script src="https://cdn.bootcss.com/vue/2.5.9/vue.js"></script>

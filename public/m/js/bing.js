@@ -43,6 +43,16 @@
 })(jQuery)
 
 $(document).ready(function () {
+    // 绑定滑动事件
+    document.querySelectorAll('[data-ride]').forEach((v, i) => {
+        let hammer = new Hammer(v);
+        hammer.on("swipeleft", function () {
+            $(v).carousel('next');
+        }).on("swiperight", function () {
+            $(v).carousel('prev');
+        })
+    })
+
     // 个人主页 更新信息 完成
     $('.do-complete').click(function () {
         let param = $('#info').serialize();

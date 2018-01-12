@@ -19,12 +19,12 @@ Route::get('raider/show/{raider}', 'Mobile\ShowController@raider')->name('m.raid
 Route::get('leader/show/{leader}', 'Mobile\ShowController@leader')->name('m.leader.show');
 // 主页
 Route::view('home', 'm.home.index')->name('home');
-// 游记
-Route::resource('home/travel', 'Mobile\TravelController')->names('home.travel');
-// 订单
 Route::get('home/order', 'Mobile\HomeController@order')->name('home.order');
 Route::get('home/order/{order}/show', 'Mobile\HomeController@orderInfo')->name('home.order.show');
-// 设置
+Route::resource('home/travel', 'Mobile\TravelController')->names('home.travel');
 Route::get('home/setting/{edit?}', 'Mobile\HomeController@index')->name('home.setting');
-// 消息
 Route::view('home/message', 'm.home.message')->name('home.message')->middleware('auth');
+// 报名页面
+Route::get('tuan/{tuan}', 'Mobile\PayController@create')->name('pay.order.create');
+// Wap支付和显示支付结果
+Route::get('order/{order}/pay', 'Mobile\PayController@showQrcode')->name('order.qrcode');

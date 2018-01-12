@@ -173,7 +173,7 @@
                                 <dl class="row p-2">
                                     <dt class="col-5 text-center">
                                         <a href="{{ route('m.leader.show', $leader) }}">
-                                            <img class="rounded-circle img-fluid" src="{{ imageCut(150, 150, $leader->avatar) }}" alt="{{ $leader->name }}">
+                                            <img class="rounded-circle img-fluid" src="{{ imageCut(140, 140, $leader->avatar) }}" alt="{{ $leader->name }}">
                                         </a>
                                     </dt>
                                     <dd class="col-7 text-justify">

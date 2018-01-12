@@ -31,22 +31,16 @@ Route::get('user/fans/{user}', 'HomeController@isFans');
 Route::post('user/fans/{user}', 'HomeController@fans');
 // 定制游
 Route::post('customized', 'CustomizedController@store');
-// 填写报名信息的提交
+// 提交报名信息
 Route::post('tuan/{tuan}', 'PayController@store');
 // 订单支付状态
 Route::get('pay/status/{order}', 'PayController@orderStatus')->name('pay.status');
 // 微信异步通知
 Route::post('notice/wechat', 'PayController@wechatNotice');
 
-// 生成微信订单
-Route::get('pay/wechat/{order}', 'PayController@wechat')->name('pay.wechat');
-// 生成支付宝订单 二维码
-Route::get('pay/alipay/{order}', 'PayController@alipay')->name('pay.alipay');
 // 支付宝异步通知
 Route::post('notice/alipay', 'PayController@alipayNotice');
 // 支付宝同步通知
 Route::get('notice/alipay/return', 'PayController@alipayReturn');
 // 支付宝官方网站支付
 Route::get('pay/alipay/{order}/web', 'PayController@alipayWeb')->name('pay.alipay.web');
-// 显示二维码的支付页面和支付结果
-Route::get('order/{order}/pay', 'PayController@showQrcode')->name('order.qrcode');

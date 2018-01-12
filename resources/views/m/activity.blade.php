@@ -3,18 +3,20 @@
 @section('title', $activity->title)
 
 @section('header')
-    <header class="position-absolute">
-        <div class="text-white d-flex justify-content-between">
-            <span onclick="history.back();"><i class="fas fa-lg fa-angle-left"></i></span>
-            <span>产品详情</span>
-            <a href="auth/login.blade.php">
-                <i class="fa fa-fw fa-user"></i>
-                <!--<img class="rounded-circle" src="img/avatar.png" alt="avatar" width="22" height="22">-->
-            </a>
+    <header class="position-absolute text-white container-fluid">
+        <div class="row">
+            <span class="col-3" onclick="history.back();"><i class="fas fa-lg fa-angle-left"></i></span>
+            <span class="col text-center">产品详情</span>
+            <span class="col-3 text-right">
+                @auth
+                    <a href="{{ route('home') }}"><img class="rounded-circle" src="{{ auth()->user()->avatar }}" alt="avatar" width="22" height="22"></a>
+                @else
+                    <a href="{{ route('login') }}"> <i class="fa fa-fw fa-user"></i></a>
+                @endauth
+            </span>
         </div>
     </header>
 @endsection
-
 @section('content')
     <div id="photos" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
@@ -64,11 +66,7 @@
 
     <div class="small py-2 text-truncate text-center" style="border-top: 5px solid #dddddd; border-bottom: 5px solid #dddddd;" data-toggle="collapse" data-target="#tuans">
         选择批次：
-        <div class="d-inline-block">
-            <span>2018-05-23 - 2018-05-27</span>
-            <span>已报名33人</span>
-            <span class="text-danger">4390元/人</span>
-        </div>
+        <div class="d-inline-block" id="show-tuan">加载中…</div>
     </div>
 
     <div class="collapse fixed-top bg-white h-100" id="tuans">
@@ -76,9 +74,9 @@
             <span class="float-left" data-toggle="collapse" data-target="#tuans"><i class="fas fa-lg fa-angle-left"></i></span>
             <div class="text-center">选择批次</div>
         </header>
-        <ul class="list-group small">
+        <ul class="list-group small" id="tuan-list">
             @foreach($activity->tuans as $tuan)
-                <li class="list-group-item d-flex justify-content-between border-right-0 border-left-0 rounded-0">
+                <li class="list-group-item d-flex justify-content-between border-right-0 border-left-0 rounded-0 @unless($tuan->available()) disabled @endunless" data-action="{{ route('pay.order.create', $tuan) }}">
                     <span>{{ $tuan->start_time->toDateString() }} - {{ $tuan->end_time->toDateString() }}</span>
                     <span>已报名{{ $tuan->start_num + $tuan->usersOkCount() }}人</span>
                     <span class="text-danger">{{ $tuan->price }}元/人</span>
@@ -123,9 +121,10 @@
                         晚餐：{{ $trip->wancan }}
                     </span>
                 </p>
-
                 @if(is_array($trip->pictures))
-                    <img class="img-fluid" src="{{ imageCut(350, 150, head($trip->pictures)) }}" alt="行程安排">
+                    @foreach($trip->pictures as $picture)
+                        <img class="img-fluid w-100 @if($loop->remaining) mb-2 @endif" src="{{ imageCut(350, 150, $picture) }}" alt="行程安排{{ $loop->iteration }}">
+                    @endforeach
                 @endif
             </div>
         @endforeach
@@ -164,8 +163,8 @@
                 <br>电话咨询
             </a>
             <span class="w-50">
-            <button class="btn btn-block btn-warning rounded-0 h-100">下一步</button>
-        </span>
+                <button class="btn btn-block btn-warning rounded-0 h-100 toBaoming">下一步</button>
+            </span>
         </div>
     </footer>
 
@@ -173,3 +172,38 @@
         <i class="fa fa-2x fa-arrow-alt-circle-up"></i>
     </aside>
 @endsection
+
+@push('script')
+    <script>
+        $('#tuan-list > li').click(function () {
+            if ($(this).hasClass('disabled')) {
+                return
+            }
+            $(this).addClass('active').siblings().removeClass('active')
+            $('#show-tuan').html($(this).html())
+            $('#tuans').collapse('hide')
+        })
+
+        // 选择第一个团
+        initFirstTuan()
+
+        function initFirstTuan() {
+            let li = $('#tuan-list > li:not(.disabled)').first()
+            if (li.length) {
+                li.addClass('active')
+                $('#show-tuan').html(li.html())
+            } else {
+                $('.toBaoming').addClass('disabled')
+                $('#show-tuan').html('当前活动不可报名。')
+            }
+        }
+
+        $('.toBaoming').click(function () {
+            if ($(this).hasClass('disabled')) {
+                return
+            }
+            let li = $('#tuan-list > li.active').first()
+            location.href = li.data('action')
+        })
+    </script>
+@endpush

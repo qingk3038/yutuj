@@ -45,5 +45,9 @@ Route::get('article/show/{article}', 'ShowController@article')->name('www.articl
 Route::get('search', 'ListController@search')->name('search');
 // 报名页面
 Route::get('tuan/{tuan}', 'PayController@create')->name('pay.order.create');
+// 生成微信订单
+Route::get('pay/wechat/{order}', 'PayController@wechat')->name('pay.wechat');
+// 生成支付宝订单 二维码
+Route::get('pay/alipay/{order}', 'PayController@alipay')->name('pay.alipay');
 // 显示二维码的支付页面和支付结果
 Route::get('order/{order}/pay', 'PayController@showQrcode')->name('order.qrcode');

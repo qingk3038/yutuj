@@ -388,3 +388,8 @@ i.unread {
     background-color: #FF9900;
     border-color: #FF9900;
 }
+
+#tuan-list > .list-group-item.active {
+    border-color: #ffc107;
+    background-color: #ffc107;
+}

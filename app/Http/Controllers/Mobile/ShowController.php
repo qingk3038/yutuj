@@ -17,7 +17,7 @@ class ShowController extends Controller
     public function activity(Activity $activity)
     {
         $data = Cache::remember(request()->fullUrl(), 5, function () use ($activity) {
-            $arr['activity'] = $activity->load('tags', 'types', 'trips', 'country', 'province', 'city', 'district');
+            $arr['activity'] = $activity->load('tags', 'types', 'tuans', 'trips', 'country', 'province', 'city', 'district');
 
             $arr['activities'] = Activity::with('types')
                 ->active()
@@ -36,7 +36,13 @@ class ShowController extends Controller
     public function raider(Raider $raider)
     {
         $raider->increment('click');
-        return view('m.raider', compact('raider'));
+        $data = Cache::remember(request()->fullUrl(), 5, function () use ($raider) {
+            $arr['raider'] = $raider;
+            $arr['activities'] = Activity::where('province_id', $raider->province_id)->active()->latest()->limit(4)->get(['id', 'title', 'thumb']);
+            return $arr;
+        });
+
+        return view('m.raider', $data);
     }
 
     // 显示领队

@@ -27,7 +27,7 @@
                         <br>产品名称：{{ $order->tuan->activity->title }}
                     </p>
                     <p><a href="{{ route('www.activity.show', $order->tuan->activity)  }}" class="btn btn-warning text-white btn-sm">返回活动</a></p>
-                    <p><a href="{{ route('home.order')  }}" class="text-warning d-block">&gt;&gt;点击进入“我的订单”</a></p>
+                    <p><a href="{{ route('home.order')  }}" class="text-warning d-block"><i class="fa fa-fw fa-angle-double-right"></i>点击进入“我的订单”</a></p>
                 </div>
             @else
                 <div class="m-auto w-50">
@@ -38,7 +38,7 @@
                         <br>产品名称：{{ $order->tuan->activity->title }}
                     </p>
                     <p><a href="{{ route('www.activity.show', $order->tuan->activity)  }}" class="btn btn-warning text-white btn-sm">返回活动</a></p>
-                    <p><a href="{{ route('home.order')  }}" class="text-warning d-block">&gt;&gt;点击进入“我的订单”</a></p>
+                    <p><a href="{{ route('home.order')  }}" class="text-warning d-block"><i class="fa fa-fw fa-angle-double-right"></i>点击进入“我的订单”</a></p>
                 </div>
             @endif
         </div>
