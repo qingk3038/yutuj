@@ -32,7 +32,7 @@
         <li>
             总人数：{{ count($order->baomings) }}人
             <br>总金额：<span class="text-danger">¥{{ $order->tuan->price * count($order->baomings) }}元</span>
-            <br>支付状态：{{ $order->statusText() }}
+            <br>订单状态：{{ $order->statusText() }}
             @if($order->status === 'wait')
                 <a href="{{ route('order.qrcode', $order) }}" target="_blank" class="text-warning text-white">去支付</a>
             @endif

@@ -10,9 +10,7 @@
     <div class="home-travels" style="margin-top: 2.7rem;">
         <div class="card">
             <div class="position-relative">
-                <a href="#">
-                    <img class="card-img-top rounded-0" src="{{ imageCut(414, 220, $travel->thumb) }}" alt="">
-                </a>
+                <img class="card-img-top rounded-0" src="{{ imageCut(414, 220, $travel->thumb) }}" alt="{{ $travel->title }}" tid="{{ $travel->id }}">
                 <div class="position-absolute up">
                     <small class="text-white">{{ $travel->likes()->count() }}</small>
                     <span class="fa-stack align-middle">
@@ -29,8 +27,8 @@
                     <span class="ml-auto"><i class="far fa-fw fa-clock"></i> {{ $travel->created_at->toDateString() }}</span>
                 </p>
                 <p class="card-text small d-flex justify-content-between">
-                    <a href="#" class="text-secondary pr-2"><i class="fa fa-fw fa-edit text-info"></i>编辑</a>
-                    <a href="#" class="text-secondary pr-2"><i class="fa fa-fw fa-image text-info"></i>设置封面</a>
+                    <a href="{{ route('home.travel.edit', $travel) }}" class="text-secondary pr-2"><i class="fa fa-fw fa-edit text-info"></i>编辑</a>
+                    <a href="javascript:void(0);" onclick="selectThumb({{ $travel->id }})" class="text-secondary pr-2"><i class="fa fa-fw fa-image text-info"></i>设置封面</a>
                     <a href="{{ route('home.travel.destroy', $travel) }}" class="text-secondary ml-auto btn-del"><i class="fa fa-fw fa-trash-alt text-danger"></i> 删除</a>
                 </p>
             </div>
@@ -50,6 +48,8 @@
             <a href="{{ route('home.travel.show', $nextId) }}" class="btn btn-sm btn-outline-warning">下一篇<i class="fa fa-fw fa-chevron-circle-right"></i></a>
         @endif
     </div>
+
+    <input type="file" id="fileThumb" onchange="updateThumb(this)" hidden>
 @endsection
 
 @push('script')
@@ -86,5 +86,25 @@
                     })
                 })
         })
+
+        // 激活图片选择
+        function selectThumb(id) {
+            $('#fileThumb').data('tid', id).trigger('click')
+        }
+
+        // 设置封面
+        function updateThumb(e) {
+            let tid = $(e).data('tid')
+            let param = new FormData();
+            param.append('thumb', e.files[0])
+            axios.post(`{{ url('home/travel/thumb') }}/${tid}`, param, {
+                headers: {'Content-Type': 'multipart/form-data'}
+            }).then(res => {
+                $('img[tid="' + tid + '"]').prop('src', res.data.path)
+                swal('操作已成功！', res.data.message, 'success')
+            }).catch(err => {
+                swal('失败啦！', err.response.data.message, 'error')
+            })
+        }
     </script>
 @endpush

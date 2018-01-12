@@ -8,7 +8,7 @@
 
 @section('content')
     <div class="position-relative" style="margin-top: 2.7rem;">
-        <div class="bg-home" style="height: 220px;background: url({{ auth()->user()->bg_home }}) no-repeat center top / cover"></div>
+        <div class="bg-home" style="height: 220px;background: url({{ auth()->user()->bg_home }}) no-repeat center center / cover"></div>
         <div class="position-absolute" style="left: 0; top: 0; right: 0; bottom: 0;">
             <div class="d-flex align-items-center justify-content-center h-100">
                 <span class="btn btn-outline-warning" onclick="javascript:$('#file_bg').trigger('click');">选一张好看的头图</span>
@@ -17,7 +17,7 @@
     </div>
     <div class="text-center">
         <p class="mb-0 position-relative">
-            <img src="{{ auth()->user()->avatar }}" alt="头像" width="110" href="110" class="p-2 rounded-circle" style="background: rgba(255, 255, 255, .3); margin-top: -55px;">
+            <img src="{{ imageCut(110, 110, auth()->user()->avatar) }}" alt="头像" width="110" href="110" class="p-2 rounded-circle" style="background: rgba(255, 255, 255, .3); margin-top: -55px;">
         </p>
         <h5>{{ auth()->user()->name ?? auth()->user()->mobile }} <i class="fa {{ auth()->user()->sex === 'F' ? 'fa-venus text-danger' : 'fa-mars text-primary' }}"></i></h5>
         @if(auth()->user()->description)
@@ -32,6 +32,8 @@
             <a href="{{ route('home.travel.create') }}" class="btn btn-sm btn-warning py-2 px-5"><i class="fa fa-edit"></i> 发表游记</a>
         </p>
     </div>
+
+    <input type="file" id="file_bg" accept="image/*" onchange="changeBg(event)" hidden>
 
     <div class="top-border">
         <div class="list-group">
@@ -53,7 +55,6 @@
             </a>
         </div>
     </div>
-    <input type="file" id="file_bg" accept="image/*" onchange="changeBg(event)" style="opacity: 0; width: 0px; height: 0px;">
 @endsection
 
 @section('footer', false)

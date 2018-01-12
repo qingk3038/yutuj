@@ -77,12 +77,12 @@ class HomeController extends Controller
     public function update(Request $request)
     {
         $data = $this->validate($request, [
-            'name' => 'required|string|between:3,20',
-            'sex' => 'required|string|in:F,M',
-            'province' => 'nullable|string',
-            'city' => 'nullable|string',
-            'birthday' => 'required|date',
-            'description' => 'required|string|between:3,250',
+            'name' => 'filled|string|between:3,20',
+            'sex' => 'filled|string|in:F,M',
+            'province' => 'filled|string',
+            'city' => 'filled|string',
+            'birthday' => 'filled|date',
+            'description' => 'filled|string|between:3,250',
         ]);
 
         $request->user()->update($data);
@@ -114,12 +114,11 @@ class HomeController extends Controller
     public function updateMobile(Request $request)
     {
         $this->validate($request, [
-            'oldTel' => ['required', 'string', new Mobile(), 'exists:users,mobile'],
-            'newTel' => ['required', 'string', new Mobile(), 'unique:users,mobile'],
+            'mobile' => ['required', 'string', new Mobile(), 'unique:users,mobile'],
             'code' => ['bail', 'required', 'string', 'min:4', new Code('update')],
         ]);
 
-        $request->user()->mobile = $request->newTel;
+        $request->user()->mobile = $request->get('mobile');
         $request->user()->save();
         return ['message' => '绑定手机已更新。'];
     }

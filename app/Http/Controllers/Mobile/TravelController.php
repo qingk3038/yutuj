@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Travel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 
 class TravelController extends Controller
 {
@@ -123,7 +124,7 @@ class TravelController extends Controller
         $thumb = $request->file('thumb')->store('images');
         $travel->thumb = $thumb;
         $travel->save();
-        return ['message' => '封面设置成功。', 'path' => imageCut(870, 290, $thumb)];
+        return ['message' => '封面设置成功。', 'path' => imageCut(414, 220, $thumb)];
     }
 
     /**

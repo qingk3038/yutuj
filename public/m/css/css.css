@@ -213,12 +213,12 @@ footer > .nav a {
 
 .left-border-orange {
     border-left: 3px solid #FF9900;
-    padding-left: 1rem;
+    padding-left: calc(1rem - 3px);
 }
 
 .xcap {
     border-left: 1px solid #FF9900;
-    padding-left: 1rem;
+    padding-left: calc(1rem - 1px);;
     position: relative;
     padding-bottom: 1.25rem;
 }
@@ -248,7 +248,7 @@ footer > .nav a {
 }
 
 .order-form > .num-info .num {
-    background: url(../m/img/bg_num_user.png) no-repeat;
+    background: url(../img/bg_num_user.png) no-repeat;
     width: 167px;
     height: 35px;
     padding-left: 25px;
@@ -378,4 +378,13 @@ i.unread {
     border-left: none;
     border-right: none;
     border-radius: unset;
+}
+
+.page-item .page-link {
+    color: #666666;
+}
+
+.page-item.active .page-link {
+    background-color: #FF9900;
+    border-color: #FF9900;
 }

@@ -49,7 +49,6 @@
 
 @section('footer', false)
 
-
 @push('script')
     <link rel="stylesheet" href="{{ asset('/vendor/wangEditor-3.0.14/release/wangEditor.min.css') }}">
     <script src="{{ asset('/vendor/wangEditor-3.0.14/release/wangEditor.min.js') }}"></script>

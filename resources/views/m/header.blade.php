@@ -1,8 +1,8 @@
 <header class="position-absolute bg-white container-fluid">
     <div class="text-warning row">
-        <span class="col" onclick="history.back();"><i class="fas fa-lg fa-angle-left"></i></span>
+        <span class="col-3" onclick="history.back();"><i class="fas fa-lg fa-angle-left"></i></span>
         <span class="col text-center">{{ $title }}</span>
-        <div class="col text-right">
+        <div class="col-3 text-right">
             @guest
                 <a href="{{ route('login') }}" class="text-warning">
                     <i class="fa fa-fw fa-user"></i>

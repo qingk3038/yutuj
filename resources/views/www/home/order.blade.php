@@ -34,11 +34,11 @@
                         <tr>
                             <td><img src="{{ imageCut(80, 50, $order->tuan->activity->thumb) }}" alt="{{ $order->tuan->activity->title }}" width="82" height="51"></td>
                             <td>
-                                <a href="{{ route('home.order.show', $order) }}" class="d-block">{{ str_limit($order->tuan->activity->title, 40) }}</a>
+                                <a href="{{ route('home.order.show', $order) }}" class="d-block">{{ str_limit($order->tuan->activity->title, 50) }}</a>
                                 {{ $order->tuan->start_time->toDateString() }}
                             </td>
                             <td>{{ $order->baomings_count }}</td>
-                            <td>￥{{ $order->tuan->price }}</td>
+                            <td>￥{{ $order->baomings_count * $order->tuan->price }}</td>
                             <td>
                                 {{ $order->statusText() }}
                                 @if($order->status === 'wait')<a href="{{ route('order.qrcode', $order) }}" target="_blank" class="text-warning d-block">去支付</a>@endif

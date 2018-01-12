@@ -22,7 +22,7 @@
                     <div class="card">
                         <div class="position-relative mx-3">
                             <a href="{{ route('home.travel.show', $release) }}">
-                                <img class="card-img-top rounded-0" src="{{ imageCut(382, 160, $release->thumb) }}" alt="{{ $release->title }}">
+                                <img class="card-img-top rounded-0" src="{{ imageCut(414, 220, $release->thumb) }}" alt="{{ $release->title }}" tid="{{ $release->id }}">
                             </a>
                             <div class="position-absolute up">
                                 <small class="text-white">{{ $release->likes_count }}</small>
@@ -41,15 +41,26 @@
                                     <span class="mr-3"><i class="fa fa-fw fa-map-marker-alt"></i> {{ $release->province }} {{ $release->city }}</span>
                                 @endisset
                                 <span class="mr-3"><i class="fa fa-fw fa-eye"></i> {{ $release->click }}</span>
-                                <span class="ml-auto"><i class="far fa-fw fa-clock"></i> {{ $release->updated_at->toDateString() }}</span>
+                                <span class="ml-auto"><i class="far fa-fw fa-clock"></i> {{ $release->updated_at->diffForHumans() }}</span>
                             </p>
                             <p class="card-text small d-flex justify-content-between">
                                 <a href="{{ route('home.travel.edit', $release) }}" class="text-secondary pr-2"><i class="fa fa-fw fa-edit text-info"></i>编辑</a>
-                                <a href="#" class="text-secondary pr-2"><i class="fa fa-fw fa-image text-info"></i>设置封面</a>
+                                <a href="javascript:void(0);" onclick="selectThumb({{ $release->id }})" class="text-secondary pr-2"><i class="fa fa-fw fa-image text-info"></i>设置封面</a>
+
+                                @if($release->status === 'audit')
+                                    <span class="text-info"><i class="fa fa-fw fa-lg fa-spinner fa-spin"></i>等待审核</span>
+                                @elseif($release->status==='adopt')
+                                    <span class="text-success"><i class="far fa-fw fa-smile"></i>审核通过</span>
+                                @elseif($release->status==='reject')
+                                    <span class="text-danger"><i class="fa fa-fw fa-exclamation-circle"></i>审核拒绝</span>
+                                @endif
+
                                 <a href="{{ route('home.travel.destroy', $release) }}" class="text-secondary ml-auto btn-del"><i class="fa fa-fw fa-trash-alt text-danger"></i> 删除</a>
                             </p>
                         </div>
-                        <hr>
+                        @if($loop->remaining)
+                            <hr>
+                        @endif
                     </div>
                 @empty
                     <div class="d-flex py-5 justify-content-center align-items-center">
@@ -59,9 +70,9 @@
                         </div>
                     </div>
                 @endforelse
-                <p class="text-center text-secondary small">
-                    <i class="fas fa-sync fa-spin"></i> 更多精彩加载中...
-                </p>
+                <nav class="d-flex justify-content-center">
+                    {{ $releases->links('vendor.pagination.m') }}
+                </nav>
             </div>
             <div class="tab-pane fade" id="draft">
                 @forelse($drafts as $draft)
@@ -88,6 +99,7 @@
             </div>
         </div>
     </div>
+    <input type="file" id="fileThumb" onchange="updateThumb(this)" hidden>
 @endsection
 
 @push('script')
@@ -121,5 +133,25 @@
                     })
                 })
         })
+
+        // 激活图片选择
+        function selectThumb(id) {
+            $('#fileThumb').data('tid', id).trigger('click')
+        }
+
+        // 设置封面
+        function updateThumb(e) {
+            let tid = $(e).data('tid')
+            let param = new FormData();
+            param.append('thumb', e.files[0])
+            axios.post(`{{ url('home/travel/thumb') }}/${tid}`, param, {
+                headers: {'Content-Type': 'multipart/form-data'}
+            }).then(res => {
+                $('img[tid="' + tid + '"]').prop('src', res.data.path)
+                swal('操作已成功！', res.data.message, 'success')
+            }).catch(err => {
+                swal('失败啦！', err.response.data.message, 'error')
+            })
+        }
     </script>
 @endpush

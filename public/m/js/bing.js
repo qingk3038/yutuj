@@ -41,3 +41,16 @@
     }
 
 })(jQuery)
+
+$(document).ready(function () {
+    // 个人主页 更新信息 完成
+    $('.do-complete').click(function () {
+        let param = $('#info').serialize();
+        axios.put($('#info').attr('action'), param).then(res => {
+            location.href = document.referrer
+        }).catch(err => {
+            let errors = err.response.data.errors;
+            swal('失败！', Object.values(errors).join("\r\n"), 'warning')
+        })
+    })
+})

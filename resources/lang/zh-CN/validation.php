@@ -2,6 +2,7 @@
 
 return [
     'attributes' => [
+        'birthday' => '出生',
         'province' => '省份',
         'thumb' => '缩略图',
         'body' => '正文',

@@ -48,3 +48,5 @@ Route::post('notice/alipay', 'PayController@alipayNotice');
 Route::get('notice/alipay/return', 'PayController@alipayReturn');
 // 支付宝官方网站支付
 Route::get('pay/alipay/{order}/web', 'PayController@alipayWeb')->name('pay.alipay.web');
+// 显示二维码的支付页面和支付结果
+Route::get('order/{order}/pay', 'PayController@showQrcode')->name('order.qrcode');

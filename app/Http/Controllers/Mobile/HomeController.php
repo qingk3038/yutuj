@@ -19,13 +19,16 @@ class HomeController extends Controller
     }
 
     /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
+     * 个人设置
+     * @param string $edit
+     * @return mixed
      */
-    public function index()
+    public function index($edit = null)
     {
-        return view('www.home.setting');
+        return view()->first([
+            "m.home.setting.{$edit}",
+            'm.home.setting.index',
+        ]);
     }
 
     // 订单列表
@@ -46,7 +49,6 @@ class HomeController extends Controller
         })->with(['tuan.activity' => function ($query) {
             $query->select('id', 'title', 'thumb');
         }])->withCount('baomings')->paginate();
-
 
         return view('m.home.order', compact('orders'));
     }
