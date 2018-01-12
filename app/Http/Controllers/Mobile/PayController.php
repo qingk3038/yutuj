@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Mobile;
 
-use App\Events\OrderPay;
 use App\Http\Controllers\Controller;
 use App\Models\Activity;
 use App\Models\Order;
@@ -69,5 +68,6 @@ class PayController extends Controller
                 return redirect()->to($result['mweb_url']);
             }
         }
+
     }
 }

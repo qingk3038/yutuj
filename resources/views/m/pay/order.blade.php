@@ -48,7 +48,7 @@
                             <el-input v-model="user.name" placeholder="请输入真实姓名"></el-input>
                         </el-form-item>
                         <el-form-item label-width="100px" label="手机号码" :prop="'users.' + index + '.mobile'" :rules="[{ required: true, message: '请输入11位手机号码'},{ min: 11, max: 11, message: '手机号应该11位' }]">
-                            <el-input v-model="user.mobile" placeholder="请输入手机号码"></el-input>
+                            <el-input type="tel" v-model="user.mobile" placeholder="请输入手机号码"></el-input>
                         </el-form-item>
 
                         <el-form-item label-width="100px" label="证件信息" :prop="'users.' + index + '.cardID'" :rules="[{ required: true, message: '请输入证件号码'}]">
@@ -63,7 +63,7 @@
                             <el-input v-model="user.nameJ" placeholder="请输入联系人姓名"></el-input>
                         </el-form-item>
                         <el-form-item label-width="100px" label="联系人电话" :prop="'users.' + index + '.mobileJ'" :rules="[{ required: true, message: '请输入11位手机号码'},{ min: 11, max: 11, message: '手机号应该11位' }]">
-                            <el-input v-model="user.mobileJ" placeholder="请输入紧急联系人电话"></el-input>
+                            <el-input type="tel" v-model="user.mobileJ" placeholder="请输入紧急联系人电话"></el-input>
                         </el-form-item>
                     </div>
                 </div>

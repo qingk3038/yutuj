@@ -52,7 +52,7 @@
             <div class="row px-2">
                 @foreach($activities as $activity)
                     <a href="{{ route('m.activity.show', $activity) }}" class="col-6 px-2 text-dark">
-                        <img class="d-block mb-1" src="{{ imageCut(182, 90, $activity->thumb) }}" alt="{{ $activity->title }}">
+                        <img class="d-block mb-1 w-100" src="{{ imageCut(182, 90, $activity->thumb) }}" alt="{{ $activity->title }}">
                         <p class="small">{{ str_limit($activity->title, 50) }}</p>
                     </a>
                 @endforeach

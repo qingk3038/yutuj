@@ -32,3 +32,54 @@
 @endsection
 
 @section('footer', false)
+
+@push('script')
+    <script>
+        window.setTimeout(checkStatus, 3000)
+
+        function checkStatus() {
+            axios.get("{{ route('pay.status', $order) }}").then(res => {
+                switch (res.data.status) {
+                    case 'wait' :
+                        window.setTimeout(checkStatus, 3000);
+                        break;
+
+                    case 'success' :
+                        swal({
+                            title: '干得漂亮，支付成功！',
+                            text: '我们已经收到了你的支付款，请等待旅行顾问与您联系。',
+                            type: 'success'
+                        }, () => {
+                            location.reload()
+                        })
+                        break;
+
+                    case 'fail' :
+                        swal({
+                            title: '对不起，支付失败！',
+                            text: '本次支付失败，请你重新下单。',
+                            type: 'error'
+                        }, () => {
+                            location.reload()
+                        })
+                        break;
+
+                    case 'close' :
+                        swal({
+                            title: '订单已经关闭！',
+                            text: '请你重新下单。',
+                            type: 'warning'
+                        }, () => {
+                            location.reload()
+                        })
+                        break;
+
+                    default :
+
+                }
+            }).catch(err => {
+                console.log(err)
+            })
+        }
+    </script>
+@endpush
