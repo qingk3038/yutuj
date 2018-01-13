@@ -59,14 +59,14 @@ class ShowController extends Controller
     // 显示视频
     public function video(Video $video)
     {
+        abort_if($video->closed, 404);
+
         $video->increment('click');
         if ($video->type === 'live') {
             return redirect($video->url);
         }
 
         $data = Cache::remember(request()->fullUrl(), 5, function () use ($video) {
-            $arr['video'] = $video;
-
             $arr['videos_count'] = $video->province->provinceVideos()->active()->type($video->type)->count();
             $arr['videos'] = $video->province->provinceVideos()->active()->type($video->type)->latest()->limit(3)->get(['id', 'thumb', 'title', 'description', 'type', 'province_id']);
 
@@ -75,7 +75,7 @@ class ShowController extends Controller
 
             return $arr;
         });
-        return view('www.video', $data);
+        return view('www.video', $data)->with('video', $video);
     }
 
     // 显示文章

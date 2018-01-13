@@ -26,7 +26,7 @@ class ListController extends Controller
     {
         $travels = $user->travels()->withCount('likes')->latest('updated_at')->paginate();
 
-        return view('www.user_travels', compact('user', 'travels'));
+        return view('m.user_travels', compact('user', 'travels'));
     }
 
     /**
@@ -36,18 +36,16 @@ class ListController extends Controller
      */
     public function leaders(LocList $province = null)
     {
-        $data = Cache::remember('m' . request()->fullUrl(), 5, function () use ($province) {
-            $arr['leaders'] = $province ?
-                $province->provinceLeaders()->select('id', 'name', 'avatar', 'brief', 'country_id', 'province_id', 'city_id')->latest('updated_at')->get()
-                : Leader::with('country', 'province', 'city')->latest('updated_at')->get(['id', 'name', 'avatar', 'brief', 'country_id', 'province_id', 'city_id']);
+//        $data = Cache::remember('m' . request()->fullUrl(), 5, function () use ($province) {
+        $arr['leaders'] = $province ?
+            $province->provinceLeaders()->select('id', 'name', 'avatar', 'brief', 'country_id', 'province_id', 'city_id')->latest('updated_at')->get()
+            : Leader::with('country', 'province', 'city')->latest('updated_at')->get(['id', 'name', 'avatar', 'brief', 'country_id', 'province_id', 'city_id']);
 
-            $arr['provinces'] = LocList::has('provinceLeaders')->get(['id', 'name']);
+        $arr['provinces'] = LocList::has('provinceLeaders')->get(['id', 'name']);
+//            return $arr;
+//        });
 
-            $arr['activities'] = Activity::active()->limit(4)->latest()->get(['id', 'title', 'short', 'thumb', 'price']);
-            return $arr;
-        });
-
-        return view('www.list_leader', $data)->with('province', $province);
+        return view('m.list_leader', $arr)->with('province', $province);
     }
 
     /**
@@ -57,7 +55,7 @@ class ListController extends Controller
      */
     public function raiders(Request $request)
     {
-//        $data = Cache::remember('m' . request()->fullUrl(), 5, function () use ($request) {
+        $data = Cache::remember('m' . $request->fullUrl(), 5, function () use ($request) {
             $this->validate($request, [
                 'field' => 'nullable|in:id,click,created_at',
                 'order' => 'nullable|in:asc,desc',
@@ -66,8 +64,8 @@ class ListController extends Controller
                 'type' => 'nullable|string|in:default,line,food,hospital,scenic',
             ]);
 
-            $field = $request->get('field', 'id');
-            $order = $request->get('order', 'desc');
+            $field = $request->field ?: 'id';
+            $order = $request->order ?: 'desc';
 
             $arr['raiders'] = Raider::with('province', 'city', 'admin')
                 ->withCount('likes')
@@ -93,9 +91,9 @@ class ListController extends Controller
             })->whereHas('cityRaiders', function ($query) use ($request) {
                 $query->type($request->type);
             })->get(['id', 'name']);
-//            return $arr;
-//        });
-        return view('m.list_raider', $arr);
+            return $arr;
+        });
+        return view('m.list_raider', $data);
     }
 
     /**
@@ -105,7 +103,7 @@ class ListController extends Controller
      */
     public function activity(Request $request)
     {
-        $data = Cache::remember('m' . request()->fullUrl(), 5, function () use ($request) {
+        $data = Cache::remember('m' . $request->fullUrl(), 5, function () use ($request) {
             $this->validate($request, [
                 'field' => 'nullable|in:id,price,created_at',
                 'order' => 'nullable|in:asc,desc',
@@ -115,8 +113,8 @@ class ListController extends Controller
                 'day' => 'nullable|integer',
             ]);
 
-            $field = $request->get('field', 'id');
-            $order = $request->get('order', 'desc');
+            $field = $request->field ?: 'id';
+            $order = $request->order ?: 'desc';
 
             $arr['activities'] = Activity::where(function ($query) use ($request) {
                 if ($pid = $request->pid) {
@@ -174,7 +172,7 @@ class ListController extends Controller
      */
     public function travel(Request $request)
     {
-        $data = Cache::remember('m' . request()->fullUrl(), 5, function () use ($request) {
+        $data = Cache::remember('m' . $request->fullUrl(), 5, function () use ($request) {
             $this->validate($request, [
                 'field' => 'nullable|in:id,click,created_at',
                 'order' => 'nullable|in:asc,desc',
@@ -182,8 +180,8 @@ class ListController extends Controller
                 'city' => 'nullable|string|exists:travels',
             ]);
 
-            $field = $request->get('field', 'id');
-            $order = $request->get('order', 'desc');
+            $field = $request->field ?: 'id';
+            $order = $request->order ?: 'desc';
 
             $arr['travels'] = Travel::status('adopt')
                 ->with('user')
@@ -198,8 +196,8 @@ class ListController extends Controller
                     }
                 })->paginate();
 
-            $arr['provinces'] = Travel::status('adopt')->distinct()->get(['province as title']);
-            $arr['cities'] = Travel::status('adopt')->where(function ($query) use ($request) {
+            $arr['provinces'] = Travel::status('adopt')->whereNotNull('province')->distinct()->get(['province as title']);
+            $arr['cities'] = Travel::status('adopt')->whereNotNull('city')->where(function ($query) use ($request) {
                 if ($province = $request->province) {
                     $names = LocList::province()->where('name', $province)->first()->children->pluck('name');
                     $query->whereIn('city', $names);
@@ -207,7 +205,7 @@ class ListController extends Controller
             })->distinct()->get(['city as title']);
             return $arr;
         });
-        return view('www.list_travels', $data);
+        return view('m.list_travels', $data);
     }
 
     /**
@@ -217,36 +215,28 @@ class ListController extends Controller
      */
     public function video(Request $request)
     {
-        $data = Cache::remember('m' . request()->fullUrl(), 5, function () use ($request) {
+        $data = Cache::remember('m' . $request->fullUrl(), 5, function () use ($request) {
             $this->validate($request, [
-                '*.field' => 'nullable|in:click,updated_at,created_at',
-                '*.pid' => 'nullable|integer|exists:videos,province_id',
+                'type' => 'nullable|in:film,live',
+                'order' => 'nullable|string|in:click,created_at,updated_at',
             ]);
 
-            $film_field = $request->input('film.field', 'click');
-            $arr['films'] = Video::active()->type('film')->where(function ($query) use ($request) {
-                if ($pid = $request->input('film.pid')) {
+            $type = $request->type ?: 'film';
+            $order = $request->order ?: 'id';
+
+            $arr['videos'] = Video::with('province')->active()->type($type)->where(function ($query) use ($request) {
+                if ($pid = $request->pid) {
                     $query->where('province_id', $pid);
                 }
-            })->latest($film_field)->paginate(6);
+            })->latest($order)->paginate();
 
-            $live_field = $request->input('live.field', 'click');
-            $arr['lives'] = Video::active()->type('live')->where(function ($query) use ($request) {
-                if ($pid = $request->input('live.pid')) {
-                    $query->where('province_id', $pid);
-                }
-            })->latest($live_field)->paginate(6);
-
-            $arr['provinces_films'] = LocList::whereHas('provinceVideos', function ($query) {
-                $query->active()->type('film');
+            $arr['provinces'] = LocList::whereHas('provinceVideos', function ($query) use ($type) {
+                $query->active()->type($type);
             })->get(['id', 'name']);
 
-            $arr['provinces_lives'] = LocList::whereHas('provinceVideos', function ($query) {
-                $query->active()->type('live');
-            })->get(['id', 'name']);
             return $arr;
         });
-        return view('www.list_video', $data);
+        return view('m.list_video', $data);
     }
 
     // 搜索页面
@@ -256,7 +246,7 @@ class ListController extends Controller
         if (!$keyword) {
             return redirect('/');
         }
-        $data = Cache::remember('m' . request()->fullUrl(), 5, function () use ($keyword) {
+        $data = Cache::remember('m' . $request->fullUrl(), 5, function () use ($keyword) {
 
             $arr['navs'] = Nav::get(['id', 'text']);
             foreach ($arr['navs'] as $nav) {
@@ -327,7 +317,7 @@ class ListController extends Controller
             return $arr;
         });
 
-        return view('www.search', $data);
+        return view('m.search', $data);
     }
 
 }

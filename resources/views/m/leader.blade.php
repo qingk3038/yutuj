@@ -3,19 +3,7 @@
 @section('title', '领队' . $leader->name . '的主页')
 
 @section('header')
-    <header class="position-absolute text-white container-fluid">
-        <div class="row">
-            <span class="col-3" onclick="history.back();"><i class="fas fa-lg fa-angle-left"></i></span>
-            <span class="col text-center">领队详情</span>
-            <span class="col-3 text-right">
-                @auth
-                    <a href="{{ route('home') }}"><img class="rounded-circle" src="{{ auth()->user()->avatar }}" alt="avatar" width="22" height="22"></a>
-                @else
-                    <a href="{{ route('login') }}"> <i class="fa fa-fw fa-user"></i></a>
-                @endauth
-            </span>
-        </div>
-    </header>
+    @include('m.header', ['title' => '领队详情'])
 @endsection
 
 @section('content')
@@ -49,7 +37,7 @@
                     <span class="mr-1">{{ $leader->city->name ?? ''}}</span>
                     <span class="mr-1">{{ $leader->district->name ?? '' }}</span>
                 </p>
-                <div class="small font-weight-light">{!! nl2br($leader->description) !!}</div>
+                <div class="small font-weight-light">{{ str_limit($leader->description, 150) }}</div>
             </div>
         </div>
     </div>

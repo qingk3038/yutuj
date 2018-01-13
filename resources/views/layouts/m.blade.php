@@ -68,7 +68,7 @@
             </li>
         </ul>
         <div class="small">
-            <p><a href="#">关于我们</a> | <a href="#">联系我们</a></p>
+            <p><a href="{{ route('m.article.show', 1) }}">关于我们</a> | <a href="{{ route('m.article.show', 3) }}">帮助中心</a></p>
             <p class="text-secondary">
                 {!! nl2br(config('web_footer')) !!}
             </p>

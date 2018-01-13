@@ -19,6 +19,7 @@ Route::get('raider/show/{raider}', 'Mobile\ShowController@raider')->name('m.raid
 Route::get('raider/list', 'Mobile\ListController@raiders')->name('m.raider.list');
 // 领队
 Route::get('leader/show/{leader}', 'Mobile\ShowController@leader')->name('m.leader.show');
+Route::get('leader/list/{province?}', 'Mobile\ListController@leaders')->name('m.leader.list');
 // 主页
 Route::view('home', 'm.home.index')->name('home');
 Route::get('home/order', 'Mobile\HomeController@order')->name('home.order');
@@ -32,6 +33,19 @@ Route::get('tuan/{tuan}', 'Mobile\PayController@create')->name('pay.order.create
 Route::get('order/{order}/wap', 'Mobile\PayController@pay')->name('order.pay');
 // 显示支付结果
 Route::get('order/{order}/pay', 'Mobile\PayController@showQrcode')->name('order.qrcode');
-
 // 定制游
 Route::view('customized', 'm.customized');
+// 视频
+Route::get('video/show/{video}', 'Mobile\ShowController@video')->name('m.video.show');
+Route::get('video/list', 'Mobile\ListController@video')->name('m.video.list');
+// 文章
+Route::get('article/show/{article}', 'Mobile\ShowController@article')->name('m.article.show');
+// 搜索
+Route::get('search', 'Mobile\ListController@search')->name('search');
+// 游记
+Route::get('travel/show/{travel}', 'Mobile\ShowController@travel')->name('m.travel.show');
+Route::get('travel/list', 'Mobile\ListController@travel')->name('m.travel.list');
+// 用户的游记列表
+Route::get('travel/list/{user}', 'Mobile\ListController@userTravel')->name('m.user.travel');
+
+

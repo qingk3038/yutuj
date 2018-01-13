@@ -1,53 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>搜索</title>
-    <link rel="stylesheet" href="fontawesome/css/fontawesome-all.css">
-    <script src="../../../public/m/js/jquery.min.js"></script>
+@extends('layouts.m')
 
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <script src="../../../public/m/js/bootstrap.bundle.js"></script>
-    <script src="../../../public/m/js/holder.min.js"></script>
+@section('title', '搜索')
 
-    <link rel="stylesheet" href="css/sweetalert.css">
-    <script src="../../../public/m/js/sweetalert.min.js"></script>
+@section('header')
+    @include('m.header', ['title' => '搜索', 'theme' => 'white'])
+@endsection
 
-    <link rel="stylesheet" href="css/m.css">
-    <script src="../../../public/m/js/bing.js"></script>
-</head>
-<body>
-<header class="position-absolute bg-white">
-    <div class="text-warning d-flex justify-content-between">
-        <span onclick="history.back();"><i class="fas fa-lg fa-angle-left"></i></span>
-        <span>搜索</span>
-        <div>
-            <a href="auth/login.blade.php" class="text-warning">
-                <i class="fa fa-fw fa-user"></i>
-                <!--<img class="rounded-circle" src="img/avatar.png" alt="avatar" width="22" height="22">-->
-            </a>
-            <a href="#menu" class="text-warning" data-toggle="collapse">
-                <i class="fa fa-fw fa-align-justify"></i>
-            </a>
-        </div>
-    </div>
-</header>
-
-<nav class="collapse font-weight-light position-absolute" id="menu">
-    <a href="#">纵横西部</a>
-    <a href="#">微上西部</a>
-    <a href="#">超级周末</a>
-    <a href="#">最6旅行</a>
-    <a href="#">定制游</a>
-    <a href="#">活动</a>
-    <a href="#">攻略</a>
-    <a href="#">游记</a>
-    <a href="#">大咖领路</a>
-    <a href="#">旅拍直播</a>
-    <a href="#">关于我们</a>
-</nav>
-
+@section('content')
 <form autocomplete="off" id="index-search" class="mt-5">
     <div class="input-group">
         <div class="input-group-btn">
@@ -304,44 +263,4 @@
 <p class="text-center text-secondary small">
     <i class="fas fa-sync fa-spin"></i> 更多精彩加载中...
 </p>
-
-<footer class="top-border text-center py-2 font-weight-light">
-    <ul class="nav nav-justified text-nowrap mb-2">
-        <li class="nav-item">
-            <a class="nav-link active" href="index.blade.php">
-                <i class="fa fa-home"></i>
-                <br>返回首页
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">
-                <i class="fa fa-user"></i>
-                <br>我的遇途记
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">
-                <i class="fa fa-list-alt"></i>
-                <br>我的订单
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">
-                <i class="fa fa-desktop"></i>
-                <br>电脑版
-            </a>
-        </li>
-    </ul>
-    <div class="small">
-        <p><a href="#">关于我们</a> | <a href="#">联系我们</a></p>
-        <p class="text-secondary">
-            Copyright © 2004 - 2018 遇途记 <br>
-            版权所有 蜀ICP备12001888号-8
-        </p>
-    </div>
-    <span class="return-top">
-        <i class="fa fa-2x fa-arrow-alt-circle-up"></i>
-    </span>
-</footer>
-</body>
-</html>
+@endsection

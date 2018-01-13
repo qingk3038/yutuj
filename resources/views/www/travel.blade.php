@@ -9,8 +9,13 @@
             <a href="{{ route('www.user.travel', $travel->user) }}">
                 <img class="rounded-circle align-bottom" src="{{ imageCut(120, 120, $travel->user->avatar) }}" alt="头像" width="120" height="120" style="margin-top: -80px;">
             </a>
-            <a href="{{ route('www.user.travel', $travel->user) }}" class="pr-2 text-warning"><i class="fa fa-fw fa-lg {{ $travel->user->sex === 'F' ? 'text-primary fa-mercury' : 'text-danger fa-venus' }}"></i>{{ $travel->user->name ?? $travel->user->mobile }}</a>
-            @if($travel->province)<span class="pr-2"><i class="fa fa-fw fa-map-marker"></i>{{ $travel->province }} {{ $travel->city }}</span>@endif
+            <a href="{{ route('www.user.travel', $travel->user) }}" class="pr-2 text-warning">
+                <i class="fa fa-fw fa-lg text-warning {{ $travel->user->sex === 'F' ? ' fa-mercury' : 'fa-venus' }}"></i>
+                {{ $travel->user->name ?? $travel->user->getHideMobile() }}
+            </a>
+            @if($travel->province)
+                <span class="pr-2"><i class="fa fa-fw fa-map-marker"></i>{{ $travel->province }} {{ $travel->city }}</span>
+            @endif
             <span class="pr-2"><i class="fa fa-fw fa-eye"></i>{{ $travel->click }}</span>
             <span class="pr-2"><i class="fa fa-fw fa-clock-o"></i>{{ $travel->created_at->toDateString() }}</span>
         </div>
@@ -35,5 +40,4 @@
             </div>
         </div>
     </div>
-
 @endsection

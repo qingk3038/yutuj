@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', ($user->name ?? $user->mobile) . '的游记')
+@section('title', ($user->name ?? $user->getHideMobile()) . '的游记列表')
 
 @section('content')
     <div class="bg-home text-hide" style="background-image: url({{ imageCut(1920, 500, $user->bg_home) }});">封面</div>
@@ -17,7 +17,7 @@
                 <span class="d-block mb-2">
                     <img class="rounded-circle" src="{{ imageCut(120, 120, $user->avatar) }}" alt="头像" width="120" height="120">
                 </span>
-                <i class="fa fa-fw fa-lg {{ $user->sex === 'F' ? 'text-primary fa-mercury' : 'text-danger fa-venus' }}"></i>{{ $user->name ?? $user->mobile}}
+                <i class="fa fa-fw fa-lg {{ $user->sex === 'F' ? 'text-primary fa-mercury' : 'text-danger fa-venus' }}"></i>{{ $user->name ?? $user->getHideMobile() }}
             </p>
             <p class="bg-light p-3 text-muted">
                 <span class="d-block mb-2">现居：{{ $user->province ?? '未知' }} / {{ $user->city ?? '未知' }}</span>
@@ -41,7 +41,7 @@
         </div>
         <div class="bg-white home-travels float-right mt-4">
             <div class="d-flex justify-content-between p-3">
-                <h5><span class="text-warning">{{ $user->name ?? $user->mobile}}</span> 的游记</h5>
+                <h5><span class="text-warning">{{ $user->name ?? $user->getHideMobile() }}</span> 的游记</h5>
             </div>
             @foreach($travels as $travel)
                 <div class="card">
@@ -60,7 +60,9 @@
                             <a href="{{ route('www.travel.show', $travel) }}" target="_blank">{{ $travel->title }}</a>
                         </h5>
                         <p class="text-muted">
-                            @if($travel->province)<i class="fa fa-fw fa-map-marker"></i>{{ $travel->province }} {{ $travel->city }}@endif
+                            @if($travel->province)
+                                <i class="fa fa-fw fa-map-marker"></i>{{ $travel->province }} {{ $travel->city }}
+                            @endif
                             <i class="fa fa-fw fa-eye"></i> {{ $travel->click }}
                             <i class="fa fa-fw fa-clock-o"></i>{{ $travel->created_at->toDateString() }}
                         </p>

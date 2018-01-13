@@ -1,9 +1,9 @@
 @extends('layouts.m')
 
-@section('title', '攻略列表')
+@section('title', '游记列表')
 
 @section('header')
-    @include('m.header', ['title' => '攻略'])
+    @include('m.header', ['title' => '游记'])
     @include('m.provinces')
 @endsection
 
@@ -16,45 +16,21 @@
         </ol>
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img class="d-block w-100" src="{{ asset('m/img/banner_list_1.jpg') }}" alt="First slide">
+                <img class="d-block w-100" src="holder.js/100px310?random=yes" alt="First slide">
             </div>
             <div class="carousel-item">
-                <img class="d-block w-100" src="{{ asset('m/img/banner_list_1.jpg') }}" alt="Second slide">
+                <img class="d-block w-100" src="holder.js/100px310?random=yes" alt="Second slide">
             </div>
             <div class="carousel-item">
-                <img class="d-block w-100" src="{{ asset('m/img/banner_list_1.jpg') }}" alt="Third slide">
+                <img class="d-block w-100" src="holder.js/100px310?random=yes" alt="Third slide">
             </div>
-        </div>
-    </div>
-    <div class="py-3 top-border">
-        <div class="roll-x nav-raider px-3">
-            <ul class="nav justify-content-center flex-nowrap text-nowrap">
-                <li class="nav-item">
-                    <a class="nav-link @unless(request('type')) active @endunless" href="{{ route('m.raider.list') }}">全部攻略</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link @if(request('type') === 'default') active @endif" href="{{ route('m.raider.list', ['type' => 'default']) }}">玩法攻略</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link @if(request('type') === 'line') active @endif" href="{{ route('m.raider.list', ['type' => 'line']) }}">线路攻略</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link @if(request('type') === 'food') active @endif" href="{{ route('m.raider.list', ['type' => 'food']) }}">美食攻略</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link @if(request('type') === 'hospital') active @endif" href="{{ route('m.raider.list', ['type' => 'hospital']) }}">住宿攻略</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link @if(request('type') === 'scenic') active @endif" href="{{ route('m.raider.list', ['type' => 'scenic']) }}">景点攻略</a>
-                </li>
-            </ul>
         </div>
     </div>
 
-    <div class="container-fluid">
+    <div class="container-fluid top-border">
         <div class="py-3 d-flex">
             <a class="text-dark pr-4" data-toggle="collapse" href="#dq">
-                区域/目的地<i class="fa fa-fw fa-caret-down"></i>
+                地区/目的地<i class="fa fa-fw fa-caret-down"></i>
             </a>
             <a class="text-dark pr-4" data-toggle="collapse" href="#sort">
                 综合排序<i class="fa fa-fw fa-caret-down"></i>
@@ -75,7 +51,7 @@
                     </label>
                     @foreach($provinces as $province)
                         <label class="btn btn-light">
-                            <input type="radio" name="pid" value="{{ $province->id }}"> {{ $province->name }}
+                            <input type="radio" name="province" value="{{ $province->title }}"> {{ $province->title }}
                         </label>
                     @endforeach
                 </div>
@@ -89,7 +65,7 @@
                     </label>
                     @foreach($cities as $city)
                         <label class="btn btn-light">
-                            <input type="radio" name="cid" value="{{ $city->id }}"> {{ $city->name }}
+                            <input type="radio" name="city" value="{{ $city->title }}"> {{ $city->title }}
                         </label>
                     @endforeach
                 </div>
@@ -116,7 +92,7 @@
                         <input type="radio" name="field" value=""> 不限
                     </label>
                     <label class="btn btn-light">
-                        <input type="radio" name="field" value="price"> 热门度
+                        <input type="radio" name="field" value="click"> 热门度
                     </label>
                     <label class="btn btn-light">
                         <input type="radio" name="field" value="created_at"> 发布时间
@@ -152,31 +128,31 @@
     </form>
 
     <div class="a-list">
-        @foreach($raiders as $raider)
-            <a href="{{ route('m.raider.show', $raider) }}" class="card rounded-0 border-0">
-                <img class="card-img-top" src="{{ imageCut(414, 150, $raider->thumb) }}" alt="{{ $raider->title }}" width="414" height="150">
+        @foreach($travels as $travel)
+            <a href="{{ route('m.travel.show', $travel) }}" class="card rounded-0 border-0">
+                <img class="card-img-top" src="{{ imageCut(414, 150, $travel->thumb)  }}" alt="{{ $travel->title }}" width="414" height="150">
                 <div class="card-body">
-                    <h6 class="text-truncate w-100">{{ $raider->typeText() }} · {{ $raider->title }}</h6>
-                    <p class="mb-1 text-truncate small">{{ $raider->description }}</p>
+                    <h6 class="text-truncate">{{ $travel->title }}</h6>
+                    <p class="mb-2 text-truncate small">{{ $travel->description }}</p>
                     <p class="mb-0 d-flex small text-secondary text-truncate">
-                        <span class="mr-3"><i class="fa fa-map-marker-alt"></i> {{ $raider->province->name }} {{ $raider->city->name ?? '' }}</span>
-                        <span class="mr-3"><i class="fa fa-eye"></i> {{ $raider->click }}</span>
-                        <span class="mr-3"><i class="fa fa-thumbs-up"></i> {{ $raider->likes_count }}</span>
-                        <span class="mr-3"><i class="fa fa-user"></i> {{ $raider->admin->name }}</span>
-                        <span class="ml-auto"><i class="far fa-clock"></i> {{ $raider->created_at->toDateString() }}</span>
+                        @if($travel->province)
+                            <span class="mr-2"><i class="fa fa-map-marker-alt"></i> {{ $travel->province }} {{ $travel->city }}</span>
+                        @endif
+                        <span class="mr-2"><i class="fa fa-eye"></i> {{ $travel->click }}</span>
+                        <span class="mr-2"><i class="fa fa-thumbs-up"></i> {{ $travel->likes_count }}</span>
+                        <span class="mr-2"><i class="fa fa-user"></i> {{ $travel->user->name ?? $travel->user->getHideMobile() }}</span>
+                        <span class="ml-auto"><i class="far fa-clock"></i> {{ $travel->created_at->toDateString() }}</span>
                     </p>
                 </div>
             </a>
         @endforeach
         <nav class="d-flex justify-content-center">
-            {{ $raiders->links('vendor.pagination.m') }}
+            {{ $travels->links('vendor.pagination.m') }}
         </nav>
     </div>
 @endsection
 
 @push('script')
-    <link href="{{ asset('css/jquery.mCustomScrollbar.min.css') }}" rel="stylesheet">
-    <script src="{{ asset('js/jquery.mCustomScrollbar.min.js') }}"></script>
     <script>
         (function ($) {
             let params = @json(Request::all())
@@ -203,12 +179,6 @@
                     input.parent().addClass('active').siblings().removeClass('active')
                 })
             }
-
-            $('.roll-x').mCustomScrollbar({
-                axis: 'x',
-                theme: 'rounded-dark',
-                scrollbarPosition: 'outside'
-            })
         })(jQuery);
     </script>
 @endpush

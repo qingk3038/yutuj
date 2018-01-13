@@ -23,6 +23,15 @@ class User extends Authenticatable
     ];
 
     /**
+     * 获取隐藏电话
+     * @return null|string|string[]
+     */
+    public function getHideMobile()
+    {
+        return preg_replace('/(\d{3})\d\d(\d{2})/', '$1****$3', $this->mobile);
+    }
+
+    /**
      * 获取背景图片
      * @param $bg_home
      * @return string

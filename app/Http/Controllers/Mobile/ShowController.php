@@ -64,31 +64,29 @@ class ShowController extends Controller
     public function travel(Travel $travel)
     {
         $travel->increment('click');
-        $activities = Activity::active()->latest()->limit(3)->get(['id', 'title', 'thumb', 'description', 'price']);
-
-        return view('m.travel', compact('travel', 'activities'));
+        return view('m.travel', compact('travel'));
     }
 
     // 显示视频
     public function video(Video $video)
     {
+        abort_if($video->closed, 404);
+
         $video->increment('click');
         if ($video->type === 'live') {
             return redirect($video->url);
         }
 
-        $data = Cache::remember("m-video-{$video->id}", 5, function () use ($video) {
-            $arr['video'] = $video;
-
-            $arr['videos_count'] = $video->province->provinceVideos()->active()->type($video->type)->count();
-            $arr['videos'] = $video->province->provinceVideos()->active()->type($video->type)->latest()->limit(3)->get(['id', 'thumb', 'title', 'description', 'type', 'province_id']);
-
-            $arr['activities_count'] = $video->province->provinceActivities()->active()->count();
-            $arr['activities'] = $video->province->provinceActivities()->active()->limit(3)->get(['id', 'title', 'thumb', 'price', 'description']);
-
-            return $arr;
+        $videos = Cache::remember("m-video-{$video->id}", 5, function () use ($video) {
+            return Video::with('province')
+                ->where('id', '!=', $video->id)
+                ->type($video->type)
+                ->active()
+                ->latest()
+                ->limit(6)
+                ->get(['id', 'thumb', 'title', 'description', 'type', 'province_id']);
         });
-        return view('m.video', $data);
+        return view('m.video', compact('videos', 'video'));
     }
 
     // 显示文章

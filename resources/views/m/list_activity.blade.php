@@ -1,23 +1,13 @@
 @extends('layouts.m')
 
-@section('title', '活动')
+@section('title', '活动列表')
 
 @section('header')
-    <header class="position-absolute">
-        <div class="text-white d-flex justify-content-between">
-            <span onclick="history.back();"><i class="fas fa-lg fa-angle-left"></i></span>
-            <div>
-                @auth
-                    <a href="{{ route('home') }}"><img class="rounded-circle" src="{{ auth()->user()->avatar }}" alt="avatar" width="22" height="22"></a>
-                @else
-                    <a href="{{ route('login') }}"> <i class="fa fa-fw fa-user"></i></a>
-                @endauth
-            </div>
-        </div>
-    </header>
-
+    @include('m.header', ['title' => '活动'])
     @include('m.provinces')
+@endsection
 
+@section('content')
     <div id="banner" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
             <li data-target="#banner" data-slide-to="0" class="active"></li>
@@ -36,9 +26,6 @@
             </div>
         </div>
     </div>
-@endsection
-
-@section('content')
     <div class="container-fluid top-border">
         <div class="py-3 d-flex justify-content-between">
             <a class="text-dark" data-toggle="collapse" href="#dq">
@@ -179,7 +166,7 @@
         @endphp
         @foreach($activities as $activity)
             <a href="{{ route('m.activity.show', $activity) }}" class="card rounded-0 border-0">
-                <img class="card-img-top" src="{{ imageCut(414, 150, $activity->thumb) }}" alt="{{ $activity->title }}">
+                <img class="card-img-top" src="{{ imageCut(414, 150, $activity->thumb) }}" alt="{{ $activity->title }}" width="414" height="150">
                 <div class="card-body">
                     <h6 class="text-truncate">{{ $activity->province->name }} · {{ $activity->title }}</h6>
                     <p class="card-text text-truncate small">{{ $activity->description }}</p>

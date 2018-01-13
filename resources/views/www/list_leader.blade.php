@@ -33,7 +33,9 @@
                                 <p class="text-warning text-justify">
                                     <i class="fa fa-fw fa-map-marker"></i>{{ $leader->country->name }}
                                     <span class="ml-2">{{ $leader->province->name }}</span>
-                                    @if($leader->city)<span class="ml-2">{{ $leader->city->name }}</span>@endif
+                                    @if($leader->city)
+                                        <span class="ml-2">{{ $leader->city->name }}</span>
+                                    @endif
                                 </p>
                                 <div class="small text-muted">{{ $leader->brief }}</div>
                             </div>

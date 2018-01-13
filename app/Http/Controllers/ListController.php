@@ -56,7 +56,7 @@ class ListController extends Controller
      */
     public function raiders(Request $request)
     {
-        $data = Cache::remember(request()->fullUrl(), 5, function () use ($request) {
+        $data = Cache::remember($request->fullUrl(), 5, function () use ($request) {
             $this->validate($request, [
                 'field' => 'nullable|in:id,click,created_at',
                 'order' => 'nullable|in:asc,desc',
@@ -65,8 +65,8 @@ class ListController extends Controller
                 'type' => 'nullable|string|in:default,line,food,hospital,scenic',
             ]);
 
-            $field = $request->get('field', 'id');
-            $order = $request->get('order', 'desc');
+            $field = $request->field ?: 'id';
+            $order = $request->order ?: 'desc';
 
             $arr['raiders'] = Raider::with('country', 'province', 'city')
                 ->withCount('likes')
@@ -104,7 +104,7 @@ class ListController extends Controller
      */
     public function activity(Request $request)
     {
-        $data = Cache::remember(request()->fullUrl(), 5, function () use ($request) {
+        $data = Cache::remember($request->fullUrl(), 5, function () use ($request) {
             $this->validate($request, [
                 'field' => 'nullable|in:id,price,created_at',
                 'order' => 'nullable|in:asc,desc',
@@ -114,8 +114,9 @@ class ListController extends Controller
                 'price.min' => 'nullable|integer|min:0',
                 'price.max' => 'nullable|integer|min:0',
             ]);
-            $field = $request->get('field', 'id');
-            $order = $request->get('order', 'desc');
+
+            $field = $request->field ?: 'id';
+            $order = $request->order ?: 'desc';
 
             $arr['activities'] = Activity::active()->with('tuans')->withCount('trips')
                 ->where(function ($query) use ($request) {
@@ -175,7 +176,7 @@ class ListController extends Controller
      */
     public function travel(Request $request)
     {
-        $data = Cache::remember(request()->fullUrl(), 5, function () use ($request) {
+        $data = Cache::remember($request->fullUrl(), 5, function () use ($request) {
             $this->validate($request, [
                 'field' => 'nullable|in:id,click,created_at',
                 'order' => 'nullable|in:asc,desc',
@@ -183,8 +184,8 @@ class ListController extends Controller
                 'city' => 'nullable|string|exists:travels',
             ]);
 
-            $field = $request->get('field', 'id');
-            $order = $request->get('order', 'desc');
+            $field = $request->field ?: 'id';
+            $order = $request->order ?: 'desc';
 
             $arr['travels'] = Travel::status('adopt')
                 ->with('user')
@@ -199,8 +200,8 @@ class ListController extends Controller
                     }
                 })->paginate();
 
-            $arr['provinces'] = Travel::status('adopt')->distinct()->get(['province as title']);
-            $arr['cities'] = Travel::status('adopt')->where(function ($query) use ($request) {
+            $arr['provinces'] = Travel::status('adopt')->whereNotNull('province')->distinct()->get(['province as title']);
+            $arr['cities'] = Travel::status('adopt')->whereNotNull('city')->where(function ($query) use ($request) {
                 if ($province = $request->province) {
                     $names = LocList::province()->where('name', $province)->first()->children->pluck('name');
                     $query->whereIn('city', $names);
@@ -218,7 +219,7 @@ class ListController extends Controller
      */
     public function video(Request $request)
     {
-        $data = Cache::remember(request()->fullUrl(), 5, function () use ($request) {
+        $data = Cache::remember($request->fullUrl(), 5, function () use ($request) {
             $this->validate($request, [
                 '*.field' => 'nullable|in:click,updated_at,created_at',
                 '*.pid' => 'nullable|integer|exists:videos,province_id',
@@ -257,7 +258,7 @@ class ListController extends Controller
         if (!$keyword) {
             return redirect('/');
         }
-        $data = Cache::remember(request()->fullUrl(), 5, function () use ($keyword) {
+        $data = Cache::remember($request->fullUrl(), 5, function () use ($keyword) {
 
             $arr['navs'] = Nav::get(['id', 'text']);
             foreach ($arr['navs'] as $nav) {
@@ -272,8 +273,7 @@ class ListController extends Controller
                         if ($pid = request()->get('pid')) {
                             $query->where('province_id', $pid);
                         }
-                    })
-                    ->get(['id', 'title', 'short', 'title', 'xc', 'description', 'thumb', 'price', 'province_id'], 'a_page');
+                    })->get(['id', 'title', 'short', 'title', 'xc', 'description', 'thumb', 'price', 'province_id'], 'a_page');
             }
 
             $arr['raider_types'] = ['default' => '攻略', 'line' => '线路', 'scenic' => '景点', 'food' => '美食', 'hospital' => '民宿'];
@@ -289,8 +289,7 @@ class ListController extends Controller
                         if ($pid = request()->get('pid')) {
                             $query->where('province_id', $pid);
                         }
-                    })
-                    ->get(['id', 'type', 'title', 'short', 'description', 'thumb', 'click', 'created_at'], 'r_page');
+                    })->get(['id', 'type', 'title', 'short', 'description', 'thumb', 'click', 'created_at'], 'r_page');
             }
 
             // 游记
@@ -310,8 +309,7 @@ class ListController extends Controller
                     if ($pid = request()->get('pid')) {
                         $query->where('province_id', $pid);
                     }
-                })
-                ->get();
+                })->get();
 
             // 直播
             $arr['lives'] = Video::active()
@@ -322,8 +320,7 @@ class ListController extends Controller
                     if ($pid = request()->get('pid')) {
                         $query->where('province_id', $pid);
                     }
-                })
-                ->get();
+                })->get();
 
             return $arr;
         });

@@ -3,7 +3,7 @@
 @section('title', '我的游记')
 
 @section('header')
-    @include('m.header', ['title' => '我的游记'])
+    @include('m.header', ['title' => '我的游记', 'theme' => 'white'])
 @endsection
 
 @section('content')

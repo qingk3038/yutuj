@@ -4,7 +4,7 @@
 
 @section('header')
     <header class="position-absolute text-white d-flex justify-content-between">
-        <a href="/"><img src="{{ asset('m/img/logo_white.png') }}" alt="logo" width="86" height="27"></a>
+        <img src="{{ asset('m/img/logo_white.png') }}" alt="logo" width="86" height="27">
         <div>
             @guest
                 <a href="{{ route('login') }}">
@@ -21,17 +21,18 @@
         </div>
     </header>
     <nav class="collapse font-weight-light position-absolute" id="menu">
+        <a href="{{ url('/') }}">首页</a>
         <a href="{{ route('m.activity.list', ['nid' => 2]) }}">纵横西部</a>
         <a href="{{ route('m.activity.list', ['nid' => 3]) }}">微上西部</a>
         <a href="{{ route('m.activity.list', ['nid' => 4]) }}">超级周末</a>
         <a href="{{ route('m.activity.list', ['nid' => 5]) }}">最6旅行</a>
         <a href="{{ url('customized') }}">定制游</a>
         <a href="{{ route('m.activity.list') }}">活动</a>
-        <a href="#">攻略</a>
-        <a href="#">游记</a>
-        <a href="#">大咖领路</a>
-        <a href="#">旅拍直播</a>
-        <a href="#">关于我们</a>
+        <a href="{{ route('m.raider.list') }}">攻略</a>
+        <a href="{{ route('m.travel.list') }}">游记</a>
+        <a href="{{ route('m.leader.list') }}">大咖领路</a>
+        <a href="{{ route('m.video.list') }}">旅拍直播</a>
+        <a href="{{ route('m.article.show', 1) }}">关于我们</a>
     </nav>
 @endsection
 
@@ -215,7 +216,7 @@
                     <small>美食 · 景点 · 线路 · 酒店</small>
                 </div>
             </a>
-            <a href="#" class="w-50 float-right pl-1 position-relative text-white">
+            <a href="{{ route('m.travel.list') }}" class="w-50 float-right pl-1 position-relative text-white">
                 <img src="{{ asset('m/img/travel.png') }}" alt="travel" class="img-fluid">
                 <div class="position-absolute">
                     <p class="mb-1"><i class="fa fa-lg fa-book"></i></p>
@@ -253,7 +254,7 @@
                     </ol>
                     <div class="carousel-inner">
                         @foreach($films as $film)
-                            <a href="#" class="carousel-item @if($loop->first) active @endif">
+                            <a href="{{ route('m.video.show', $film) }}" class="carousel-item @if($loop->first) active @endif">
                                 <img class="d-block w-100" src="{{ imageCut(360, 200, $film->thumb) }}" alt="{{ $film->title }}">
                                 <div class="carousel-caption">
                                     <p class="text-center"><i class="far fa-3x fa-play-circle"></i></p>
@@ -281,7 +282,7 @@
                     </ol>
                     <div class="carousel-inner">
                         @foreach($lives as $life)
-                            <a href="#" class="carousel-item @if($loop->first) active @endif">
+                            <a href="{{ route('m.video.show', $life) }}" class="carousel-item @if($loop->first) active @endif" target="_blank">
                                 <img class="d-block w-100" src="{{ imageCut(360, 200, $life->thumb) }}" alt="{{ $life->title }}">
                                 <div class="carousel-caption">
                                     <p class="text-center"><i class="far fa-3x fa-play-circle"></i></p>
@@ -321,7 +322,7 @@
                 </ul>
                 <template v-for="activity in activities">
                     <div class="carousel-item active">
-                        <img class="d-block w-100" :src="imageCut(360, 200, activity.thumb)" :alt="activity.short">
+                        <img class="d-block w-100" :src="imageCut(414, 200, activity.thumb)" :alt="activity.short" width="414" height="200">
                         <div class="carousel-caption">
                             <h5>{{ activity.province.name }} · {{ activity.title.substr(0, 8) }}…</h5>
                             <small class="pl-3">{{ activity.title.substr(0, 18) }}…</small>
