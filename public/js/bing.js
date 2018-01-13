@@ -23,6 +23,7 @@ $(document).ready(function () {
         let pid = $(this).attr('pid')
         $('#search-btn').text($(this).text())
         $('#pid').val(pid)
+        $(this).addClass('active').siblings().removeClass('active')
     })
 
     // 热门关键词

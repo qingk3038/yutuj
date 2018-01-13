@@ -10,6 +10,7 @@
             let pid = $(this).attr('pid');
             $('#search-btn').text($(this).text());
             $('#pid').val(pid);
+            $(this).addClass('active').siblings().removeClass('active')
         })
 
         // 商务通

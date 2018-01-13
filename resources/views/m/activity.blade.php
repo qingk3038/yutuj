@@ -17,6 +17,7 @@
         </div>
     </header>
 @endsection
+
 @section('content')
     <div id="photos" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">

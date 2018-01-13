@@ -27,7 +27,7 @@ class AppServiceProvider extends ServiceProvider
         Config::load();
 
         // 搜索栏筛选地区
-        View::composer(['layouts.app', 'www.index'], ProvincesComposer::class);
+        View::composer(['layouts.app', 'www.index', 'm.provinces'], ProvincesComposer::class);
         // 底部栏目与文章
         View::composer('layouts.app', WebFooterComposer::class);
         // 页面右边

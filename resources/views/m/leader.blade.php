@@ -3,17 +3,22 @@
 @section('title', '领队' . $leader->name . '的主页')
 
 @section('header')
-    <header class="position-absolute">
-        <div class="text-white d-flex justify-content-between">
-            <span onclick="history.back();"><i class="fas fa-lg fa-angle-left"></i></span>
-            <span>领队详情</span>
-            <a href="auth/login.blade.php">
-                <i class="fa fa-fw fa-user"></i>
-                <!--<img class="rounded-circle" src="img/avatar.png" alt="avatar" width="22" height="22">-->
-            </a>
+    <header class="position-absolute text-white container-fluid">
+        <div class="row">
+            <span class="col-3" onclick="history.back();"><i class="fas fa-lg fa-angle-left"></i></span>
+            <span class="col text-center">领队详情</span>
+            <span class="col-3 text-right">
+                @auth
+                    <a href="{{ route('home') }}"><img class="rounded-circle" src="{{ auth()->user()->avatar }}" alt="avatar" width="22" height="22"></a>
+                @else
+                    <a href="{{ route('login') }}"> <i class="fa fa-fw fa-user"></i></a>
+                @endauth
+            </span>
         </div>
     </header>
+@endsection
 
+@section('content')
     <div class="position-relative show-leader">
         <div class="bg-leader text-hide position-absolute" style="background-image: url({{ imageCut(414, 220, $leader->bg_home) }});"></div>
         <div class="text-center">
@@ -67,87 +72,35 @@
         </div>
     </div>
 
-    <div class="p-3 text-warning text-center">TA领队的活动</div>
-    <div class="a-list">
-        <a href="#" class="card rounded-0 border-0">
-            <img class="card-img-top" src="holder.js/100px150" alt="Card image cap">
-            <div class="card-body">
-                <h6 class="text-truncate">成都 · 大熊猫6天5晚自由行大熊猫6天5晚自由行</h6>
-                <p class="card-text text-truncate small">曼谷是一座五光十色的城,以其独有的魅力吸引着来...</p>
-            </div>
-            <small class="position-absolute text-warning">
-                ¥<span class="lead font-weight-bold">7867</span> 起
-            </small>
-            <p class="position-absolute mb-0">
-                <span class="badge badge-pill badge-primary mr-1">自由行</span>
-                <span class="badge badge-pill badge-success mr-1">大优惠</span>
-                <span class="badge badge-pill badge-danger mr-1">接送机</span>
+    @if(count($leader->activities))
+        <div class="p-3 text-warning text-center">TA领队的活动</div>
+        <div class="a-list">
+            @php
+                $tag_btns = ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark'];
+            @endphp
+            @foreach($leader->activities as $activity)
+                <a href="{{ route('m.activity.show', $activity) }}" class="card rounded-0 border-0">
+                    <img class="card-img-top" src="{{ imageCut(375, 150, $activity->thumb) }}" alt="{{ $activity->title }}">
+                    <div class="card-body">
+                        <h6 class="text-truncate">{{ $activity->province->name }} · {{ $activity->title }}</h6>
+                        <p class="card-text text-truncate small">{{ $activity->description }}</p>
+                    </div>
+                    <small class="position-absolute text-warning">
+                        ¥<span class="lead font-weight-bold">{{ $activity->price }}</span> 起
+                    </small>
+                    <p class="position-absolute mb-0">
+                        @foreach($activity->tags as $tag)
+                            <span class="badge badge-pill badge-{{ $tag_btns[mt_rand(0, 7)] }} mr-1">{{ $tag->text }}</span>
+                        @endforeach
+                    </p>
+                </a>
+            @endforeach
+            <p class="text-center">
+                <a href="{{ route('m.activity.list') }}" class="btn btn-sm btn-warning">更多活动</a>
             </p>
-        </a>
-        <a href="#" class="card rounded-0 border-0">
-            <img class="card-img-top" src="holder.js/100px150" alt="Card image cap">
-            <div class="card-body">
-                <h6 class="text-truncate">成都 · 大熊猫6天5晚自由行大熊猫6天5晚自由行</h6>
-                <p class="card-text text-truncate small">曼谷是一座五光十色的城,以其独有的魅力吸引着来...</p>
-            </div>
-            <small class="position-absolute text-warning">
-                ¥<span class="lead font-weight-bold">7867</span> 起
-            </small>
-            <p class="position-absolute mb-0">
-                <span class="badge badge-pill badge-primary mr-1">自由行</span>
-                <span class="badge badge-pill badge-success mr-1">大优惠</span>
-                <span class="badge badge-pill badge-danger mr-1">接送机</span>
-            </p>
-        </a>
-        <a href="#" class="card rounded-0 border-0">
-            <img class="card-img-top" src="holder.js/100px150" alt="Card image cap">
-            <div class="card-body">
-                <h6 class="text-truncate">成都 · 大熊猫6天5晚自由行大熊猫6天5晚自由行</h6>
-                <p class="card-text text-truncate small">曼谷是一座五光十色的城,以其独有的魅力吸引着来...</p>
-            </div>
-            <small class="position-absolute text-warning">
-                ¥<span class="lead font-weight-bold">7867</span> 起
-            </small>
-            <p class="position-absolute mb-0">
-                <span class="badge badge-pill badge-primary mr-1">自由行</span>
-                <span class="badge badge-pill badge-success mr-1">大优惠</span>
-                <span class="badge badge-pill badge-danger mr-1">接送机</span>
-            </p>
-        </a>
-        <a href="#" class="card rounded-0 border-0">
-            <img class="card-img-top" src="holder.js/100px150" alt="Card image cap">
-            <div class="card-body">
-                <h6 class="text-truncate">成都 · 大熊猫6天5晚自由行大熊猫6天5晚自由行</h6>
-                <p class="card-text text-truncate small">曼谷是一座五光十色的城,以其独有的魅力吸引着来...</p>
-            </div>
-            <small class="position-absolute text-warning">
-                ¥<span class="lead font-weight-bold">7867</span> 起
-            </small>
-            <p class="position-absolute mb-0">
-                <span class="badge badge-pill badge-primary mr-1">自由行</span>
-                <span class="badge badge-pill badge-success mr-1">大优惠</span>
-                <span class="badge badge-pill badge-danger mr-1">接送机</span>
-            </p>
-        </a>
-        <a href="#" class="card rounded-0 border-0">
-            <img class="card-img-top" src="holder.js/100px150" alt="Card image cap">
-            <div class="card-body">
-                <h6 class="text-truncate">成都 · 大熊猫6天5晚自由行大熊猫6天5晚自由行</h6>
-                <p class="card-text text-truncate small">曼谷是一座五光十色的城,以其独有的魅力吸引着来...</p>
-            </div>
-            <small class="position-absolute text-warning">
-                ¥<span class="lead font-weight-bold">7867</span> 起
-            </small>
-            <p class="position-absolute mb-0">
-                <span class="badge badge-pill badge-primary mr-1">自由行</span>
-                <span class="badge badge-pill badge-success mr-1">大优惠</span>
-                <span class="badge badge-pill badge-danger mr-1">接送机</span>
-            </p>
-        </a>
-        <p class="text-center text-secondary small">
-            <i class="fas fa-sync fa-spin"></i> 更多精彩加载中...
-        </p>
-    </div>
+        </div>
+    @endif
+
 @endsection
 
 @push('script')

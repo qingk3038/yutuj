@@ -13,6 +13,8 @@ Route::get('/', 'Mobile\WebController@index');
 Route::get('nav/{nav}/activities', 'Mobile\WebController@loadActivities');
 // 活动
 Route::get('activity/show/{activity}', 'Mobile\ShowController@activity')->name('m.activity.show');
+Route::get('activity/list', 'Mobile\ListController@activity')->name('m.activity.list');
+
 // 攻略
 Route::get('raider/show/{raider}', 'Mobile\ShowController@raider')->name('m.raider.show');
 // 领队

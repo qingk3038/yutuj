@@ -3,23 +3,21 @@
 @section('title', '首页')
 
 @section('header')
-    <header class="position-absolute">
-        <div class="text-white d-flex justify-content-between">
-            <a href="/"><img src="{{ asset('m/img/logo_white.png') }}" alt="logo" width="86" height="27"></a>
-            <div>
-                @guest
-                    <a href="{{ route('login') }}">
-                        <i class="fa fa-fw fa-user"></i>
-                    </a>
-                @else
-                    <a href="{{ route('home') }}">
-                        <img class="rounded-circle" src="{{ auth()->user()->avatar }}" alt="avatar" width="22" height="22">
-                    </a>
-                @endguest
-                <a href="#menu" data-toggle="collapse">
-                    <i class="fa fa-fw fa-align-justify"></i>
+    <header class="position-absolute text-white d-flex justify-content-between">
+        <a href="/"><img src="{{ asset('m/img/logo_white.png') }}" alt="logo" width="86" height="27"></a>
+        <div>
+            @guest
+                <a href="{{ route('login') }}">
+                    <i class="fa fa-fw fa-user"></i>
                 </a>
-            </div>
+            @else
+                <a href="{{ route('home') }}">
+                    <img class="rounded-circle" src="{{ auth()->user()->avatar }}" alt="avatar" width="22" height="22">
+                </a>
+            @endguest
+            <a href="#menu" data-toggle="collapse" class="align-middle">
+                <i class="fa fa-fw fa-align-justify"></i>
+            </a>
         </div>
     </header>
     <nav class="collapse font-weight-light position-absolute" id="menu">

@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Mobile;
 
+use App\Http\Controllers\Controller;
 use App\Models\Activity;
 use App\Models\Leader;
 use App\Models\LocList;
@@ -103,68 +104,71 @@ class ListController extends Controller
      */
     public function activity(Request $request)
     {
-        $data = Cache::remember(request()->fullUrl(), 5, function () use ($request) {
-            $this->validate($request, [
-                'field' => 'nullable|in:id,price,created_at',
-                'order' => 'nullable|in:asc,desc',
-                'pid' => 'nullable|integer|exists:activities,province_id',
-                'cid' => 'nullable|integer|exists:activities,city_id',
-                'nid' => 'nullable|integer|exists:navs,id',
-                'price.min' => 'nullable|integer|min:0',
-                'price.max' => 'nullable|integer|min:0',
-            ]);
-            $field = $request->get('field', 'id');
-            $order = $request->get('order', 'desc');
+        $this->validate($request, [
+            'order_price' => 'nullable|in:asc,desc',
+            'order_created_at' => 'nullable|in:asc,desc',
+            'pid' => 'nullable|integer|exists:activities,province_id',
+            'cid' => 'nullable|integer|exists:activities,city_id',
+            'nid' => 'nullable|integer|exists:navs,id',
+            'day' => 'nullable|integer',
+        ]);
 
-            $arr['activities'] = Activity::active()->with('tuans')->withCount('trips')
-                ->where(function ($query) use ($request) {
-                    if ($pid = $request->pid) {
-                        $query->where('province_id', $pid);
-                    }
-                    if ($cid = $request->cid) {
-                        $query->where('city_id', $cid);
-                    }
-                    if ($min = $request->input('price.min')) {
-                        $query->where('price', '>=', $min);
-                    }
-                    if ($max = $request->input('price.max')) {
-                        $query->where('price', '<=', $max);
-                    }
-                    if ($nid = $request->nid) {
-                        $query->whereHas('navs', function ($query) use ($nid) {
-                            $query->where('id', $nid);
-                        });
-                    }
-                })->orderBy($field, $order)->paginate(10, ['id', 'title', 'short', 'xc', 'description', 'thumb', 'price', 'province_id', 'city_id']);
+        $order_name = 'id';
+        $order_by = 'desc';
+        if ($order_price = $request->get('order_price')) {
+            $order_by = $order_price;
+        }
+        if ($order_created_at = $request->get('order_created_at')) {
+            $order_by = $order_created_at;
+        }
 
-            $arr['provinces'] = LocList::whereHas('provinceActivities', function ($query) use ($request) {
-                $query->active();
-                if ($nid = $request->nid) {
-                    $query->whereHas('navs', function ($query) use ($nid) {
-                        $query->where('id', $nid);
-                    });
-                }
-            })->get(['id', 'name']);
+        $arr['activities'] = Activity::where(function ($query) use ($request) {
+            if ($pid = $request->pid) {
+                $query->where('province_id', $pid);
+            }
+            if ($cid = $request->cid) {
+                $query->where('city_id', $cid);
+            }
+            if ($min = $request->input('price.min')) {
+                $query->where('price', '>=', $min);
+            }
+            if ($max = $request->input('price.max')) {
+                $query->where('price', '<=', $max);
+            }
+            if ($nid = $request->nid) {
+                $query->whereHas('navs', function ($query) use ($nid) {
+                    $query->where('id', $nid);
+                });
+            }
+            if ($day = $request->day) {
+                $query->has('trips', $day > 10 ? '>' : '=', $day);
+            }
+            $query->orderBy('price', 'desc');
+        })->orderBy($order_name, $order_by)->paginate(2, ['id', 'title', 'description', 'thumb', 'price', 'province_id', 'city_id']);
 
-            $arr['cities'] = LocList::where(function ($query) use ($request) {
-                if ($pid = $request->pid) {
-                    $query->where('parent_id', $pid);
-                }
-            })->whereHas('cityActivities', function ($query) use ($request) {
-                $query->active();
-                if ($nid = $request->nid) {
-                    $query->whereHas('navs', function ($query) use ($nid) {
-                        $query->where('id', $nid);
-                    });
-                }
-            })->get(['id', 'name']);
+        $arr['provinces'] = LocList::whereHas('provinceActivities', function ($query) use ($request) {
+            $query->active();
+            if ($nid = $request->nid) {
+                $query->whereHas('navs', function ($query) use ($nid) {
+                    $query->where('id', $nid);
+                });
+            }
+        })->get(['id', 'name']);
 
-            $arr['nav'] = Nav::find($request->nid);
+        $arr['cities'] = LocList::where(function ($query) use ($request) {
+            if ($pid = $request->pid) {
+                $query->where('parent_id', $pid);
+            }
+        })->whereHas('cityActivities', function ($query) use ($request) {
+            $query->active();
+            if ($nid = $request->nid) {
+                $query->whereHas('navs', function ($query) use ($nid) {
+                    $query->where('id', $nid);
+                });
+            }
+        })->get(['id', 'name']);
 
-            return $arr;
-        });
-
-        return view('www.list_activity', $data);
+        return view('m.list_activity', $arr);
     }
 
     /**

@@ -162,29 +162,20 @@ footer > .nav a {
     bottom: 20px;
 }
 
-#screen p {
-    margin-left: -5px;
-    margin-right: -5px;
-}
-
-#screen a {
-    border-radius: 5px;
+#screen .btn-light {
     border: 2px solid transparent;
     background-color: #eeeeee;
-    display: block;
-    float: left;
-    width: calc(25% - 10px);
-    margin: 5px;
+    width: calc(25% - 4px);
     font-size: 12px;
     color: #666666;
     padding: 3px;
 }
 
-#screen a.w-50 {
-    width: calc(50% - 10px) !important;
+#screen .btn-light.w-50 {
+    width: calc(50% - 4px) !important;
 }
 
-#screen a.active {
+#screen .btn-light.active {
     border: 2px solid #FF9900;
     background-color: #FFFFFF;
 }
@@ -203,12 +194,12 @@ footer > .nav a {
 
 .a-list small.position-absolute {
     right: 15px;
-    top: 160px;
+    top: 164px;
 }
 
 .a-list p.position-absolute {
     left: 15px;
-    top: 115px;
+    bottom: 100px;
 }
 
 .left-border-orange {

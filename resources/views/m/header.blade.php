@@ -19,6 +19,7 @@
     </div>
 </header>
 <nav class="collapse font-weight-light position-absolute" id="menu">
+    <a href="{{ url('/') }}">首页</a>
     <a href="#">纵横西部</a>
     <a href="#">微上西部</a>
     <a href="#">超级周末</a>

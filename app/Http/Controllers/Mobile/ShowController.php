@@ -16,7 +16,7 @@ class ShowController extends Controller
     // 显示活动
     public function activity(Activity $activity)
     {
-        $data = Cache::remember(request()->fullUrl(), 5, function () use ($activity) {
+        $data = Cache::remember("m-activity-{$activity->id}", 5, function () use ($activity) {
             $arr['activity'] = $activity->load('tags', 'types', 'tuans', 'trips', 'country', 'province', 'city', 'district');
 
             $arr['activities'] = Activity::with('types')
@@ -36,7 +36,7 @@ class ShowController extends Controller
     public function raider(Raider $raider)
     {
         $raider->increment('click');
-        $data = Cache::remember(request()->fullUrl(), 5, function () use ($raider) {
+        $data = Cache::remember("m-raider-{$raider->id}", 5, function () use ($raider) {
             $arr['raider'] = $raider;
             $arr['activities'] = Activity::where('province_id', $raider->province_id)->active()->latest()->limit(4)->get(['id', 'title', 'thumb']);
             return $arr;
@@ -48,8 +48,14 @@ class ShowController extends Controller
     // 显示领队
     public function leader(Leader $leader)
     {
-        $leader = Cache::remember(request()->fullUrl(), 5, function () use ($leader) {
-            return $leader->load('activities.types');
+        $leader = Cache::remember("m-leader-{$leader->id}", 5, function () use ($leader) {
+            return $leader->load(['activities' => function ($query) {
+                $query->select('activities.id', 'title', 'thumb', 'price', 'description', 'province_id')
+                    ->latest('activities.created_at')
+                    ->active()
+                    ->limit(4)
+                    ->with('tags', 'province');
+            }]);
         });
         return view('m.leader', compact('leader'));
     }
@@ -71,7 +77,7 @@ class ShowController extends Controller
             return redirect($video->url);
         }
 
-        $data = Cache::remember(request()->fullUrl(), 5, function () use ($video) {
+        $data = Cache::remember("m-video-{$video->id}", 5, function () use ($video) {
             $arr['video'] = $video;
 
             $arr['videos_count'] = $video->province->provinceVideos()->active()->type($video->type)->count();
