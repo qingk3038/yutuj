@@ -62,6 +62,7 @@ class ListController extends Controller
                 'order' => 'nullable|in:asc,desc',
                 'pid' => 'nullable|integer|exists:raiders,province_id',
                 'cid' => 'nullable|integer|exists:raiders,city_id',
+                'type' => 'nullable|string|in:default,line,food,hospital,scenic',
             ]);
 
             $field = $request->get('field', 'id');

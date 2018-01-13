@@ -17,7 +17,7 @@ class CustomizedController extends Controller
         ]);
 
         if ($dz = Customized::where(['title' => $data['title'], 'mobile' => $data['mobile'], 'read' => 0])->count()) {
-            return response(['title' => '你的需求提交失败！', 'message' => '你已经提交过了，请等待我们处理。']);
+            return response(['title' => '你的需求提交失败', 'message' => '你已经提交过了，请等待我们处理。'], 422);
         }
 
         if ($user = $request->user()) {
@@ -27,6 +27,6 @@ class CustomizedController extends Controller
         $data['type'] = Agent::isMobile() ? 'Mobile' : 'PC';
         Customized::create($data);
 
-        return response(['title' => '你的需求提交成功！', 'message' => '旅游顾问会尽快跟您联系。']);
+        return response(['title' => '你的需求提交成功', 'message' => '旅游顾问会尽快跟您联系。']);
     }
 }

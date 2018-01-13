@@ -14,9 +14,9 @@ Route::get('nav/{nav}/activities', 'Mobile\WebController@loadActivities');
 // 活动
 Route::get('activity/show/{activity}', 'Mobile\ShowController@activity')->name('m.activity.show');
 Route::get('activity/list', 'Mobile\ListController@activity')->name('m.activity.list');
-
 // 攻略
 Route::get('raider/show/{raider}', 'Mobile\ShowController@raider')->name('m.raider.show');
+Route::get('raider/list', 'Mobile\ListController@raiders')->name('m.raider.list');
 // 领队
 Route::get('leader/show/{leader}', 'Mobile\ShowController@leader')->name('m.leader.show');
 // 主页
@@ -32,3 +32,6 @@ Route::get('tuan/{tuan}', 'Mobile\PayController@create')->name('pay.order.create
 Route::get('order/{order}/wap', 'Mobile\PayController@pay')->name('order.pay');
 // 显示支付结果
 Route::get('order/{order}/pay', 'Mobile\PayController@showQrcode')->name('order.qrcode');
+
+// 定制游
+Route::view('customized', 'm.customized');

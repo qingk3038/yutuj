@@ -31,21 +31,6 @@
             <img src="{{ asset('img/bg_dz_step.png') }}" alt="bg_dz_step">
         </div>
     </div>
-
-    <div id="tips" class="modal fade text-warning" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document" style="top: 30%;">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">消息提示</h5>
-                    <span class="close" data-dismiss="modal" aria-label="Close">&times;</span>
-                </div>
-                <div class="modal-body text-center py-5">
-                    <h4 class="tips-title">你的需求提交成功！</h4>
-                    <p class="text-muted tips-message">旅游顾问会尽快跟您联系</p>
-                </div>
-            </div>
-        </div>
-    </div>
 @endsection
 
 @section('footer', false)
@@ -66,12 +51,9 @@
                 event.preventDefault()
                 let param = $(this).serialize()
                 axios.post("{{ url('customized') }}", param).then(res => {
-                    $('.tips-title').text(res.data.title)
-                    $('.tips-message').text(res.data.message)
-                    $('#tips').modal('show')
+                    swal(res.data.title, res.data.message, 'success')
                 }).catch(err => {
-                    let errors = err.response.data.errors
-                    alert(Object.values(errors).join("\r\n"))
+                    swal(err.response.data.title, err.response.data.message, 'error')
                 })
             })
         })(jQuery)

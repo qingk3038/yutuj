@@ -1,6 +1,6 @@
 @extends('layouts.m')
 
-@section('title', '活动')
+@section('title', '攻略')
 
 @section('header')
     <header class="position-absolute">
@@ -39,21 +39,43 @@
 @endsection
 
 @section('content')
-    <div class="container-fluid top-border">
-        <div class="py-3 d-flex justify-content-between">
-            <a class="text-dark" data-toggle="collapse" href="#dq">
+    <div class="py-3 top-border">
+        <div class="roll-x nav-raider px-3">
+            <ul class="nav justify-content-center flex-nowrap text-nowrap">
+                <li class="nav-item">
+                    <a class="nav-link @unless(request('type')) active @endunless" href="{{ route('m.raider.list') }}">全部攻略</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link @if(request('type') === 'default') active @endif" href="{{ route('m.raider.list', ['type' => 'default']) }}">玩法攻略</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link @if(request('type') === 'line') active @endif" href="{{ route('m.raider.list', ['type' => 'line']) }}">线路攻略</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link @if(request('type') === 'food') active @endif" href="{{ route('m.raider.list', ['type' => 'food']) }}">美食攻略</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link @if(request('type') === 'hospital') active @endif" href="{{ route('m.raider.list', ['type' => 'hospital']) }}">住宿攻略</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link @if(request('type') === 'scenic') active @endif" href="{{ route('m.raider.list', ['type' => 'scenic']) }}">景点攻略</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="py-3 d-flex">
+            <a class="text-dark pr-4" data-toggle="collapse" href="#dq">
                 区域/目的地<i class="fa fa-fw fa-caret-down"></i>
             </a>
-            <a class="text-dark" data-toggle="collapse" href="#play">
-                游玩天数<i class="fa fa-fw fa-caret-down"></i>
-            </a>
-            <a class="text-dark" data-toggle="collapse" href="#sort">
+            <a class="text-dark pr-4" data-toggle="collapse" href="#sort">
                 综合排序<i class="fa fa-fw fa-caret-down"></i>
             </a>
         </div>
     </div>
 
-    <form class="container-fluid" id="screen" data-children=".item" autocomplete="off">
+    <form class="container-fluid" id="screen" data-children=".item">
         <div class="item">
             <div class="collapse" data-parent="#screen" id="dq">
                 <div class="d-flex justify-content-between mb-2">
@@ -97,37 +119,6 @@
             </div>
         </div>
         <div class="item">
-            <div class="collapse" data-parent="#screen" id="play">
-                <div class="d-flex justify-content-between mb-2">
-                    <span>游玩天数</span>
-                    <span><i class="fa fa-fw fa-angle-down"></i></span>
-                </div>
-                <div class="btn-group-toggle" data-toggle="buttons">
-                    <label class="btn btn-light">
-                        <input type="radio" name="day" value=""> 不限
-                    </label>
-                    @for($i =1; $i<=10; $i++)
-                        <label class="btn btn-light">
-                            <input type="radio" name="day" value="{{ $i }}"> {{ $i }}日游 @if($i === 11)以上 @endif
-                        </label>
-                    @endfor
-                    <label class="btn btn-light">
-                        <input type="radio" name="day" value="11"> 10日游以上
-                    </label>
-                </div>
-                <div class="px-3 py-2 mb-2">
-                    <div class="row">
-                        <div class="col-6 p-0">
-                            <span class="btn btn-block rounded-0 btn-outline-secondary btn-reset">重 &nbsp; 置</span>
-                        </div>
-                        <div class="col-6 p-0">
-                            <button type="submit" class="btn btn-block rounded-0 btn-warning">确 &nbsp; 认</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="item">
             <div class="collapse" data-parent="#screen" id="sort">
                 <div class="d-flex justify-content-between mb-2">
                     <span>排序内容</span>
@@ -138,7 +129,7 @@
                         <input type="radio" name="field" value=""> 不限
                     </label>
                     <label class="btn btn-light">
-                        <input type="radio" name="field" value="price"> 价格
+                        <input type="radio" name="field" value="price"> 热门度
                     </label>
                     <label class="btn btn-light">
                         <input type="radio" name="field" value="created_at"> 发布时间
@@ -174,34 +165,31 @@
     </form>
 
     <div class="a-list">
-        @php
-            $tag_btns = ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark'];
-        @endphp
-        @foreach($activities as $activity)
-            <a href="{{ route('m.activity.show', $activity) }}" class="card rounded-0 border-0">
-                <img class="card-img-top" src="{{ imageCut(414, 150, $activity->thumb) }}" alt="{{ $activity->title }}">
+        @foreach($raiders as $raider)
+            <a href="{{ route('m.raider.show', $raider) }}" class="card rounded-0 border-0">
+                <img class="card-img-top" src="{{ imageCut(414, 150, $raider->thumb) }}" alt="{{ $raider->title }}">
                 <div class="card-body">
-                    <h6 class="text-truncate">{{ $activity->province->name }} · {{ $activity->title }}</h6>
-                    <p class="card-text text-truncate small">{{ $activity->description }}</p>
+                    <h6 class="text-truncate w-100">{{ $raider->typeText() }} · {{ $raider->title }}</h6>
+                    <p class="mb-1 text-truncate small">{{ $raider->description }}</p>
+                    <p class="mb-0 d-flex justify-content-between small text-secondary text-truncate">
+                        <span><i class="fa fa-map-marker-alt"></i> {{ $raider->province->name }} {{ $raider->city->name ?? '' }}</span>
+                        <span><i class="fa fa-eye"></i> {{ $raider->click }}</span>
+                        <span><i class="fa fa-thumbs-up"></i> {{ $raider->likes_count }}</span>
+                        <span><i class="fa fa-user"></i> {{ $raider->admin->name }}</span>
+                        <span><i class="far fa-clock"></i> {{ $raider->created_at->diffForHumans() }}</span>
+                    </p>
                 </div>
-                <small class="position-absolute text-warning">
-                    ¥<span class="lead font-weight-bold">{{ $activity->price }}</span> 起
-                </small>
-                <p class="position-absolute mb-0">
-                    @foreach($activity->tags as $tag)
-                        <span class="badge badge-pill badge-{{ $tag_btns[mt_rand(0, 7)] }} mr-1">{{ $tag->text }}</span>
-                    @endforeach
-                </p>
             </a>
         @endforeach
-
         <nav class="d-flex justify-content-center">
-            {{ $activities->links('vendor.pagination.m') }}
+            {{ $raiders->links('vendor.pagination.m') }}
         </nav>
     </div>
 @endsection
 
 @push('script')
+    <link href="{{ asset('css/jquery.mCustomScrollbar.min.css') }}" rel="stylesheet">
+    <script src="{{ asset('js/jquery.mCustomScrollbar.min.js') }}"></script>
     <script>
         (function ($) {
             let params = @json(Request::all())
@@ -228,6 +216,12 @@
                     input.parent().addClass('active').siblings().removeClass('active')
                 })
             }
+
+            $('.roll-x').mCustomScrollbar({
+                axis: 'x',
+                theme: 'rounded-dark',
+                scrollbarPosition: 'outside'
+            })
         })(jQuery);
     </script>
 @endpush

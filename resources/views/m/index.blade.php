@@ -21,12 +21,12 @@
         </div>
     </header>
     <nav class="collapse font-weight-light position-absolute" id="menu">
-        <a href="#">纵横西部</a>
-        <a href="#">微上西部</a>
-        <a href="#">超级周末</a>
-        <a href="#">最6旅行</a>
-        <a href="#">定制游</a>
-        <a href="#">活动</a>
+        <a href="{{ route('m.activity.list', ['nid' => 2]) }}">纵横西部</a>
+        <a href="{{ route('m.activity.list', ['nid' => 3]) }}">微上西部</a>
+        <a href="{{ route('m.activity.list', ['nid' => 4]) }}">超级周末</a>
+        <a href="{{ route('m.activity.list', ['nid' => 5]) }}">最6旅行</a>
+        <a href="{{ url('customized') }}">定制游</a>
+        <a href="{{ route('m.activity.list') }}">活动</a>
         <a href="#">攻略</a>
         <a href="#">游记</a>
         <a href="#">大咖领路</a>
@@ -36,28 +36,14 @@
 @endsection
 
 @section('content')
-    <form class="position-absolute" autocomplete="off" id="index-search">
-        <div class="input-group">
-            <div class="input-group-btn">
-                <button type="button" id="search-btn" class="btn dropdown-toggle down bg-none index-search-btn" data-toggle="dropdown">不限</button>
-                <div class="dropdown-menu rounded-0" style="background: rgba(255,255,255, .8); min-width: auto;">
-                    <a class="dropdown-item search-item" href="javascript:void(0);">不限</a>
-                    <a class="dropdown-item search-item" href="javascript:void(0);" pid="2">北京</a>
-                    <a class="dropdown-item search-item" href="javascript:void(0);" pid="2283">四川</a>
-                </div>
-            </div>
-            <input type="hidden" name="pid" id="pid">
-            <input type="text" class="form-control bg-none index-q" name="q" id="q" placeholder="搜目的地/攻略/游记">
-            <button type="submit" class="input-group-addon bg-none"><i class="fa fa-search text-white fa-lg"></i></button>
-        </div>
-    </form>
+    @include('m.provinces')
 
     <section class="position-absolute text-center font-weight-light text-truncate small" id="index-nav">
-        <a href="#"><img src="{{ asset('m/img/nav_1.png') }}" alt="纵横西部"> 纵横西部</a>
-        <a href="#"><img src="{{ asset('m/img/nav_2.png') }}" alt="纵横西部"> 微上西部</a>
-        <a href="#"><img src="{{ asset('m/img/nav_3.png') }}" alt="纵横西部"> 超级周末</a>
-        <a href="#"><img src="{{ asset('m/img/nav_4.png') }}" alt="纵横西部"> 最6旅行</a>
-        <a href="#"><img src="{{ asset('m/img/nav_5.png') }}" alt="纵横西部"> 定制旅行</a>
+        <a href="{{ route('m.activity.list', ['nid' => 2]) }}"><img src="{{ asset('m/img/nav_1.png') }}" alt="纵横西部"> 纵横西部</a>
+        <a href="{{ route('m.activity.list', ['nid' => 3]) }}"><img src="{{ asset('m/img/nav_2.png') }}" alt="微上西部"> 微上西部</a>
+        <a href="{{ route('m.activity.list', ['nid' => 4]) }}"><img src="{{ asset('m/img/nav_3.png') }}" alt="超级周末"> 超级周末</a>
+        <a href="{{ route('m.activity.list', ['nid' => 5]) }}"><img src="{{ asset('m/img/nav_4.png') }}" alt="最6旅行"> 最6旅行</a>
+        <a href="{{ url('customized') }}"><img src="{{ asset('m/img/nav_5.png') }}" alt="定制旅行"> 定制旅行</a>
     </section>
 
 
@@ -221,7 +207,7 @@
         </div>
 
         <div class="clearfix my-2 jc-zq">
-            <a href="#" class="w-50 float-left pr-1 position-relative text-white">
+            <a href="{{ route('m.raider.list') }}" class="w-50 float-left pr-1 position-relative text-white">
                 <img src="{{ asset('m/img/raider.png') }}" alt="raider" class="img-fluid">
                 <div class="position-absolute">
                     <p class="mb-1"><i class="far fa-lg fa-compass"></i></p>
@@ -346,7 +332,7 @@
                         </div>
                     </div>
                     <p class="text-right mb-0 p-2 small">
-                        <a href="#" class="text-secondary"><i class="fa fa-fw fa-angle-right"></i>更多{{ activity.province.name }}</a>
+                        <a :href="`/activity/list?pid=${activity.province.id}`" class="text-secondary"><i class="fa fa-fw fa-angle-right"></i>更多{{ activity.province.name }}</a>
                     </p>
                 </template>
                 <p class="text-center text-secondary small" v-show="load">
