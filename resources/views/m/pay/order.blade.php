@@ -34,7 +34,8 @@
             <dd class="col-8 text-danger">¥{{ $tuan->price }}/人</dd>
         </dl>
     </div>
-    <p class="font-weight-light px-3 py-2 bg-light">报名人信息</p>
+    <p class="font-weight-light px-3 py-2 mb-2 bg-light">报名人信息</p>
+    <p class="px-3 text-secondary"><small><i class="fa fa-info fa-fw"></i>本活动的相关通知会通知第1个报名人，请留意手机短息并准确填写报名人信息，一遍办理各种手续和购买保险</small></p>
     <div id="app">
         @verbatim
             <el-form class="order-form" label-position="top" :model="order" ref="order" v-loading="seed" element-loading-text="正在提交订单……">
