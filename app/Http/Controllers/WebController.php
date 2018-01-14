@@ -64,8 +64,13 @@ class WebController extends Controller
         return 'QQ登录页面';
     }
 
-    public function loginCallback()
+    public function wechatCallback()
     {
-        return '登录的回调页面';
+        return '微信登录的回调页面';
+    }
+
+    public function qqCallback()
+    {
+        return 'QQ登录的回调页面';
     }
 }

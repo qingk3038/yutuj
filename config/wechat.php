@@ -80,7 +80,7 @@ return [
          'oauth' => [
              'only_wechat_browser' => false,
              'scopes'   => array_map('trim', explode(',', env('WECHAT_OFFICIAL_ACCOUNT_OAUTH_SCOPES', 'snsapi_userinfo'))),
-             'callback' => env('WECHAT_OFFICIAL_ACCOUNT_OAUTH_CALLBACK', '/oauth/wechat/callback'),
+             'callback' => env('WECHAT_OFFICIAL_ACCOUNT_OAUTH_CALLBACK', '/oauth/callback/wechat'),
          ],
     ],
 

@@ -51,5 +51,8 @@ Route::any('wechat', 'WechatController');
 // 微信和QQ登录
 Route::get('oauth/login', 'WebController@login')->name('oauth.login');
 
-// 登录回调
-Route::get('oauth/callback', 'WebController@loginCallback');
+// 微信登录回调
+Route::get('oauth/callback/wechat', 'WebController@wechatCallback');
+
+// 微信登录回调
+Route::get('oauth/callback/qq', 'WebController@qqCallback');
