@@ -90,6 +90,9 @@
             axios.post(`{{ url('travel/like') }}/${tid}`).then(res => {
                 $(this).prev().text(res.data.likes_count)
             }).catch(err => {
+                if (err.response.status === 401) {
+                    return swal('提示消息', '你需要登录后才能点赞。')
+                }
                 swal('失败啦！', err.response.data.message, 'error')
             })
         })
@@ -108,6 +111,9 @@
                     timer: 2000
                 })
             }).catch(err => {
+                if (err.response.status === 401) {
+                    return swal('提示消息', '你需要登录后才能关注。')
+                }
                 swal('失败啦！', err.response.data.message, 'error')
             })
         })

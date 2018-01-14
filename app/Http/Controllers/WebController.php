@@ -4,11 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Activity;
 use App\Models\Leader;
-use App\Models\LocList;
 use App\Models\Nav;
 use App\Models\Raider;
 use App\Models\Travel;
 use App\Models\Video;
+use EasyWeChat\OfficialAccount\Application;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
 class WebController extends Controller
@@ -51,4 +52,20 @@ class WebController extends Controller
         return view('www.index', $data);
     }
 
+    // 微信和QQ
+    public function login(Application $app, Request $request)
+    {
+        $driver = $request->get('driver', 'wechat');
+        if ($driver === 'wechat') {
+            // 微信登录
+            return $app->oauth->scopes(['snsapi_login'])->redirect();
+        }
+
+        return 'QQ登录页面';
+    }
+
+    public function loginCallback()
+    {
+        return '登录的回调页面';
+    }
 }

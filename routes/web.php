@@ -44,3 +44,12 @@ Route::post('notice/alipay', 'PayController@alipayNotice');
 Route::get('notice/alipay/return', 'PayController@alipayReturn');
 // 支付宝官方网站支付
 Route::get('pay/alipay/{order}/web', 'PayController@alipayWeb')->name('pay.alipay.web');
+
+// 微信公众号接口 -- 未开发
+Route::any('wechat', 'WechatController');
+
+// 微信和QQ登录
+Route::get('oauth/login', 'WebController@login')->name('oauth.login');
+
+// 登录回调
+Route::get('oauth/callback', 'WebController@loginCallback');

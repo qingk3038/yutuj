@@ -29,22 +29,22 @@
                 </p>
                 <hr>
                 <p class="text-muted mb-1">用第三方账户直接登录</p>
-                <div class="text-center text-muted clearfix">
-                    <p class="float-left pr-2 pr-2 mb-0">
-                     <span class="fa-stack fa-2x">
-                        <i class="fa fa-circle fa-stack-2x text-warning"></i>
-                        <i class="fa fa-qq fa-stack-1x fa-inverse"></i>
-                    </span>
+                <p class="mb-0 clearfix text-center text-muted">
+                    <a href="{{ route('oauth.login', ['driver' => 'qq']) }}" class="float-left pr-2 pr-2">
+                         <span class="fa-stack fa-2x">
+                            <i class="fa fa-circle fa-stack-2x text-warning"></i>
+                            <i class="fa fa-qq fa-stack-1x fa-inverse"></i>
+                        </span>
                         <br>QQ
-                    </p>
-                    <p class="float-left pr-2 mb-0">
-                    <span class="fa-stack fa-2x">
-                        <i class="fa fa-circle fa-stack-2x text-warning"></i>
-                        <i class="fa fa-wechat fa-stack-1x fa-inverse"></i>
-                    </span>
+                    </a>
+                    <a href="{{ route('oauth.login', ['driver' => 'wechat']) }}" class="float-left pr-2">
+                        <span class="fa-stack fa-2x">
+                            <i class="fa fa-circle fa-stack-2x text-warning"></i>
+                            <i class="fa fa-wechat fa-stack-1x fa-inverse"></i>
+                        </span>
                         <br>微信
-                    </p>
-                </div>
+                    </a>
+                </p>
             </form>
         </div>
     </div>
