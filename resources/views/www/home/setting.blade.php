@@ -233,7 +233,7 @@
                 location.reload()
             }).catch(err => {
                 let errors = err.response.data.errors;
-                swal('失败！', Object.values(errors).join(''), 'error')
+                swal('上传失败！', Object.values(errors).join(''), 'error')
             })
         }
 
@@ -244,7 +244,8 @@
             axios.post("{{ url('sms/forgot') }}").then(res => {
                 swal('发送成功！', res.data.message, 'success')
             }).catch(err => {
-                swal('发送失败！', err.response.data.message, 'error')
+                let errors = err.response.data.errors;
+                swal('发送失败！', Object.values(errors).join(''), 'error')
             })
         }
 
@@ -256,7 +257,8 @@
             axios.post("{{ url('sms/update') }}").then(res => {
                 swal('发送成功！', res.data.message, 'success')
             }).catch(err => {
-                swal('发送失败！', err.response.data.message, 'error')
+                let errors = err.response.data.errors;
+                swal('发送失败！', Object.values(errors).join(''), 'error')
             })
         }
     </script>

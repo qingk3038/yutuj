@@ -20,7 +20,8 @@
                 <div class="form-group">
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="请输入验证码" v-model="form.code">
-                        <span class="input-group-addon" style="font-size: 13px; cursor: pointer;" @click="getCode">免费获取验证码</span>
+                        <span class="input-group-addon" style="font-size: 13px; cursor: pointer;" @click="getCode" v-if="seconds === 0">获取验证码</span>
+                        <span class="input-group-addon" style="font-size: 13px; cursor: pointer;" @click="getCode" v-else>@{{ seconds }}s 后重新获取</span>
                     </div>
                 </div>
                 <button type="submit" class="btn btn-warning btn-block text-white">下一步</button>
@@ -39,7 +40,8 @@
                 form: {
                     mobile: '',
                     code: ''
-                }
+                },
+                seconds: 0
             },
             methods: {
                 onSubmit() {
@@ -85,11 +87,18 @@
                     }
                     return true
                 },
+                timer() {
+                    this.seconds = 60
+                    let interval = setInterval(() => {
+                        this.seconds === 0 ? clearInterval(interval) : this.seconds--
+                    }, 1000)
+                },
                 getCode() {
-                    if (this.checkTel()) {
+                    if (this.checkTel() && this.seconds === 0) {
                         this.resetError()
                         axios.post("{{ url('sms/forgot') }}", {mobile: this.form.mobile}).then(res => {
-                            alert(res.data.message)
+                            this.timer()
+                            swal('短信已经发送', res.data.message)
                         }).catch(err => {
                             let errors = err.response.data.errors;
                             this.error = true

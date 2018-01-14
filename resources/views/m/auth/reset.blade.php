@@ -34,7 +34,6 @@
 
 @section('footer', false)
 
-
 @push('script')
     <script>
         new Vue({

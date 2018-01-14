@@ -21,7 +21,8 @@
             </div>
             <div class="form-group position-relative">
                 <input type="text" class="form-control" placeholder="请输入验证码" v-model="form.code">
-                <span class="btn-sm btn-warning position-absolute px-3" style="right: 5px; top: 5px;" @click="getCode">获取验证码</span>
+                <span class="btn-sm btn-warning position-absolute px-3" style="right: 5px; top: 5px;" @click="getCode" v-if="seconds === 0">获取验证码</span>
+                <span class="btn-sm btn-warning position-absolute px-3" style="right: 5px; top: 5px;" v-else>@{{ seconds }}s 后重新获取</span>
             </div>
             <div class="form-group">
                 <button type="submit" class="btn btn-block btn-warning">立即找回</button>
@@ -35,7 +36,6 @@
     </div>
 @endsection
 
-
 @section('footer', false)
 
 @push('script')
@@ -48,7 +48,8 @@
                 form: {
                     mobile: '',
                     code: ''
-                }
+                },
+                seconds: 0
             },
             methods: {
                 onSubmit() {
@@ -94,11 +95,18 @@
                     }
                     return true
                 },
+                timer() {
+                    this.seconds = 60
+                    let interval = setInterval(() => {
+                        this.seconds === 0 ? clearInterval(interval) : this.seconds--
+                    }, 1000)
+                },
                 getCode() {
-                    if (this.checkTel()) {
+                    if (this.checkTel() && this.seconds === 0) {
                         this.resetError()
                         axios.post("{{ url('sms/forgot') }}", {mobile: this.form.mobile}).then(res => {
-                            alert(res.data.message)
+                            this.timer()
+                            swal('短信已经发送', res.data.message)
                         }).catch(err => {
                             let errors = err.response.data.errors;
                             this.error = true

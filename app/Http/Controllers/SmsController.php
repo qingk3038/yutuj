@@ -40,13 +40,13 @@ class SmsController extends Controller
     private function sendSmsCode($template, $mobile, $op)
     {
         if (Cache::has('sms_cannot_send')) {
-            return response(['message' => '发送过于频繁，请稍后再试。'], 422);
+            return response(['errors' => ['message' => '发送过于频繁，请稍后再试。']], 422);
         }
 
         if ($sms_max = (int)config('sms_max')) {
             $num = Sms::where('mobile', $mobile)->whereDate('created_at', Carbon::today())->count();
             if ($num >= $sms_max) {
-                return response(['message' => '今天短信发送次数过多，请明天再试。'], 422);
+                return response(['errors' => ['message' => '今天短信发送次数过多，请明天再试。']], 422);
             }
         }
 
