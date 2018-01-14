@@ -1,266 +1,148 @@
 @extends('layouts.m')
 
-@section('title', '搜索')
+@section('title', sprintf('搜索"%s"的结果', request('q')))
 
 @section('header')
     @include('m.header', ['title' => '搜索', 'theme' => 'white'])
+    @include('m.provinces')
 @endsection
 
 @section('content')
-<form autocomplete="off" id="index-search" class="mt-5">
-    <div class="input-group">
-        <div class="input-group-btn">
-            <button type="button" id="search-btn" class="btn dropdown-toggle down bg-none index-search-btn text-warning border-warning" data-toggle="dropdown">不限</button>
-            <div class="dropdown-menu rounded-0" style="background: rgba(255,255,255, .8); min-width: auto;">
-                <a class="dropdown-item search-item" href="javascript:void(0);">不限</a>
-                <a class="dropdown-item search-item" href="javascript:void(0);" pid="2">北京</a>
-                <a class="dropdown-item search-item" href="javascript:void(0);" pid="2283">四川</a>
-                <a class="dropdown-item search-item" href="javascript:void(0);" pid="2584">云南</a>
-                <a class="dropdown-item search-item" href="javascript:void(0);" pid="2730">西藏</a>
-                <a class="dropdown-item search-item" href="javascript:void(0);" pid="3031">青海</a>
-                <a class="dropdown-item search-item" href="javascript:void(0);" pid="3111">新疆</a>
-                <a class="dropdown-item search-item" href="javascript:void(0);" pid="3277">爱尔巴桑</a>
-                <a class="dropdown-item search-item" href="javascript:void(0);" pid="3339">赫拉特</a>
-                <a class="dropdown-item search-item" href="javascript:void(0);" pid="3471">安道尔城</a>
-                <a class="dropdown-item search-item" href="javascript:void(0);" pid="3500">北部地区</a>
-                <a class="dropdown-item search-item" href="javascript:void(0);" pid="5777">北海道</a>
-            </div>
+    <div class="container-fluid py-4">
+        <ul class="nav nav-justified nav-search text-nowrap flex-nowrap">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle @if(request('s', 'activity') === 'activity') active @endif" data-toggle="dropdown" href="#">线路活动</a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item @if(!request('nid') && request('s', 'activity') === 'activity') active @endif" href="{{ route('search', ['s' => 'activity', 'q' => request('q'), 'pid' => request('pid')]) }}">全部活动</a>
+                    @foreach($navs as $nav)
+                        <a class="dropdown-item @if(request('nid') == $nav->id) active @endif" href="{{ route('search', ['s' => 'activity', 'q' => request('q'), 'pid' => request('pid'), 'nid' => $nav]) }}">{{ $nav->text }}</a>
+                    @endforeach
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle @if(request('s') === 'raider') active @endif" data-toggle="dropdown" href="#">线路攻略</a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item @if(!request('r') && request('s') === 'raider') active @endif" href="{{ route('search', ['s' => 'raider', 'q' => request('q'), 'pid' => request('pid')]) }}">全部攻略</a>
+                    <a class="dropdown-item @if(request('r') === 'default') active @endif" href="{{ route('search', ['s' => 'raider', 'q' => request('q'), 'pid' => request('pid'), 'r' => 'default']) }}">玩法攻略</a>
+                    <a class="dropdown-item @if(request('r') === 'line') active @endif" href="{{ route('search', ['s' => 'raider', 'q' => request('q'), 'pid' => request('pid'), 'r' => 'line']) }}">线路攻略</a>
+                    <a class="dropdown-item @if(request('r') === 'food') active @endif" href="{{ route('search', ['s' => 'raider', 'q' => request('q'), 'pid' => request('pid'), 'r' => 'food']) }}">美食攻略</a>
+                    <a class="dropdown-item @if(request('r') === 'scenic') active @endif" href="{{ route('search', ['s' => 'raider', 'q' => request('q'), 'pid' => request('pid'), 'r' => 'scenic']) }}">景点攻略</a>
+                    <a class="dropdown-item @if(request('r') === 'hospital') active @endif" href="{{ route('search', ['s' => 'raider', 'q' => request('q'), 'pid' => request('pid'), 'r' => 'scenic']) }}">住宿攻略</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle @if(request('s') === 'video') active @endif" data-toggle="dropdown" href="#">旅途短拍</a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item @if(request('v') === 'film') active @endif" href="{{ route('search', ['s' => 'video', 'q' => request('q'), 'pid' => request('pid'), 'v' => 'film']) }}">旅途短拍</a>
+                    <a class="dropdown-item @if(request('v') === 'live') active @endif" href="{{ route('search', ['s' => 'video', 'q' => request('q'), 'pid' => request('pid'), 'v' => 'live']) }}">大咖直播</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link @if(request('s') === 'travel') active @endif" href="{{ route('search', ['s' => 'travel', 'q' => request('q'), 'pid' => request('pid')]) }}">精彩游记</a>
+            </li>
+        </ul>
+    </div>
+
+    {{--产品--}}
+    @switch(request('s', 'activity'))
+
+        @case('activity')
+        <div class="a-list">
+            @php
+                $tag_btns = ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark'];
+            @endphp
+            @foreach($activities as $activity)
+                <a href="{{ route('m.activity.show', $activity) }}" class="card border-0">
+                    <img class="card-img-top rounded-0" src="{{ imageCut(414, 150, $activity->thumb) }}" alt="{{ $activity->title }}" width="414" height="150">
+                    <div class="card-body">
+                        <h6 class="text-truncate">{{ $activity->province->name }} · {{ $activity->title }}</h6>
+                        <p class="card-text text-truncate small">{{ $activity->description }}</p>
+                    </div>
+                    <small class="position-absolute text-warning">
+                        ¥<span class="lead font-weight-bold">{{ $activity->price }}</span> 起
+                    </small>
+                    <p class="position-absolute mb-0">
+                        @foreach($activity->tags as $tag)
+                            <span class="badge badge-pill badge-{{ $tag_btns[mt_rand(0, 7)] }} mr-1">{{ $tag->text }}</span>
+                        @endforeach
+                    </p>
+                </a>
+            @endforeach
+            <nav class="d-flex justify-content-center">
+                {{ $activities->links('vendor.pagination.m') }}
+            </nav>
         </div>
-        <input type="hidden" name="pid" id="pid">
-        <input type="text" class="form-control bg-none index-q border-warning" name="q" id="q" placeholder="搜目的地/攻略/游记">
-        <button type="submit" class="input-group-addon bg-none border-warning"><i class="fa fa-search text-warning fa-lg"></i></button>
-    </div>
-</form>
+        @break
 
-<div class="container-fluid py-4">
-    <ul class="nav nav-justified nav-search text-nowrap flex-nowrap">
-        <li class="nav-item dropdown">
-            <a class="nav-link active dropdown-toggle" data-toggle="dropdown" href="#">线路活动</a>
-            <div class="dropdown-menu">
-                <a class="dropdown-item" data-toggle="tab" href="#nav_1">纵横西部</a>
-                <a class="dropdown-item" data-toggle="tab" href="#nav_2">微上西部</a>
-                <a class="dropdown-item" data-toggle="tab" href="#nav_3">超级周末</a>
-                <a class="dropdown-item" data-toggle="tab" href="#nav_4">最6旅行</a>
-            </div>
-        </li>
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">线路攻略</a>
-            <div class="dropdown-menu">
-                <a class="dropdown-item" data-toggle="tab" href="#raider_default">玩法攻略</a>
-                <a class="dropdown-item" data-toggle="tab" href="#raider_line">线路攻略</a>
-                <a class="dropdown-item" data-toggle="tab" href="#raider_food">美食攻略</a>
-                <a class="dropdown-item" data-toggle="tab" href="#raider_scenic">景点攻略</a>
-                <a class="dropdown-item" data-toggle="tab" href="#raider_hospital">住宿攻略</a>
-            </div>
-        </li>
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">旅途短拍</a>
-            <div class="dropdown-menu">
-                <a class="dropdown-item" data-toggle="tab" href="#film">旅途短拍</a>
-                <a class="dropdown-item" data-toggle="tab" href="#live">大咖直播</a>
-            </div>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#travel">精彩游记</a>
-        </li>
-    </ul>
-</div>
+        @case('raider')
+        <div class="a-list">
+            @foreach($raiders as $raider)
+                <a href="{{ route('m.raider.show', $raider) }}" class="card border-0">
+                    <img class="card-img-top rounded-0" src="{{ imageCut(414, 150, $raider->thumb) }}" alt="{{ $raider->title }}" width="414" height="150">
+                    <div class="card-body">
+                        <h6 class="text-truncate w-100">{{ $raider->typeText() }} · {{ $raider->title }}</h6>
+                        <p class="mb-1 text-truncate small">{{ $raider->description }}</p>
+                        <p class="mb-0 d-flex small text-secondary text-truncate">
+                            <span class="mr-3"><i class="fa fa-map-marker-alt"></i> {{ $raider->province->name }} {{ $raider->city->name ?? '' }}</span>
+                            <span class="mr-3"><i class="fa fa-eye"></i> {{ $raider->click }}</span>
+                            <span class="mr-3"><i class="fa fa-thumbs-up"></i> {{ $raider->likes_count }}</span>
+                            <span class="mr-3"><i class="fa fa-user"></i> {{ $raider->admin->name }}</span>
+                            <span class="ml-auto"><i class="far fa-clock"></i> {{ $raider->created_at->toDateString() }}</span>
+                        </p>
+                    </div>
+                </a>
+            @endforeach
+            <nav class="d-flex justify-content-center">
+                {{ $raiders->links('vendor.pagination.m') }}
+            </nav>
+        </div>
+        @break
 
-<div class="tab-content">
-    <div class="a-list tab-pane fade show active" id="nav_1">
-        <a href="#" class="card rounded-0 border-0">
-            <img class="card-img-top" src="holder.js/100px150" alt="Card image cap">
-            <div class="card-body">
-                <h6 class="text-truncate">成都 · 大熊猫6天5晚自由行大熊猫6天5晚自由行</h6>
-                <p class="card-text text-truncate small">曼谷是一座五光十色的城,以其独有的魅力吸引着来...</p>
-            </div>
-            <small class="position-absolute text-warning">
-                ¥<span class="lead font-weight-bold">7867</span> 起
-            </small>
-            <p class="position-absolute mb-0">
-                <span class="badge badge-pill badge-primary mr-1">自由行</span>
-                <span class="badge badge-pill badge-success mr-1">大优惠</span>
-                <span class="badge badge-pill badge-danger mr-1">接送机</span>
-            </p>
-        </a>
-    </div>
-    <div class="a-list tab-pane fade" id="nav_2">
-        <a href="#" class="card rounded-0 border-0">
-            <img class="card-img-top" src="holder.js/100px150" alt="Card image cap">
-            <div class="card-body">
-                <h6 class="text-truncate">成都 · 大熊猫6天5晚自由行大熊猫6天5晚自由行</h6>
-                <p class="card-text text-truncate small">曼谷是一座五光十色的城,以其独有的魅力吸引着来...</p>
-            </div>
-            <small class="position-absolute text-warning">
-                ¥<span class="lead font-weight-bold">7867</span> 起
-            </small>
-            <p class="position-absolute mb-0">
-                <span class="badge badge-pill badge-primary mr-1">自由行</span>
-                <span class="badge badge-pill badge-success mr-1">大优惠</span>
-                <span class="badge badge-pill badge-danger mr-1">接送机</span>
-            </p>
-        </a>
-    </div>
-    <div class="a-list tab-pane fade" id="nav_3">
-        <a href="#" class="card rounded-0 border-0">
-            <img class="card-img-top" src="holder.js/100px150" alt="Card image cap">
-            <div class="card-body">
-                <h6 class="text-truncate">成都 · 大熊猫6天5晚自由行大熊猫6天5晚自由行</h6>
-                <p class="card-text text-truncate small">曼谷是一座五光十色的城,以其独有的魅力吸引着来...</p>
-            </div>
-            <small class="position-absolute text-warning">
-                ¥<span class="lead font-weight-bold">7867</span> 起
-            </small>
-            <p class="position-absolute mb-0">
-                <span class="badge badge-pill badge-primary mr-1">自由行</span>
-                <span class="badge badge-pill badge-success mr-1">大优惠</span>
-                <span class="badge badge-pill badge-danger mr-1">接送机</span>
-            </p>
-        </a>
-    </div>
-    <div class="a-list tab-pane fade" id="nav_4">
-        <a href="#" class="card rounded-0 border-0">
-            <img class="card-img-top" src="holder.js/100px150" alt="Card image cap">
-            <div class="card-body">
-                <h6 class="text-truncate">成都 · 大熊猫6天5晚自由行大熊猫6天5晚自由行</h6>
-                <p class="card-text text-truncate small">曼谷是一座五光十色的城,以其独有的魅力吸引着来...</p>
-            </div>
-            <small class="position-absolute text-warning">
-                ¥<span class="lead font-weight-bold">7867</span> 起
-            </small>
-            <p class="position-absolute mb-0">
-                <span class="badge badge-pill badge-primary mr-1">自由行</span>
-                <span class="badge badge-pill badge-success mr-1">大优惠</span>
-                <span class="badge badge-pill badge-danger mr-1">接送机</span>
-            </p>
-        </a>
-    </div>
+        @case('video')
+        <div class="a-list">
+            @foreach($videos as $video)
+                <a href="{{ route('m.video.show', $video) }}" class="card border-0" @if($video->type === 'live') target="_blank" @endif>
+                    <img class="card-img-top rounded-0" src="{{ imageCut(414, 150, $video->thumb) }}" alt="{{ $video->title }}" width="414" height="150">
+                    <div class="card-body">
+                        <h6 class="text-truncate">{{ $video->province->name }} · {{ $video->title }}</h6>
+                        <p class="card-text text-truncate small">{{ $video->description }}</p>
+                    </div>
+                    <p class="position-absolute mb-0">
+                        <i class="fa fa-play-circle fa-lg"></i>
+                    </p>
+                </a>
+            @endforeach
+            <nav class="d-flex justify-content-center">
+                {{ $videos->links('vendor.pagination.m') }}
+            </nav>
+        </div>
+        @break
 
-    <div class="a-list tab-pane fade" id="raider_default">
-        <a href="#" class="card rounded-0 border-0">
-            <img class="card-img-top" src="holder.js/100px150" alt="Card image cap">
-            <div class="card-body">
-                <h6 class="text-truncate">成都 · 大熊猫6天5晚自由行大熊猫6天5晚自由行</h6>
-                <p class="mb-1 text-truncate small">曼谷是一座五光十色的城,以其独有的魅力吸引着来...</p>
-                <p class="mb-0 d-flex justify-content-between small text-secondary text-truncate">
-                    <span><i class="fa fa-map-marker-alt"></i> 成都</span>
-                    <span><i class="fa fa-eye"></i> 12312</span>
-                    <span><i class="fa fa-thumbs-up"></i> 12312</span>
-                    <span><i class="fa fa-user"></i> 橙子</span>
-                    <span><i class="far fa-clock"></i> 2017-12-12</span>
-                </p>
-            </div>
-        </a>
-    </div>
-    <div class="a-list tab-pane fade" id="raider_line">
-        <a href="#" class="card rounded-0 border-0">
-            <img class="card-img-top" src="holder.js/100px150" alt="Card image cap">
-            <div class="card-body">
-                <h6 class="text-truncate">成都 · 大熊猫6天5晚自由行大熊猫6天5晚自由行</h6>
-                <p class="mb-1 text-truncate small">曼谷是一座五光十色的城,以其独有的魅力吸引着来...</p>
-                <p class="mb-0 d-flex justify-content-between small text-secondary text-truncate">
-                    <span><i class="fa fa-map-marker-alt"></i> 成都</span>
-                    <span><i class="fa fa-eye"></i> 12312</span>
-                    <span><i class="fa fa-thumbs-up"></i> 12312</span>
-                    <span><i class="fa fa-user"></i> 橙子</span>
-                    <span><i class="far fa-clock"></i> 2017-12-12</span>
-                </p>
-            </div>
-        </a>
-    </div>
-    <div class="a-list tab-pane fade" id="raider_food">
-        <a href="#" class="card rounded-0 border-0">
-            <img class="card-img-top" src="holder.js/100px150" alt="Card image cap">
-            <div class="card-body">
-                <h6 class="text-truncate">成都 · 大熊猫6天5晚自由行大熊猫6天5晚自由行</h6>
-                <p class="mb-1 text-truncate small">曼谷是一座五光十色的城,以其独有的魅力吸引着来...</p>
-                <p class="mb-0 d-flex justify-content-between small text-secondary text-truncate">
-                    <span><i class="fa fa-map-marker-alt"></i> 成都</span>
-                    <span><i class="fa fa-eye"></i> 12312</span>
-                    <span><i class="fa fa-thumbs-up"></i> 12312</span>
-                    <span><i class="fa fa-user"></i> 橙子</span>
-                    <span><i class="far fa-clock"></i> 2017-12-12</span>
-                </p>
-            </div>
-        </a>
-    </div>
-    <div class="a-list tab-pane fade" id="raider_scenic">
-        <a href="#" class="card rounded-0 border-0">
-            <img class="card-img-top" src="holder.js/100px150" alt="Card image cap">
-            <div class="card-body">
-                <h6 class="text-truncate">成都 · 大熊猫6天5晚自由行大熊猫6天5晚自由行</h6>
-                <p class="mb-1 text-truncate small">曼谷是一座五光十色的城,以其独有的魅力吸引着来...</p>
-                <p class="mb-0 d-flex justify-content-between small text-secondary text-truncate">
-                    <span><i class="fa fa-map-marker-alt"></i> 成都</span>
-                    <span><i class="fa fa-eye"></i> 12312</span>
-                    <span><i class="fa fa-thumbs-up"></i> 12312</span>
-                    <span><i class="fa fa-user"></i> 橙子</span>
-                    <span><i class="far fa-clock"></i> 2017-12-12</span>
-                </p>
-            </div>
-        </a>
-    </div>
-    <div class="a-list tab-pane fade" id="raider_hospital">
-        <a href="#" class="card rounded-0 border-0">
-            <img class="card-img-top" src="holder.js/100px150" alt="Card image cap">
-            <div class="card-body">
-                <h6 class="text-truncate">成都 · 大熊猫6天5晚自由行大熊猫6天5晚自由行</h6>
-                <p class="mb-1 text-truncate small">曼谷是一座五光十色的城,以其独有的魅力吸引着来...</p>
-                <p class="mb-0 d-flex justify-content-between small text-secondary text-truncate">
-                    <span><i class="fa fa-map-marker-alt"></i> 成都</span>
-                    <span><i class="fa fa-eye"></i> 12312</span>
-                    <span><i class="fa fa-thumbs-up"></i> 12312</span>
-                    <span><i class="fa fa-user"></i> 橙子</span>
-                    <span><i class="far fa-clock"></i> 2017-12-12</span>
-                </p>
-            </div>
-        </a>
-    </div>
+        @case('travel')
+        <div class="a-list">
+            @foreach($travels as $travel)
+                <a href="{{ route('m.travel.show', $travel) }}" class="card border-0">
+                    <img class="card-img-top rounded-0" src="{{ imageCut(414, 150, $travel->thumb)  }}" alt="{{ $travel->title }}" width="414" height="150">
+                    <div class="card-body">
+                        <h6 class="text-truncate">{{ $travel->title }}</h6>
+                        <p class="mb-2 text-truncate small">{{ $travel->description }}</p>
+                        <p class="mb-0 d-flex small text-secondary text-truncate">
+                            @if($travel->province)
+                                <span class="mr-2"><i class="fa fa-map-marker-alt"></i> {{ $travel->province }} {{ $travel->city }}</span>
+                            @endif
+                            <span class="mr-2"><i class="fa fa-eye"></i> {{ $travel->click }}</span>
+                            <span class="mr-2"><i class="fa fa-thumbs-up"></i> {{ $travel->likes_count }}</span>
+                            <span class="mr-2"><i class="fa fa-user"></i> {{ $travel->user->name ?? $travel->user->getHideMobile() }}</span>
+                            <span class="ml-auto"><i class="far fa-clock"></i> {{ $travel->created_at->toDateString() }}</span>
+                        </p>
+                    </div>
+                </a>
+            @endforeach
+            <nav class="d-flex justify-content-center">
+                {{ $travels->links('vendor.pagination.m') }}
+            </nav>
+        </div>
+        @break
 
-    <div class="a-list tab-pane fade" id="travel">
-        <a href="#" class="card rounded-0 border-0">
-            <img class="card-img-top" src="holder.js/100px150" alt="Card image cap">
-            <div class="card-body">
-                <h6 class="text-truncate">玩法 · 大熊猫6天5晚自由行大熊猫6天5晚自由行</h6>
-                <p class="mb-1 text-truncate small">曼谷是一座五光十色的城,以其独有的魅力吸引着来...</p>
-                <p class="mb-0 d-flex justify-content-between small text-secondary text-truncate">
-                    <span><i class="fa fa-map-marker-alt"></i> 成都</span>
-                    <span><i class="fa fa-eye"></i> 12312</span>
-                    <span><i class="fa fa-thumbs-up"></i> 12312</span>
-                    <span><i class="fa fa-user"></i> 橙子</span>
-                    <span><i class="far fa-clock"></i> 2017-12-12</span>
-                </p>
-            </div>
-        </a>
-    </div>
-
-    <div class="a-list tab-pane fade" id="film">
-        <a href="#" class="card rounded-0 border-0">
-            <img class="card-img-top" src="holder.js/100px150" alt="Card image cap">
-            <div class="card-body">
-                <h6 class="text-truncate">成都 · 大熊猫6天5晚自由行大熊猫6天5晚自由行</h6>
-                <p class="card-text text-truncate small">曼谷是一座五光十色的城,以其独有的魅力吸引着来...</p>
-            </div>
-            <p class="position-absolute mb-0">
-                <i class="fa fa-play-circle fa-lg"></i>
-            </p>
-        </a>
-    </div>
-    <div class="a-list tab-pane fade" id="live">
-        <a href="#" class="card rounded-0 border-0">
-            <img class="card-img-top" src="holder.js/100px150" alt="Card image cap">
-            <div class="card-body">
-                <h6 class="text-truncate">成都 · 大熊猫6天5晚自由行大熊猫6天5晚自由行</h6>
-                <p class="card-text text-truncate small">曼谷是一座五光十色的城,以其独有的魅力吸引着来...</p>
-            </div>
-            <p class="position-absolute mb-0">
-                <i class="fa fa-play-circle fa-lg"></i>
-            </p>
-        </a>
-    </div>
-</div>
-
-<p class="text-center text-secondary small">
-    <i class="fas fa-sync fa-spin"></i> 更多精彩加载中...
-</p>
+    @endswitch
 @endsection

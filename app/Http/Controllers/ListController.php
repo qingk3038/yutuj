@@ -256,7 +256,7 @@ class ListController extends Controller
     {
         $keyword = $request->get('q');
         if (!$keyword) {
-            return redirect('/');
+            return back();
         }
         $data = Cache::remember($request->fullUrl(), 5, function () use ($keyword) {
 
@@ -273,7 +273,7 @@ class ListController extends Controller
                         if ($pid = request()->get('pid')) {
                             $query->where('province_id', $pid);
                         }
-                    })->get(['id', 'title', 'short', 'title', 'xc', 'description', 'thumb', 'price', 'province_id'], 'a_page');
+                    })->paginate(null, ['id', 'title', 'short', 'title', 'xc', 'description', 'thumb', 'price', 'province_id'], 'a_page');
             }
 
             $arr['raider_types'] = ['default' => '攻略', 'line' => '线路', 'scenic' => '景点', 'food' => '美食', 'hospital' => '民宿'];
@@ -289,7 +289,7 @@ class ListController extends Controller
                         if ($pid = request()->get('pid')) {
                             $query->where('province_id', $pid);
                         }
-                    })->get(['id', 'type', 'title', 'short', 'description', 'thumb', 'click', 'created_at'], 'r_page');
+                    })->paginate(null, ['id', 'type', 'title', 'short', 'description', 'thumb', 'click', 'created_at'], 'r_page');
             }
 
             // 游记
@@ -298,7 +298,7 @@ class ListController extends Controller
                 ->withCount('likes')
                 ->latest()
                 ->whereRaw('match (title, description) against(?)', $keyword)
-                ->get(['id', 'title', 'description', 'thumb'], 't_page');
+                ->paginate(null, ['id', 'title', 'description', 'thumb'], 't_page');
 
             // 短拍
             $arr['films'] = Video::active()
@@ -309,7 +309,7 @@ class ListController extends Controller
                     if ($pid = request()->get('pid')) {
                         $query->where('province_id', $pid);
                     }
-                })->get();
+                })->paginate();
 
             // 直播
             $arr['lives'] = Video::active()
@@ -320,7 +320,7 @@ class ListController extends Controller
                     if ($pid = request()->get('pid')) {
                         $query->where('province_id', $pid);
                     }
-                })->get();
+                })->paginate();
 
             return $arr;
         });

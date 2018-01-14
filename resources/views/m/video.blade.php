@@ -32,7 +32,7 @@
                 <a href="{{ route('m.video.show', $video) }}" class="card rounded-0 border-0">
                     <img class="card-img-top" src="{{ imageCut(414, 150, $video->thumb) }}" alt="{{ $video->title }}">
                     <div class="card-body">
-                        <h6 class="text-truncate">{{ $video->name }} · {{ $video->title }}</h6>
+                        <h6 class="text-truncate">{{ $video->province->name }} · {{ $video->title }}</h6>
                         <p class="card-text text-truncate small">{{ str_limit($video->description) }}</p>
                     </div>
                     <p class="position-absolute mb-0">

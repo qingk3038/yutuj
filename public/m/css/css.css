@@ -87,19 +87,6 @@ section#index-nav > a > img {
     background-color: transparent !important;
 }
 
-.index-search-btn {
-    border: 1px solid #dddddd;
-    border-right: none;
-    color: #eeeeee;
-}
-
-.index-q:focus,
-.index-q {
-    border-right: none;
-    border-left: none;
-    color: #eeeeee;
-}
-
 .top-border {
     border-top: 3px solid #dddddd;
 }
@@ -328,8 +315,8 @@ a.media {
 }
 
 .search-item.active {
-    background-color: transparent !important;
-    color: #FF9900 !important;
+    background-color: #f8f9fa;
+    color: #FF9900;
 }
 
 .nav-search .nav-link {

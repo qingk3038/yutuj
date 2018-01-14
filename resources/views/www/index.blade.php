@@ -364,7 +364,7 @@
                         @foreach($z_foods as $item)
                             <div class="{{ $list_class[$loop->index] }}">
                                 <a href="{{ route('www.raider.show', $item) }}" class="position-relative d-block" title="{{ $item->title }}" target="_blank">
-                                    <img class="w-100 " src="{{ imageCut(286, $loop->index === 2 ? 378 : 186, $item->thumb) }}" alt="{{ $item->short }}"  width="286" height="{{ $loop->index === 2 ? 378 : 186 }}">
+                                    <img class="w-100 " src="{{ imageCut(286, $loop->index === 2 ? 378 : 186, $item->thumb) }}" alt="{{ $item->short }}" width="286" height="{{ $loop->index === 2 ? 378 : 186 }}">
                                     <h5 class="position-absolute text-truncate">{{ $item->short }}<br><i class="fa fa-2x fa-sign-in mt-3"></i></h5>
                                     <i class="position-absolute bg-mark"></i>
                                 </a>
@@ -403,8 +403,7 @@
                             <a href="{{ route('www.travel.show', $travel) }}" class="h6" target="_blank">{{ $travel->title }}</a>
                             <div class="d-flex justify-content-between">
                                 <span>{{ $travel->created_at->toDateString() }}</span>
-                                <span>BY</span>
-                                <a href="{{ route('www.user.travel', $travel->user) }}" class="text-warning">{{ $travel->user->name }}</a>
+                                <span>BY <a href="{{ route('www.user.travel', $travel->user) }}" class="text-warning">{{ $travel->user->name ?? $travel->user->getHideMobile() }}</a></span>
                             </div>
                         </div>
                     </div>

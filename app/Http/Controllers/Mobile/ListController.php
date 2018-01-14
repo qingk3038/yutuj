@@ -244,80 +244,69 @@ class ListController extends Controller
     {
         $keyword = $request->get('q');
         if (!$keyword) {
-            return redirect('/');
+            return back();
         }
-        $data = Cache::remember('m' . $request->fullUrl(), 5, function () use ($keyword) {
 
-            $arr['navs'] = Nav::get(['id', 'text']);
-            foreach ($arr['navs'] as $nav) {
-                // 活动
-                $nav->activities = $nav->activities()
-                    ->active()
-                    ->latest()
-                    ->with('tuans')
-                    ->withCount('trips')
-                    ->whereRaw('match (title, description) against(?)', $keyword)
-                    ->where(function ($query) {
-                        if ($pid = request()->get('pid')) {
-                            $query->where('province_id', $pid);
-                        }
-                    })
-                    ->get(['id', 'title', 'short', 'title', 'xc', 'description', 'thumb', 'price', 'province_id'], 'a_page');
-            }
-
-            $arr['raider_types'] = ['default' => '攻略', 'line' => '线路', 'scenic' => '景点', 'food' => '美食', 'hospital' => '民宿'];
-
-            // 攻略
-            foreach ($arr['raider_types'] as $key => $type) {
-                $arr['raiders'][$key] = Raider::where('type', $key)
-                    ->latest()
-                    ->with('country', 'province', 'city')
+        $s = request()->get('s', 'activity');
+        $arr['navs'] = Nav::all();
+        switch ($s) {
+            case 'raider':
+                $arr['raiders'] = Raider::with('admin', 'province')
                     ->withCount('likes')
                     ->whereRaw('match (title, description) against(?)', $keyword)
                     ->where(function ($query) {
-                        if ($pid = request()->get('pid')) {
+                        if ($pid = request('pid')) {
+                            $query->where('province_id', $pid);
+                        }
+                        if ($r = request('r')) {
+                            $query->where('type', $r);
+                        }
+                    })
+                    ->latest()
+                    ->paginate(null, ['id', 'title', 'thumb', 'description', 'click', 'type', 'province_id', 'created_at']);
+                break;
+
+            case 'video':
+                $arr['videos'] = Video::whereRaw('match (title, description) against(?)', $keyword)
+                    ->where(function ($query) {
+                        if ($pid = request('pid')) {
                             $query->where('province_id', $pid);
                         }
                     })
-                    ->get(['id', 'type', 'title', 'short', 'description', 'thumb', 'click', 'created_at'], 'r_page');
-            }
+                    ->type(request('v'))
+                    ->active()
+                    ->latest()
+                    ->paginate();
+                break;
 
-            // 游记
-            $arr['travels'] = Travel::status('adopt')
-                ->with('user')
-                ->withCount('likes')
-                ->latest()
-                ->whereRaw('match (title, description) against(?)', $keyword)
-                ->get(['id', 'title', 'description', 'thumb'], 't_page');
+            case 'travel':
+                $arr['travels'] = Travel::with('user')
+                    ->withCount('likes')
+                    ->whereRaw('match (title, description) against(?)', $keyword)
+                    ->status('adopt')
+                    ->latest()
+                    ->paginate(null, ['id', 'title', 'description', 'thumb']);
+                break;
 
-            // 短拍
-            $arr['films'] = Video::active()
-                ->type('film')
-                ->latest()
-                ->whereRaw('match (title, description) against(?)', $keyword)
-                ->where(function ($query) {
-                    if ($pid = request()->get('pid')) {
-                        $query->where('province_id', $pid);
-                    }
-                })
-                ->get();
+            default :
+                $arr['activities'] = Activity::with('tags', 'province')
+                    ->whereRaw('match (title, description) against(?)', $keyword)
+                    ->where(function ($query) {
+                        if ($pid = request('pid')) {
+                            $query->where('province_id', $pid);
+                        }
+                        if ($nid = request('nid')) {
+                            $query->whereHas('navs', function ($query) use ($nid) {
+                                $query->where('id', $nid);
+                            });
+                        }
+                    })
+                    ->active()
+                    ->latest()
+                    ->paginate(null, ['id', 'title', 'thumb', 'price', 'description', 'province_id']);
+        }
 
-            // 直播
-            $arr['lives'] = Video::active()
-                ->type('live')
-                ->latest()
-                ->whereRaw('match (title, description) against(?)', $keyword)
-                ->where(function ($query) {
-                    if ($pid = request()->get('pid')) {
-                        $query->where('province_id', $pid);
-                    }
-                })
-                ->get();
-
-            return $arr;
-        });
-
-        return view('m.search', $data);
+        return view('m.search', $arr);
     }
 
 }

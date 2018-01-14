@@ -101,7 +101,7 @@
                         </div>
                     @endforeach
 
-                    <nav class="d-flex justify-content-end pt-5 w-100">
+                    <nav class="d-flex justify-content-end pt-4">
                         {{ $travels->appends(Request::only( 'province', 'city', 'field', 'order'))->links() }}
                     </nav>
                 </div>
@@ -126,7 +126,9 @@
             $(document).on('click', '.list-param a, .list-orderBy a, ul.pagination a', function (event) {
                 event.preventDefault()
                 let url = $(this).attr('href') + ' #load > div'
-                $('#load').load(url)
+                $('#load').load(url, function () {
+                    $('body,html').animate({scrollTop: $(this).offset().top}, 500)
+                })
             })
         })(jQuery);
     </script>

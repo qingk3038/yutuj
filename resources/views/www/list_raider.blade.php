@@ -10,7 +10,7 @@
     <div class="container mb-4 page-list-box">
         <div class="d-flex flex-wrap justify-content-between types">
             <a href="{{ route('www.raider.list') }}" class="position-relative">
-                <img src="{{ asset('img/list_raiders.jpg') }}" alt="攻略列表">
+                <img src="{{ asset('img/list_raiders.jpg') }}" alt="攻略列表" width="400" height="242">
                 <div class="text-center position-absolute">
                     <h3>全部攻略</h3>
                     <p class="lead">玩吃住行，出行无忧</p>
@@ -18,7 +18,7 @@
                 </div>
             </a>
             <a href="{{ route('www.raider.list', ['type' => 'line']) }}" class="position-relative">
-                <img src="{{ asset('img/list_line.jpg') }}" alt="list_line">
+                <img src="{{ asset('img/list_line.jpg') }}" alt="线路攻略" width="400" height="242">
                 <div class="text-center position-absolute">
                     <h3>线路攻略</h3>
                     <p class="lead">随心纯玩新模式</p>
@@ -26,7 +26,7 @@
                 </div>
             </a>
             <a href="{{ route('www.raider.list', ['type' => 'food']) }}" class="position-relative">
-                <img src="{{ asset('img/list_food.jpg') }}" alt="list_food">
+                <img src="{{ asset('img/list_food.jpg') }}" alt="美食攻略" width="400" height="242">
                 <div class="text-center position-absolute">
                     <h3>美食攻略</h3>
                     <p class="lead">一路美食相伴</p>
@@ -35,7 +35,7 @@
             </a>
 
             <a href="{{ route('www.raider.list', ['type' => 'default']) }}" class="position-relative">
-                <img src="{{ asset('img/list_youhui.jpg') }}" alt="更多优惠活动">
+                <img src="{{ asset('img/list_youhui.jpg') }}" alt="更多优惠活动" width="400" height="242">
                 <div class="text-center position-absolute">
                     <h3>更多优惠活动</h3>
                     <p class="lead">2018年预约启程</p>
@@ -43,7 +43,7 @@
                 </div>
             </a>
             <a href="{{ route('www.raider.list', ['type' => 'hospital']) }}" class="position-relative">
-                <img src="{{ asset('img/list_hotel.jpg') }}" alt="住宿攻略">
+                <img src="{{ asset('img/list_hotel.jpg') }}" alt="住宿攻略" width="400" height="242">
                 <div class="text-center position-absolute">
                     <h3>住宿攻略</h3>
                     <p class="lead">旅居当地，特色民宿</p>
@@ -51,7 +51,7 @@
                 </div>
             </a>
             <a href="{{ route('www.raider.list', ['type' => 'scenic']) }}" class="position-relative">
-                <img src="{{ asset('img/list_scenic.jpg') }}" alt="景点攻略">
+                <img src="{{ asset('img/list_scenic.jpg') }}" alt="景点攻略" width="400" height="242">
                 <div class="text-center position-absolute">
                     <h3>景点攻略</h3>
                     <p class="lead">深度挖掘，好玩有趣</p>
@@ -141,7 +141,7 @@
                         </div>
                     @endforeach
 
-                    <nav class="d-flex justify-content-end pt-5 w-100">
+                    <nav class="d-flex justify-content-end pt-4">
                         {{ $raiders->appends(Request::only('type', 'pid', 'cid', 'field', 'order'))->links() }}
                     </nav>
                 </div>
@@ -166,7 +166,9 @@
             $(document).on('click', '.list-param a, .list-orderBy a, .types > a, ul.pagination a', function (event) {
                 event.preventDefault()
                 let url = $(this).attr('href') + ' #load > div'
-                $('#load').load(url)
+                $('#load').load(url, function () {
+                    $('body,html').animate({scrollTop: $(this).offset().top}, 500)
+                })
             })
         })(jQuery);
     </script>

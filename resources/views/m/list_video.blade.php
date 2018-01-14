@@ -125,10 +125,10 @@
 
     <div class="a-list">
         @foreach($videos as $video)
-            <a href="{{ route('m.video.show', $video) }}" class="card rounded-0 border-0" @if($video->type === 'live') target="_blank" @endif>
-                <img class="card-img-top" src="{{ imageCut(414, 150, $video->thumb) }}" alt="{{ $video->title }}" width="414" height="150">
+            <a href="{{ route('m.video.show', $video) }}" class="card border-0" @if($video->type === 'live') target="_blank" @endif>
+                <img class="card-img-top rounded-0" src="{{ imageCut(414, 150, $video->thumb) }}" alt="{{ $video->title }}" width="414" height="150">
                 <div class="card-body">
-                    <h6 class="text-truncate">{{ $video->province->name }} · {{ $video->title }}</h6>
+                    <h6 class="text-truncate w-100">{{ $video->province->name }} · {{ $video->title }}</h6>
                     <p class="card-text text-truncate small">{{ $video->description }}</p>
                 </div>
                 <p class="position-absolute mb-0">

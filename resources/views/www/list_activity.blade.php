@@ -77,13 +77,19 @@
                 <div class="bg-white list-orderBy py-2 my-2">
                     <ul class="nav">
                         <li class="nav-item">
-                            <a class="nav-link {{ request('field', 'id') === 'id' ? 'active' : '' }}" href="{{ route('www.activity.list', array_merge(Request::only('nid', 'pid', 'cid', 'price'), ['field' => 'id', 'order' => request('field', 'id') == 'id' &&  request('order', 'desc') === 'desc' ? 'asc' : 'desc'])) }}">综合排序 <i class="fa fa-angle-{{  request('field', 'id') === 'id' && request('order', 'desc') === 'desc' ? 'down' : 'up' }}"></i></a>
+                            <a class="nav-link {{ request('field', 'id') === 'id' ? 'active' : '' }}"
+                               href="{{ route('www.activity.list', array_merge(Request::only('nid', 'pid', 'cid', 'price'), ['field' => 'id', 'order' => request('field', 'id') == 'id' &&  request('order', 'desc') === 'desc' ? 'asc' : 'desc'])) }}">综合排序 <i
+                                        class="fa fa-angle-{{  request('field', 'id') === 'id' && request('order', 'desc') === 'desc' ? 'down' : 'up' }}"></i></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ request('field') === 'price' ? 'active' : '' }}" href="{{ route('www.activity.list', array_merge(Request::only('nid', 'pid', 'cid', 'price'), ['field' => 'price', 'order' => request('field') == 'price' &&  request('order') === 'desc' ? 'asc' : 'desc'])) }}">价格 <i class="fa fa-angle-{{  request('field') == 'price' && request('order') === 'desc' ? 'down' : 'up' }}"></i></a>
+                            <a class="nav-link {{ request('field') === 'price' ? 'active' : '' }}"
+                               href="{{ route('www.activity.list', array_merge(Request::only('nid', 'pid', 'cid', 'price'), ['field' => 'price', 'order' => request('field') == 'price' &&  request('order') === 'desc' ? 'asc' : 'desc'])) }}">价格 <i
+                                        class="fa fa-angle-{{  request('field') == 'price' && request('order') === 'desc' ? 'down' : 'up' }}"></i></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ request('field') === 'created_at' ? 'active' : '' }}" href="{{ route('www.activity.list', array_merge(Request::only('nid', 'pid', 'cid', 'price'), ['field' => 'created_at', 'order' => request('field') == 'created_at' &&  request('order') === 'desc' ? 'asc' : 'desc'])) }}">发布时间 <i class="fa fa-angle-{{ request('field') == 'created_at' &&  request('order') === 'desc' ? 'down' : 'up' }}"></i></a>
+                            <a class="nav-link {{ request('field') === 'created_at' ? 'active' : '' }}"
+                               href="{{ route('www.activity.list', array_merge(Request::only('nid', 'pid', 'cid', 'price'), ['field' => 'created_at', 'order' => request('field') == 'created_at' &&  request('order') === 'desc' ? 'asc' : 'desc'])) }}">发布时间 <i
+                                        class="fa fa-angle-{{ request('field') == 'created_at' &&  request('order') === 'desc' ? 'down' : 'up' }}"></i></a>
                         </li>
                     </ul>
                 </div>
@@ -140,7 +146,7 @@
                         </div>
                     @endforeach
 
-                    <nav class="d-flex justify-content-end pt-5 w-100">
+                    <nav class="d-flex justify-content-end pt-4">
                         {{ $activities->appends(Request::only('nid', 'lid', 'pid', 'cid', 'field', 'order'))->links() }}
                     </nav>
                 </div>
@@ -173,7 +179,9 @@
             $(document).on('click', '.list-param a, .list-orderBy a, ul.pagination a', function (event) {
                 event.preventDefault()
                 let url = $(this).attr('href') + ' #load > div'
-                $('#load').load(url)
+                $('#load').load(url, function () {
+                    $('body,html').animate({scrollTop: $(this).offset().top}, 500)
+                })
             })
         })(jQuery);
     </script>

@@ -40,7 +40,7 @@
                     </a>
                 @endforeach
             </div>
-            <nav class="d-flex justify-content-end pt-4 w-100">
+            <nav class="d-flex justify-content-end pt-4">
                 {{ $films->links() }}
             </nav>
         </div>
@@ -74,7 +74,7 @@
                     </a>
                 @endforeach
             </div>
-            <nav class="d-flex justify-content-end pt-4 w-100">
+            <nav class="d-flex justify-content-end pt-4">
                 {{ $lives->links() }}
             </nav>
         </div>

@@ -153,8 +153,8 @@
 
     <div class="a-list">
         @foreach($raiders as $raider)
-            <a href="{{ route('m.raider.show', $raider) }}" class="card rounded-0 border-0">
-                <img class="card-img-top" src="{{ imageCut(414, 150, $raider->thumb) }}" alt="{{ $raider->title }}" width="414" height="150">
+            <a href="{{ route('m.raider.show', $raider) }}" class="card border-0">
+                <img class="card-img-top rounded-0" src="{{ imageCut(414, 150, $raider->thumb) }}" alt="{{ $raider->title }}" width="414" height="150">
                 <div class="card-body">
                     <h6 class="text-truncate w-100">{{ $raider->typeText() }} · {{ $raider->title }}</h6>
                     <p class="mb-1 text-truncate small">{{ $raider->description }}</p>

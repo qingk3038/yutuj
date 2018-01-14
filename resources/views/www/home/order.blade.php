@@ -64,7 +64,9 @@
             $(document).on('click', '.nav-order a, ul.pagination a', function (event) {
                 event.preventDefault()
                 let url = $(this).attr('href') + ' #load > div'
-                $('#load').load(url)
+                $('#load').load(url, function () {
+                    $('body,html').animate({scrollTop: $(this).offset().top}, 500)
+                })
             })
         })(jQuery);
     </script>

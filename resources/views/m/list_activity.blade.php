@@ -165,8 +165,8 @@
             $tag_btns = ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark'];
         @endphp
         @foreach($activities as $activity)
-            <a href="{{ route('m.activity.show', $activity) }}" class="card rounded-0 border-0">
-                <img class="card-img-top" src="{{ imageCut(414, 150, $activity->thumb) }}" alt="{{ $activity->title }}" width="414" height="150">
+            <a href="{{ route('m.activity.show', $activity) }}" class="card border-0">
+                <img class="card-img-top rounded-0" src="{{ imageCut(414, 150, $activity->thumb) }}" alt="{{ $activity->title }}" width="414" height="150">
                 <div class="card-body">
                     <h6 class="text-truncate">{{ $activity->province->name }} · {{ $activity->title }}</h6>
                     <p class="card-text text-truncate small">{{ $activity->description }}</p>
@@ -181,7 +181,6 @@
                 </p>
             </a>
         @endforeach
-
         <nav class="d-flex justify-content-center">
             {{ $activities->links('vendor.pagination.m') }}
         </nav>

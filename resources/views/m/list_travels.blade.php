@@ -129,10 +129,10 @@
 
     <div class="a-list">
         @foreach($travels as $travel)
-            <a href="{{ route('m.travel.show', $travel) }}" class="card rounded-0 border-0">
-                <img class="card-img-top" src="{{ imageCut(414, 150, $travel->thumb)  }}" alt="{{ $travel->title }}" width="414" height="150">
+            <a href="{{ route('m.travel.show', $travel) }}" class="card border-0">
+                <img class="card-img-top rounded-0" src="{{ imageCut(414, 150, $travel->thumb)  }}" alt="{{ $travel->title }}" width="414" height="150">
                 <div class="card-body">
-                    <h6 class="text-truncate">{{ $travel->title }}</h6>
+                    <h6 class="text-truncate w-100">{{ $travel->title }}</h6>
                     <p class="mb-2 text-truncate small">{{ $travel->description }}</p>
                     <p class="mb-0 d-flex small text-secondary text-truncate">
                         @if($travel->province)
