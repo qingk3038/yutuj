@@ -77,9 +77,9 @@
         </div>
         <div id="line" class="carousel slide slide-two" data-ride="carousel">
             <div class="carousel-inner">
-                @foreach($line_activities as $activity)
+                @foreach($hots as $activity)
                     <div class="carousel-item @if($loop->first) active @endif">
-                        <img class="d-block w-100" src="{{ imageCut(360, 200, $activity->thumb) }}" alt="{{ $activity->short }}">
+                        <img class="d-block w-100" src="{{ imageCut(414, 200, $activity->thumb) }}" alt="{{ $activity->short }}" width="414" height="200">
                         <div class="carousel-caption">
                             <h5>{{ str_limit($activity->short, 20) }}</h5>
                             <small class="pl-3">{{ str_limit($activity->title, 36)}}</small>
@@ -129,10 +129,10 @@
                     <div class="carousel-inner">
                         @foreach($wans as $wan)
                             <div class="carousel-item @if($loop->first) active @endif">
-                                <img class="d-block w-100" src="{{ imageCut(360, 150, $wan->thumb) }}" alt="{{ $wan->short }}">
-                                <div class="carousel-caption">
-                                    <h5>{{ str_limit($wan->short, 20) }}</h5>
-                                    <small class="pl-3">{{ str_limit($wan->title, 36)}}</small>
+                                <img class="d-block w-100" src="{{ imageCut(414, 200, $wan->thumb) }}" alt="{{ $wan->short }}" width="414" height="200">
+                                <div class="carousel-caption text-truncate">
+                                    <h5 class="w-75">{{ $wan->short }}</h5>
+                                    <small class="pl-3 w-75 d-block">{{ $wan->title }}</small>
                                 </div>
                                 <div class="position-absolute btn-see">
                                     <a href="{{ route('m.raider.show', $wan) }}" class="btn btn-sm btn-block btn-outline-light">去看看</a>
@@ -158,7 +158,7 @@
                                 <dl class="row p-2">
                                     <dt class="col-5 text-center">
                                         <a href="{{ route('m.leader.show', $leader) }}">
-                                            <img class="rounded-circle img-fluid" src="{{ imageCut(140, 140, $leader->avatar) }}" alt="{{ $leader->name }}">
+                                            <img class="rounded-circle img-fluid" src="{{ imageCut(140, 140, $leader->avatar) }}" alt="{{ $leader->name }}" width="140" height="140">
                                         </a>
                                     </dt>
                                     <dd class="col-7 text-justify">
@@ -184,10 +184,10 @@
                     <div class="carousel-inner">
                         @foreach($hospitals as $hospital)
                             <div class="carousel-item @if($loop->first) active @endif">
-                                <img class="d-block w-100" src="{{ imageCut(360, 150, $hospital->thumb) }}" alt="{{ $hospital->short }}">
-                                <div class="carousel-caption">
-                                    <h5>{{ str_limit($hospital->short, 20) }}</h5>
-                                    <small class="pl-3">{{ str_limit($hospital->title, 36)}}</small>
+                                <img class="d-block w-100" src="{{ imageCut(414, 200, $hospital->thumb) }}" alt="{{ $hospital->short }}" width="414" height="200">
+                                <div class="carousel-caption text-truncate">
+                                    <h5 class="w-75">{{ $hospital->short }}</h5>
+                                    <small class="pl-3 w-75 d-block">{{ $hospital->title }}</small>
                                 </div>
                                 <div class="position-absolute btn-see">
                                     <a href="{{ route('m.raider.show', $hospital) }}" class="btn btn-sm btn-block btn-outline-light">去看看</a>
@@ -255,10 +255,10 @@
                     <div class="carousel-inner">
                         @foreach($films as $film)
                             <a href="{{ route('m.video.show', $film) }}" class="carousel-item @if($loop->first) active @endif">
-                                <img class="d-block w-100" src="{{ imageCut(360, 200, $film->thumb) }}" alt="{{ $film->title }}">
-                                <div class="carousel-caption">
+                                <img class="d-block w-100" src="{{ imageCut(414, 200, $film->thumb) }}" alt="{{ $film->title }}" width="414" height="200">
+                                <div class="carousel-caption text-truncate">
                                     <p class="text-center"><i class="far fa-3x fa-play-circle"></i></p>
-                                    {{ str_limit($film->title, 30) }}
+                                    {{ $film->title }}
                                 </div>
                             </a>
                         @endforeach
@@ -283,10 +283,10 @@
                     <div class="carousel-inner">
                         @foreach($lives as $life)
                             <a href="{{ route('m.video.show', $life) }}" class="carousel-item @if($loop->first) active @endif" target="_blank">
-                                <img class="d-block w-100" src="{{ imageCut(360, 200, $life->thumb) }}" alt="{{ $life->title }}">
-                                <div class="carousel-caption">
+                                <img class="d-block w-100" src="{{ imageCut(414, 200, $life->thumb) }}" alt="{{ $life->title }}" width="414" height="200">
+                                <div class="carousel-caption text-truncate">
                                     <p class="text-center"><i class="far fa-3x fa-play-circle"></i></p>
-                                    {{ str_limit($life->title, 30) }}
+                                    {{ $life->title }}
                                 </div>
                             </a>
                         @endforeach
@@ -313,93 +313,66 @@
             </div>
         </div>
 
-        @verbatim
-            <div class="slide-two" id="loadList">
-                <ul class="nav nav-justified nav-two mb-3 flex-nowrap text-nowrap">
-                    <li class="nav-item" v-for="(nav, index) in navs">
-                        <a class="nav-link px-1" :class="{active: nid===nav.id}" @click="changeNav(nav)" href="javascript:void(0);">{{ nav.text }}</a>
+        <div class="slide-two" id="loadList">
+            <ul class="nav nav-justified nav-two mb-3 flex-nowrap text-nowrap">
+                @foreach($navs as $nav)
+                    <li class="nav-item">
+                        <a class="nav-link px-1 @if(request('nid', array_first($navs)->id) == $nav->id) active @endif" href="?nid={{ $nav->id }}">{{ $nav->text }}</a>
                     </li>
-                </ul>
-                <template v-for="activity in activities">
+                @endforeach
+            </ul>
+            <div class="item">
+                @foreach($activities as $activity)
                     <div class="carousel-item active">
-                        <img class="d-block w-100" :src="imageCut(414, 200, activity.thumb)" :alt="activity.short" width="414" height="200">
+                        <img class="d-block w-100" src="{{ imageCut(414, 200, $activity->thumb) }}" alt="{{ $activity->short }}" width="414" height="200">
                         <div class="carousel-caption">
-                            <h5>{{ activity.province.name }} · {{ activity.title.substr(0, 8) }}…</h5>
-                            <small class="pl-3">{{ activity.title.substr(0, 18) }}…</small>
+                            <h5 class="text-truncate w-75">{{ $activity->province->name }} · {{ $activity->short }}</h5>
+                            <small class="pl-3 d-block text-truncate w-75">{{ $activity->title }}</small>
                         </div>
                         <div class="position-absolute btn-see">
-                            <small class="text-white d-block">¥<strong class="lead">{{ activity.price }}</strong>起</small>
-                            <a :href="`/activity/show/${activity.id}`" class="btn btn-sm btn-block btn-outline-light">去看看</a>
+                            <small class="text-white d-block">¥<strong class="lead">{{ $activity->price }}</strong>起</small>
+                            <a href="{{ route('activity.show', $activity) }}" class="btn btn-sm btn-block btn-outline-light">去看看</a>
                         </div>
                     </div>
                     <p class="text-right mb-0 p-2 small">
-                        <a :href="`/activity/list?pid=${activity.province.id}`" class="text-secondary"><i class="fa fa-fw fa-angle-right"></i>更多{{ activity.province.name }}</a>
+                        <a href="{{ route('m.activity.list', ['pid' => $activity->province]) }}" class="text-secondary">
+                            <i class="fa fa-fw fa-angle-right"></i>更多{{ $activity->province->name }}
+                        </a>
                     </p>
-                </template>
-                <p class="text-center text-secondary small" v-show="load">
-                    <i class="fas fa-sync fa-spin"></i> 更多精彩加载中...
-                </p>
+                @endforeach
             </div>
-        @endverbatim
+            {{--{{ $activities->appends(Request::only('nid'))->nextPageUrl() }}--}}
+            {{--<p class="text-center text-secondary small">
+                <i class="fas fa-sync fa-spin"></i> 更多精彩加载中...
+            </p>--}}
+
+            <p class="load-next-button p-2 hideNav">
+                <a href="{{ $activities->appends(Request::only('nid'))->nextPageUrl() }}" class="pagination__next btn btn-sm btn-block btn-outline-secondary">下一页</a>
+            </p>
+        </div>
+        <p class="text-center text-secondary small page-load-status" style="display: none;">
+            <i class="fas fa-sync fa-spin"></i> 更多精彩加载中...
+        </p>
     </div>
 @endsection
 
 @push('script')
     <script>
-        new Vue({
-            el: '#loadList',
-            data: {
-                navs: @json($navs),
-                activities: [],
-                nid: 0,
-                paginate: {
-                    current_page: 1,
-                    last_page: 1,
-                    total: 0,
-                },
-                load: false
-            },
-            methods: {
-                getActivities() {
-                    if (this.load || this.paginate.current_page > 1 && this.paginate.current_page > this.paginate.last_page) {
-                        return
-                    }
+        // 异步加载
+        $('#loadList').on('click', 'ul.nav a', function (event) {
+            event.preventDefault()
+            let url = $(this).attr('href') + ' #loadList'
+            $('#loadList').load(url)
+        })
 
-                    this.load = true
-
-                    axios.get(`nav/${this.nid}/activities?page=${this.paginate.current_page}`).then(res => {
-                        this.load = false
-
-                        this.paginate.current_page++
-                        this.paginate.total = res.data.total
-                        this.paginate.last_page = res.data.last_page
-
-                        this.activities.push(...res.data.data)
-                    })
-                },
-                imageCut(width, height, src) {
-                    return `/thumb/${width}/${height}/${btoa(encodeURI(src))}`
-                },
-                changeNav(nav) {
-                    if (this.nid === nav.id) {
-                        return
-                    }
-                    this.nid = nav.id
-                    this.paginate.current_page = 1
-                    this.activities = []
-                    this.getActivities()
-                },
-            },
-            mounted() {
-                this.nid = this.navs[0].id
-                window.addEventListener('scroll', () => {
-                    let fh = document.querySelector('footer').offsetTop
-                    let bh = document.documentElement.clientHeight
-                    if (window.scrollY + bh > fh) {
-                        this.getActivities()
-                    }
-                })
-            }
+        $('#loadList').infiniteScroll({
+            path: '.pagination__next',
+            append: '.item',
+            status: '.page-load-status',
+            scrollThreshold: 0,
+            hideNav: '.hideNav',
+            history: false,
+            debug: true
         })
     </script>
 @endpush

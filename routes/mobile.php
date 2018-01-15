@@ -9,8 +9,6 @@ Route::view('register', 'm.auth/register')->name('register')->middleware('guest'
 Route::view('password/reset', 'm.auth.forgot')->name('password.request')->middleware('guest');
 // 首页
 Route::get('/', 'Mobile\WebController@index');
-// 加载首页导航的活动
-Route::get('nav/{nav}/activities', 'Mobile\WebController@loadActivities');
 // 活动
 Route::get('activity/show/{activity}', 'Mobile\ShowController@activity')->name('m.activity.show');
 Route::get('activity/list', 'Mobile\ListController@activity')->name('m.activity.list');

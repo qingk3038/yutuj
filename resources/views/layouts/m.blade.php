@@ -20,6 +20,7 @@
     <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
     <link href="https://cdn.bootcss.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.bootcss.com/bootstrap/4.0.0-beta.2/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery-infinitescroll/3.0.2/infinite-scroll.pkgd.min.js"></script>
 
     {{--图片占位符--}}
     <script src="https://cdn.bootcss.com/holder/2.9.4/holder.min.js"></script>
