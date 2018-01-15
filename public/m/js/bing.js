@@ -65,3 +65,21 @@ $(document).ready(function () {
         })
     })
 })
+
+// 无限滚动
+$(document).ready(initInfiniteScroll)
+
+function initInfiniteScroll() {
+    if ($('.pagination a[rel="next"]').length) {
+        $container = $('.infiniteScroll').infiniteScroll({
+            path: '.pagination a[rel="next"]',
+            append: '.item',
+            status: '.page-load-status',
+            scrollThreshold: 0,
+            hideNav: '.pagination',
+            history: false,
+        })
+    } else {
+        $container = null;
+    }
+}

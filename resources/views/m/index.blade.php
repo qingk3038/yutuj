@@ -313,7 +313,7 @@
             </div>
         </div>
 
-        <div class="slide-two" id="loadList">
+        <div class="slide-two infiniteScroll" id="loadList">
             <ul class="nav nav-justified nav-two mb-3 flex-nowrap text-nowrap">
                 @foreach($navs as $nav)
                     <li class="nav-item">
@@ -341,18 +341,14 @@
                     </p>
                 @endforeach
             </div>
-            {{--{{ $activities->appends(Request::only('nid'))->nextPageUrl() }}--}}
-            {{--<p class="text-center text-secondary small">
-                <i class="fas fa-sync fa-spin"></i> 更多精彩加载中...
-            </p>--}}
-
-            <p class="load-next-button p-2 hideNav">
-                <a href="{{ $activities->appends(Request::only('nid'))->nextPageUrl() }}" class="pagination__next btn btn-sm btn-block btn-outline-secondary">下一页</a>
-            </p>
+            <nav class="d-flex justify-content-center">
+                {{ $activities->appends(Request::only('nid'))->links('vendor.pagination.m') }}
+            </nav>
         </div>
-        <p class="text-center text-secondary small page-load-status" style="display: none;">
-            <i class="fas fa-sync fa-spin"></i> 更多精彩加载中...
-        </p>
+        <div class="text-center text-secondary small page-load-status" style="display: none;">
+            <p class="infinite-scroll-request"><i class="fas fa-sync fa-spin"></i> 更多精彩加载中...</p>
+            <p class="infinite-scroll-last">已全部加载</p>
+        </div>
     </div>
 @endsection
 
@@ -362,17 +358,7 @@
         $('#loadList').on('click', 'ul.nav a', function (event) {
             event.preventDefault()
             let url = $(this).attr('href') + ' #loadList'
-            $('#loadList').load(url)
-        })
-
-        $('#loadList').infiniteScroll({
-            path: '.pagination__next',
-            append: '.item',
-            status: '.page-load-status',
-            scrollThreshold: 0,
-            hideNav: '.hideNav',
-            history: false,
-            debug: true
+            $('#loadList').load(url, initInfiniteScroll)
         })
     </script>
 @endpush
