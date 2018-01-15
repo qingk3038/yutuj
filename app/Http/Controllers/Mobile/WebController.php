@@ -15,7 +15,7 @@ class WebController extends Controller
     // 首页数据
     public function index()
     {
-        $data = Cache::remember("m-index", 5, function () {
+        $data = Cache::remember('m-index' . request()->fullUrl(), 5, function () {
             $arr['hots'] = Nav::findOrFail(1)->activities()->active()->latest()->limit(6)->get(['id', 'title', 'short', 'thumb', 'price']);
             $arr['wans'] = Raider::type('default')->latest()->limit(6)->get(['id', 'title', 'short', 'thumb']);
             $arr['hospitals'] = Raider::type('hospital')->latest()->limit(6)->get(['id', 'title', 'short', 'thumb']);

@@ -1,6 +1,6 @@
 @extends('layouts.m')
 
-@section('title', '首页')
+@section('title', '官方首页')
 
 @section('header')
     <header class="position-absolute text-white d-flex justify-content-between">

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', '首页')
+@section('title', '官方首页')
 
 @section('content')
     <div id="banner" class="carousel slide" data-ride="carousel">
