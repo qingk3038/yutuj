@@ -347,7 +347,8 @@
         </div>
         <div class="text-center text-secondary small page-load-status" style="display: none;">
             <p class="infinite-scroll-request"><i class="fas fa-sync fa-spin"></i> 更多精彩加载中...</p>
-            <p class="infinite-scroll-last">已全部加载</p>
+            <p class="infinite-scroll-last">剩下最后一页</p>
+            <p class="infinite-scroll-error">已全部加载</p>
         </div>
     </div>
 @endsection
@@ -358,7 +359,10 @@
         $('#loadList').on('click', 'ul.nav a', function (event) {
             event.preventDefault()
             let url = $(this).attr('href') + ' #loadList'
-            $('#loadList').load(url, initInfiniteScroll)
+            $('#loadList').load(url, ()=>{
+                $container.infiniteScroll('destroy')
+                initInfiniteScroll()
+            })
         })
     </script>
 @endpush

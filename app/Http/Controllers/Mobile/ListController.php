@@ -68,28 +68,28 @@ class ListController extends Controller
             $order = $request->order ?: 'desc';
 
             $arr['raiders'] = Raider::with('province', 'city', 'admin')
-                ->withCount('likes')
-                ->orderBy($field, $order)
-                ->type($request->type)
                 ->where(function ($query) use ($request) {
-                    if ($pid = $request->pid) {
+                    if ($pid = $request->get('pid')) {
                         $query->where('province_id', $pid);
                     }
-                    if ($cid = $request->cid) {
+                    if ($cid = $request->get('cid')) {
                         $query->where('city_id', $cid);
                     }
-                })->paginate(null, ['id', 'type', 'title', 'description', 'thumb', 'click', 'province_id', 'city_id', 'created_at']);
-
+                })
+                ->type($request->get('type'))
+                ->withCount('likes')
+                ->orderBy($field, $order)
+                ->paginate(6, ['id', 'type', 'title', 'description', 'thumb', 'click', 'province_id', 'city_id', 'created_at']);
             $arr['provinces'] = LocList::whereHas('provinceRaiders', function ($query) use ($request) {
-                $query->type($request->type);
+                $query->type($request->get('type'));
             })->get(['id', 'name']);
 
             $arr['cities'] = LocList::where(function ($query) use ($request) {
-                if ($pid = $request->pid) {
+                if ($pid = $request->get('pid')) {
                     $query->where('parent_id', $pid);
                 }
             })->whereHas('cityRaiders', function ($query) use ($request) {
-                $query->type($request->type);
+                $query->type($request->get('type'));
             })->get(['id', 'name']);
             return $arr;
         });
@@ -137,7 +137,9 @@ class ListController extends Controller
                 if ($day = $request->day) {
                     $query->has('trips', $day > 10 ? '>' : '=', $day);
                 }
-            })->orderBy($field, $order)->paginate(null, ['id', 'title', 'description', 'thumb', 'price', 'province_id', 'city_id']);
+            })
+                ->orderBy($field, $order)
+                ->paginate(6, ['id', 'title', 'description', 'thumb', 'price', 'province_id', 'city_id']);
 
             $arr['provinces'] = LocList::whereHas('provinceActivities', function ($query) use ($request) {
                 $query->active();
@@ -224,11 +226,16 @@ class ListController extends Controller
             $type = $request->type ?: 'film';
             $order = $request->order ?: 'id';
 
-            $arr['videos'] = Video::with('province')->active()->type($type)->where(function ($query) use ($request) {
-                if ($pid = $request->pid) {
-                    $query->where('province_id', $pid);
-                }
-            })->latest($order)->paginate();
+            $arr['videos'] = Video::with('province')
+                ->active()
+                ->type($type)
+                ->where(function ($query) use ($request) {
+                    if ($pid = $request->pid) {
+                        $query->where('province_id', $pid);
+                    }
+                })
+                ->latest($order)
+                ->paginate(6);
 
             $arr['provinces'] = LocList::whereHas('provinceVideos', function ($query) use ($type) {
                 $query->active()->type($type);
@@ -263,7 +270,7 @@ class ListController extends Controller
                         }
                     })
                     ->latest()
-                    ->paginate(null, ['id', 'title', 'thumb', 'description', 'click', 'type', 'province_id', 'created_at']);
+                    ->paginate(6, ['id', 'title', 'thumb', 'description', 'click', 'type', 'province_id', 'created_at']);
                 break;
 
             case 'video':
@@ -276,7 +283,7 @@ class ListController extends Controller
                     ->type(request('v'))
                     ->active()
                     ->latest()
-                    ->paginate();
+                    ->paginate(6);
                 break;
 
             case 'travel':
@@ -285,7 +292,7 @@ class ListController extends Controller
                     ->whereRaw('match (title, description) against(?)', $keyword)
                     ->status('adopt')
                     ->latest()
-                    ->paginate(null, ['id', 'title', 'description', 'thumb']);
+                    ->paginate(6, ['id', 'title', 'description', 'thumb']);
                 break;
 
             default :
@@ -303,7 +310,7 @@ class ListController extends Controller
                     })
                     ->active()
                     ->latest()
-                    ->paginate(null, ['id', 'title', 'thumb', 'price', 'description', 'province_id']);
+                    ->paginate(6, ['id', 'title', 'thumb', 'price', 'description', 'province_id']);
         }
 
         return view('m.search', $arr);

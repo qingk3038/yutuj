@@ -151,9 +151,9 @@
         </div>
     </form>
 
-    <div class="a-list">
+    <div class="a-list infiniteScroll">
         @foreach($raiders as $raider)
-            <a href="{{ route('m.raider.show', $raider) }}" class="card border-0">
+            <a href="{{ route('m.raider.show', $raider) }}" class="card border-0 item">
                 <img class="card-img-top rounded-0" src="{{ imageCut(414, 150, $raider->thumb) }}" alt="{{ $raider->title }}" width="414" height="150">
                 <div class="card-body">
                     <h6 class="text-truncate w-100">{{ $raider->typeText() }} · {{ $raider->title }}</h6>
@@ -169,8 +169,13 @@
             </a>
         @endforeach
         <nav class="d-flex justify-content-center">
-            {{ $raiders->links('vendor.pagination.m') }}
+            {{ $raiders->appends(Request::all())->links('vendor.pagination.m') }}
         </nav>
+    </div>
+    <div class="text-center text-secondary small page-load-status" style="display: none;">
+        <p class="infinite-scroll-request"><i class="fas fa-sync fa-spin"></i> 更多精彩加载中...</p>
+        <p class="infinite-scroll-last">已全部加载</p>
+        <p class="infinite-scroll-error">已全部加载</p>
     </div>
 @endsection
 

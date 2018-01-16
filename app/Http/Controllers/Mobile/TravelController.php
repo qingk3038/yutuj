@@ -21,7 +21,7 @@ class TravelController extends Controller
      */
     public function index()
     {
-        $data['releases'] = auth()->user()->travels()->withCount('likes')->where('status', '!=', 'draft')->orderByDesc('updated_at')->paginate();
+        $data['releases'] = auth()->user()->travels()->withCount('likes')->where('status', '!=', 'draft')->orderByDesc('updated_at')->paginate(6);
         $data['drafts'] = auth()->user()->travels()->where('status', 'draft')->orderByDesc('updated_at')->get();
 
         return view('m.home.list_travel', $data);

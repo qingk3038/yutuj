@@ -41,7 +41,10 @@ class Raider extends Model
      */
     public function scopeType($query, $type = null)
     {
-        return $type ? $query->where('type', $type) : $query;
+        if (!in_array($type, ['default', 'line', 'food', 'hospital', 'scenic'])) {
+            return $query;
+        }
+        return $query->where('type', $type);
     }
 
     /**

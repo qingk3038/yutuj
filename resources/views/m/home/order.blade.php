@@ -56,7 +56,7 @@
     @if($orders->hasMorePages())
         <hr>
         <nav class="d-flex justify-content-center">
-            {{ $orders->links('vendor.pagination.m') }}
+            {{ $orders->appends(Request::all())->links('vendor.pagination.m') }}
         </nav>
     @endif
 @endsection

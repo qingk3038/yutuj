@@ -70,13 +70,13 @@ $(document).ready(function () {
 $(document).ready(initInfiniteScroll)
 
 function initInfiniteScroll() {
-    $container = $('.infiniteScroll').infiniteScroll({
+    $container = new $('.infiniteScroll').infiniteScroll({
         path: '.pagination a[rel="next"]',
         append: '.item',
         status: '.page-load-status',
-        scrollThreshold: 0,
+        // scrollThreshold: 20,
         hideNav: '.pagination',
+        prefill: true,
         history: false,
-        debug: true,
     })
 }

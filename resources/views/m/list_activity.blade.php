@@ -160,12 +160,12 @@
         </div>
     </form>
 
-    <div class="a-list">
+    <div class="a-list infiniteScroll">
         @php
             $tag_btns = ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark'];
         @endphp
         @foreach($activities as $activity)
-            <a href="{{ route('m.activity.show', $activity) }}" class="card border-0">
+            <a href="{{ route('m.activity.show', $activity) }}" class="card border-0 item">
                 <img class="card-img-top rounded-0" src="{{ imageCut(414, 150, $activity->thumb) }}" alt="{{ $activity->title }}" width="414" height="150">
                 <div class="card-body">
                     <h6 class="text-truncate">{{ $activity->province->name }} · {{ $activity->title }}</h6>
@@ -182,8 +182,13 @@
             </a>
         @endforeach
         <nav class="d-flex justify-content-center">
-            {{ $activities->links('vendor.pagination.m') }}
+            {{ $activities->appends(Request::all())->links('vendor.pagination.m') }}
         </nav>
+    </div>
+    <div class="text-center text-secondary small page-load-status" style="display: none;">
+        <p class="infinite-scroll-request"><i class="fas fa-sync fa-spin"></i> 更多精彩加载中...</p>
+        <p class="infinite-scroll-last">已全部加载</p>
+        <p class="infinite-scroll-error">已全部加载</p>
     </div>
 @endsection
 

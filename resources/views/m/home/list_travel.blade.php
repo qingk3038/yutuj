@@ -17,9 +17,9 @@
             </li>
         </ul>
         <div class="tab-content py-3 home-travels">
-            <div class="tab-pane fade show active" id="adopt">
+            <div class="tab-pane fade show active infiniteScroll" id="adopt">
                 @forelse($releases as $release)
-                    <div class="card">
+                    <div class="card item">
                         <div class="position-relative mx-3">
                             <a href="{{ route('home.travel.show', $release) }}">
                                 <img class="card-img-top rounded-0" src="{{ imageCut(414, 220, $release->thumb) }}" alt="{{ $release->title }}" tid="{{ $release->id }}">
@@ -73,6 +73,12 @@
                 <nav class="d-flex justify-content-center">
                     {{ $releases->links('vendor.pagination.m') }}
                 </nav>
+
+                <div class="text-center text-secondary small page-load-status" style="display: none;">
+                    <p class="infinite-scroll-request"><i class="fas fa-sync fa-spin"></i> 更多精彩加载中...</p>
+                    <p class="infinite-scroll-last">已全部加载</p>
+                    <p class="infinite-scroll-error">已全部加载</p>
+                </div>
             </div>
             <div class="tab-pane fade" id="draft">
                 @forelse($drafts as $draft)
