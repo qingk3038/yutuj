@@ -881,3 +881,7 @@ footer .links a {
     max-width: 100%;
     height: auto !important;
 }
+
+.div-body a {
+    color: inherit;
+}
