@@ -36,16 +36,15 @@ class ListController extends Controller
      */
     public function leaders(LocList $province = null)
     {
-//        $data = Cache::remember('m' . request()->fullUrl(), 5, function () use ($province) {
-        $arr['leaders'] = $province ?
-            $province->provinceLeaders()->select('id', 'name', 'avatar', 'brief', 'country_id', 'province_id', 'city_id')->latest('updated_at')->get()
-            : Leader::with('country', 'province', 'city')->latest('updated_at')->get(['id', 'name', 'avatar', 'brief', 'country_id', 'province_id', 'city_id']);
+        $data = Cache::remember('m' . request()->fullUrl(), 5, function () use ($province) {
+            $arr['leaders'] = $province ?
+                $province->provinceLeaders()->select('id', 'name', 'avatar', 'brief', 'country_id', 'province_id', 'city_id')->latest('updated_at')->get()
+                : Leader::with('country', 'province', 'city')->latest('updated_at')->get(['id', 'name', 'avatar', 'brief', 'country_id', 'province_id', 'city_id']);
 
-        $arr['provinces'] = LocList::has('provinceLeaders')->get(['id', 'name']);
-//            return $arr;
-//        });
-
-        return view('m.list_leader', $arr)->with('province', $province);
+            $arr['provinces'] = LocList::has('provinceLeaders')->get(['id', 'name']);
+            return $arr;
+        });
+        return view('m.list_leader', $data)->with('province', $province);
     }
 
     /**

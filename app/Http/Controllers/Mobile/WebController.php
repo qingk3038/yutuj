@@ -30,7 +30,7 @@ class WebController extends Controller
                 })
                 ->active()
                 ->latest()
-                ->paginate(1, ['id', 'title', 'short', 'thumb', 'price', 'province_id']);
+                ->paginate(null, ['id', 'title', 'short', 'thumb', 'price', 'province_id']);
             return $arr;
         });
         return view('m.index', $data);
