@@ -67,14 +67,14 @@
                 $tag_btns = ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark'];
             @endphp
             @foreach($leader->activities as $activity)
-                <a href="{{ route('m.activity.show', $activity) }}" class="card rounded-0 border-0">
+                <a href="{{ route('activity.show', $activity) }}" class="card rounded-0 border-0">
                     <img class="card-img-top" src="{{ imageCut(375, 150, $activity->thumb) }}" alt="{{ $activity->title }}">
                     <div class="card-body">
                         <h6 class="text-truncate">{{ $activity->province->name }} · {{ $activity->title }}</h6>
                         <p class="card-text text-truncate small">{{ $activity->description }}</p>
                     </div>
                     <small class="position-absolute text-warning">
-                        ¥<span class="lead font-weight-bold">{{ $activity->price }}</span> 起
+                        yen<span class="lead font-weight-bold">{{ $activity->price }}</span> 起
                     </small>
                     <p class="position-absolute mb-0">
                         @foreach($activity->tags as $tag)
@@ -84,7 +84,7 @@
                 </a>
             @endforeach
             <p class="text-center">
-                <a href="{{ route('m.activity.list') }}" class="btn btn-sm btn-warning">更多活动</a>
+                <a href="{{ route('activity.list') }}" class="btn btn-sm btn-warning">更多活动</a>
             </p>
         </div>
     @endif

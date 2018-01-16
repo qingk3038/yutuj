@@ -29,7 +29,7 @@
         <div class="text-warning p-3 top-border">更多推荐</div>
         <div class="a-list">
             @foreach($videos as $video)
-                <a href="{{ route('m.video.show', $video) }}" class="card rounded-0 border-0">
+                <a href="{{ route('video.show', $video) }}" class="card rounded-0 border-0">
                     <img class="card-img-top" src="{{ imageCut(414, 150, $video->thumb) }}" alt="{{ $video->title }}">
                     <div class="card-body">
                         <h6 class="text-truncate">{{ $video->province->name }} · {{ $video->title }}</h6>

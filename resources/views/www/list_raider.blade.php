@@ -9,7 +9,7 @@
 
     <div class="container mb-4 page-list-box">
         <div class="d-flex flex-wrap justify-content-between types">
-            <a href="{{ route('www.raider.list') }}" class="position-relative">
+            <a href="{{ route('raider.list') }}" class="position-relative">
                 <img src="{{ asset('img/list_raiders.jpg') }}" alt="攻略列表" width="400" height="242">
                 <div class="text-center position-absolute">
                     <h3>全部攻略</h3>
@@ -17,7 +17,7 @@
                     <i class="fa fa-fw fa-3x fa-book"></i>
                 </div>
             </a>
-            <a href="{{ route('www.raider.list', ['type' => 'line']) }}" class="position-relative">
+            <a href="{{ route('raider.list', ['type' => 'line']) }}" class="position-relative">
                 <img src="{{ asset('img/list_line.jpg') }}" alt="线路攻略" width="400" height="242">
                 <div class="text-center position-absolute">
                     <h3>线路攻略</h3>
@@ -25,7 +25,7 @@
                     <i class="fa fa-fw fa-3x fa-map"></i>
                 </div>
             </a>
-            <a href="{{ route('www.raider.list', ['type' => 'food']) }}" class="position-relative">
+            <a href="{{ route('raider.list', ['type' => 'food']) }}" class="position-relative">
                 <img src="{{ asset('img/list_food.jpg') }}" alt="美食攻略" width="400" height="242">
                 <div class="text-center position-absolute">
                     <h3>美食攻略</h3>
@@ -34,7 +34,7 @@
                 </div>
             </a>
 
-            <a href="{{ route('www.raider.list', ['type' => 'default']) }}" class="position-relative">
+            <a href="{{ route('raider.list', ['type' => 'default']) }}" class="position-relative">
                 <img src="{{ asset('img/list_youhui.jpg') }}" alt="更多优惠活动" width="400" height="242">
                 <div class="text-center position-absolute">
                     <h3>更多优惠活动</h3>
@@ -42,7 +42,7 @@
                     <i class="fa fa-fw fa-3x fa-plane"></i>
                 </div>
             </a>
-            <a href="{{ route('www.raider.list', ['type' => 'hospital']) }}" class="position-relative">
+            <a href="{{ route('raider.list', ['type' => 'hospital']) }}" class="position-relative">
                 <img src="{{ asset('img/list_hotel.jpg') }}" alt="住宿攻略" width="400" height="242">
                 <div class="text-center position-absolute">
                     <h3>住宿攻略</h3>
@@ -50,7 +50,7 @@
                     <i class="fa fa-fw fa-3x fa-hospital-o"></i>
                 </div>
             </a>
-            <a href="{{ route('www.raider.list', ['type' => 'scenic']) }}" class="position-relative">
+            <a href="{{ route('raider.list', ['type' => 'scenic']) }}" class="position-relative">
                 <img src="{{ asset('img/list_scenic.jpg') }}" alt="景点攻略" width="400" height="242">
                 <div class="text-center position-absolute">
                     <h3>景点攻略</h3>
@@ -68,9 +68,9 @@
                     <div class="row px-3">
                         <div class="col-1 text-nowrap">区域</div>
                         <div class="col-10 text-truncate">
-                            <a href="{{ route('www.raider.list', Request::only('type')) }}" @empty(request('pid')) class="active" @endempty>全部</a>
+                            <a href="{{ route('raider.list', Request::only('type')) }}" @empty(request('pid')) class="active" @endempty>全部</a>
                             @foreach($provinces as $province)
-                                <a href="{{ route('www.raider.list', array_merge(Request::only('type'), ['pid' => $province])) }}" @if(request('pid') == $province->id) class="active" @endif>{{ $province->name }}</a>
+                                <a href="{{ route('raider.list', array_merge(Request::only('type'), ['pid' => $province])) }}" @if(request('pid') == $province->id) class="active" @endif>{{ $province->name }}</a>
                             @endforeach
                         </div>
                         @if(count($provinces) >= 12)
@@ -85,9 +85,9 @@
                     <div class="row px-3">
                         <div class="col-1 text-nowrap">目的地</div>
                         <div class="col-10 text-truncate">
-                            <a href="{{ route('www.raider.list', Request::only('type', 'pid')) }}" @empty(request('cid')) class="active" @endempty>全部</a>
+                            <a href="{{ route('raider.list', Request::only('type', 'pid')) }}" @empty(request('cid')) class="active" @endempty>全部</a>
                             @foreach($cities as $city)
-                                <a href="{{ route('www.raider.list', array_merge(Request::only('type', 'pid'), ['cid' => $city])) }}" @if(request('cid') == $city->id) class="active" @endif>{{ $city->name }}</a>
+                                <a href="{{ route('raider.list', array_merge(Request::only('type', 'pid'), ['cid' => $city])) }}" @if(request('cid') == $city->id) class="active" @endif>{{ $city->name }}</a>
                             @endforeach
                         </div>
                         @if(count($cities) >= 12)
@@ -101,13 +101,13 @@
                 <div class="bg-white list-orderBy py-2 my-2">
                     <ul class="nav">
                         <li class="nav-item">
-                            <a class="nav-link {{ request('field', 'id') === 'id' ? 'active' : '' }}" href="{{ route('www.raider.list', array_merge(Request::only('type', 'pid', 'cid'), ['field' => 'id', 'order' => request('field', 'id') == 'id' &&  request('order', 'desc') === 'desc' ? 'asc' : 'desc'])) }}">综合排序 <i class="fa fa-angle-{{  request('field', 'id') === 'id' && request('order', 'desc') === 'desc' ? 'down' : 'up' }}"></i></a>
+                            <a class="nav-link {{ request('field', 'id') === 'id' ? 'active' : '' }}" href="{{ route('raider.list', array_merge(Request::only('type', 'pid', 'cid'), ['field' => 'id', 'order' => request('field', 'id') == 'id' &&  request('order', 'desc') === 'desc' ? 'asc' : 'desc'])) }}">综合排序 <i class="fa fa-angle-{{  request('field', 'id') === 'id' && request('order', 'desc') === 'desc' ? 'down' : 'up' }}"></i></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ request('field') === 'click' ? 'active' : '' }}" href="{{ route('www.raider.list', array_merge(Request::only('type', 'pid', 'cid'), ['field' => 'click', 'order' => request('field') == 'click' &&  request('order') === 'desc' ? 'asc' : 'desc'])) }}">热门度 <i class="fa fa-angle-{{  request('field') == 'click' && request('order') === 'desc' ? 'down' : 'up' }}"></i></a>
+                            <a class="nav-link {{ request('field') === 'click' ? 'active' : '' }}" href="{{ route('raider.list', array_merge(Request::only('type', 'pid', 'cid'), ['field' => 'click', 'order' => request('field') == 'click' &&  request('order') === 'desc' ? 'asc' : 'desc'])) }}">热门度 <i class="fa fa-angle-{{  request('field') == 'click' && request('order') === 'desc' ? 'down' : 'up' }}"></i></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ request('field') === 'created_at' ? 'active' : '' }}" href="{{ route('www.raider.list', array_merge(Request::only('type', 'pid', 'cid'), ['field' => 'created_at', 'order' => request('field') == 'created_at' &&  request('order') === 'desc' ? 'asc' : 'desc'])) }}">发布时间 <i class="fa fa-angle-{{ request('field') == 'created_at' &&  request('order') === 'desc' ? 'down' : 'up' }}"></i></a>
+                            <a class="nav-link {{ request('field') === 'created_at' ? 'active' : '' }}" href="{{ route('raider.list', array_merge(Request::only('type', 'pid', 'cid'), ['field' => 'created_at', 'order' => request('field') == 'created_at' &&  request('order') === 'desc' ? 'asc' : 'desc'])) }}">发布时间 <i class="fa fa-angle-{{ request('field') == 'created_at' &&  request('order') === 'desc' ? 'down' : 'up' }}"></i></a>
                         </li>
                     </ul>
                 </div>
@@ -116,12 +116,12 @@
                     @foreach($raiders as $raider)
                         <div class="media">
                             @if($raider->thumb)
-                                <a href="{{ route('www.raider.show', $raider) }}" target="_blank">
+                                <a href="{{ route('raider.show', $raider) }}" target="_blank">
                                     <img class="mr-3" src="{{ imageCut(280, 180, $raider->thumb) }}" alt="{{ $raider->short }}" width="280" height="180">
                                 </a>
                             @endif
                             <div class="media-body">
-                                <a href="{{ route('www.raider.show', $raider) }}" class="text-warning d-block" target="_blank">
+                                <a href="{{ route('raider.show', $raider) }}" class="text-warning d-block" target="_blank">
                                     <h3>{{ $raider->typeText() }} · {{ str_limit($raider->short, 24) }}</h3>
                                     <h5>{{ str_limit($raider->title, 40) }}</h5>
                                 </a>

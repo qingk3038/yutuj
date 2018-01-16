@@ -97,7 +97,7 @@ class RaiderController extends Controller
             });
 
             $grid->actions(function ($actions) {
-                $a = sprintf('<a href="%s" target="_blank"><i class="fa fa-fw fa-paper-plane"></i></a>', route('www.raider.show', $actions->row));
+                $a = sprintf('<a href="%s" target="_blank"><i class="fa fa-fw fa-paper-plane"></i></a>', route('raider.show', $actions->row));
                 $actions->prepend($a);
             });
         });

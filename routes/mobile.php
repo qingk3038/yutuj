@@ -4,14 +4,14 @@
 // 首页
 Route::get('/', 'Mobile\WebController@index');
 // 活动
-Route::get('activity/show/{activity}', 'Mobile\ShowController@activity')->name('m.activity.show');
-Route::get('activity/list', 'Mobile\ListController@activity')->name('m.activity.list');
+Route::get('activity/show/{activity}', 'Mobile\ShowController@activity')->name('activity.show');
+Route::get('activity/list', 'Mobile\ListController@activity')->name('activity.list');
 // 攻略
-Route::get('raider/show/{raider}', 'Mobile\ShowController@raider')->name('m.raider.show');
-Route::get('raider/list', 'Mobile\ListController@raiders')->name('m.raider.list');
+Route::get('raider/show/{raider}', 'Mobile\ShowController@raider')->name('raider.show');
+Route::get('raider/list', 'Mobile\ListController@raiders')->name('raider.list');
 // 领队
-Route::get('leader/show/{leader}', 'Mobile\ShowController@leader')->name('m.leader.show');
-Route::get('leader/list/{province?}', 'Mobile\ListController@leaders')->name('m.leader.list');
+Route::get('leader/show/{leader}', 'Mobile\ShowController@leader')->name('leader.show');
+Route::get('leader/list/{province?}', 'Mobile\ListController@leaders')->name('leader.list');
 // 主页
 Route::view('home', 'm.home.index')->name('home');
 Route::get('home/order', 'Mobile\HomeController@order')->name('home.order');
@@ -28,16 +28,16 @@ Route::get('order/{order}/pay', 'Mobile\PayController@showQrcode')->name('order.
 // 定制游
 Route::view('customized', 'm.customized');
 // 视频
-Route::get('video/show/{video}', 'Mobile\ShowController@video')->name('m.video.show');
-Route::get('video/list', 'Mobile\ListController@video')->name('m.video.list');
+Route::get('video/show/{video}', 'Mobile\ShowController@video')->name('video.show');
+Route::get('video/list', 'Mobile\ListController@video')->name('video.list');
 // 文章
-Route::get('article/show/{article}', 'Mobile\ShowController@article')->name('m.article.show');
+Route::get('article/show/{article}', 'Mobile\ShowController@article')->name('article.show');
 // 搜索
 Route::get('search', 'Mobile\ListController@search')->name('search');
 // 游记
-Route::get('travel/show/{travel}', 'Mobile\ShowController@travel')->name('m.travel.show');
-Route::get('travel/list', 'Mobile\ListController@travel')->name('m.travel.list');
+Route::get('travel/show/{travel}', 'Mobile\ShowController@travel')->name('travel.show');
+Route::get('travel/list', 'Mobile\ListController@travel')->name('travel.list');
 // 用户的游记列表
-Route::get('travel/list/{user}', 'Mobile\ListController@userTravel')->name('m.user.travel');
+Route::get('travel/list/{user}', 'Mobile\ListController@userTravel')->name('user.travel');
 
 

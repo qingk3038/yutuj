@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="container">
-        <div class="py-4"><a href="{{ url('/') }}">首页</a> &gt; <a href="{{ route('www.video.list') }}">视频</a> &gt; <span class="text-warning">视频详情</span></div>
+        <div class="py-4"><a href="{{ url('/') }}">首页</a> &gt; <a href="{{ route('video.list') }}">视频</a> &gt; <span class="text-warning">视频详情</span></div>
     </div>
 
     <div class="container mb-4">
@@ -36,12 +36,12 @@
                     <div class="text-warning">推荐视频</div>
                     <hr>
                     @foreach($videos as $video)
-                        <a href="{{ route('www.video.show', $video) }}" title="{{ $video->title }}" target="_blank">
+                        <a href="{{ route('video.show', $video) }}" title="{{ $video->title }}" target="_blank">
                             <img src="{{ imageCut(363, 200, $video->thumb) }}" alt="{{ $video->title }}" class="img-fluid">
                         </a>
                         <p class="px-4 py-2">{{ str_limit($video->description, 70) }}</p>
                     @endforeach
-                    <a class="row text-right" href="{{ route('www.video.list', ["{$video->type}[pid]" => $video->province_id]) }}" target="_blank">
+                    <a class="row text-right" href="{{ route('video.list', ["{$video->type}[pid]" => $video->province_id]) }}" target="_blank">
                         <span class="col-10 font-weight-light">有<strong style="font-size: 26px;">{{ $videos_count }}</strong>条相关视频</span>
                         <span class="col-2"><i class="fa fa-angle-right text-warning"></i></span>
                     </a>
@@ -50,7 +50,7 @@
                     <div class="text-warning">推荐活动</div>
                     <hr>
                     @foreach($activities as $activity)
-                        <a href="{{ route('web.activity.show', $activity) }}" title="{{ $activity->title }}" target="_blank">
+                        <a href="{{ route('activity.show', $activity) }}" title="{{ $activity->title }}" target="_blank">
                             <img src="{{ imageCut(363, 200, $activity->thumb) }}" alt="{{ $activity->title }}" class="img-fluid">
                         </a>
                         <p class="px-4 py-2">
@@ -59,7 +59,7 @@
                         </p>
                     @endforeach
 
-                    <a class="row text-right" href="{{ route('web.activity.list', ['pid' => $video->province_id]) }}" target="_blank">
+                    <a class="row text-right" href="{{ route('activity.list', ['pid' => $video->province_id]) }}" target="_blank">
                         <span class="col-10 font-weight-light">有<strong style="font-size: 26px;">{{ $activities_count }}</strong>条相关活动</span>
                         <span class="col-2"><i class="fa fa-angle-right text-warning"></i></span>
                     </a>

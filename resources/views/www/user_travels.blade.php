@@ -45,7 +45,7 @@
             </div>
             @foreach($travels as $travel)
                 <div class="card">
-                    <a href="{{ route('www.travel.show', $travel) }}" target="_blank">
+                    <a href="{{ route('travel.show', $travel) }}" target="_blank">
                         <img class="card-img-top" src="{{ imageCut(870, 290, $travel->thumb) }}" alt="{{ $travel->title }}" width="870" height="290">
                     </a>
                     <div class="card-body position-relative">
@@ -57,7 +57,7 @@
                             </span>
                         </div>
                         <h5 class="card-title">
-                            <a href="{{ route('www.travel.show', $travel) }}" target="_blank">{{ $travel->title }}</a>
+                            <a href="{{ route('travel.show', $travel) }}" target="_blank">{{ $travel->title }}</a>
                         </h5>
                         <p class="text-muted">
                             @if($travel->province)

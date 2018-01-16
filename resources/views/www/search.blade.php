@@ -27,7 +27,7 @@
                                 @foreach($nav->activities as $activity)
                                     <div class="media">
                                         <div class="mr-3 position-relative">
-                                            <a href="{{ route('web.activity.show', $activity) }}" target="_blank">
+                                            <a href="{{ route('activity.show', $activity) }}" target="_blank">
                                                 <img src="{{ imageCut(280, 180, $activity->thumb) }}" alt="{{ $activity->short }}" width="280" height="180">
                                             </a>
                                             <span class="bg-warning text-white text-center p-1 position-absolute day">
@@ -36,7 +36,7 @@
                                             </span>
                                         </div>
                                         <div class="media-body">
-                                            <a href="{{ route('web.activity.show', $activity) }}" class="text-warning d-block" target="_blank">
+                                            <a href="{{ route('activity.show', $activity) }}" class="text-warning d-block" target="_blank">
                                                 <h3>{{ str_limit($activity->short, 30) }}</h3>
                                                 <h5>{{ str_limit($activity->title, 80) }}</h5>
                                             </a>
@@ -95,12 +95,12 @@
                                 @foreach($raiders[$key] as $raider)
                                     <div class="media">
                                         @if($raider->thumb)
-                                            <a href="{{ route('www.raider.show', $raider) }}" target="_blank">
+                                            <a href="{{ route('raider.show', $raider) }}" target="_blank">
                                                 <img class="mr-3" src="{{ imageCut(280, 180, $raider->thumb) }}" alt="{{ $raider->short }}" width="280" height="180">
                                             </a>
                                         @endif
                                         <div class="media-body">
-                                            <a href="{{ route('www.raider.show', $raider) }}" class="text-warning d-block" target="_blank">
+                                            <a href="{{ route('raider.show', $raider) }}" class="text-warning d-block" target="_blank">
                                                 <h3>{{ $raider->typeText() }} · {{ str_limit($raider->short, 26) }}</h3>
                                                 <h5>{{ $raider->title }}</h5>
                                             </a>
@@ -132,11 +132,11 @@
                     <hr class="mt-0">
                     @foreach($travels as $travel)
                         <div class="media">
-                            <a href="{{ route('www.travel.show', $travel) }}" target="_blank">
+                            <a href="{{ route('travel.show', $travel) }}" target="_blank">
                                 <img class="mr-3" src="{{ imageCut(280, 180, $travel->thumb) }}" alt="{{ $travel->title }}" width="280" height="180">
                             </a>
                             <div class="media-body">
-                                <a href="{{ route('www.travel.show', $travel) }}" class="text-warning d-block h5" target="_blank">{{ str_limit($travel->title, 80) }}</a>
+                                <a href="{{ route('travel.show', $travel) }}" class="text-warning d-block h5" target="_blank">{{ str_limit($travel->title, 80) }}</a>
                                 <p class="text-muted">
                                     <small>{{ str_limit($travel->description, 280) }}</small>
                                 </p>
@@ -168,7 +168,7 @@
                         <div class="list-media tab-pane fade show active" id="films">
                             <div class="row" style="margin: 0 -5px;">
                                 @foreach($films as $film)
-                                    <a class="col-4 box" href="{{ route('www.video.show', $film) }}" title="{{ $film->title }}" target="_blank">
+                                    <a class="col-4 box" href="{{ route('video.show', $film) }}" title="{{ $film->title }}" target="_blank">
                                         <p class="position-relative">
                                             <img class="img-fluid" src="{{ imageCut(380, 214, $film->thumb) }}" alt="{{ $film->title }}" width="380" height="214">
                                             <i class="fa fa-2x fa-play-circle-o position-absolute"></i>
@@ -182,7 +182,7 @@
                         <div class="list-media tab-pane fade" id="live">
                             <div class="row" style="margin: 0 -5px;">
                                 @foreach($lives as $life)
-                                    <a class="col-4 box" href="{{ route('www.video.show', $life) }}" title="{{ $life->title }}" target="_blank">
+                                    <a class="col-4 box" href="{{ route('video.show', $life) }}" title="{{ $life->title }}" target="_blank">
                                         <p class="position-relative">
                                             <img class="img-fluid" src="{{ imageCut(380, 214, $life->thumb) }}" alt="{{ $life->title }}" width="380" height="214">
                                             <i class="fa fa-2x fa-play-circle-o position-absolute"></i>

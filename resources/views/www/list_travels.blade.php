@@ -31,9 +31,9 @@
                     <div class="row px-3">
                         <div class="col-1 text-nowrap">区域</div>
                         <div class="col-10 text-truncate">
-                            <a href="{{ route('www.travel.list') }}" @empty(request('province'))class="active"@endempty>全部</a>
+                            <a href="{{ route('travel.list') }}" @empty(request('province'))class="active"@endempty>全部</a>
                             @foreach($provinces as $province)
-                                <a href="{{ route('www.travel.list', ['province' => $province->title]) }}" @if(request('province') === $province->title) class="active" @endif>{{ $province->title }}</a>
+                                <a href="{{ route('travel.list', ['province' => $province->title]) }}" @if(request('province') === $province->title) class="active" @endif>{{ $province->title }}</a>
                             @endforeach
                         </div>
 
@@ -49,9 +49,9 @@
                     <div class="row px-3">
                         <div class="col-1 text-nowrap">目的地</div>
                         <div class="col-10 text-truncate">
-                            <a href="{{ route('www.travel.list', Request::only('province')) }}" @empty(request('city'))class="active"@endempty>全部</a>
+                            <a href="{{ route('travel.list', Request::only('province')) }}" @empty(request('city'))class="active"@endempty>全部</a>
                             @foreach($cities as $city)
-                                <a href="{{ route('www.travel.list', array_merge(Request::only('province'), ['city' => $city->title])) }}" @if(request('city') === $city->title)class="active"@endif>{{ $city->title }}</a>
+                                <a href="{{ route('travel.list', array_merge(Request::only('province'), ['city' => $city->title])) }}" @if(request('city') === $city->title)class="active"@endif>{{ $city->title }}</a>
                             @endforeach
                         </div>
 
@@ -66,13 +66,13 @@
                 <div class="bg-white list-orderBy py-2 my-2">
                     <ul class="nav">
                         <li class="nav-item">
-                            <a class="nav-link {{ request('field', 'id') === 'id' ? 'active' : '' }}" href="{{ route('www.travel.list', array_merge(Request::only('province', 'city'), ['field' => 'id', 'order' => request('field', 'id') == 'id' &&  request('order', 'desc') === 'desc' ? 'asc' : 'desc'])) }}">综合排序 <i class="fa fa-angle-{{  request('field', 'id') === 'id' && request('order', 'desc') === 'desc' ? 'down' : 'up' }}"></i></a>
+                            <a class="nav-link {{ request('field', 'id') === 'id' ? 'active' : '' }}" href="{{ route('travel.list', array_merge(Request::only('province', 'city'), ['field' => 'id', 'order' => request('field', 'id') == 'id' &&  request('order', 'desc') === 'desc' ? 'asc' : 'desc'])) }}">综合排序 <i class="fa fa-angle-{{  request('field', 'id') === 'id' && request('order', 'desc') === 'desc' ? 'down' : 'up' }}"></i></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ request('field') === 'click' ? 'active' : '' }}" href="{{ route('www.travel.list', array_merge(Request::only('province', 'city'), ['field' => 'click', 'order' => request('field') == 'click' &&  request('order') === 'desc' ? 'asc' : 'desc'])) }}">热门度 <i class="fa fa-angle-{{  request('field') == 'click' && request('order') === 'desc' ? 'down' : 'up' }}"></i></a>
+                            <a class="nav-link {{ request('field') === 'click' ? 'active' : '' }}" href="{{ route('travel.list', array_merge(Request::only('province', 'city'), ['field' => 'click', 'order' => request('field') == 'click' &&  request('order') === 'desc' ? 'asc' : 'desc'])) }}">热门度 <i class="fa fa-angle-{{  request('field') == 'click' && request('order') === 'desc' ? 'down' : 'up' }}"></i></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ request('field') === 'created_at' ? 'active' : '' }}" href="{{ route('www.travel.list', array_merge(Request::only('province', 'city'), ['field' => 'created_at', 'order' => request('field') == 'created_at' &&  request('order') === 'desc' ? 'asc' : 'desc'])) }}">发布时间 <i class="fa fa-angle-{{ request('field') == 'created_at' &&  request('order') === 'desc' ? 'down' : 'up' }}"></i></a>
+                            <a class="nav-link {{ request('field') === 'created_at' ? 'active' : '' }}" href="{{ route('travel.list', array_merge(Request::only('province', 'city'), ['field' => 'created_at', 'order' => request('field') == 'created_at' &&  request('order') === 'desc' ? 'asc' : 'desc'])) }}">发布时间 <i class="fa fa-angle-{{ request('field') == 'created_at' &&  request('order') === 'desc' ? 'down' : 'up' }}"></i></a>
                         </li>
                     </ul>
                 </div>
@@ -80,11 +80,11 @@
                 <div class="bg-white p-3 my-2 list-media">
                     @foreach($travels as $travel)
                         <div class="media">
-                            <a href="{{ route('www.travel.show', $travel) }}" target="_blank">
+                            <a href="{{ route('travel.show', $travel) }}" target="_blank">
                                 <img class="mr-3" src="{{ imageCut(280, 180, $travel->thumb) }}" alt="{{ $travel->title }}" width="280" height="180">
                             </a>
                             <div class="media-body">
-                                <a href="{{ route('www.travel.show', $travel) }}" class="text-warning d-block h5" target="_blank">{{ str_limit($travel->title, 80) }}</a>
+                                <a href="{{ route('travel.show', $travel) }}" class="text-warning d-block h5" target="_blank">{{ str_limit($travel->title, 80) }}</a>
                                 <p class="text-muted">
                                     <small>{{ str_limit($travel->description, 280) }}</small>
                                 </p>

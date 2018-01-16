@@ -11,10 +11,10 @@
 
     <ul class="nav justify-content-center top-border nav-two">
         <li class="nav-item">
-            <a class="nav-link @if(request('type', 'film') === 'film') active @endif" href="{{ route('m.video.list', ['type' => 'film']) }}">旅途短拍</a>
+            <a class="nav-link @if(request('type', 'film') === 'film') active @endif" href="{{ route('video.list', ['type' => 'film']) }}">旅途短拍</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link @if(request('type') === 'live') active @endif" href="{{ route('m.video.list', ['type' => 'live']) }}">大咖直播</a>
+            <a class="nav-link @if(request('type') === 'live') active @endif" href="{{ route('video.list', ['type' => 'live']) }}">大咖直播</a>
         </li>
     </ul>
 
@@ -125,7 +125,7 @@
 
     <div class="a-list infiniteScroll">
         @foreach($videos as $video)
-            <a href="{{ route('m.video.show', $video) }}" class="card border-0 item" @if($video->type === 'live') target="_blank" @endif>
+            <a href="{{ route('video.show', $video) }}" class="card border-0 item" @if($video->type === 'live') target="_blank" @endif>
                 <img class="card-img-top rounded-0" src="{{ imageCut(414, 150, $video->thumb) }}" alt="{{ $video->title }}" width="414" height="150">
                 <div class="card-body">
                     <h6 class="text-truncate w-100">{{ $video->province->name }} · {{ $video->title }}</h6>

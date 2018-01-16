@@ -6,10 +6,10 @@
     <div class="bg-home text-hide" style="background-image: url({{ imageCut(1920, 500, $travel->user->bg_home) }});">封面</div>
     <div class="bg-white p-2" style="border-bottom: 2px solid #E5E5E5;">
         <div class="container text-muted">
-            <a href="{{ route('www.user.travel', $travel->user) }}">
+            <a href="{{ route('user.travel', $travel->user) }}">
                 <img class="rounded-circle align-bottom" src="{{ imageCut(120, 120, $travel->user->avatar) }}" alt="头像" width="120" height="120" style="margin-top: -80px;">
             </a>
-            <a href="{{ route('www.user.travel', $travel->user) }}" class="pr-2 text-warning">
+            <a href="{{ route('user.travel', $travel->user) }}" class="pr-2 text-warning">
                 <i class="fa fa-fw fa-lg text-warning {{ $travel->user->sex === 'F' ? ' fa-mercury' : 'fa-venus' }}"></i>
                 {{ $travel->user->name ?? $travel->user->getHideMobile() }}
             </a>

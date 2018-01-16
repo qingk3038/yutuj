@@ -16,21 +16,21 @@
             <div class="title-video">
                 <span class="lead text-warning mr-5">旅行短拍</span>
                 <span>
-                   <a href="{{ route('www.video.list') }}" @empty(Request::input('film.pid')) class="active" @endempty>全部</a>
+                   <a href="{{ route('video.list') }}" @empty(Request::input('film.pid')) class="active" @endempty>全部</a>
                     @foreach($provinces_films as $province)
-                        <a href="{{ route('www.video.list', ['film[pid]' => $province]) }}" @if(Request::input('film.pid') == $province->id) class="active" @endif>{{ $province->name }}</a>
+                        <a href="{{ route('video.list', ['film[pid]' => $province]) }}" @if(Request::input('film.pid') == $province->id) class="active" @endif>{{ $province->name }}</a>
                     @endforeach
                 </span>
             </div>
             <hr class="my-2">
             <p class="title-video-subtitle">
-                <a href="{{ route('www.video.list', array_merge(Request::only('film.pid'), ['film[field]' => 'click'])) }}" @if(Request::input('film.field', 'click') === 'click') class="active" @endif>最热点击</a>
-                <a href="{{ route('www.video.list', array_merge(Request::only('film.pid'), ['film[field]' => 'updated_at'])) }}" @if(Request::input('film.field') === 'updated_at') class="active" @endif>最近更新</a>
-                <a href="{{ route('www.video.list', array_merge(Request::only('film.pid'), ['film[field]' => 'created_at'])) }}" @if(Request::input('film.field') === 'created_at') class="active" @endif>最新上传</a>
+                <a href="{{ route('video.list', array_merge(Request::only('film.pid'), ['film[field]' => 'click'])) }}" @if(Request::input('film.field', 'click') === 'click') class="active" @endif>最热点击</a>
+                <a href="{{ route('video.list', array_merge(Request::only('film.pid'), ['film[field]' => 'updated_at'])) }}" @if(Request::input('film.field') === 'updated_at') class="active" @endif>最近更新</a>
+                <a href="{{ route('video.list', array_merge(Request::only('film.pid'), ['film[field]' => 'created_at'])) }}" @if(Request::input('film.field') === 'created_at') class="active" @endif>最新上传</a>
             </p>
             <div class="row" style="margin: 0 -5px;">
                 @foreach($films as $film)
-                    <a class="col-4 box" href="{{ route('www.video.show', $film) }}" title="{{ $film->title }}" target="_blank">
+                    <a class="col-4 box" href="{{ route('video.show', $film) }}" title="{{ $film->title }}" target="_blank">
                         <p class="position-relative">
                             <img class="img-fluid" src="{{ imageCut(380, 214, $film->thumb) }}" alt="{{ $film->title }}" width="380" height="214">
                             <i class="fa fa-2x fa-play-circle-o position-absolute"></i>
@@ -50,21 +50,21 @@
             <div class="title-video">
                 <span class="lead text-warning mr-5">大咖直播</span>
                 <span>
-                   <a href="{{ route('www.video.list') }}" @empty(Request::input('live.pid')) class="active" @endempty>全部</a>
+                   <a href="{{ route('video.list') }}" @empty(Request::input('live.pid')) class="active" @endempty>全部</a>
                     @foreach($provinces_lives as $province)
-                        <a href="{{ route('www.video.list', ['live[pid]' => $province]) }}" @if(Request::input('live.pid') == $province->id) class="active" @endif>{{ $province->name }}</a>
+                        <a href="{{ route('video.list', ['live[pid]' => $province]) }}" @if(Request::input('live.pid') == $province->id) class="active" @endif>{{ $province->name }}</a>
                     @endforeach
                 </span>
             </div>
             <hr class="my-2">
             <p class="title-video-subtitle">
-                <a href="{{ route('www.video.list', array_merge(Request::only('live.pid'), ['live[field]' => 'click'])) }}" @if(Request::input('live.field', 'click') === 'click') class="active" @endif>最热点击</a>
-                <a href="{{ route('www.video.list', array_merge(Request::only('live.pid'), ['live[field]' => 'updated_at'])) }}" @if(Request::input('live.field') === 'updated_at') class="active" @endif>最近更新</a>
-                <a href="{{ route('www.video.list', array_merge(Request::only('live.pid'), ['live[field]' => 'created_at'])) }}" @if(Request::input('live.field') === 'created_at') class="active" @endif>最新上传</a>
+                <a href="{{ route('video.list', array_merge(Request::only('live.pid'), ['live[field]' => 'click'])) }}" @if(Request::input('live.field', 'click') === 'click') class="active" @endif>最热点击</a>
+                <a href="{{ route('video.list', array_merge(Request::only('live.pid'), ['live[field]' => 'updated_at'])) }}" @if(Request::input('live.field') === 'updated_at') class="active" @endif>最近更新</a>
+                <a href="{{ route('video.list', array_merge(Request::only('live.pid'), ['live[field]' => 'created_at'])) }}" @if(Request::input('live.field') === 'created_at') class="active" @endif>最新上传</a>
             </p>
             <div class="row" style="margin: 0 -5px;">
                 @foreach($lives as $life)
-                    <a class="col-4 box" href="{{ route('www.video.show', $life) }}" title="{{ $life->title }}" target="_blank">
+                    <a class="col-4 box" href="{{ route('video.show', $life) }}" title="{{ $life->title }}" target="_blank">
                         <p class="position-relative">
                             <img class="img-fluid" src="{{ imageCut(380, 214, $life->thumb) }}" alt="{{ $life->title }}" width="380" height="214">
                             <i class="fa fa-2x fa-play-circle-o position-absolute"></i>

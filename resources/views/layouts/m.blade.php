@@ -69,7 +69,7 @@
             </li>
         </ul>
         <div class="small">
-            <p><a href="{{ route('m.article.show', 1) }}">关于我们</a> | <a href="{{ route('m.article.show', 3) }}">帮助中心</a></p>
+            <p><a href="{{ route('article.show', 1) }}">关于我们</a> | <a href="{{ route('article.show', 3) }}">帮助中心</a></p>
             <p class="text-secondary">
                 {!! nl2br(config('web_footer')) !!}
             </p>

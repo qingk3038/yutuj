@@ -23,7 +23,7 @@
     </div>
 
     <div class="container">
-        <div class="py-4"><a href="{{ url('/') }}">首页</a> &gt; <a href="{{ route('www.leader.list') }}">大咖领路</a> &gt; <span class="text-warning">领队详情</span></div>
+        <div class="py-4"><a href="{{ url('/') }}">首页</a> &gt; <a href="{{ route('leader.list') }}">大咖领路</a> &gt; <span class="text-warning">领队详情</span></div>
     </div>
 
     <div class="container list-leader">
@@ -82,10 +82,10 @@
                 @foreach($leader->activities as $activity)
                     <div class="col-3">
                         <div class="card">
-                            <a href="{{ route('web.activity.show', $activity) }}"><img class="card-img-top" src="{{ imageCut(255, 170, $activity->thumb) }}" alt="{{ $activity->short }}"></a>
+                            <a href="{{ route('activity.show', $activity) }}"><img class="card-img-top" src="{{ imageCut(255, 170, $activity->thumb) }}" alt="{{ $activity->short }}"></a>
                             <div class="card-body">
                                 <p>
-                                    <a href="{{ route('web.activity.show', $activity) }}" class="card-title" target="_blank">
+                                    <a href="{{ route('activity.show', $activity) }}" class="card-title" target="_blank">
                                         <span class="text-danger font-weight-bold">{{ $activity->types->first()->text }}</span>
                                         {{ str_limit($activity->title, 36) }}
                                     </a>
@@ -100,7 +100,7 @@
                 @endforeach
             </div>
             <div class="pt-4 text-center">
-                <a href="{{ route('web.activity.list') }}" class="btn btn-outline-warning" target="_blank">更多活动</a>
+                <a href="{{ route('activity.list') }}" class="btn btn-outline-warning" target="_blank">更多活动</a>
             </div>
         </div>
     </div>

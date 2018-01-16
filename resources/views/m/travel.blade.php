@@ -10,7 +10,7 @@
     <img class="d-block w-100" src="{{ imageCut(414, 220, $travel->user->bg_home) }}" alt="主页背景">
     <div class="bg-white p-3">
         <div class="text-muted small d-flex">
-            <a href="{{ route('m.user.travel', $travel->user) }}" class="text-warning mr-2">
+            <a href="{{ route('user.travel', $travel->user) }}" class="text-warning mr-2">
                 <img class="rounded-circle align-bottom" src="{{ imageCut(60, 60, $travel->user->avatar) }}" alt="头像" style="margin-top: -80px;" height="60" width="60">
                 <i class="fa fa-lg @if($travel->user->sex === 'M') fa-mars @else fa-mercury @endif"></i>
                 {{ $travel->user->name ?? $travel->user->getHideMobile() }}

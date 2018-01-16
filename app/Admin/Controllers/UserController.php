@@ -99,7 +99,7 @@ class UserController extends Controller
             });
 
             $grid->actions(function ($actions) {
-                $a = sprintf('<a href="%s" target="_blank"><i class="fa fa-fw fa-paper-plane"></i></a>', route('www.user.travel', $actions->row));
+                $a = sprintf('<a href="%s" target="_blank"><i class="fa fa-fw fa-paper-plane"></i></a>', route('user.travel', $actions->row));
                 $actions->prepend($a);
             });
         });

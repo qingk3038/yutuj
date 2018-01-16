@@ -129,7 +129,7 @@
 
     <div class="a-list infiniteScroll">
         @foreach($travels as $travel)
-            <a href="{{ route('m.travel.show', $travel) }}" class="card border-0 item">
+            <a href="{{ route('travel.show', $travel) }}" class="card border-0 item">
                 <img class="card-img-top rounded-0" src="{{ imageCut(414, 150, $travel->thumb)  }}" alt="{{ $travel->title }}" width="414" height="150">
                 <div class="card-body">
                     <h6 class="text-truncate w-100">{{ $travel->title }}</h6>

@@ -22,17 +22,17 @@
     </header>
     <nav class="collapse font-weight-light position-absolute" id="menu">
         <a href="{{ url('/') }}">首页</a>
-        <a href="{{ route('m.activity.list', ['nid' => 2]) }}">纵横西部</a>
-        <a href="{{ route('m.activity.list', ['nid' => 3]) }}">微上西部</a>
-        <a href="{{ route('m.activity.list', ['nid' => 4]) }}">超级周末</a>
-        <a href="{{ route('m.activity.list', ['nid' => 5]) }}">最6旅行</a>
+        <a href="{{ route('activity.list', ['nid' => 2]) }}">纵横西部</a>
+        <a href="{{ route('activity.list', ['nid' => 3]) }}">微上西部</a>
+        <a href="{{ route('activity.list', ['nid' => 4]) }}">超级周末</a>
+        <a href="{{ route('activity.list', ['nid' => 5]) }}">最6旅行</a>
         <a href="{{ url('customized') }}">定制游</a>
-        <a href="{{ route('m.activity.list') }}">活动</a>
-        <a href="{{ route('m.raider.list') }}">攻略</a>
-        <a href="{{ route('m.travel.list') }}">游记</a>
-        <a href="{{ route('m.leader.list') }}">大咖领路</a>
-        <a href="{{ route('m.video.list') }}">旅拍直播</a>
-        <a href="{{ route('m.article.show', 1) }}">关于我们</a>
+        <a href="{{ route('activity.list') }}">活动</a>
+        <a href="{{ route('raider.list') }}">攻略</a>
+        <a href="{{ route('travel.list') }}">游记</a>
+        <a href="{{ route('leader.list') }}">大咖领路</a>
+        <a href="{{ route('video.list') }}">旅拍直播</a>
+        <a href="{{ route('article.show', 1) }}">关于我们</a>
     </nav>
 @endsection
 
@@ -40,10 +40,10 @@
     @include('m.provinces')
 
     <section class="position-absolute text-center font-weight-light text-truncate small" id="index-nav">
-        <a href="{{ route('m.activity.list', ['nid' => 2]) }}"><img src="{{ asset('m/img/nav_1.png') }}" alt="纵横西部"> 纵横西部</a>
-        <a href="{{ route('m.activity.list', ['nid' => 3]) }}"><img src="{{ asset('m/img/nav_2.png') }}" alt="微上西部"> 微上西部</a>
-        <a href="{{ route('m.activity.list', ['nid' => 4]) }}"><img src="{{ asset('m/img/nav_3.png') }}" alt="超级周末"> 超级周末</a>
-        <a href="{{ route('m.activity.list', ['nid' => 5]) }}"><img src="{{ asset('m/img/nav_4.png') }}" alt="最6旅行"> 最6旅行</a>
+        <a href="{{ route('activity.list', ['nid' => 2]) }}"><img src="{{ asset('m/img/nav_1.png') }}" alt="纵横西部"> 纵横西部</a>
+        <a href="{{ route('activity.list', ['nid' => 3]) }}"><img src="{{ asset('m/img/nav_2.png') }}" alt="微上西部"> 微上西部</a>
+        <a href="{{ route('activity.list', ['nid' => 4]) }}"><img src="{{ asset('m/img/nav_3.png') }}" alt="超级周末"> 超级周末</a>
+        <a href="{{ route('activity.list', ['nid' => 5]) }}"><img src="{{ asset('m/img/nav_4.png') }}" alt="最6旅行"> 最6旅行</a>
         <a href="{{ url('customized') }}"><img src="{{ asset('m/img/nav_5.png') }}" alt="定制旅行"> 定制旅行</a>
     </section>
 
@@ -85,8 +85,8 @@
                             <small class="pl-3">{{ str_limit($activity->title, 36)}}</small>
                         </div>
                         <div class="position-absolute btn-see">
-                            <small class="text-white d-block">¥<strong class="lead">{{ $activity->price }}</strong>起</small>
-                            <a href="{{ route('m.activity.show', $activity) }}" class="btn btn-sm btn-block btn-outline-light">去看看</a>
+                            <small class="text-white d-block"><strong class="lead">{{ $activity->price }}</strong>起</small>
+                            <a href="{{ route('activity.show', $activity) }}" class="btn btn-sm btn-block btn-outline-light">去看看</a>
                         </div>
                     </div>
                 @endforeach
@@ -135,7 +135,7 @@
                                     <small class="pl-3 w-75 d-block">{{ $wan->title }}</small>
                                 </div>
                                 <div class="position-absolute btn-see">
-                                    <a href="{{ route('m.raider.show', $wan) }}" class="btn btn-sm btn-block btn-outline-light">去看看</a>
+                                    <a href="{{ route('raider.show', $wan) }}" class="btn btn-sm btn-block btn-outline-light">去看看</a>
                                 </div>
                             </div>
                         @endforeach
@@ -157,7 +157,7 @@
                             <div class="carousel-item @if($loop->first) active @endif">
                                 <dl class="row p-2">
                                     <dt class="col-5 text-center">
-                                        <a href="{{ route('m.leader.show', $leader) }}">
+                                        <a href="{{ route('leader.show', $leader) }}">
                                             <img class="rounded-circle img-fluid" src="{{ imageCut(140, 140, $leader->avatar) }}" alt="{{ $leader->name }}" width="140" height="140">
                                         </a>
                                     </dt>
@@ -190,7 +190,7 @@
                                     <small class="pl-3 w-75 d-block">{{ $hospital->title }}</small>
                                 </div>
                                 <div class="position-absolute btn-see">
-                                    <a href="{{ route('m.raider.show', $hospital) }}" class="btn btn-sm btn-block btn-outline-light">去看看</a>
+                                    <a href="{{ route('raider.show', $hospital) }}" class="btn btn-sm btn-block btn-outline-light">去看看</a>
                                 </div>
                             </div>
                         @endforeach
@@ -208,7 +208,7 @@
         </div>
 
         <div class="clearfix my-2 jc-zq">
-            <a href="{{ route('m.raider.list') }}" class="w-50 float-left pr-1 position-relative text-white">
+            <a href="{{ route('raider.list') }}" class="w-50 float-left pr-1 position-relative text-white">
                 <img src="{{ asset('m/img/raider.png') }}" alt="raider" class="img-fluid">
                 <div class="position-absolute">
                     <p class="mb-1"><i class="far fa-lg fa-compass"></i></p>
@@ -216,7 +216,7 @@
                     <small>美食 · 景点 · 线路 · 酒店</small>
                 </div>
             </a>
-            <a href="{{ route('m.travel.list') }}" class="w-50 float-right pl-1 position-relative text-white">
+            <a href="{{ route('travel.list') }}" class="w-50 float-right pl-1 position-relative text-white">
                 <img src="{{ asset('m/img/travel.png') }}" alt="travel" class="img-fluid">
                 <div class="position-absolute">
                     <p class="mb-1"><i class="fa fa-lg fa-book"></i></p>
@@ -254,7 +254,7 @@
                     </ol>
                     <div class="carousel-inner">
                         @foreach($films as $film)
-                            <a href="{{ route('m.video.show', $film) }}" class="carousel-item @if($loop->first) active @endif">
+                            <a href="{{ route('video.show', $film) }}" class="carousel-item @if($loop->first) active @endif">
                                 <img class="d-block w-100" src="{{ imageCut(414, 200, $film->thumb) }}" alt="{{ $film->title }}" width="414" height="200">
                                 <div class="carousel-caption text-truncate">
                                     <p class="text-center"><i class="far fa-3x fa-play-circle"></i></p>
@@ -282,7 +282,7 @@
                     </ol>
                     <div class="carousel-inner">
                         @foreach($lives as $life)
-                            <a href="{{ route('m.video.show', $life) }}" class="carousel-item @if($loop->first) active @endif" target="_blank">
+                            <a href="{{ route('video.show', $life) }}" class="carousel-item @if($loop->first) active @endif" target="_blank">
                                 <img class="d-block w-100" src="{{ imageCut(414, 200, $life->thumb) }}" alt="{{ $life->title }}" width="414" height="200">
                                 <div class="carousel-caption text-truncate">
                                     <p class="text-center"><i class="far fa-3x fa-play-circle"></i></p>
@@ -330,12 +330,12 @@
                             <small class="pl-3 d-block text-truncate w-75">{{ $activity->title }}</small>
                         </div>
                         <div class="position-absolute btn-see">
-                            <small class="text-white d-block">¥<strong class="lead">{{ $activity->price }}</strong>起</small>
+                            <small class="text-white d-block"><strong class="lead">{{ $activity->price }}</strong>起</small>
                             <a href="{{ route('activity.show', $activity) }}" class="btn btn-sm btn-block btn-outline-light">去看看</a>
                         </div>
                     </div>
                     <p class="text-right mb-0 p-2 small">
-                        <a href="{{ route('m.activity.list', ['pid' => $activity->province]) }}" class="text-secondary">
+                        <a href="{{ route('activity.list', ['pid' => $activity->province]) }}" class="text-secondary">
                             <i class="fa fa-fw fa-angle-right"></i>更多{{ $activity->province->name }}
                         </a>
                     </p>

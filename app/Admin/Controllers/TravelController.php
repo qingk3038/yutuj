@@ -94,10 +94,10 @@ class TravelController extends Controller
             $grid->tools(function ($tools) {
                 $tools->append(new TravelAudit());
             });
-            $grid->disableCreation();
+            $grid->disableCreateButton();
 
             $grid->actions(function ($actions) {
-                $a = sprintf('<a href="%s" target="_blank"><i class="fa fa-fw fa-paper-plane"></i></a>', route('www.travel.show', $actions->row));
+                $a = sprintf('<a href="%s" target="_blank"><i class="fa fa-fw fa-paper-plane"></i></a>', route('travel.show', $actions->row));
                 $actions->prepend($a);
             });
         });

@@ -40,15 +40,15 @@
 
 <nav class="collapse font-weight-light position-absolute" id="menu">
     <a href="{{ url('/') }}">首页</a>
-    <a href="{{ route('m.activity.list', ['nid' => 2]) }}">纵横西部</a>
-    <a href="{{ route('m.activity.list', ['nid' => 3]) }}">微上西部</a>
-    <a href="{{ route('m.activity.list', ['nid' => 4]) }}">超级周末</a>
-    <a href="{{ route('m.activity.list', ['nid' => 5]) }}">最6旅行</a>
+    <a href="{{ route('activity.list', ['nid' => 2]) }}">纵横西部</a>
+    <a href="{{ route('activity.list', ['nid' => 3]) }}">微上西部</a>
+    <a href="{{ route('activity.list', ['nid' => 4]) }}">超级周末</a>
+    <a href="{{ route('activity.list', ['nid' => 5]) }}">最6旅行</a>
     <a href="{{ url('customized') }}">定制游</a>
-    <a href="{{ route('m.activity.list') }}">活动</a>
-    <a href="{{ route('m.raider.list') }}">攻略</a>
-    <a href="{{ route('m.travel.list') }}">游记</a>
-    <a href="{{ route('m.leader.list') }}">大咖领路</a>
-    <a href="{{ route('m.video.list') }}">旅拍直播</a>
-    <a href="{{ route('m.article.show', 1) }}">关于我们</a>
+    <a href="{{ route('activity.list') }}">活动</a>
+    <a href="{{ route('raider.list') }}">攻略</a>
+    <a href="{{ route('travel.list') }}">游记</a>
+    <a href="{{ route('leader.list') }}">大咖领路</a>
+    <a href="{{ route('video.list') }}">旅拍直播</a>
+    <a href="{{ route('article.show', 1) }}">关于我们</a>
 </nav>

@@ -52,14 +52,14 @@
                 $tag_btns = ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark'];
             @endphp
             @foreach($activities as $activity)
-                <a href="{{ route('m.activity.show', $activity) }}" class="card border-0 item">
+                <a href="{{ route('activity.show', $activity) }}" class="card border-0 item">
                     <img class="card-img-top rounded-0" src="{{ imageCut(414, 150, $activity->thumb) }}" alt="{{ $activity->title }}" width="414" height="150">
                     <div class="card-body">
                         <h6 class="text-truncate">{{ $activity->province->name }} · {{ $activity->title }}</h6>
                         <p class="card-text text-truncate small">{{ $activity->description }}</p>
                     </div>
                     <small class="position-absolute text-warning">
-                        ¥<span class="lead font-weight-bold">{{ $activity->price }}</span> 起
+                        yen<span class="lead font-weight-bold">{{ $activity->price }}</span> 起
                     </small>
                     <p class="position-absolute mb-0">
                         @foreach($activity->tags as $tag)
@@ -77,7 +77,7 @@
         @case('raider')
         <div class="a-list infiniteScroll">
             @foreach($raiders as $raider)
-                <a href="{{ route('m.raider.show', $raider) }}" class="card border-0 item">
+                <a href="{{ route('raider.show', $raider) }}" class="card border-0 item">
                     <img class="card-img-top rounded-0" src="{{ imageCut(414, 150, $raider->thumb) }}" alt="{{ $raider->title }}" width="414" height="150">
                     <div class="card-body">
                         <h6 class="text-truncate w-100">{{ $raider->typeText() }} · {{ $raider->title }}</h6>
@@ -101,7 +101,7 @@
         @case('video')
         <div class="a-list infiniteScroll">
             @foreach($videos as $video)
-                <a href="{{ route('m.video.show', $video) }}" class="card border-0 item" @if($video->type === 'live') target="_blank" @endif>
+                <a href="{{ route('video.show', $video) }}" class="card border-0 item" @if($video->type === 'live') target="_blank" @endif>
                     <img class="card-img-top rounded-0" src="{{ imageCut(414, 150, $video->thumb) }}" alt="{{ $video->title }}" width="414" height="150">
                     <div class="card-body">
                         <h6 class="text-truncate">{{ $video->province->name }} · {{ $video->title }}</h6>
@@ -121,7 +121,7 @@
         @case('travel')
         <div class="a-list infiniteScroll">
             @foreach($travels as $travel)
-                <a href="{{ route('m.travel.show', $travel) }}" class="card border-0 item">
+                <a href="{{ route('travel.show', $travel) }}" class="card border-0 item">
                     <img class="card-img-top rounded-0" src="{{ imageCut(414, 150, $travel->thumb)  }}" alt="{{ $travel->title }}" width="414" height="150">
                     <div class="card-body">
                         <h6 class="text-truncate">{{ $travel->title }}</h6>

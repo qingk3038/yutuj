@@ -26,7 +26,7 @@
         @foreach($travels as $travel)
             <div class="card">
                 <div class="position-relative mx-3">
-                    <a href="{{ route('m.travel.show', $travel) }}">
+                    <a href="{{ route('travel.show', $travel) }}">
                         <img class="card-img-top rounded-0" src="{{ imageCut(382, 160, $travel->thumb) }}" alt="{{ $travel->title }}" width="382" height="160">
                     </a>
                     <div class="position-absolute up">
@@ -39,7 +39,7 @@
                 </div>
                 <div class="card-body py-2">
                     <h6 class="card-title text-truncate">
-                        <a class="text-dark" href="{{ route('m.travel.show', $travel) }}">{{ $travel->title }}</a>
+                        <a class="text-dark" href="{{ route('travel.show', $travel) }}">{{ $travel->title }}</a>
                     </h6>
                     <p class="card-text text-muted small d-flex justify-content-between">
                         @if($travel->province)

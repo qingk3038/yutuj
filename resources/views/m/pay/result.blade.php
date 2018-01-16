@@ -32,7 +32,7 @@
 
         <dl class="row">
             <dt class="col-3 offset-2">支付金额</dt>
-            <dd class="col-7 text-danger">¥{{ number_format($order->total_fee / 100, 2) }}</dd>
+            <dd class="col-7 text-danger">yen{{ number_format($order->total_fee / 100, 2) }}</dd>
 
             <dt class="col-3 offset-2">订单号</dt>
             <dd class="col-7">{{ $order->out_trade_no  }}</dd>
@@ -40,7 +40,7 @@
             <dt class="col-3 offset-2">产品名称</dt>
             <dd class="col-7">{{ $order->tuan->activity->title }}</dd>
         </dl>
-        <p class="text-center"><a href="{{ route('m.activity.show', $order->tuan->activity)  }}" class="btn btn-sm btn-outline-secondary px-4">返回活动</a></p>
+        <p class="text-center"><a href="{{ route('activity.show', $order->tuan->activity)  }}" class="btn btn-sm btn-outline-secondary px-4">返回活动</a></p>
         <p class="text-center"><a href="{{ route('home.order')  }}" class="text-warning"><i class="fa fa-fw fa-angle-double-right"></i>点击进入"我的订单"</a></p>
     </div>
 
@@ -51,7 +51,7 @@
             </div>
             <div class="row px-2">
                 @foreach($activities as $activity)
-                    <a href="{{ route('m.activity.show', $activity) }}" class="col-6 px-2 text-dark">
+                    <a href="{{ route('activity.show', $activity) }}" class="col-6 px-2 text-dark">
                         <img class="d-block mb-1 w-100" src="{{ imageCut(182, 90, $activity->thumb) }}" alt="{{ $activity->title }}">
                         <p class="small">{{ str_limit($activity->title, 50) }}</p>
                     </a>

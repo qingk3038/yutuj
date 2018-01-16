@@ -104,7 +104,7 @@ class VideoController extends Controller
             });
 
             $grid->actions(function ($actions) {
-                $a = sprintf('<a href="%s" target="_blank"><i class="fa fa-fw fa-paper-plane"></i></a>', route('www.video.show', $actions->row));
+                $a = sprintf('<a href="%s" target="_blank"><i class="fa fa-fw fa-paper-plane"></i></a>', route('video.show', $actions->row));
                 $actions->prepend($a);
             });
 

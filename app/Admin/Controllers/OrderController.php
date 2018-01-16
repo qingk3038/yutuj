@@ -101,7 +101,7 @@ class OrderController extends Controller
             });
             $grid->column('author.name', '下单会员');
 
-            $grid->disableCreation();
+            $grid->disableCreateButton();
             $grid->filter(function ($filter) {
                 $filter->equal('type', '支付类别')->radio(['' => '所有', 'wechat' => '微信', 'alipay' => '支付宝']);
                 $filter->equal('status', '支付状态')->radio(['' => '所有', 'success' => '成功', 'fail' => '失败', 'close' => '关闭', 'cancel' => '退款', 'wait' => '等待']);

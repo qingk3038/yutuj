@@ -30,22 +30,22 @@
         <div class="roll-x nav-raider px-3">
             <ul class="nav justify-content-center flex-nowrap text-nowrap">
                 <li class="nav-item">
-                    <a class="nav-link @unless(request('type')) active @endunless" href="{{ route('m.raider.list') }}">全部攻略</a>
+                    <a class="nav-link @unless(request('type')) active @endunless" href="{{ route('raider.list') }}">全部攻略</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link @if(request('type') === 'default') active @endif" href="{{ route('m.raider.list', ['type' => 'default']) }}">玩法攻略</a>
+                    <a class="nav-link @if(request('type') === 'default') active @endif" href="{{ route('raider.list', ['type' => 'default']) }}">玩法攻略</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link @if(request('type') === 'line') active @endif" href="{{ route('m.raider.list', ['type' => 'line']) }}">线路攻略</a>
+                    <a class="nav-link @if(request('type') === 'line') active @endif" href="{{ route('raider.list', ['type' => 'line']) }}">线路攻略</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link @if(request('type') === 'food') active @endif" href="{{ route('m.raider.list', ['type' => 'food']) }}">美食攻略</a>
+                    <a class="nav-link @if(request('type') === 'food') active @endif" href="{{ route('raider.list', ['type' => 'food']) }}">美食攻略</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link @if(request('type') === 'hospital') active @endif" href="{{ route('m.raider.list', ['type' => 'hospital']) }}">住宿攻略</a>
+                    <a class="nav-link @if(request('type') === 'hospital') active @endif" href="{{ route('raider.list', ['type' => 'hospital']) }}">住宿攻略</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link @if(request('type') === 'scenic') active @endif" href="{{ route('m.raider.list', ['type' => 'scenic']) }}">景点攻略</a>
+                    <a class="nav-link @if(request('type') === 'scenic') active @endif" href="{{ route('raider.list', ['type' => 'scenic']) }}">景点攻略</a>
                 </li>
             </ul>
         </div>
@@ -153,7 +153,7 @@
 
     <div class="a-list infiniteScroll">
         @foreach($raiders as $raider)
-            <a href="{{ route('m.raider.show', $raider) }}" class="card border-0 item">
+            <a href="{{ route('raider.show', $raider) }}" class="card border-0 item">
                 <img class="card-img-top rounded-0" src="{{ imageCut(414, 150, $raider->thumb) }}" alt="{{ $raider->title }}" width="414" height="150">
                 <div class="card-body">
                     <h6 class="text-truncate w-100">{{ $raider->typeText() }} · {{ $raider->title }}</h6>

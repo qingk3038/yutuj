@@ -18,9 +18,9 @@
             </div>
             <div class="col-4 pl-0">
                 <div class="bg-white p-3 text-center">
-                    <a href="{{ route('www.raider.list') }}" class="d-block mb-3"><img class="img-fluid" src="{{ asset('img/page_r_raiders.jpg') }}" alt="raider"></a>
-                    <a href="{{ route('www.travel.list') }}" class="d-block mb-3"><img class="img-fluid" src="{{ asset('img/page_r_travels.jpg') }}" alt="travel"></a>
-                    <a href="{{ route('www.video.list') }}" class="d-block"><img class="img-fluid" src="{{ asset('img/page_r_video.jpg') }}" alt="video"></a>
+                    <a href="{{ route('raider.list') }}" class="d-block mb-3"><img class="img-fluid" src="{{ asset('img/page_r_raiders.jpg') }}" alt="raider"></a>
+                    <a href="{{ route('travel.list') }}" class="d-block mb-3"><img class="img-fluid" src="{{ asset('img/page_r_travels.jpg') }}" alt="travel"></a>
+                    <a href="{{ route('video.list') }}" class="d-block"><img class="img-fluid" src="{{ asset('img/page_r_video.jpg') }}" alt="video"></a>
                 </div>
             </div>
         </div>

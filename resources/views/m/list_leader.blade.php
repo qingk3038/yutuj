@@ -20,16 +20,16 @@
         <div class="container-fluid" id="screen" data-children=".item">
             <div class="item">
                 <div class="collapse" data-parent="#screen" id="dq">
-                    <a href="{{ route('m.leader.list') }}" class="btn btn-light mb-2 @empty($province) active @endempty">全部</a>
+                    <a href="{{ route('leader.list') }}" class="btn btn-light mb-2 @empty($province) active @endempty">全部</a>
                     @foreach($provinces as $qu)
-                        <a href="{{ route('m.leader.list', $qu) }}" class="btn btn-light mb-2 @if($province && $province->id === $qu->id) active @endif">{{ $qu->name }}</a>
+                        <a href="{{ route('leader.list', $qu) }}" class="btn btn-light mb-2 @if($province && $province->id === $qu->id) active @endif">{{ $qu->name }}</a>
                     @endforeach
                 </div>
             </div>
         </div>
         <div>
             @foreach($leaders as $leader)
-                <a href="{{ route('m.leader.show', $leader) }}" class="media bg-light p-3 mb-3">
+                <a href="{{ route('leader.show', $leader) }}" class="media bg-light p-3 mb-3">
                     <img class="mr-4 rounded-circle" src="{{ imageCut(100, 100, $leader->avatar) }}" alt="{{ $leader->name }}" width="100" height="100">
                     <div class="media-body">
                         <h5 class="left-border-orange text-warning">{{ $leader->name }}</h5>

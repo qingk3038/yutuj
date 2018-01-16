@@ -14,9 +14,9 @@
             <div class="row px-3">
                 <div class="col-1 text-center text-nowrap">区域</div>
                 <div class="col-10 text-truncate">
-                    <a href="{{ route('www.leader.list') }}" @empty($province) class="active" @endempty>全部</a>
+                    <a href="{{ route('leader.list') }}" @empty($province) class="active" @endempty>全部</a>
                     @foreach($provinces as $qu)
-                        <a href="{{ route('www.leader.list', $qu) }}" @if($province && $province->id === $qu->id) class="active" @endif>{{ $qu->name }}</a>
+                        <a href="{{ route('leader.list', $qu) }}" @if($province && $province->id === $qu->id) class="active" @endif>{{ $qu->name }}</a>
                     @endforeach
                 </div>
             </div>
@@ -25,7 +25,7 @@
         <div class="row list-leader">
             @foreach($leaders as $leader)
                 <div class="col-6">
-                    <a href="{{ route('www.leader.show', $leader) }}" class="d-block bg-white px-3 py-5 mb-4" target="_blank">
+                    <a href="{{ route('leader.show', $leader) }}" class="d-block bg-white px-3 py-5 mb-4" target="_blank">
                         <div class="media">
                             <img class="mr-5 rounded-circle" src="{{ imageCut(180, 180, $leader->avatar) }}" alt="{{ $leader->name }}" width="180" height="180">
                             <div class="media-body">
@@ -53,10 +53,10 @@
                 @foreach($activities as $activity)
                     <div class="col-3">
                         <div class="card">
-                            <a href="{{ route('web.activity.show', $activity) }}"><img class="card-img-top" src="{{ imageCut(255, 170, $activity->thumb) }}" alt="{{ $activity->short }}"></a>
+                            <a href="{{ route('activity.show', $activity) }}"><img class="card-img-top" src="{{ imageCut(255, 170, $activity->thumb) }}" alt="{{ $activity->short }}"></a>
                             <div class="card-body">
                                 <p>
-                                    <a href="{{ route('web.activity.show', $activity) }}" class="card-title">
+                                    <a href="{{ route('activity.show', $activity) }}" class="card-title">
                                         <span class="text-danger font-weight-bold">{{ $activity->types->first()->text }}</span>
                                         {{ str_limit($activity->title, 36) }}
                                     </a>

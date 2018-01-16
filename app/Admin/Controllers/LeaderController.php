@@ -94,7 +94,7 @@ class LeaderController extends Controller
             $grid->updated_at('修改日期');
 
             $grid->actions(function ($actions) {
-                $a = sprintf('<a href="%s" target="_blank"><i class="fa fa-fw fa-paper-plane"></i></a>', route('www.leader.show', $actions->row));
+                $a = sprintf('<a href="%s" target="_blank"><i class="fa fa-fw fa-paper-plane"></i></a>', route('leader.show', $actions->row));
                 $actions->prepend($a);
             });
         });
