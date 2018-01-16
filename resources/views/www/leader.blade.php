@@ -82,16 +82,16 @@
                 @foreach($leader->activities as $activity)
                     <div class="col-3">
                         <div class="card">
-                            <a href="{{ route('www.activity.show', $activity) }}"><img class="card-img-top" src="{{ imageCut(255, 170, $activity->thumb) }}" alt="{{ $activity->short }}"></a>
+                            <a href="{{ route('web.activity.show', $activity) }}"><img class="card-img-top" src="{{ imageCut(255, 170, $activity->thumb) }}" alt="{{ $activity->short }}"></a>
                             <div class="card-body">
                                 <p>
-                                    <a href="{{ route('www.activity.show', $activity) }}" class="card-title" target="_blank">
+                                    <a href="{{ route('web.activity.show', $activity) }}" class="card-title" target="_blank">
                                         <span class="text-danger font-weight-bold">{{ $activity->types->first()->text }}</span>
                                         {{ str_limit($activity->title, 36) }}
                                     </a>
                                 </p>
                                 <p class="card-text">
-                                    <span class="text-danger font-weight-bold lead">¥{{ $activity->price }}</span>
+                                    <span class="text-danger font-weight-bold lead">yen{{ $activity->price }}</span>
                                     <small>起</small>
                                 </p>
                             </div>
@@ -100,7 +100,7 @@
                 @endforeach
             </div>
             <div class="pt-4 text-center">
-                <a href="{{ route('www.activity.list') }}" class="btn btn-outline-warning" target="_blank">更多活动</a>
+                <a href="{{ route('web.activity.list') }}" class="btn btn-outline-warning" target="_blank">更多活动</a>
             </div>
         </div>
     </div>

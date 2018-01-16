@@ -15,5 +15,4 @@ class OrderPay
     {
         $this->order = $order;
     }
-
 }

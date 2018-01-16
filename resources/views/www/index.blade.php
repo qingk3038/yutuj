@@ -68,7 +68,7 @@
                                 <h4 class="pl-3 text-truncate">{{ $activity->short }}</h4>
                                 <p class="pl-3 text-truncate">{{ $activity->title }}</p>
                             </div>
-                            <a href="{{ route('www.activity.show', $activity) }}" class="position-absolute btn btn-warning text-white" target="_blank">去看看</a>
+                            <a href="{{ route('web.activity.show', $activity) }}" class="position-absolute btn btn-warning text-white" target="_blank">去看看</a>
                         </div>
                     @endforeach
                 </div>
@@ -155,7 +155,7 @@
     </section>
 
     <div class="container text-center py-5">
-        <h4>超级周末 • 两天也能度个假</h4>
+        <h4>超级周末 o 两天也能度个假</h4>
         <h5 class="mt-4">周末不死宅，重新发现身边小众又惊艳的新地方</h5>
     </div>
     <div id="lv_1" class="carousel slide" data-ride="carousel">
@@ -174,7 +174,7 @@
     </div>
 
     <div class="container text-center py-5">
-        <h4>微上西部 • 繁忙生活的小确幸</h4>
+        <h4>微上西部 o 繁忙生活的小确幸</h4>
         <h5 class="mt-4">拼个假就出发，错开高峰避开人群，给自己放个假</h5>
     </div>
     <div id="lv_2" class="carousel slide" data-ride="carousel">
@@ -193,7 +193,7 @@
     </div>
 
     <div class="container text-center py-5">
-        <h4>纵横西部 • 中国很大西部很美</h4>
+        <h4>纵横西部 o 中国很大西部很美</h4>
         <h5 class="mt-4">从河西走廊穿越新疆南北，从内蒙草原绵延彩云之南，从国道318抵达雪域之巅</h5>
     </div>
     <div id="lv_3" class="carousel slide" data-ride="carousel">
@@ -212,7 +212,7 @@
     </div>
 
     <div class="container text-center py-5">
-        <h4>最6旅行 • 专属主题旅行</h4>
+        <h4>最6旅行 o 专属主题旅行</h4>
         <h5 class="mt-4">主题活动，和志同道合的小伙伴一起疯玩儿</h5>
     </div>
     <div id="lv_4" class="carousel slide" data-ride="carousel">

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Models\Message;
 use App\Models\Follow;
 use App\Models\Order;
 use App\Models\Raider;
@@ -50,7 +51,6 @@ class User extends Authenticatable
     {
         return $avatar && Storage::exists($avatar) ? Storage::url($avatar) : asset('img/user_avatar.png');
     }
-
 
     /**
      * 游记
@@ -104,5 +104,14 @@ class User extends Authenticatable
     public function orders()
     {
         return $this->hasMany(Order::class);
+    }
+
+    /**
+     * 用户的消息
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function messages()
+    {
+        return $this->hasMany(Message::class);
     }
 }

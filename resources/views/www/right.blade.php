@@ -59,7 +59,7 @@
             <div class="text-warning">推荐活动</div>
             <hr>
             @foreach($tops['activities'] as $activity)
-                <a href="{{ route('www.activity.show', $activity) }}" title="{{ $activity->title }}" target="_blank">
+                <a href="{{ route('web.activity.show', $activity) }}" title="{{ $activity->title }}" target="_blank">
                     <img src="{{ imageCut(363, 200, $activity->thumb) }}" alt="{{ $activity->title }}" class="img-fluid">
                 </a>
                 <p class="px-4 py-2">
@@ -67,7 +67,7 @@
                     {{ str_limit($activity->description, 50) }}
                 </p>
             @endforeach
-            <a class="row text-right" href="{{ route('www.activity.list', ['pid' => $province_rel->id]) }}" target="_blank">
+            <a class="row text-right" href="{{ route('web.activity.list', ['pid' => $province_rel->id]) }}" target="_blank">
                 <span class="col-10 font-weight-light">有<strong style="font-size: 26px;">{{ $tops['activities_count'] }}</strong>条相关活动</span>
                 <span class="col-2"><i class="fa fa-angle-right text-warning"></i></span>
             </a>

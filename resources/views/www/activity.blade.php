@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="container">
-        <div class="py-4"><a href="{{ url('/') }}">首页</a> &gt; <a href="{{ route('www.activity.list') }}">活动</a> &gt; <span class="text-warning">成都</span></div>
+        <div class="py-4"><a href="{{ url('/') }}">首页</a> &gt; <a href="{{ route('web.activity.list') }}">活动</a> &gt; <span class="text-warning">成都</span></div>
     </div>
 
     <div class="container">
@@ -168,16 +168,16 @@
                 @foreach($activities as $item)
                     <div class="col-3">
                         <div class="card">
-                            <a href="{{ route('www.activity.show', $item) }}"><img class="card-img-top" src="{{ imageCut(255, 170, $item->thumb) }}" alt="{{ $item->short }}"></a>
+                            <a href="{{ route('web.activity.show', $item) }}"><img class="card-img-top" src="{{ imageCut(255, 170, $item->thumb) }}" alt="{{ $item->short }}"></a>
                             <div class="card-body">
                                 <p>
-                                    <a href="{{ route('www.activity.show', $item) }}" class="card-title">
+                                    <a href="{{ route('web.activity.show', $item) }}" class="card-title">
                                         <span class="text-danger font-weight-bold">{{ $item->types->first()->text }}</span>
                                         {{ str_limit($item->title, 36) }}
                                     </a>
                                 </p>
                                 <p class="card-text">
-                                    <span class="text-danger font-weight-bold lead">¥{{ $item->price }}</span>
+                                    <span class="text-danger font-weight-bold lead">yen{{ $item->price }}</span>
                                     <small>起</small>
                                 </p>
                             </div>

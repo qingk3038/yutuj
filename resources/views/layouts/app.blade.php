@@ -45,21 +45,21 @@
                         <a class="nav-link" href="{{ url('/') }}">首页 <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="{{ route('www.activity.list') }}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="{{ route('web.activity.list') }}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             旅行
                         </a>
                         <div class="dropdown-menu rounded-0 {{ Request::is('/') ? 'index-down' : 'other-down' }}">
-                            <a class="dropdown-item" href="{{ route('www.activity.list', ['nid' => 2]) }}"><i class="fa fa-fw fa-map-marker"></i> 纵横西部</a>
-                            <a class="dropdown-item" href="{{ route('www.activity.list', ['nid' => 3]) }}"><i class="fa fa-fw fa-paw"></i> 微上西部</a>
-                            <a class="dropdown-item" href="{{ route('www.activity.list', ['nid' => 4]) }}"><i class="fa fa-fw fa-photo"></i> 超级周末</a>
-                            <a class="dropdown-item" href="{{ route('www.activity.list', ['nid' => 5]) }}"><i class="fa fa-fw fa-institution"></i> 最6旅行</a>
+                            <a class="dropdown-item" href="{{ route('web.activity.list', ['nid' => 2]) }}"><i class="fa fa-fw fa-map-marker"></i> 纵横西部</a>
+                            <a class="dropdown-item" href="{{ route('web.activity.list', ['nid' => 3]) }}"><i class="fa fa-fw fa-paw"></i> 微上西部</a>
+                            <a class="dropdown-item" href="{{ route('web.activity.list', ['nid' => 4]) }}"><i class="fa fa-fw fa-photo"></i> 超级周末</a>
+                            <a class="dropdown-item" href="{{ route('web.activity.list', ['nid' => 5]) }}"><i class="fa fa-fw fa-institution"></i> 最6旅行</a>
                         </div>
                     </li>
                     <li class="nav-item {{ Request::is('customized') ? 'active' : '' }}">
                         <a class="nav-link" href="{{ url('customized') }}">定制游</a>
                     </li>
                     <li class="nav-item {{ Route::is('www.activity*') ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ route('www.activity.list') }}">活动</a>
+                        <a class="nav-link" href="{{ route('web.activity.list') }}">活动</a>
                     </li>
                     <li class="nav-item {{ Route::is('www.raider*') ? 'active' : '' }}">
                         <a class="nav-link" href="{{ route('www.raider.list') }}">攻略</a>
@@ -132,10 +132,10 @@
         <div class="container">
             <nav class="nav nav-justified">
                 <a class="nav-item nav-link" href="{{ url('/') }}">首页</a>
-                <a class="nav-item nav-link" href="{{ route('www.activity.list', ['nid' => 2]) }}">纵横西部</a>
-                <a class="nav-item nav-link" href="{{ route('www.activity.list', ['nid' => 3]) }}">微上西部</a>
-                <a class="nav-item nav-link" href="{{ route('www.activity.list', ['nid' => 4]) }}">超级周末</a>
-                <a class="nav-item nav-link" href="{{ route('www.activity.list', ['nid' => 5]) }}">最6旅行</a>
+                <a class="nav-item nav-link" href="{{ route('web.activity.list', ['nid' => 2]) }}">纵横西部</a>
+                <a class="nav-item nav-link" href="{{ route('web.activity.list', ['nid' => 3]) }}">微上西部</a>
+                <a class="nav-item nav-link" href="{{ route('web.activity.list', ['nid' => 4]) }}">超级周末</a>
+                <a class="nav-item nav-link" href="{{ route('web.activity.list', ['nid' => 5]) }}">最6旅行</a>
                 <a class="nav-item nav-link" href="{{ url('customized') }}">定制旅行</a>
                 <a class="nav-item nav-link" href="{{ route('www.raider.list') }}">超级攻略</a>
                 <a class="nav-item nav-link" href="{{ route('www.travel.list') }}">精彩游记</a>

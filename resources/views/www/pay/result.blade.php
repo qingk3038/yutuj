@@ -26,7 +26,7 @@
                         <br>交易号：{{ $order->transaction_id  }}
                         <br>产品名称：{{ $order->tuan->activity->title }}
                     </p>
-                    <p><a href="{{ route('www.activity.show', $order->tuan->activity)  }}" class="btn btn-warning text-white btn-sm">返回活动</a></p>
+                    <p><a href="{{ route('web.activity.show', $order->tuan->activity)  }}" class="btn btn-warning text-white btn-sm">返回活动</a></p>
                     <p><a href="{{ route('home.order')  }}" class="text-warning d-block"><i class="fa fa-fw fa-angle-double-right"></i>点击进入“我的订单”</a></p>
                 </div>
             @else
@@ -37,7 +37,7 @@
                         <br>订单号：{{ $order->out_trade_no  }}
                         <br>产品名称：{{ $order->tuan->activity->title }}
                     </p>
-                    <p><a href="{{ route('www.activity.show', $order->tuan->activity)  }}" class="btn btn-warning text-white btn-sm">返回活动</a></p>
+                    <p><a href="{{ route('web.activity.show', $order->tuan->activity)  }}" class="btn btn-warning text-white btn-sm">返回活动</a></p>
                     <p><a href="{{ route('home.order')  }}" class="text-warning d-block"><i class="fa fa-fw fa-angle-double-right"></i>点击进入“我的订单”</a></p>
                 </div>
             @endif

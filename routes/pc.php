@@ -15,8 +15,8 @@ Route::view('home/order/info', 'www.home.order_info')->name('home.order.info')->
 // 定制游
 Route::view('customized', 'www.customized');
 // 活动
-Route::get('activity/show/{activity}', 'ShowController@activity')->name('www.activity.show');
-Route::get('activity/list', 'ListController@activity')->name('www.activity.list');
+Route::get('activity/show/{activity}', 'ShowController@activity')->name('web.activity.show');
+Route::get('activity/list', 'ListController@activity')->name('web.activity.list');
 // 攻略
 Route::get('raider/show/{raider}', 'ShowController@raider')->name('www.raider.show');
 Route::get('raider/list', 'ListController@raiders')->name('www.raider.list');
