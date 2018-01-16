@@ -76,7 +76,7 @@
                 document.querySelector('.bg-home').style.backgroundImage = `url(${res.data.path + '?t=' + new Date().getTime()})`
             }).catch(err => {
                 let errors = err.response.data.errors;
-                alert(Object.values(errors).join("\r\n"))
+                swal('失败啦！', Object.values(errors).join("\r\n"), 'error');
             })
         }
     </script>

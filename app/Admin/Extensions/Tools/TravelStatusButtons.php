@@ -6,7 +6,7 @@ use Encore\Admin\Admin;
 use Encore\Admin\Grid\Tools\AbstractTool;
 use Illuminate\Support\Facades\Request;
 
-class TravelAudit extends AbstractTool
+class TravelStatusButtons extends AbstractTool
 {
     protected function script()
     {

@@ -2,9 +2,9 @@
 
 namespace App\Admin\Controllers;
 
-use App\Admin\Extensions\Tools\TravelAudit;
+use App\Admin\Extensions\Tools\TravelStatusButtons;
+use App\Events\TravelStatusChange;
 use App\Models\Travel;
-
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Facades\Admin;
@@ -92,7 +92,7 @@ class TravelController extends Controller
                 'reject' => '审核拒绝',
             ]);
             $grid->tools(function ($tools) {
-                $tools->append(new TravelAudit());
+                $tools->append(new TravelStatusButtons());
             });
             $grid->disableCreateButton();
 

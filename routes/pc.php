@@ -8,10 +8,12 @@ Route::resource('home/travel', 'TravelController')->names('home.travel');
 // 会员中心
 Route::get('home', 'TravelController@index')->name('home');
 Route::view('home/setting', 'www.home.setting')->name('home.setting')->middleware('auth');
-Route::view('home/message', 'www.home.message')->name('home.message')->middleware('auth');
 Route::get('home/order', 'HomeController@order')->name('home.order');
 Route::get('home/order/{order}/show', 'HomeController@orderInfo')->name('home.order.show');
 Route::view('home/order/info', 'www.home.order_info')->name('home.order.info')->middleware('auth');
+Route::get('home/message', 'HomeController@message')->name('home.message');
+Route::delete('home/message', 'HomeController@destroyMessages')->name('user.message.destroy');
+Route::put('home/message', 'HomeController@readMessages')->name('user.message.read');
 // 定制游
 Route::view('customized', 'www.customized');
 // 活动

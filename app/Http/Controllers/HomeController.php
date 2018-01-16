@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Follow;
+use App\Models\Message;
 use App\Models\Order;
 use App\Models\Travel;
 use App\Rules\Code;
@@ -41,7 +42,7 @@ class HomeController extends Controller
     public function backgroundImage(Request $request)
     {
         $this->validate($request, [
-            'bg' => 'required|file'
+            'bg' => 'required|image'
         ]);
         $path = $request->file('bg')->store('bg');
         $user = $request->user();
@@ -59,7 +60,7 @@ class HomeController extends Controller
     public function uploadAvatar(Request $request)
     {
         $this->validate($request, [
-            'avatar' => 'required|file'
+            'avatar' => 'required|image'
         ]);
         $path = $request->file('avatar')->store('avatar');
         $user = $request->user();
@@ -192,4 +193,37 @@ class HomeController extends Controller
         return view('www.home.order_info', compact('order'));
     }
 
+    // 消息列表
+    public function message()
+    {
+        $messages = auth()->user()->messages()->latest()->paginate();
+        return view('www.home.message', compact('messages'));
+    }
+
+    /**
+     * 删除选中消息
+     * @param Message $message
+     * @return array
+     * @throws \Exception
+     */
+    public function destroyMessages(Message $message)
+    {
+        abort_unless($message->user_id === auth()->id(), 403);
+        $message->delete();
+        return ['message' => '1条记录被删除。'];
+    }
+
+    /**
+     * 已读选中消息
+     * @param Message $message
+     * @return array
+     */
+    public function readMessages(Message $message)
+    {
+        abort_unless($message->user_id === auth()->id(), 403);
+        $message->read = true;
+        $message->save();
+        return ['message' => '1条记录被标记已读。'];
+
+    }
 }

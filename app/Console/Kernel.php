@@ -2,7 +2,7 @@
 
 namespace App\Console;
 
-use App\Events\TravelAudit;
+use App\Events\TravelStatusChange;
 use App\Models\Order;
 use App\Models\Travel;
 use Illuminate\Console\Scheduling\Schedule;
@@ -34,9 +34,11 @@ class Kernel extends ConsoleKernel
 
         // 5分钟游记通过审核
         $schedule->call(function () {
-            Travel::where('status', 'audit')->where('updated_at', '<', now()->subMinute(5))->chunk(100, function ($travel) {
-                $travel->update(['status' => 'adopt']);
-                event(new TravelAudit($travel));
+            Travel::where('status', 'audit')->where('updated_at', '<', now()->subMinute(5))->chunk(100, function ($travels) {
+                foreach ($travels as $travel) {
+                    $travel->update(['status' => 'adopt']);
+                    event(new TravelStatusChange($travel));
+                }
             });
         })->everyFiveMinutes();
     }

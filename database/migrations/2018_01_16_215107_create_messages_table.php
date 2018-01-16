@@ -15,6 +15,7 @@ class CreateMessagesTable extends Migration
     {
         Schema::create('messages', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('type')->nullable()->comment('通知类型');
             $table->string('title');
             $table->text('body');
             $table->boolean('read')->default(0);

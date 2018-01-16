@@ -5,7 +5,7 @@ namespace App\Events;
 use App\Models\Travel;
 use Illuminate\Queue\SerializesModels;
 
-class TravelAudit
+class TravelStatusChange
 {
     use SerializesModels;
 
@@ -15,5 +15,4 @@ class TravelAudit
     {
         $this->travel = $travel;
     }
-
 }

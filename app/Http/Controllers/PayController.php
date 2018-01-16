@@ -116,22 +116,14 @@ class PayController extends Controller
             if ($order->pay_at) {
                 return true;
             }
-            if ($message['result_code'] === 'SUCCESS') {
-                $order->status = 'success';
-                try {
-                    event(new OrderPay($order));
-                } catch (\Exception $exception) {
-                    \Log::error('异步通知 微信支付错误', $exception);
-                }
-            } else {
-                $order->status = 'fail';
-            }
             $order->type = 'wechat';
+            $order->status = $message['result_code'] === 'SUCCESS' ? 'success' : 'fail';
             $order->total_fee = $message['total_fee'];
             $order->transaction_id = $message['transaction_id'];
             $order->pay_at = now();
             $order->save();
 
+            event(new OrderPay($order));
             return true;
         });
     }
@@ -186,25 +178,15 @@ class PayController extends Controller
         if ($order->pay_at) {
             return 'success';
         }
-
-        $trade_status = $request->get('trade_status');
-        if ($trade_status === 'TRADE_SUCCESS') {
-            $order->status = 'success';
-            try {
-                event(new OrderPay($order));
-            } catch (\Exception $exception) {
-                \Log::error('异步通知 支付宝支付错误', $exception);
-            }
-        } else {
-            $order->status = 'fail';
-        }
-
         $order->type = 'alipay';
+        $trade_status = $request->get('trade_status');
+        $order->status = $trade_status === 'TRADE_SUCCESS' ? 'success' : 'fail';
         $order->total_fee = $request->get('total_fee') * 100;
         $order->transaction_id = $request->get('trade_no');
         $order->pay_at = now();
         $order->save();
 
+        event(new OrderPay($order));
         return 'success';
     }
 

@@ -106,7 +106,8 @@
                 $('img[tid="' + tid + '"]').prop('src', res.data.path)
                 swal('操作已成功！', res.data.message, 'success')
             }).catch(err => {
-                swal('失败啦！', err.response.data.message, 'error')
+                let errors = err.response.data.errors;
+                swal('失败啦！', Object.values(errors).join("\r\n"), 'error');
             })
         }
     </script>

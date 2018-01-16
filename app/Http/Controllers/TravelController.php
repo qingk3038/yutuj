@@ -6,6 +6,7 @@ use App\Models\Travel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
+use Jenssegers\Agent\Facades\Agent;
 
 class TravelController extends Controller
 {
@@ -123,15 +124,16 @@ class TravelController extends Controller
     public function updateThumb(Travel $travel, Request $request)
     {
         $this->authorize('update', $travel);
-
-        if (!$request->hasFile('thumb')) {
-            return response(['message' => '必须上传图片。'], 422);
-        }
+        $this->validate($request, [
+            'thumb' => 'required|image'
+        ]);
         Storage::delete($travel->thumb);
         $thumb = $request->file('thumb')->store('images');
         $travel->thumb = $thumb;
         $travel->save();
-        return ['message' => '封面设置成功。', 'path' => imageCut(870, 290, $thumb)];
+
+        $path = Agent::isMobile() ? imageCut(414, 220, $thumb) : imageCut(870, 290, $thumb);
+        return ['message' => '封面设置成功。', 'path' => $path];
     }
 
     /**

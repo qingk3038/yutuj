@@ -59,4 +59,10 @@ class HomeController extends Controller
         return view('m.home.order_info', compact('order'));
     }
 
+    // 消息列表
+    public function message()
+    {
+        $messages = auth()->user()->messages()->latest()->paginate();
+        return view('m.home.message', compact('messages'));
+    }
 }
