@@ -58,9 +58,11 @@
         $('.position-relative').click(function (event) {
             let url = $(this).data('action');
             let div = $(this).closest('div.position-relative')
-            axios.put(url).then(res => {
-                div.find('.unread').remove();
-            })
+            if (div.find('.unread').length) {
+                axios.put(url).then(res => {
+                    div.find('.unread').remove();
+                })
+            }
         })
     </script>
 @endpush
