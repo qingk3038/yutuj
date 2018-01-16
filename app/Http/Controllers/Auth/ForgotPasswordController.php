@@ -7,8 +7,8 @@ use App\Rules\Code;
 use App\Rules\Mobile;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Jenssegers\Agent\Facades\Agent;
 
 class ForgotPasswordController extends Controller
 {
@@ -35,13 +35,10 @@ class ForgotPasswordController extends Controller
         $this->middleware('guest');
     }
 
-    /**
-     * 找回密码页面
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
     public function showLinkRequestForm()
     {
-        return view('www.auth.passwords.forgot');
+        $append = Agent::isMobile() ? 'm' : 'www';
+        return view($append . '.auth.passwords.forgot');
     }
 
     public function mobile(Request $request)
@@ -54,7 +51,7 @@ class ForgotPasswordController extends Controller
         DB::table('password_resets')->insert([
             'mobile' => $request->mobile,
             'token' => $token,
-            'created_at' => Carbon::now()
+            'created_at' => now()
         ]);
         return ['token' => $token];
     }

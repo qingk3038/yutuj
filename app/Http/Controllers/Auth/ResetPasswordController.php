@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Jenssegers\Agent\Facades\Agent;
 
 class ResetPasswordController extends Controller
@@ -40,6 +41,7 @@ class ResetPasswordController extends Controller
         $this->middleware('guest');
     }
 
+
     /**
      * 找回密码下一步
      * @param string $token
@@ -47,11 +49,12 @@ class ResetPasswordController extends Controller
      */
     public function showResetForm(string $token)
     {
-        $obj = \DB::table('password_resets')->where('token', $token)->first();
+        $obj = DB::table('password_resets')->where('token', $token)->first();
         if ($obj === null) {
             return redirect()->route('password.request');
         }
-        return view(Agent::ismobile() ? 'm.auth.reset' : 'www.auth.passwords.reset', compact('token'));
+        $append = Agent::ismobile() ? 'm' : 'www';
+        return view($append . '.auth.passwords.reset', compact('token'));
     }
 
     public function reset(Request $request)
@@ -60,16 +63,13 @@ class ResetPasswordController extends Controller
             'token' => 'required|string|exists:password_resets',
             'password' => 'required|string|min:6|confirmed',
         ]);
-
-        $obj = \DB::table('password_resets')->where('token', $request->token)->first();
-
+        $obj = DB::table('password_resets')->where('token', $request->token)->first();
         $user = User::where('mobile', $obj->mobile)->first();
-        \DB::table('password_resets')->where('token', $obj->token)->delete();
+        DB::table('password_resets')->where('token', $obj->token)->delete();
         if (empty($user)) {
             return response(['message' => '手机未注册。'], 404);
         }
         $this->resetPassword($user, $request->password);
-
         $path = session()->pull('url.intended', $this->redirectTo);
         return ['url' => $path];
     }

@@ -1,12 +1,6 @@
 <?php
 // 手机网路由
 
-// 登录
-Route::view('login', 'm.auth/login')->name('login')->middleware('guest');
-// 注册
-Route::view('register', 'm.auth/register')->name('register')->middleware('guest');
-// 忘记密码
-Route::view('password/reset', 'm.auth.forgot')->name('password.request')->middleware('guest');
 // 首页
 Route::get('/', 'Mobile\WebController@index');
 // 活动

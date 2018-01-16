@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Jenssegers\Agent\Facades\Agent;
 
 class LoginController extends Controller
 {
@@ -44,7 +45,8 @@ class LoginController extends Controller
      */
     public function showLoginForm()
     {
-        return view('www.auth.login');
+        $append = Agent::isMobile() ? 'm' : 'www';
+        return view($append . '.auth.login');
     }
 
     /**
@@ -57,18 +59,6 @@ class LoginController extends Controller
     }
 
     /**
-     * 认证后
-     * @param Request $request
-     * @param $user
-     * @return array
-     */
-    protected function authenticated(Request $request, $user)
-    {
-        $path = session()->pull('url.intended', $this->redirectTo);
-        return ['url' => $path];
-    }
-
-    /**
      * 自定义认证
      * @param Request $request
      * @return bool
@@ -78,5 +68,17 @@ class LoginController extends Controller
         return $this->guard()->attempt(
             array_merge($this->credentials($request), ['disable' => 0]), $request->filled('remember')
         );
+    }
+
+    /**
+     * 认证后
+     * @param Request $request
+     * @param $user
+     * @return array
+     */
+    protected function authenticated(Request $request, $user)
+    {
+        $path = session()->pull('url.intended', $this->redirectTo);
+        return ['url' => $path];
     }
 }

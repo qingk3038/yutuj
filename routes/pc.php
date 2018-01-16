@@ -3,14 +3,6 @@
 
 // 首页
 Route::get('/', 'WebController@index');
-// 登录
-Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
-// 注册
-Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
-// 忘记密码
-Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
-// 找回密码
-Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
 // 游记
 Route::resource('home/travel', 'TravelController')->names('home.travel');
 // 会员中心

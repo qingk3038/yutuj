@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Jenssegers\Agent\Facades\Agent;
 
 class RegisterController extends Controller
 {
@@ -68,7 +69,6 @@ class RegisterController extends Controller
         return User::create([
             'mobile' => $data['mobile'],
             'password' => bcrypt($data['password']),
-            'api_token' => str_random(60),
         ]);
     }
 
@@ -78,7 +78,8 @@ class RegisterController extends Controller
      */
     public function showRegistrationForm()
     {
-        return view('www.auth.register');
+        $append = Agent::isMobile() ? 'm' : 'www';
+        return view($append . '.auth.register');
     }
 
     /**

@@ -1,20 +1,15 @@
 <?php
 
+Auth::routes();
+Route::get('logout', 'Auth\LoginController@logout')->name('logout');
+Route::post('password/mobile', 'Auth\ForgotPasswordController@mobile')->name('password.mobile');
+
 // 缩略图
 Route::get('thumb/{width}/{height}/{url}', 'ThumbController')->name('thumb');
 //短信
 Route::post('sms/register', 'SmsController@register');
 Route::post('sms/forgot', 'SmsController@forgot');
 Route::post('sms/update', 'SmsController@update');
-// 登陆
-Route::post('login', 'Auth\LoginController@login');
-Route::get('logout', 'Auth\LoginController@logout')->name('logout');
-// 注册
-Route::post('register', 'Auth\RegisterController@register');
-// 忘记密码
-Route::post('password/mobile', 'Auth\ForgotPasswordController@mobile')->name('password.mobile');
-// 找回密码
-Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 // 上传游记封面
 Route::post('home/travel/thumb/{travel}', 'TravelController@updateThumb');
 // 设置中心
