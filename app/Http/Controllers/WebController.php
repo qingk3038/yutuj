@@ -67,7 +67,7 @@ class WebController extends Controller
                 'email' => $user->getEmail(),
                 'name' => $user->getNickname(),
                 'password' => bcrypt(str_random(6)),
-                'sex' => array_get($user->getOriginal(), 'sex') ? 'M' : 'F',
+                'sex' => array_get($user->getOriginal(), 'sex') === 1 ? 'M' : 'F',
                 'province' => array_get($user->getOriginal(), 'province'),
                 'city' => array_get($user->getOriginal(), 'city'),
                 'avatar' => $user->getAvatar()
