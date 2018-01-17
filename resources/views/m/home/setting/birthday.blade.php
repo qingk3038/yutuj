@@ -14,7 +14,7 @@
     </header>
     <form class="mt-5 p-4" id="info" action="{{ route('user.update') }}">
         <label>出生日期</label>
-        <input type="date" class="form-control" placeholder="出生日期" name="birthday" value="{{ auth()->user()->birthday }}" max="{{ today()->toDateString() }}" min="{{ now()->subYear(60)->toDateString() }}">
+        <input type="date" class="form-control" placeholder="出生日期" name="birthday" value="{{ auth()->user()->birthday ?: today()->toDateString() }}" max="{{ today()->toDateString() }}" min="{{ now()->subYear(60)->toDateString() }}">
     </form>
 @endsection
 

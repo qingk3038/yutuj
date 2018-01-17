@@ -21,7 +21,7 @@ class SmsController extends Controller
 
     public function forgot(Request $request)
     {
-        if (auth()->check()) {
+        if (auth()->check() && auth()->user()->mobile) {
             return $this->sendSmsCode(config('sms_forgot'), auth()->user()->mobile, __FUNCTION__);
         }
         $this->validateMobile($request);
@@ -30,7 +30,7 @@ class SmsController extends Controller
 
     public function update(Request $request)
     {
-        if (auth()->check()) {
+        if (auth()->check() && auth()->user()->mobile) {
             return $this->sendSmsCode(config('sms_update'), auth()->user()->mobile, __FUNCTION__);
         }
         $this->validateMobile($request);
@@ -53,12 +53,12 @@ class SmsController extends Controller
         $code = random_int(10000, 99999);
         $message = ['template' => $template, 'data' => ['code' => $code]];
 
-        if (env('APP_DEBUG')) {
+/*        if (env('APP_DEBUG')) {
             session()->put($op, $code);
             Cache::put('sms_cannot_send', true, 1);
             Sms::create(['mobile' => $mobile, 'vars' => $message, 'result' => 'debug', 'op' => $op]);
             return ['message' => '短信发送成功。'];
-        }
+        }*/
 
         try {
             $easySms = new EasySms(config('sms'));

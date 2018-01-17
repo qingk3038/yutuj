@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Mobile;
 
 use App\Http\Controllers\Controller;
+use App\Models\Message;
 use App\Models\Order;
 use Illuminate\Http\Request;
 
@@ -64,5 +65,22 @@ class HomeController extends Controller
     {
         $messages = auth()->user()->messages()->latest()->paginate();
         return view('m.home.message', compact('messages'));
+    }
+
+    // 删除选中消息
+    public function destroyMessages(Message $message)
+    {
+        abort_unless($message->user_id === auth()->id(), 403);
+        $message->delete();
+        return ['message' => '1条记录被删除。'];
+    }
+
+    // 已读选中消息
+    public function readMessages(Message $message)
+    {
+        abort_unless($message->user_id === auth()->id(), 403);
+        $message->read = true;
+        $message->save();
+        return ['message' => '1条记录被标记已读。'];
     }
 }

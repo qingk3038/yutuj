@@ -10,6 +10,7 @@ use App\Rules\Code;
 use App\Rules\Mobile;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class HomeController extends Controller
@@ -114,11 +115,11 @@ class HomeController extends Controller
      */
     public function updateMobile(Request $request)
     {
+        $op = Auth::user()->mobile ? 'update' : 'register';
         $this->validate($request, [
             'mobile' => ['required', 'string', new Mobile(), 'unique:users,mobile'],
-            'code' => ['bail', 'required', 'string', 'min:4', new Code('update')],
+            'code' => ['bail', 'required', 'string', 'min:4', new Code($op)],
         ]);
-
         $request->user()->mobile = $request->get('mobile');
         $request->user()->save();
         return ['message' => '绑定手机已更新。'];
@@ -132,7 +133,7 @@ class HomeController extends Controller
      */
     public function likeTravel(Travel $travel)
     {
-        $travel->likes()->toggle(auth()->id());
+        $travel->likes()->toggle(Auth::id());
         return ['likes_count' => $travel->likes()->count()];
     }
 
@@ -143,7 +144,7 @@ class HomeController extends Controller
      */
     public function fans(User $user)
     {
-        $gz = Follow::firstOrNew(['user_id' => auth()->id(), 'gz_id' => $user->id]);
+        $gz = Follow::firstOrNew(['user_id' => Auth::id(), 'gz_id' => $user->id]);
         if ($gz->id) {
             $is_fans = false;
             $gz->delete();
@@ -161,7 +162,7 @@ class HomeController extends Controller
      */
     public function isFans(User $user)
     {
-        $num = Follow::where(['user_id' => auth()->id(), 'gz_id' => $user->id])->count();
+        $num = Follow::where(['user_id' => Auth::id(), 'gz_id' => $user->id])->count();
         return ['is_fans' => !!$num];
     }
 
@@ -196,34 +197,40 @@ class HomeController extends Controller
     // 消息列表
     public function message()
     {
-        $messages = auth()->user()->messages()->latest()->paginate();
+        $messages = Auth::user()->messages()->latest()->paginate();
         return view('www.home.message', compact('messages'));
     }
 
-    /**
-     * 删除选中消息
-     * @param Message $message
-     * @return array
-     * @throws \Exception
-     */
-    public function destroyMessages(Message $message)
+    // 删除多条消息
+    public function destroyMessages(Request $request)
     {
-        abort_unless($message->user_id === auth()->id(), 403);
-        $message->delete();
-        return ['message' => '1条记录被删除。'];
+        $this->validate($request, [
+            'ids' => 'required|array',
+            'ids.*' => 'numeric'
+        ]);
+        $ids = Message::find($request->get('ids'))->map(function ($message) {
+            if ($message->user_id === Auth::id()) {
+                return $message->id;
+            }
+        });
+        $row = Message::destroy($ids);
+        return ['message' => $row . '条记录被删除。'];
     }
 
-    /**
-     * 已读选中消息
-     * @param Message $message
-     * @return array
-     */
-    public function readMessages(Message $message)
+    // 已读多条消息
+    public function readMessages(Request $request)
     {
-        abort_unless($message->user_id === auth()->id(), 403);
-        $message->read = true;
-        $message->save();
-        return ['message' => '1条记录被标记已读。'];
+        $this->validate($request, [
+            'ids' => 'required|array',
+            'ids.*' => 'numeric'
+        ]);
+        $ids = Message::find($request->get('ids'))->map(function ($message) {
+            if ($message->user_id === Auth::id()) {
+                return $message->id;
+            }
+        });
+        $row = Message::whereIn('id', $ids)->update(['read' => true]);
+        return ['message' => $row . '条记录被标记已读。'];
 
     }
 }

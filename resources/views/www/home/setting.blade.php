@@ -119,6 +119,9 @@
                             <input type="text" name="code" class="form-control" placeholder="输入验证码">
                             <span class="input-group-addon" onclick="sendCode()" style="font-size: 12px; cursor: pointer;">免费获取验证码</span>
                         </div>
+                        @unless(auth()->user()->mobile)
+                            <small class="form-text text-muted" style="font-size: 11px;"><i class="fa fa-fw fa-info-circle"></i>需要先绑定手机号才能修改密码。</small>
+                        @endunless
                     </div>
                     <button type="submit" class="btn btn-warning btn-block text-white">完成</button>
                 </div>
@@ -251,8 +254,8 @@
 
         /**
          * 更改绑定手机
-         * 发送旧手机号
          */
+        @if(auth()->user()->mobile)
         function sendCodeTel() {
             axios.post("{{ url('sms/update') }}").then(res => {
                 swal('发送成功！', res.data.message, 'success')
@@ -261,5 +264,17 @@
                 swal('发送失败！', Object.values(errors).join(''), 'error')
             })
         }
+
+        @else
+        function sendCodeTel() {
+            let mobile = document.querySelector('[name="mobile"]').value
+            axios.post("{{ url('sms/register') }}", {mobile}).then(res => {
+                swal('发送成功！', res.data.message, 'success')
+            }).catch(err => {
+                let errors = err.response.data.errors;
+                swal('发送失败！', Object.values(errors).join(''), 'error')
+            })
+        }
+        @endif
     </script>
 @endpush

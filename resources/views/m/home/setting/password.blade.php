@@ -43,7 +43,7 @@
             event.preventDefault()
             let param = $(this).serialize();
             axios.put("{{ route('user.pwd') }}", param).then(res => {
-                alert(res.message);
+                alert(res.data.message);
                 location.href = document.referrer
             }).catch(err => {
                 let errors = err.response.data.errors

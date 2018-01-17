@@ -15,7 +15,7 @@
             </span>
         </div>
         <hr>
-        <div class="body">{!! $travel->body !!}</div>
+        <div class="div-body">{!! $travel->body !!}</div>
         <p class="text-center mt-5">
             @if($prevId)
                 <a href="{{ route('home.travel.show', $prevId) }}" class="btn btn-warning text-white px-3 mr-5">&lt;&lt;上一篇</a>

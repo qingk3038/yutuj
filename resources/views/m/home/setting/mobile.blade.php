@@ -8,13 +8,13 @@
     <header class="position-absolute bg-white container-fluid">
         <div class="text-warning row">
             <span class="col-3" onclick="history.back();"><i class="fas fa-lg fa-angle-left"></i></span>
-            <span class="col text-center">修改绑定手机</span>
+            <span class="col text-center">绑定手机</span>
             <span class="col-3 text-right">&nbsp;</span>
         </div>
     </header>
     <form class="container-fluid mt-5 pt-3" id="userTel">
         <div class="form-group">
-            <input type="tel" name="mobile" class="form-control" placeholder="绑定新手机号">
+            <input type="tel" name="mobile" class="form-control" placeholder="绑定手机号">
         </div>
         <div class="form-group position-relative">
             <span class="btn-sm btn-warning position-absolute px-3" onclick="sendCode()" style="right: 5px; top: 5px;">获取短信验证码</span>
@@ -40,7 +40,7 @@
             event.preventDefault()
             let param = $(this).serialize()
             axios.put("{{ route('user.mobile') }}", param).then(res => {
-                alert(res.message);
+                alert(res.data.message);
                 location.href = document.referrer
             }).catch(err => {
                 let errors = err.response.data.errors
@@ -50,9 +50,7 @@
             })
         })
 
-        /**
-         * 发送验证码
-         */
+        @if(auth()->user()->mobile)
         function sendCode() {
             axios.post("{{ url('sms/update') }}").then(res => {
                 swal('发送成功！', res.data.message, 'success')
@@ -61,5 +59,17 @@
                 swal('发送失败！', Object.values(errors).join(''), 'error')
             })
         }
+
+        @else
+        function sendCode() {
+            let mobile = document.querySelector('[name="mobile"]').value
+            axios.post("{{ url('sms/register') }}", {mobile}).then(res => {
+                swal('发送成功！', res.data.message, 'success')
+            }).catch(err => {
+                let errors = err.response.data.errors;
+                swal('发送失败！', Object.values(errors).join(''), 'error')
+            })
+        }
+        @endif
     </script>
 @endpush

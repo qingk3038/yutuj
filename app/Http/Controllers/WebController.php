@@ -10,6 +10,7 @@ use App\Models\Travel;
 use App\Models\Video;
 use App\User;
 use EasyWeChat\OfficialAccount\Application;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Cache;
 use Jenssegers\Agent\Facades\Agent;
 
@@ -60,9 +61,9 @@ class WebController extends Controller
     public function callbackWechat()
     {
         $user = session('wechat.oauth_user.default');
-        $wx_user = User::firstOrCreate(
-            ['wx_id' => $user->getId()],
-            [
+        if (!$wx_user = User::where('wx_id', $user->getId())->first()) {
+            $wx_user = User::create([
+                'wx_id' => $user->getId(),
                 'email' => $user->getEmail(),
                 'name' => $user->getNickname(),
                 'password' => bcrypt(str_random(6)),
@@ -71,6 +72,8 @@ class WebController extends Controller
                 'city' => array_get($user->getOriginal(), 'city'),
                 'avatar' => $user->getAvatar()
             ]);
+            event(new Registered($wx_user));
+        }
         auth()->login($wx_user);
         return redirect()->intended('/');
     }

@@ -19,8 +19,8 @@ Route::get('home/order/{order}/show', 'Mobile\HomeController@orderInfo')->name('
 Route::resource('home/travel', 'Mobile\TravelController')->names('home.travel');
 Route::get('home/setting/{edit?}', 'Mobile\HomeController@index')->name('home.setting');
 Route::get('home/message', 'Mobile\HomeController@message')->name('home.message');
-Route::delete('home/message/{message}', 'HomeController@destroyMessages')->name('user.message.destroy');
-Route::put('home/message/{message}', 'HomeController@readMessages')->name('user.message.read');
+Route::delete('home/message/{message}', 'Mobile\HomeController@destroyMessages')->name('user.message.destroy');
+Route::put('home/message/{message}', 'Mobile\HomeController@readMessages')->name('user.message.read');
 // 报名页面
 Route::get('tuan/{tuan}', 'Mobile\PayController@create')->name('pay.order.create');
 // Wap支付
