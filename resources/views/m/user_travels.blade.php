@@ -3,16 +3,14 @@
 @section('title', ($user->name ?? $user->getHideMobile()) . '的游记列表')
 
 @section('header')
-    @include('m.header', ['title' => '游记列表'])
+    @include('m.header', ['title' => '游记列表', 'theme' => 'white'])
 @endsection
-
 
 @section('content')
     <img class="d-block w-100 mt-5" src="{{ imageCut(414, 220, $user->bg_home) }}" alt="主页背景">
-
     <div class="text-center">
-        <p class="mb-0"><img src="{{ imageCut(110, 110, $user->avatar) }}" alt="头像" class="p-2 rounded-circle" style="background: rgba(255, 255, 255, .3); margin-top: -55px;"></p>
-        <h5>HEHE <i class="fa fa-venus text-danger"></i></h5>
+        <p class="mb-0"><img src="{{ $user->avatar }}" alt="头像" class="p-2 rounded-circle" style="background: rgba(255, 255, 255, .3); margin-top: -55px;"></p>
+        <h5>{{ $user->name ?? $user->getHideMobile() }} <i class="fa fa-venus text-danger"></i></h5>
         <small>现居：{{ $user->province ?? '未知' }} {{ $user->city ?? '未知' }}</small>
         <p class="text-secondary">“{{ $user->description ?? '这家伙太懒了，还没有完善个人信息' }}”</p>
     </div>

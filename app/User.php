@@ -16,11 +16,11 @@ class User extends Authenticatable
     use Notifiable;
 
     protected $fillable = [
-        'name', 'mobile', 'password', 'sex', 'province', 'city', 'birthday', 'description', 'avatar', 'bg_home', 'api_token', 'disable'
+        'wx_id', 'qq_id', 'name', 'mobile', 'password', 'sex', 'province', 'city', 'birthday', 'description', 'avatar', 'bg_home', 'api_token', 'disable'
     ];
 
     protected $hidden = [
-        'password', 'remember_token', 'api_token'
+        'wx_id', 'qq_id', 'password', 'remember_token', 'api_token'
     ];
 
     /**
@@ -49,6 +49,9 @@ class User extends Authenticatable
      */
     protected function getAvatarAttribute($avatar)
     {
+        if (\URL::isValidUrl($avatar)) {
+            return $avatar;
+        }
         return $avatar && Storage::exists($avatar) ? Storage::url($avatar) : asset('img/user_avatar.png');
     }
 

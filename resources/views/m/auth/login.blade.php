@@ -39,8 +39,8 @@
                 <span class="px-2 bg-white">其他方式登陆</span>
             </p>
             <p>
-                <i class="fab fa-2x fa-qq text-info mr-3"></i>
-                <i class="fab fa-2x fa-weixin text-success"></i>
+                <a href="{{ route('oauth.qq') }}"><i class="fab fa-2x fa-qq text-info mr-3"></i></a>
+                <a href="{{ route('oauth.wechat') }}"><i class="fab fa-2x fa-weixin text-success"></i></a>
             </p>
         </div>
         <p>

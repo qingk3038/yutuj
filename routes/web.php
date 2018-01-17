@@ -43,11 +43,13 @@ Route::get('pay/alipay/{order}/web', 'PayController@alipayWeb')->name('pay.alipa
 // 微信公众号接口 -- 未开发
 Route::any('wechat', 'WechatController');
 
-// 微信和QQ登录
-Route::get('oauth/login', 'WebController@login')->name('oauth.login');
+// 微信登录
+Route::get('oauth/login/wechat', 'WebController@loginWechat')->name('oauth.wechat');
+// QQ登录
+Route::get('oauth/login/qq', 'WebController@loginQQ')->name('oauth.qq');
 
 // 微信登录回调
-Route::get('oauth/callback/wechat', 'WebController@wechatCallback');
+Route::get('oauth/callback/wechat', 'WebController@callbackWechat')->middleware('wechat.oauth');
 
 // 微信登录回调
-Route::get('oauth/callback/qq', 'WebController@qqCallback');
+Route::get('oauth/callback/qq', 'WebController@callbackQQ');

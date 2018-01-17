@@ -17,7 +17,7 @@
     </div>
     <div class="text-center">
         <p class="mb-0 position-relative">
-            <img src="{{ imageCut(110, 110, auth()->user()->avatar) }}" alt="头像" width="110" href="110" class="p-2 rounded-circle" style="background: rgba(255, 255, 255, .3); margin-top: -55px;">
+            <img src="{{ auth()->user()->avatar }}" alt="头像" width="110" href="110" class="p-2 rounded-circle" style="background: rgba(255, 255, 255, .3); margin-top: -55px;">
         </p>
         <h5>{{ auth()->user()->name ?? auth()->user()->mobile }} <i class="fa {{ auth()->user()->sex === 'F' ? 'fa-venus text-danger' : 'fa-mars text-primary' }}"></i></h5>
         @if(auth()->user()->description)
