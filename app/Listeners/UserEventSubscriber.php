@@ -55,12 +55,7 @@ class UserEventSubscriber
     public function onUserRegistered($event)
     {
         $user = $event->user;
-        $user->messages()->create([
-            'type' => 'master',
-            'title' => '管理员给我发来了站内通知',
-            'body' => '“欢迎加入遇途记，有您的相伴，是我们最大的荣幸！” ',
-            'read' => 0
-        ]);
+        $user->messages()->create(['type' => 'master', 'title' => '管理员给我发来了站内通知', 'body' => '“欢迎加入遇途记，有您的相伴，是我们最大的荣幸！” ']);
     }
 
     /**
@@ -69,6 +64,14 @@ class UserEventSubscriber
     public function onUserPay($event)
     {
         $order = $event->order;
+        $author = $order->author;
+        $author->messages()->create([
+            'type' => 'sys', 'title' => '系统通知',
+            'body' => sprintf(
+                '用户%s你好：<br>你的订单《%s》支付%s了<a href="%s" target="_blank">点击查看详情>></a> ',
+                $author->name ?? $author->mobile, $order->out_trade_no, $order->status === 'success' ? '成功' : '失败', route('home.order.show', $order)
+            ),
+        ]);
         if ($order->status === 'success') {
             $user = $order->baomings()->first();
             $message = ['template' => config('sms_pay'), 'data' => ['userNick' => $user->name, 'activityNcik' => $order->tuan->activity->title, 'adTime' => $order->tuan->start_time->toDateString()]];

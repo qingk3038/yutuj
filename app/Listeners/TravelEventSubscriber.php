@@ -44,11 +44,8 @@ class TravelEventSubscriber
             'title' => '系统通知',
             'body' => sprintf(
                 '亲爱的%s：<br>你的游记《%s》已经成功发表，可以招呼亲朋好友们一起来欣赏你的大作啦~<a href="%s" target="_blank">点击查看游记>></a> ',
-                $user->name ?? $user->mobile,
-                $travel->title,
-                route('home.travel.show', $travel)
+                $user->name ?? $user->mobile, $travel->title, route('home.travel.show', $travel)
             ),
-            'read' => 0
         ]);
     }
 
@@ -64,11 +61,8 @@ class TravelEventSubscriber
             'title' => '系统通知',
             'body' => sprintf(
                 '亲爱的%s：<br>你的游记《%s》被管理员拒绝发表，你可以更改后再次提交~<a href="%s" target="_blank">点击查看游记>></a> ',
-                $user->name ?? $user->mobile,
-                $travel->title,
-                route('home.travel.show', $travel)
+                $user->name ?? $user->mobile, $travel->title, route('home.travel.show', $travel)
             ),
-            'read' => 0
         ]);
     }
 
