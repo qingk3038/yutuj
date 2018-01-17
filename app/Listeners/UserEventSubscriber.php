@@ -68,7 +68,7 @@ class UserEventSubscriber
         $author->messages()->create([
             'type' => 'sys', 'title' => '系统通知',
             'body' => sprintf(
-                '用户%s你好：<br>你的订单《%s》支付%s了<a href="%s" target="_blank">点击查看详情>></a> ',
+                '用户%s你好，<br>你的订单%s支付%s了！<a href="%s" target="_blank">点击查看详情>></a> ',
                 $author->name ?? $author->mobile, $order->out_trade_no, $order->status === 'success' ? '成功' : '失败', route('home.order.show', $order)
             ),
         ]);

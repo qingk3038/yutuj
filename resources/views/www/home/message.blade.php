@@ -10,8 +10,8 @@
             <table class="table list-message text-muted">
                 @foreach($messages as $message)
                     <tr>
-                        <td><input type="checkbox" value="{{ $message->id }}"></td>
-                        <td>
+                        <td width="40"><input type="checkbox" value="{{ $message->id }}"></td>
+                        <td width="60">
                             <div class="position-relative">
                                 <img src="{{ asset(sprintf('img/icon_%s.png', $message->type)) }}" alt="{{ $message->type }}" width="32" height="32">
                                 @unless($message->read) <i class="position-absolute unread"></i> @endunless
