@@ -59,7 +59,7 @@
                         <p class="card-text text-truncate small">{{ $activity->description }}</p>
                     </div>
                     <small class="position-absolute text-warning">
-                        yen<span class="lead font-weight-bold">{{ $activity->price }}</span> 起
+                        ￥<span class="lead font-weight-bold">{{ $activity->price }}</span> 起
                     </small>
                     <p class="position-absolute mb-0">
                         @foreach($activity->tags as $tag)

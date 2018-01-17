@@ -65,14 +65,14 @@
         </div>
     </div>
 
-    <div class="small py-2 text-truncate text-center" style="border-top: 5px solid #dddddd; border-bottom: 5px solid #dddddd;" data-toggle="collapse" data-target="#tuans">
+    <a href="javascript:void(0);" class="small py-2 text-truncate text-center d-block text-dark" style="border-top: 5px solid #dddddd; border-bottom: 5px solid #dddddd; text-decoration: none" data-toggle="collapse" data-target="#tuans">
         选择批次：
         <div class="d-inline-block" id="show-tuan">加载中…</div>
-    </div>
+    </a>
 
     <div class="collapse fixed-top bg-white h-100" id="tuans">
         <header class="text-warning">
-            <span class="float-left" data-toggle="collapse" data-target="#tuans"><i class="fas fa-lg fa-angle-left"></i></span>
+            <a class="float-left px-2 text-warning" href="javascript:void(0);" data-toggle="collapse" data-target="#tuans"><i class="fas fa-lg fa-angle-left"></i></a>
             <div class="text-center">选择批次</div>
         </header>
         <ul class="list-group small" id="tuan-list">

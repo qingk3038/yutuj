@@ -32,7 +32,7 @@
 
         <dl class="row">
             <dt class="col-3 offset-2">支付金额</dt>
-            <dd class="col-7 text-danger">yen{{ number_format($order->total_fee / 100, 2) }}</dd>
+            <dd class="col-7 text-danger">￥{{ number_format($order->total_fee / 100, 2) }}</dd>
 
             <dt class="col-3 offset-2">订单号</dt>
             <dd class="col-7">{{ $order->out_trade_no  }}</dd>

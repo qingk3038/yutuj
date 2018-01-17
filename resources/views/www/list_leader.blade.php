@@ -62,7 +62,7 @@
                                     </a>
                                 </p>
                                 <p class="card-text">
-                                    <span class="text-danger font-weight-bold lead">yen{{ $activity->price }}</span>
+                                    <span class="text-danger font-weight-bold lead">￥{{ $activity->price }}</span>
                                     <small>起</small>
                                 </p>
                             </div>
