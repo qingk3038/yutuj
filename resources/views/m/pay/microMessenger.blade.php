@@ -39,7 +39,7 @@
         function jsApiCall() {
             WeixinJSBridge.invoke(
                 'getBrandWCPayRequest',
-                    @json($result),
+                <?=$json ?>,
                 function (res) {
                     alert(res.err_code + res.err_desc + res.err_msg);
                 }

@@ -21,12 +21,6 @@ Route::get('home/setting/{edit?}', 'Mobile\HomeController@index')->name('home.se
 Route::get('home/message', 'Mobile\HomeController@message')->name('home.message');
 Route::delete('home/message/{message}', 'Mobile\HomeController@destroyMessages')->name('user.message.destroy');
 Route::put('home/message/{message}', 'Mobile\HomeController@readMessages')->name('user.message.read');
-// 报名页面
-Route::get('tuan/{tuan}', 'Mobile\PayController@create')->name('pay.order.create');
-// Wap支付
-Route::get('order/{order}/wap', 'Mobile\PayController@pay')->name('order.pay');
-// 显示支付结果
-Route::get('order/{order}/pay', 'Mobile\PayController@showQrcode')->name('order.qrcode');
 // 定制游
 Route::view('customized', 'm.customized');
 // 视频
@@ -41,5 +35,11 @@ Route::get('travel/show/{travel}', 'Mobile\ShowController@travel')->name('travel
 Route::get('travel/list', 'Mobile\ListController@travel')->name('travel.list');
 // 用户的游记列表
 Route::get('travel/list/{user}', 'Mobile\ListController@userTravel')->name('user.travel');
+// 报名页面
+Route::get('tuan/{tuan}', 'Mobile\PayController@create')->name('pay.order.create');
+// Wap支付
+Route::get('order/wap/{order}', 'Mobile\PayController@pay')->name('order.pay');
+// 显示支付结果
+Route::get('order/pay/{order}', 'Mobile\PayController@showQrcode')->name('order.qrcode');
 
 

@@ -44,4 +44,4 @@ Route::get('pay/wechat/{order}', 'PayController@wechat')->name('pay.wechat');
 // 生成支付宝订单 二维码
 Route::get('pay/alipay/{order}', 'PayController@alipay')->name('pay.alipay');
 // 显示二维码的支付页面和支付结果
-Route::get('order/{order}/pay', 'PayController@showQrcode')->name('order.qrcode');
+Route::get('order/pay/{order}', 'PayController@showQrcode')->name('order.qrcode');

@@ -50,8 +50,8 @@ class PayController extends Controller
                     'openid' => $user->getId()
                 ];
                 $result = $app->order->unify($attributes);
-                dd($result);
-                return view('m.pay.microMessenger', compact('order', 'result'));
+                $json = $app->jssdk->bridgeConfig($result['prepay_id']);
+                return view('m.pay.microMessenger', compact('order', 'json'));
             }
 
             // 其他浏览器打开
