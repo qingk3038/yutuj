@@ -32,24 +32,15 @@ Route::post('tuan/{tuan}', 'PayController@store');
 Route::get('pay/status/{order}', 'PayController@orderStatus')->name('pay.status');
 // 微信异步通知
 Route::post('notice/wechat', 'PayController@wechatNotice');
-
 // 支付宝异步通知
 Route::post('notice/alipay', 'PayController@alipayNotice');
 // 支付宝同步通知
 Route::get('notice/alipay/return', 'PayController@alipayReturn');
 // 支付宝官方网站支付
 Route::get('pay/alipay/{order}/web', 'PayController@alipayWeb')->name('pay.alipay.web');
-
 // 微信公众号接口 -- 未开发
 Route::any('wechat', 'WechatController');
-
 // 微信登录
 Route::get('oauth/login/wechat', 'WebController@loginWechat')->name('oauth.wechat');
-// QQ登录
-Route::get('oauth/login/qq', 'WebController@loginQQ')->name('oauth.qq');
-
 // 微信登录回调
 Route::get('oauth/callback/wechat', 'WebController@callbackWechat')->middleware('wechat.oauth');
-
-// 微信登录回调
-Route::get('oauth/callback/qq', 'WebController@callbackQQ');
