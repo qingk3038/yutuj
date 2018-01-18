@@ -41,7 +41,9 @@
                 'getBrandWCPayRequest',
                 <?=$json ?>,
                 function (res) {
-                    alert(res.err_code + res.err_desc + res.err_msg);
+                    if (res.err_msg == "get_brand_wcpay_request:ok") {
+                        location.reload()
+                    }
                 }
             );
         }

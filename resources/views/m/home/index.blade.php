@@ -43,7 +43,11 @@
             </a>
             <a href="{{ route('home.message') }}" class="list-group-item list-group-item-action d-flex align-items-center rounded-0 border-left-0 border-right-0">
                 <i class="fa fa-fw fa-comment-alt text-info"></i> 我的消息
-                <i class="fa fa-angle-right ml-auto"></i>
+                @if($numNotRead = auth()->user()->messages()->where('read', false)->count())
+                    <span class="badge badge-danger ml-auto">{{ $numNotRead }}</span>
+                @else
+                    <i class="fa fa-angle-right ml-auto"></i>
+                @endif
             </a>
             <a href="{{ route('home.order') }}" class="list-group-item list-group-item-action d-flex align-items-center rounded-0 border-left-0 border-right-0">
                 <i class="fa fa-fw fa-list-alt text-info"></i> 我的订单
