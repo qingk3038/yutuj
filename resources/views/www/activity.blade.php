@@ -13,7 +13,7 @@
                 <div id="photos" class="carousel slide" data-ride="carousel">
                     <ol class="carousel-indicators">
                         @foreach($activity->photos as $photo)
-                        <li data-target="#photos" data-slide-to="{{ $loop->index }}" @if($loop->first) class="active" @endif></li>
+                            <li data-target="#photos" data-slide-to="{{ $loop->index }}" @if($loop->first) class="active" @endif></li>
                         @endforeach
                     </ol>
                     <div class="carousel-inner">
@@ -107,11 +107,13 @@
                 <p class="text-muted d-block text-justify">
                     {!! nl2br($activity->ts) !!}
                 </p>
-                <p class="d-flex justify-content-between py-3">
-                    @foreach($activity->tps as $tp)
-                        <img src="{{ imageCut(330, 210, $tp) }}" alt="特色图 {{ $loop->iteration }}">
-                    @endforeach
-                </p>
+                @if(is_array($activity->tps))
+                    <p class="d-flex justify-content-between py-3">
+                        @foreach($activity->tps as $tp)
+                            <img src="{{ imageCut(330, 210, $tp) }}" alt="特色图 {{ $loop->iteration }}">
+                        @endforeach
+                    </p>
+                @endif
             </div>
 
             <div class="goods-list-box" id="ap">
