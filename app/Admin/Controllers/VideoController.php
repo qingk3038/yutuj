@@ -74,7 +74,7 @@ class VideoController extends Controller
     protected function grid()
     {
         return Admin::grid(Video::class, function (Grid $grid) {
-            $grid->model()->with('admin', 'country', 'province')->latest()->type(request('type', 'film'));
+            $grid->model()->with('admin', 'country', 'province')->type(request('type', 'film'));
 
             $grid->id('ID')->sortable();
             $grid->column('title', '标题')->editable();

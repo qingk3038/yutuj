@@ -76,7 +76,7 @@ class ActivityController extends Controller
     protected function grid()
     {
         return Admin::grid(Activity::class, function (Grid $grid) {
-            $grid->model()->latest()->with('admin')->withCount(['trips', 'orders' => function($query){
+            $grid->model()->with('admin')->withCount(['trips', 'orders' => function($query){
                 $query->where('status', 'success');
             }]);
             $grid->id('ID')->sortable();

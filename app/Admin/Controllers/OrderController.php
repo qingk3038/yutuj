@@ -73,7 +73,7 @@ class OrderController extends Controller
     protected function grid()
     {
         return Admin::grid(Order::class, function (Grid $grid) {
-            $grid->model()->with('author', 'baomings')->latest();
+            $grid->model()->with('author', 'baomings');
 
             $grid->id('ID')->sortable();
             $grid->column('type', '支付类别')->sortable()->display(function ($type) {

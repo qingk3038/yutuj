@@ -72,7 +72,7 @@ class CustomizedController extends Controller
     protected function grid()
     {
         return Admin::grid(Customized::class, function (Grid $grid) {
-            $grid->model()->latest()->with('user');
+            $grid->model()->with('user');
             $grid->id('ID')->sortable();
             $grid->type('来源');
             $grid->title('想去地址');
