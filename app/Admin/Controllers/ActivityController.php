@@ -80,8 +80,8 @@ class ActivityController extends Controller
                 $query->where('status', 'success');
             }]);
             $grid->id('ID')->sortable();
-            $grid->column('title', '标题')->editable();
-            $grid->column('short', '短标题')->editable();
+            $grid->column('title', '标题')->limit(40);
+            $grid->column('short', '短标题')->limit(20);
             $grid->column('price', '显示价格')->sortable()->editable();
             $grid->column('orders_count', '已支付')->badge();
             $grid->column('trips_count', '游玩天数')->badge();
