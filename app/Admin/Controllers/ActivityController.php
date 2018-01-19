@@ -176,7 +176,7 @@ class ActivityController extends Controller
             })->tab('领队与标签', function (Form $form) {
                 $form->multipleSelect('leaders', '领队')->options(Leader::pluck('name', 'id'))->rules('required');
                 $form->multipleSelect('navs', '导航')->options(Nav::pluck('text', 'id'))->rules('required');
-                $form->multipleSelect('types', '类别')->options(Type::pluck('text', 'id'));
+                $form->multipleSelect('types', '类别')->options(Type::pluck('text', 'id'))->rules('required');
                 $form->multipleSelect('tags', '标签')->options(Tag::pluck('text', 'id'));
             });
         });

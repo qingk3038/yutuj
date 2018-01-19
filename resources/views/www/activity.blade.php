@@ -27,7 +27,7 @@
             </div>
             <div class="col bg-white pr-0 mr-3">
                 <p class="text-muted small mt-4">产品编号：{{ $activity->number }}</p>
-                <h4 class="my-3 text-truncate">{{ $activity->title }}</h4>
+                <h4 class="my-3 text-truncate">{{ str_limit($activity->title, 44) }}</h4>
                 <ul class="list-inline">
                     @php
                         $tag_btns = ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark'];
