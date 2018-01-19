@@ -74,9 +74,10 @@ class WebController extends Controller
             ]);
             event(new Registered($wx_user));
         }
-        if ($wx_user->disable) {
-            return '你已被禁止登陆，请联系客服处理。';
-        }
+
+        // 禁止登陆
+        abort_if($wx_user->disable, 403);
+
         auth()->login($wx_user);
         return redirect()->intended('/');
     }
