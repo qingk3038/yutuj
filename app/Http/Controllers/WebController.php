@@ -79,7 +79,7 @@ class WebController extends Controller
         abort_if($wx_user->disable, 403);
 
         auth()->login($wx_user);
-        return redirect()->intended('/');
+        return redirect()->intended('/home');
     }
 
     // QQ登录
