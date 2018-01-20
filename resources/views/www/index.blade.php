@@ -53,17 +53,17 @@
         <ul class="nav justify-content-center" role="tablist">
             @foreach($nav_tabs as $nav)
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#t{{ $loop->iteration }}" role="tab">{{ $nav->text }}</a>
+                    <a class="nav-link @if($loop->first) active @endif" data-toggle="tab" href="#t{{ $loop->iteration }}" role="tab">{{ $nav->text }}</a>
                 </li>
             @endforeach
         </ul>
         <div class="tab-content clearfix tab-theme my-4">
             {{--导航下活动循环数据--}}
             @foreach($nav_tabs as $nav)
-                <div class="tab-pane fade" id="t{{ $loop->iteration }}">
+                <div class="tab-pane fade @if($loop->first) show active @endif" id="t{{ $loop->iteration }}">
                     @foreach($nav->activities as $activity)
                         <div class="position-relative float-left box {{ $loop->first ? 'active' : '' }}">
-                            <img src="{{ imageCut(540, 340, $activity->thumb) }}" alt="{{ $activity->title }}" width="540" height="340">
+                            <img src="{{ imageCut(540, 340, $activity->thumb) }}" alt="{{ $activity->short }}" width="540" height="340">
                             <div class="position-absolute text text-white">
                                 <h4 class="pl-3 text-truncate">{{ $activity->short }}</h4>
                                 <p class="pl-3 text-truncate">{{ $activity->title }}</p>
