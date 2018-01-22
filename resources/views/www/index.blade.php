@@ -31,10 +31,10 @@
                 <a href="{{ route('search', ['q' => '一日游']) }}" class="text-white mr-2" target="_blank">一日游</a>
             </p>
             <form action="{{ route('search') }}" class="top-search" autocomplete="off">
-                <div class="input-group">
+                <div class="input-group rounded border">
                     <div class="input-group-btn">
-                        <button type="button" id="search-btn" class="btn dropdown-toggle down bg-white" data-toggle="dropdown">不限</button>
-                        <div class="dropdown-menu rounded-0 other-down no-line" style="background: rgba(255,255,255, .8)">
+                        <button type="button" id="search-btn" class="btn dropdown-toggle down bg-white border-0 rounded-0" data-toggle="dropdown">不限</button>
+                        <div class="dropdown-menu other-down no-line" style="background: rgba(255,255,255, .8)">
                             <a class="dropdown-item search-item" href="javascript:void(0);">不限</a>
                             @foreach($searchProvinces as $province)
                                 <a class="dropdown-item search-item" href="javascript:void(0);" pid="{{ $province->id }}">{{ $province->name }}</a>
@@ -42,8 +42,8 @@
                         </div>
                     </div>
                     <input type="hidden" name="pid" id="pid">
-                    <input type="text" class="form-control" name="q" id="q" placeholder="搜目的地/攻略/游记" style="border-right: none">
-                    <button type="submit" class="input-group-addon submit bg-white"><i class="fa fa-search text-warning fa-lg"></i></button>
+                    <input type="text" class="form-control border-0" name="q" id="q" placeholder="搜目的地/攻略/游记" style="border-right: none">
+                    <button type="submit" class="input-group-addon submit border-0 bg-white"><i class="fa fa-search text-warning fa-lg"></i></button>
                 </div>
             </form>
         </div>
