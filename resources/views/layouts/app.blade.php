@@ -58,19 +58,19 @@
                     <li class="nav-item {{ Request::is('customized') ? 'active' : '' }}">
                         <a class="nav-link" href="{{ url('customized') }}">定制游</a>
                     </li>
-                    <li class="nav-item {{ Route::is('www.activity*') ? 'active' : '' }}">
+                    <li class="nav-item {{ Route::is('activity*') ? 'active' : '' }}">
                         <a class="nav-link" href="{{ route('activity.list') }}">活动</a>
                     </li>
-                    <li class="nav-item {{ Route::is('www.raider*') ? 'active' : '' }}">
+                    <li class="nav-item {{ Route::is('raider*') ? 'active' : '' }}">
                         <a class="nav-link" href="{{ route('raider.list') }}">攻略</a>
                     </li>
-                    <li class="nav-item {{ Route::is('www.travel*') ? 'active' : '' }}">
+                    <li class="nav-item {{ Route::is('travel*') ? 'active' : '' }}">
                         <a class="nav-link" href="{{ route('travel.list') }}">游记</a>
                     </li>
-                    <li class="nav-item {{ Route::is('www.leader*') ? 'active' : '' }}">
+                    <li class="nav-item {{ Route::is('leader*') ? 'active' : '' }}">
                         <a class="nav-link" href="{{ route('leader.list') }}">大咖领路</a>
                     </li>
-                    <li class="nav-item {{ Route::is('www.video*') ? 'active' : '' }}">
+                    <li class="nav-item {{ Route::is('video*') ? 'active' : '' }}">
                         <a class="nav-link" href="{{ route('video.list') }}">旅拍直播</a>
                     </li>
                 </ul>
@@ -81,10 +81,10 @@
                     </div>
                 @else
                     <form class="form-inline mr-4 top-search" autocomplete="off" action="{{ url('search') }}">
-                        <div class="input-group">
+                        <div class="input-group rounded" style="border: 1px solid #dddddd;">
                             <div class="input-group-btn">
-                                <button type="button" id="search-btn" class="btn dropdown-toggle down" data-toggle="dropdown">不限</button>
-                                <div class="dropdown-menu rounded-0 other-down no-line">
+                                <button type="button" id="search-btn" class="btn dropdown-toggle border-0 down rounded-0" data-toggle="dropdown">不限</button>
+                                <div class="dropdown-menu other-down no-line">
                                     <a class="dropdown-item search-item" href="javascript:void(0);">不限</a>
                                     @foreach($searchProvinces as $province)
                                         <a class="dropdown-item search-item" href="javascript:void(0);" pid="{{ $province->id }}">{{ $province->name }}</a>
@@ -92,8 +92,8 @@
                                 </div>
                             </div>
                             <input type="hidden" name="pid" id="pid" value="{{ request('pid') }}">
-                            <input type="text" class="form-control" name="q" id="q" placeholder="搜目的地/攻略/游记" value="{{ request('q') }}" style="border-right: none">
-                            <button type="submit" class="input-group-addon submit"><i class="fa fa-search text-warning fa-lg"></i></button>
+                            <input type="text" class="form-control border-0" name="q" id="q" placeholder="搜目的地/攻略/游记" value="{{ request('q') }}" style="border-right: none">
+                            <button type="submit" class="input-group-addon submit border-0"><i class="fa fa-search text-warning fa-lg"></i></button>
                         </div>
                     </form>
                 @endif
