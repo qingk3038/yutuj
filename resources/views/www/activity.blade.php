@@ -4,26 +4,28 @@
 
 @section('content')
     <div class="container">
-        <div class="py-4"><a href="{{ url('/') }}">首页</a> &gt; <a href="{{ route('activity.list') }}">活动</a> &gt; <span class="text-warning">成都</span></div>
+        <div class="py-4"><a href="{{ url('/') }}">首页</a> &gt; <a href="{{ route('activity.list') }}">活动</a> &gt; <span class="text-warning">{{ $activity->province->name }}</span></div>
     </div>
 
     <div class="container">
         <div class="row">
             <div class="col">
-                <div id="photos" class="carousel slide" data-ride="carousel">
-                    <ol class="carousel-indicators">
-                        @foreach($activity->photos as $photo)
-                            <li data-target="#photos" data-slide-to="{{ $loop->index }}" @if($loop->first) class="active" @endif></li>
-                        @endforeach
-                    </ol>
-                    <div class="carousel-inner">
-                        @foreach($activity->photos as $photo)
-                            <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
-                                <img class="d-block w-100" src="{{ imageCut(585, 365, $photo) }}" alt="展示图 {{ $loop->iteration }}">
-                            </div>
-                        @endforeach
+                @if(is_array($activity->photos))
+                    <div id="photos" class="carousel slide" data-ride="carousel">
+                        <ol class="carousel-indicators">
+                            @foreach($activity->photos as $photo)
+                                <li data-target="#photos" data-slide-to="{{ $loop->index }}" @if($loop->first) class="active" @endif></li>
+                            @endforeach
+                        </ol>
+                        <div class="carousel-inner">
+                            @foreach($activity->photos as $photo)
+                                <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
+                                    <img class="d-block w-100" src="{{ imageCut(585, 365, $photo) }}" alt="展示图 {{ $loop->iteration }}">
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
-                </div>
+                @endif
             </div>
             <div class="col bg-white pr-0 mr-3">
                 <p class="text-muted small mt-4">产品编号：{{ $activity->number }}</p>

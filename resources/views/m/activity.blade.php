@@ -19,21 +19,22 @@
 @endsection
 
 @section('content')
-    <div id="photos" class="carousel slide" data-ride="carousel">
-        <ol class="carousel-indicators">
-            @foreach($activity->photos as $photo)
-                <li data-target="#photos" data-slide-to="{{ $loop->index }}" @if($loop->first) class="active" @endif></li>
-            @endforeach
-        </ol>
-        <div class="carousel-inner">
-            @foreach($activity->photos as $photo)
-                <div class="carousel-item @if($loop->first) active @endif">
-                    <img class="d-block w-100" src="{{ imageCut(414, 220, $photo) }}" alt="展示图 {{ $loop->iteration }}">
-                </div>
-            @endforeach
+    @if(is_array($activity->photos))
+        <div id="photos" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+                @foreach($activity->photos as $photo)
+                    <li data-target="#photos" data-slide-to="{{ $loop->index }}" @if($loop->first) class="active" @endif></li>
+                @endforeach
+            </ol>
+            <div class="carousel-inner">
+                @foreach($activity->photos as $photo)
+                    <div class="carousel-item @if($loop->first) active @endif">
+                        <img class="d-block w-100" src="{{ imageCut(414, 220, $photo) }}" alt="展示图 {{ $loop->iteration }}">
+                    </div>
+                @endforeach
+            </div>
         </div>
-    </div>
-
+    @endif
     <div class="p-4">
         <h6 class="text-truncate left-border-orange">{{ $activity->title }}</h6>
         <div class="mb-1">
@@ -89,14 +90,15 @@
     <div class="p-4">
         <h6 class="left-border-orange">行程特色</h6>
         <p class="text-justify small">{!! nl2br($activity->ts) !!}</p>
-
-        <div class="row px-2">
-            @foreach($activity->tps as $tp)
-                <div class="col-4 px-2">
-                    <img class="img-fluid" src="{{ imageCut(220, 160, $tp) }}" alt="特色{{ $loop->iteration }}">
-                </div>
-            @endforeach
-        </div>
+        @if(is_array($activity->tps))
+            <div class="row px-2">
+                @foreach($activity->tps as $tp)
+                    <div class="col-4 px-2">
+                        <img class="img-fluid" src="{{ imageCut(220, 160, $tp) }}" alt="特色{{ $loop->iteration }}">
+                    </div>
+                @endforeach
+            </div>
+        @endif
     </div>
 
     <div class="top-border p-4">
