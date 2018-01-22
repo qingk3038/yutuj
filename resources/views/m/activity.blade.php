@@ -34,6 +34,8 @@
                 @endforeach
             </div>
         </div>
+    @else
+        <img class="d-block w-100" src="{{ imageCut(414, 220, $activity->thumb) }}" alt="缩略图">
     @endif
     <div class="p-4">
         <h6 class="text-truncate left-border-orange">{{ $activity->title }}</h6>

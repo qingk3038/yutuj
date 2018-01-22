@@ -25,6 +25,8 @@
                             @endforeach
                         </div>
                     </div>
+                @else
+                    <img class="d-block w-100" src="{{ imageCut(585, 365, $activity->thumb) }}" alt="缩略图">
                 @endif
             </div>
             <div class="col bg-white pr-0 mr-3">
