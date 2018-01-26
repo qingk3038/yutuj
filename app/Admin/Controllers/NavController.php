@@ -75,6 +75,8 @@ class NavController extends Controller
 
             $grid->id('ID')->sortable();
             $grid->column('text', '导航')->editable();
+            $grid->column('keywords', '关键词')->editable();
+            $grid->column('description', '描述')->editable();
             $grid->created_at('创建日期');
             $grid->updated_at('修改日期');
         });
@@ -91,6 +93,8 @@ class NavController extends Controller
 
             $form->display('id', 'ID');
             $form->text('text', '导航');
+            $form->tags('keywords', '关键词');
+            $form->textarea('description', '描述');
             $form->display('created_at', '创建日期');
             $form->display('updated_at', '修改日期');
         });

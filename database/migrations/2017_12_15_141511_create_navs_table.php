@@ -16,6 +16,8 @@ class CreateNavsTable extends Migration
         Schema::create('navs', function (Blueprint $table) {
             $table->increments('id');
             $table->string('text');
+            $table->string('keywords');
+            $table->string('description');
             $table->timestamps();
         });
 
