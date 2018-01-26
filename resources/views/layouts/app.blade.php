@@ -2,11 +2,11 @@
 <html lang="{{ app()->getLocale() }}">
 <head>
     <meta charset="UTF-8">
-    <title>@yield('title') | {{ config('web_title') }}</title>
     <meta name="author" content="bing,QQ676659348">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="keywords" content="{{ config('web_keywords') }}">
-    <meta name="description" content="{{ config('web_description') }}">
+    <title>@yield('title') | {{ config('web_title') }}</title>
+    <meta name="keywords" content="@yield('keywords', config('web_keywords'))">
+    <meta name="description" content="@yield('description', config('web_description'))">
 
     {{--字体图标--}}
     <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">

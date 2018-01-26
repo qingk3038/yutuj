@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
-@section('title', '活动')
+@section('title', $nav->text ?? '活动')
+@section('keywords', $nav->keywords ?? '活动，遇途记')
+@section('description', $nav->description ?? '遇途记的活动是一款体验式旅')
 
 @section('content')
     <div class="container">
