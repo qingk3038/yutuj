@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.5.21 on 2017-11-20.
+ * Generated for Laravel 5.5.32 on 2018-01-26.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -1885,7 +1885,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Get the session store used by the guard.
          *
-         * @return \Illuminate\Contracts\Session\Session. 
+         * @return \Illuminate\Contracts\Session\Session 
          * @static 
          */ 
         public static function getSession()
@@ -2179,6 +2179,17 @@ namespace Illuminate\Support\Facades {
         public static function setEchoFormat($format)
         {
             \Illuminate\View\Compilers\BladeCompiler::setEchoFormat($format);
+        }
+        
+        /**
+         * Set the echo format to double encode entities.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function doubleEncode()
+        {
+            \Illuminate\View\Compilers\BladeCompiler::doubleEncode();
         }
         
         /**
@@ -2933,6 +2944,19 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
+         * Get a lock instance.
+         *
+         * @param string $name
+         * @param int $seconds
+         * @return \Illuminate\Contracts\Cache\Lock 
+         * @static 
+         */ 
+        public static function lock($name, $seconds = 0)
+        {
+            return \Illuminate\Cache\RedisStore::lock($name, $seconds);
+        }
+        
+        /**
          * Remove all items from the cache.
          *
          * @return bool 
@@ -2940,29 +2964,41 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function flush()
         {
-            return \Illuminate\Cache\FileStore::flush();
+            return \Illuminate\Cache\RedisStore::flush();
         }
         
         /**
-         * Get the Filesystem instance.
+         * Get the Redis connection instance.
          *
-         * @return \Illuminate\Filesystem\Filesystem 
+         * @return \Predis\ClientInterface 
          * @static 
          */ 
-        public static function getFilesystem()
+        public static function connection()
         {
-            return \Illuminate\Cache\FileStore::getFilesystem();
+            return \Illuminate\Cache\RedisStore::connection();
         }
         
         /**
-         * Get the working directory of the cache.
+         * Set the connection name to be used.
          *
-         * @return string 
+         * @param string $connection
+         * @return void 
          * @static 
          */ 
-        public static function getDirectory()
+        public static function setConnection($connection)
         {
-            return \Illuminate\Cache\FileStore::getDirectory();
+            \Illuminate\Cache\RedisStore::setConnection($connection);
+        }
+        
+        /**
+         * Get the Redis database instance.
+         *
+         * @return \Illuminate\Contracts\Redis\Factory 
+         * @static 
+         */ 
+        public static function getRedis()
+        {
+            return \Illuminate\Cache\RedisStore::getRedis();
         }
         
         /**
@@ -2973,7 +3009,19 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function getPrefix()
         {
-            return \Illuminate\Cache\FileStore::getPrefix();
+            return \Illuminate\Cache\RedisStore::getPrefix();
+        }
+        
+        /**
+         * Set the cache key prefix.
+         *
+         * @param string $prefix
+         * @return void 
+         * @static 
+         */ 
+        public static function setPrefix($prefix)
+        {
+            \Illuminate\Cache\RedisStore::setPrefix($prefix);
         }
          
     }
@@ -5819,7 +5867,7 @@ namespace Illuminate\Support\Facades {
          *
          * @param string|array $view
          * @param array $data
-         * @return \Illuminate\View\View 
+         * @return string 
          * @static 
          */ 
         public static function render($view, $data = array())
@@ -6704,6 +6752,46 @@ namespace Illuminate\Support\Facades {
          
     }
 
+    class Redis {
+        
+        /**
+         * Get a Redis connection by name.
+         *
+         * @param string|null $name
+         * @return \Illuminate\Redis\Connections\Connection 
+         * @static 
+         */ 
+        public static function connection($name = null)
+        {
+            return \Illuminate\Redis\RedisManager::connection($name);
+        }
+        
+        /**
+         * Resolve the given connection by name.
+         *
+         * @param string|null $name
+         * @return \Illuminate\Redis\Connections\Connection 
+         * @throws \InvalidArgumentException
+         * @static 
+         */ 
+        public static function resolve($name = null)
+        {
+            return \Illuminate\Redis\RedisManager::resolve($name);
+        }
+        
+        /**
+         * Return all of the created connections.
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function connections()
+        {
+            return \Illuminate\Redis\RedisManager::connections();
+        }
+         
+    }
+
     class Request {
         
         /**
@@ -6936,24 +7024,24 @@ namespace Illuminate\Support\Facades {
          * Merge new input into the current request's input array.
          *
          * @param array $input
-         * @return void 
+         * @return \Illuminate\Http\Request 
          * @static 
          */ 
         public static function merge($input)
         {
-            \Illuminate\Http\Request::merge($input);
+            return \Illuminate\Http\Request::merge($input);
         }
         
         /**
          * Replace the input for the current request.
          *
          * @param array $input
-         * @return void 
+         * @return \Illuminate\Http\Request 
          * @static 
          */ 
         public static function replace($input)
         {
-            \Illuminate\Http\Request::replace($input);
+            return \Illuminate\Http\Request::replace($input);
         }
         
         /**
@@ -8056,6 +8144,24 @@ namespace Illuminate\Support\Facades {
         {
             //Method inherited from \Symfony\Component\HttpFoundation\Request            
             return \Illuminate\Http\Request::isMethodCacheable();
+        }
+        
+        /**
+         * Returns the protocol version.
+         * 
+         * If the application is behind a proxy, the protocol version used in the
+         * requests between the client and the proxy and between the proxy and the
+         * server might be different. This returns the former (from the "Via" header)
+         * if the proxy is trusted (see "setTrustedProxies()"), otherwise it returns
+         * the latter (from the "SERVER_PROTOCOL" server parameter).
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function getProtocolVersion()
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request            
+            return \Illuminate\Http\Request::getProtocolVersion();
         }
         
         /**
@@ -10629,6 +10735,35 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
+         * Create a streamed response for a given file.
+         *
+         * @param string $path
+         * @param string|null $name
+         * @param array|null $headers
+         * @param string|null $disposition
+         * @return \Symfony\Component\HttpFoundation\StreamedResponse 
+         * @static 
+         */ 
+        public static function response($path, $name = null, $headers = array(), $disposition = 'inline')
+        {
+            return \Illuminate\Filesystem\FilesystemAdapter::response($path, $name, $headers, $disposition);
+        }
+        
+        /**
+         * Create a streamed download response for a given file.
+         *
+         * @param string $path
+         * @param string|null $name
+         * @param array|null $headers
+         * @return \Symfony\Component\HttpFoundation\StreamedResponse 
+         * @static 
+         */ 
+        public static function download($path, $name = null, $headers = array())
+        {
+            return \Illuminate\Filesystem\FilesystemAdapter::download($path, $name, $headers);
+        }
+        
+        /**
          * Write the contents of a file.
          *
          * @param string $path
@@ -10845,7 +10980,7 @@ namespace Illuminate\Support\Facades {
          * @param \League\Flysystem\Rackspace\RackspaceAdapter $adapter
          * @param string $path
          * @param \DateTimeInterface $expiration
-         * @param $options
+         * @param array $options
          * @return string 
          * @static 
          */ 
@@ -10926,6 +11061,17 @@ namespace Illuminate\Support\Facades {
         public static function deleteDirectory($directory)
         {
             return \Illuminate\Filesystem\FilesystemAdapter::deleteDirectory($directory);
+        }
+        
+        /**
+         * Flush the Flysystem cache.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function flushCache()
+        {
+            \Illuminate\Filesystem\FilesystemAdapter::flushCache();
         }
         
         /**
@@ -11145,6 +11291,17 @@ namespace Illuminate\Support\Facades {
         public static function defaults($defaults)
         {
             \Illuminate\Routing\UrlGenerator::defaults($defaults);
+        }
+        
+        /**
+         * Get the default named parameters used by the URL generator.
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function getDefaultParameters()
+        {
+            return \Illuminate\Routing\UrlGenerator::getDefaultParameters();
         }
         
         /**
@@ -12337,7 +12494,8 @@ namespace Encore\Admin\Facades {
         /**
          * Set navbar.
          *
-         * @param \Closure $builder
+         * @param \Closure|null $builder
+         * @return \Encore\Admin\Navbar 
          * @static 
          */ 
         public static function navbar($builder = null)
@@ -12368,13 +12526,941 @@ namespace Encore\Admin\Facades {
         }
         
         /**
-         * 
+         * Extend a extension.
          *
+         * @param string $name
+         * @param string $class
+         * @return void 
          * @static 
          */ 
         public static function extend($name, $class)
         {
-            return \Encore\Admin\Admin::extend($name, $class);
+            \Encore\Admin\Admin::extend($name, $class);
+        }
+         
+    }
+ 
+}
+
+namespace Intervention\Image\Facades { 
+
+    class Image {
+        
+        /**
+         * Overrides configuration settings
+         *
+         * @param array $config
+         * @static 
+         */ 
+        public static function configure($config = array())
+        {
+            return \Intervention\Image\ImageManager::configure($config);
+        }
+        
+        /**
+         * Initiates an Image instance from different input types
+         *
+         * @param mixed $data
+         * @return \Intervention\Image\Image 
+         * @static 
+         */ 
+        public static function make($data)
+        {
+            return \Intervention\Image\ImageManager::make($data);
+        }
+        
+        /**
+         * Creates an empty image canvas
+         *
+         * @param integer $width
+         * @param integer $height
+         * @param mixed $background
+         * @return \Intervention\Image\Image 
+         * @static 
+         */ 
+        public static function canvas($width, $height, $background = null)
+        {
+            return \Intervention\Image\ImageManager::canvas($width, $height, $background);
+        }
+        
+        /**
+         * Create new cached image and run callback
+         * (requires additional package intervention/imagecache)
+         *
+         * @param \Closure $callback
+         * @param integer $lifetime
+         * @param boolean $returnObj
+         * @return \Image 
+         * @static 
+         */ 
+        public static function cache($callback, $lifetime = null, $returnObj = false)
+        {
+            return \Intervention\Image\ImageManager::cache($callback, $lifetime, $returnObj);
+        }
+         
+    }
+ 
+}
+
+namespace Jenssegers\Agent\Facades { 
+
+    class Agent {
+        
+        /**
+         * Get all detection rules. These rules include the additional
+         * platforms and browsers.
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function getDetectionRulesExtended()
+        {
+            return \Jenssegers\Agent\Agent::getDetectionRulesExtended();
+        }
+        
+        /**
+         * 
+         *
+         * @inheritdoc 
+         * @static 
+         */ 
+        public static function getRules()
+        {
+            return \Jenssegers\Agent\Agent::getRules();
+        }
+        
+        /**
+         * 
+         *
+         * @return \Jenssegers\Agent\CrawlerDetect 
+         * @static 
+         */ 
+        public static function getCrawlerDetect()
+        {
+            return \Jenssegers\Agent\Agent::getCrawlerDetect();
+        }
+        
+        /**
+         * Get accept languages.
+         *
+         * @param string $acceptLanguage
+         * @return array 
+         * @static 
+         */ 
+        public static function languages($acceptLanguage = null)
+        {
+            return \Jenssegers\Agent\Agent::languages($acceptLanguage);
+        }
+        
+        /**
+         * Get the browser name.
+         *
+         * @param null $userAgent
+         * @return string 
+         * @static 
+         */ 
+        public static function browser($userAgent = null)
+        {
+            return \Jenssegers\Agent\Agent::browser($userAgent);
+        }
+        
+        /**
+         * Get the platform name.
+         *
+         * @param string $userAgent
+         * @return string 
+         * @static 
+         */ 
+        public static function platform($userAgent = null)
+        {
+            return \Jenssegers\Agent\Agent::platform($userAgent);
+        }
+        
+        /**
+         * Get the device name.
+         *
+         * @param string $userAgent
+         * @return string 
+         * @static 
+         */ 
+        public static function device($userAgent = null)
+        {
+            return \Jenssegers\Agent\Agent::device($userAgent);
+        }
+        
+        /**
+         * Check if the device is a desktop computer.
+         *
+         * @param string $userAgent deprecated
+         * @param array $httpHeaders deprecated
+         * @return bool 
+         * @static 
+         */ 
+        public static function isDesktop($userAgent = null, $httpHeaders = null)
+        {
+            return \Jenssegers\Agent\Agent::isDesktop($userAgent, $httpHeaders);
+        }
+        
+        /**
+         * Check if the device is a mobile phone.
+         *
+         * @param string $userAgent deprecated
+         * @param array $httpHeaders deprecated
+         * @return bool 
+         * @static 
+         */ 
+        public static function isPhone($userAgent = null, $httpHeaders = null)
+        {
+            return \Jenssegers\Agent\Agent::isPhone($userAgent, $httpHeaders);
+        }
+        
+        /**
+         * Get the robot name.
+         *
+         * @param string $userAgent
+         * @return string|bool 
+         * @static 
+         */ 
+        public static function robot($userAgent = null)
+        {
+            return \Jenssegers\Agent\Agent::robot($userAgent);
+        }
+        
+        /**
+         * Check if device is a robot.
+         *
+         * @param string $userAgent
+         * @return bool 
+         * @static 
+         */ 
+        public static function isRobot($userAgent = null)
+        {
+            return \Jenssegers\Agent\Agent::isRobot($userAgent);
+        }
+        
+        /**
+         * 
+         *
+         * @inheritdoc 
+         * @static 
+         */ 
+        public static function version($propertyName, $type = 'text')
+        {
+            return \Jenssegers\Agent\Agent::version($propertyName, $type);
+        }
+        
+        /**
+         * Get the current script version.
+         * 
+         * This is useful for the demo.php file,
+         * so people can check on what version they are testing
+         * for mobile devices.
+         *
+         * @return string The version number in semantic version format.
+         * @static 
+         */ 
+        public static function getScriptVersion()
+        {
+            //Method inherited from \Mobile_Detect            
+            return \Jenssegers\Agent\Agent::getScriptVersion();
+        }
+        
+        /**
+         * Set the HTTP Headers. Must be PHP-flavored. This method will reset existing headers.
+         *
+         * @param array $httpHeaders The headers to set. If null, then using PHP's _SERVER to extract
+         *                           the headers. The default null is left for backwards compatibility.
+         * @static 
+         */ 
+        public static function setHttpHeaders($httpHeaders = null)
+        {
+            //Method inherited from \Mobile_Detect            
+            return \Jenssegers\Agent\Agent::setHttpHeaders($httpHeaders);
+        }
+        
+        /**
+         * Retrieves the HTTP headers.
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function getHttpHeaders()
+        {
+            //Method inherited from \Mobile_Detect            
+            return \Jenssegers\Agent\Agent::getHttpHeaders();
+        }
+        
+        /**
+         * Retrieves a particular header. If it doesn't exist, no exception/error is caused.
+         * 
+         * Simply null is returned.
+         *
+         * @param string $header The name of the header to retrieve. Can be HTTP compliant such as
+         *                       "User-Agent" or "X-Device-User-Agent" or can be php-esque with the
+         *                       all-caps, HTTP_ prefixed, underscore seperated awesomeness.
+         * @return string|null The value of the header.
+         * @static 
+         */ 
+        public static function getHttpHeader($header)
+        {
+            //Method inherited from \Mobile_Detect            
+            return \Jenssegers\Agent\Agent::getHttpHeader($header);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getMobileHeaders()
+        {
+            //Method inherited from \Mobile_Detect            
+            return \Jenssegers\Agent\Agent::getMobileHeaders();
+        }
+        
+        /**
+         * Get all possible HTTP headers that
+         * can contain the User-Agent string.
+         *
+         * @return array List of HTTP headers.
+         * @static 
+         */ 
+        public static function getUaHttpHeaders()
+        {
+            //Method inherited from \Mobile_Detect            
+            return \Jenssegers\Agent\Agent::getUaHttpHeaders();
+        }
+        
+        /**
+         * Set CloudFront headers
+         * http://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/header-caching.html#header-caching-web-device
+         *
+         * @param array $cfHeaders List of HTTP headers
+         * @return boolean If there were CloudFront headers to be set
+         * @static 
+         */ 
+        public static function setCfHeaders($cfHeaders = null)
+        {
+            //Method inherited from \Mobile_Detect            
+            return \Jenssegers\Agent\Agent::setCfHeaders($cfHeaders);
+        }
+        
+        /**
+         * Retrieves the cloudfront headers.
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function getCfHeaders()
+        {
+            //Method inherited from \Mobile_Detect            
+            return \Jenssegers\Agent\Agent::getCfHeaders();
+        }
+        
+        /**
+         * Set the User-Agent to be used.
+         *
+         * @param string $userAgent The user agent string to set.
+         * @return string|null 
+         * @static 
+         */ 
+        public static function setUserAgent($userAgent = null)
+        {
+            //Method inherited from \Mobile_Detect            
+            return \Jenssegers\Agent\Agent::setUserAgent($userAgent);
+        }
+        
+        /**
+         * Retrieve the User-Agent.
+         *
+         * @return string|null The user agent if it's set.
+         * @static 
+         */ 
+        public static function getUserAgent()
+        {
+            //Method inherited from \Mobile_Detect            
+            return \Jenssegers\Agent\Agent::getUserAgent();
+        }
+        
+        /**
+         * Set the detection type. Must be one of self::DETECTION_TYPE_MOBILE or
+         * self::DETECTION_TYPE_EXTENDED. Otherwise, nothing is set.
+         *
+         * @deprecated since version 2.6.9
+         * @param string $type The type. Must be a self::DETECTION_TYPE_* constant. The default
+         *                     parameter is null which will default to self::DETECTION_TYPE_MOBILE.
+         * @static 
+         */ 
+        public static function setDetectionType($type = null)
+        {
+            //Method inherited from \Mobile_Detect            
+            return \Jenssegers\Agent\Agent::setDetectionType($type);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getMatchingRegex()
+        {
+            //Method inherited from \Mobile_Detect            
+            return \Jenssegers\Agent\Agent::getMatchingRegex();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getMatchesArray()
+        {
+            //Method inherited from \Mobile_Detect            
+            return \Jenssegers\Agent\Agent::getMatchesArray();
+        }
+        
+        /**
+         * Retrieve the list of known phone devices.
+         *
+         * @return array List of phone devices.
+         * @static 
+         */ 
+        public static function getPhoneDevices()
+        {
+            //Method inherited from \Mobile_Detect            
+            return \Jenssegers\Agent\Agent::getPhoneDevices();
+        }
+        
+        /**
+         * Retrieve the list of known tablet devices.
+         *
+         * @return array List of tablet devices.
+         * @static 
+         */ 
+        public static function getTabletDevices()
+        {
+            //Method inherited from \Mobile_Detect            
+            return \Jenssegers\Agent\Agent::getTabletDevices();
+        }
+        
+        /**
+         * Alias for getBrowsers() method.
+         *
+         * @return array List of user agents.
+         * @static 
+         */ 
+        public static function getUserAgents()
+        {
+            //Method inherited from \Mobile_Detect            
+            return \Jenssegers\Agent\Agent::getUserAgents();
+        }
+        
+        /**
+         * Retrieve the list of known browsers. Specifically, the user agents.
+         *
+         * @return array List of browsers / user agents.
+         * @static 
+         */ 
+        public static function getBrowsers()
+        {
+            //Method inherited from \Mobile_Detect            
+            return \Jenssegers\Agent\Agent::getBrowsers();
+        }
+        
+        /**
+         * Retrieve the list of known utilities.
+         *
+         * @return array List of utilities.
+         * @static 
+         */ 
+        public static function getUtilities()
+        {
+            //Method inherited from \Mobile_Detect            
+            return \Jenssegers\Agent\Agent::getUtilities();
+        }
+        
+        /**
+         * Method gets the mobile detection rules. This method is used for the magic methods $detect->is*().
+         *
+         * @deprecated since version 2.6.9
+         * @return array All the rules (but not extended).
+         * @static 
+         */ 
+        public static function getMobileDetectionRules()
+        {
+            //Method inherited from \Mobile_Detect            
+            return \Jenssegers\Agent\Agent::getMobileDetectionRules();
+        }
+        
+        /**
+         * Method gets the mobile detection rules + utilities.
+         * 
+         * The reason this is separate is because utilities rules
+         * don't necessary imply mobile. This method is used inside
+         * the new $detect->is('stuff') method.
+         *
+         * @deprecated since version 2.6.9
+         * @return array All the rules + extended.
+         * @static 
+         */ 
+        public static function getMobileDetectionRulesExtended()
+        {
+            //Method inherited from \Mobile_Detect            
+            return \Jenssegers\Agent\Agent::getMobileDetectionRulesExtended();
+        }
+        
+        /**
+         * Retrieve the list of mobile operating systems.
+         *
+         * @return array The list of mobile operating systems.
+         * @static 
+         */ 
+        public static function getOperatingSystems()
+        {
+            //Method inherited from \Mobile_Detect            
+            return \Jenssegers\Agent\Agent::getOperatingSystems();
+        }
+        
+        /**
+         * Check the HTTP headers for signs of mobile.
+         * 
+         * This is the fastest mobile check possible; it's used
+         * inside isMobile() method.
+         *
+         * @return bool 
+         * @static 
+         */ 
+        public static function checkHttpHeadersForMobile()
+        {
+            //Method inherited from \Mobile_Detect            
+            return \Jenssegers\Agent\Agent::checkHttpHeadersForMobile();
+        }
+        
+        /**
+         * Check if the device is mobile.
+         * 
+         * Returns true if any type of mobile device detected, including special ones
+         *
+         * @param null $userAgent deprecated
+         * @param null $httpHeaders deprecated
+         * @return bool 
+         * @static 
+         */ 
+        public static function isMobile($userAgent = null, $httpHeaders = null)
+        {
+            //Method inherited from \Mobile_Detect            
+            return \Jenssegers\Agent\Agent::isMobile($userAgent, $httpHeaders);
+        }
+        
+        /**
+         * Check if the device is a tablet.
+         * 
+         * Return true if any type of tablet device is detected.
+         *
+         * @param string $userAgent deprecated
+         * @param array $httpHeaders deprecated
+         * @return bool 
+         * @static 
+         */ 
+        public static function isTablet($userAgent = null, $httpHeaders = null)
+        {
+            //Method inherited from \Mobile_Detect            
+            return \Jenssegers\Agent\Agent::isTablet($userAgent, $httpHeaders);
+        }
+        
+        /**
+         * This method checks for a certain property in the
+         * userAgent.
+         *
+         * @todo : The httpHeaders part is not yet used.
+         * @param string $key
+         * @param string $userAgent deprecated
+         * @param string $httpHeaders deprecated
+         * @return bool|int|null 
+         * @static 
+         */ 
+        public static function is($key, $userAgent = null, $httpHeaders = null)
+        {
+            //Method inherited from \Mobile_Detect            
+            return \Jenssegers\Agent\Agent::is($key, $userAgent, $httpHeaders);
+        }
+        
+        /**
+         * Some detection rules are relative (not standard),
+         * because of the diversity of devices, vendors and
+         * their conventions in representing the User-Agent or
+         * the HTTP headers.
+         * 
+         * This method will be used to check custom regexes against
+         * the User-Agent string.
+         *
+         * @param $regex
+         * @param string $userAgent
+         * @return bool 
+         * @todo : search in the HTTP headers too.
+         * @static 
+         */ 
+        public static function match($regex, $userAgent = null)
+        {
+            //Method inherited from \Mobile_Detect            
+            return \Jenssegers\Agent\Agent::match($regex, $userAgent);
+        }
+        
+        /**
+         * Get the properties array.
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function getProperties()
+        {
+            //Method inherited from \Mobile_Detect            
+            return \Jenssegers\Agent\Agent::getProperties();
+        }
+        
+        /**
+         * Prepare the version number.
+         *
+         * @todo Remove the error supression from str_replace() call.
+         * @param string $ver The string version, like "2.6.21.2152";
+         * @return float 
+         * @static 
+         */ 
+        public static function prepareVersionNo($ver)
+        {
+            //Method inherited from \Mobile_Detect            
+            return \Jenssegers\Agent\Agent::prepareVersionNo($ver);
+        }
+        
+        /**
+         * Retrieve the mobile grading, using self::MOBILE_GRADE_* constants.
+         *
+         * @return string One of the self::MOBILE_GRADE_* constants.
+         * @static 
+         */ 
+        public static function mobileGrade()
+        {
+            //Method inherited from \Mobile_Detect            
+            return \Jenssegers\Agent\Agent::mobileGrade();
+        }
+         
+    }
+ 
+}
+
+namespace Overtrue\LaravelWeChat { 
+
+    class Facade {
+        
+        /**
+         * 
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function getId()
+        {
+            //Method inherited from \EasyWeChat\Kernel\ServiceContainer            
+            return \EasyWeChat\OfficialAccount\Application::getId();
+        }
+        
+        /**
+         * Return all providers.
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function getProviders()
+        {
+            //Method inherited from \EasyWeChat\Kernel\ServiceContainer            
+            return \EasyWeChat\OfficialAccount\Application::getProviders();
+        }
+        
+        /**
+         * Sets a parameter or an object.
+         * 
+         * Objects must be defined as Closures.
+         * 
+         * Allowing any PHP callable leads to difficult to debug problems
+         * as function names (strings) are callable (creating a function with
+         * the same name as an existing parameter would break your container).
+         *
+         * @param string $id The unique identifier for the parameter or object
+         * @param mixed $value The value of the parameter or a closure to define an object
+         * @throws FrozenServiceException Prevent override of a frozen service
+         * @static 
+         */ 
+        public static function offsetSet($id, $value)
+        {
+            //Method inherited from \Pimple\Container            
+            return \EasyWeChat\OfficialAccount\Application::offsetSet($id, $value);
+        }
+        
+        /**
+         * Gets a parameter or an object.
+         *
+         * @param string $id The unique identifier for the parameter or object
+         * @return mixed The value of the parameter or an object
+         * @throws UnknownIdentifierException If the identifier is not defined
+         * @static 
+         */ 
+        public static function offsetGet($id)
+        {
+            //Method inherited from \Pimple\Container            
+            return \EasyWeChat\OfficialAccount\Application::offsetGet($id);
+        }
+        
+        /**
+         * Checks if a parameter or an object is set.
+         *
+         * @param string $id The unique identifier for the parameter or object
+         * @return bool 
+         * @static 
+         */ 
+        public static function offsetExists($id)
+        {
+            //Method inherited from \Pimple\Container            
+            return \EasyWeChat\OfficialAccount\Application::offsetExists($id);
+        }
+        
+        /**
+         * Unsets a parameter or an object.
+         *
+         * @param string $id The unique identifier for the parameter or object
+         * @static 
+         */ 
+        public static function offsetUnset($id)
+        {
+            //Method inherited from \Pimple\Container            
+            return \EasyWeChat\OfficialAccount\Application::offsetUnset($id);
+        }
+        
+        /**
+         * Marks a callable as being a factory service.
+         *
+         * @param callable $callable A service definition to be used as a factory
+         * @return callable The passed callable
+         * @throws ExpectedInvokableException Service definition has to be a closure or an invokable object
+         * @static 
+         */ 
+        public static function factory($callable)
+        {
+            //Method inherited from \Pimple\Container            
+            return \EasyWeChat\OfficialAccount\Application::factory($callable);
+        }
+        
+        /**
+         * Protects a callable from being interpreted as a service.
+         * 
+         * This is useful when you want to store a callable as a parameter.
+         *
+         * @param callable $callable A callable to protect from being evaluated
+         * @return callable The passed callable
+         * @throws ExpectedInvokableException Service definition has to be a closure or an invokable object
+         * @static 
+         */ 
+        public static function protect($callable)
+        {
+            //Method inherited from \Pimple\Container            
+            return \EasyWeChat\OfficialAccount\Application::protect($callable);
+        }
+        
+        /**
+         * Gets a parameter or the closure defining an object.
+         *
+         * @param string $id The unique identifier for the parameter or object
+         * @return mixed The value of the parameter or the closure defining an object
+         * @throws UnknownIdentifierException If the identifier is not defined
+         * @static 
+         */ 
+        public static function raw($id)
+        {
+            //Method inherited from \Pimple\Container            
+            return \EasyWeChat\OfficialAccount\Application::raw($id);
+        }
+        
+        /**
+         * Extends an object definition.
+         * 
+         * Useful when you want to extend an existing object definition,
+         * without necessarily loading that object.
+         *
+         * @param string $id The unique identifier for the object
+         * @param callable $callable A service definition to extend the original
+         * @return callable The wrapped callable
+         * @throws UnknownIdentifierException        If the identifier is not defined
+         * @throws FrozenServiceException            If the service is frozen
+         * @throws InvalidServiceIdentifierException If the identifier belongs to a parameter
+         * @throws ExpectedInvokableException        If the extension callable is not a closure or an invokable object
+         * @static 
+         */ 
+        public static function extend($id, $callable)
+        {
+            //Method inherited from \Pimple\Container            
+            return \EasyWeChat\OfficialAccount\Application::extend($id, $callable);
+        }
+        
+        /**
+         * Returns all defined value names.
+         *
+         * @return array An array of value names
+         * @static 
+         */ 
+        public static function keys()
+        {
+            //Method inherited from \Pimple\Container            
+            return \EasyWeChat\OfficialAccount\Application::keys();
+        }
+        
+        /**
+         * Registers a service provider.
+         *
+         * @param \Pimple\ServiceProviderInterface $provider A ServiceProviderInterface instance
+         * @param array $values An array of values that customizes the provider
+         * @return static 
+         * @static 
+         */ 
+        public static function register($provider, $values = array())
+        {
+            //Method inherited from \Pimple\Container            
+            return \EasyWeChat\OfficialAccount\Application::register($provider, $values);
+        }
+         
+    }
+ 
+}
+
+namespace SimpleSoftwareIO\QrCode\Facades { 
+
+    class QrCode {
+        
+        /**
+         * Generates a QrCode.
+         *
+         * @param string $text The text to be converted into a QrCode
+         * @param null|string $filename The filename and path to save the QrCode file
+         * @return string|void Returns a QrCode string depending on the format, or saves to a file.
+         * @static 
+         */ 
+        public static function generate($text, $filename = null)
+        {
+            return \SimpleSoftwareIO\QrCode\BaconQrCodeGenerator::generate($text, $filename);
+        }
+        
+        /**
+         * Merges an image with the center of the QrCode.
+         *
+         * @param $filepath string The filepath to an image
+         * @param $percentage float The amount that the merged image should be placed over the qrcode.
+         * @param $absolute boolean Whether to use an absolute filepath or not.
+         * @return $this 
+         * @static 
+         */ 
+        public static function merge($filepath, $percentage = '0.2', $absolute = false)
+        {
+            return \SimpleSoftwareIO\QrCode\BaconQrCodeGenerator::merge($filepath, $percentage, $absolute);
+        }
+        
+        /**
+         * Merges an image string with the center of the QrCode, does not check for correct format.
+         *
+         * @param $content string The string contents of an image.
+         * @param $percentage float The amount that the merged image should be placed over the qrcode.
+         * @return $this 
+         * @static 
+         */ 
+        public static function mergeString($content, $percentage = '0.2')
+        {
+            return \SimpleSoftwareIO\QrCode\BaconQrCodeGenerator::mergeString($content, $percentage);
+        }
+        
+        /**
+         * Switches the format of the outputted QrCode or defaults to SVG.
+         *
+         * @param string $format The desired format.
+         * @throws \InvalidArgumentException
+         * @return $this 
+         * @static 
+         */ 
+        public static function format($format)
+        {
+            return \SimpleSoftwareIO\QrCode\BaconQrCodeGenerator::format($format);
+        }
+        
+        /**
+         * Changes the size of the QrCode.
+         *
+         * @param int $pixels The size of the QrCode in pixels
+         * @return $this 
+         * @static 
+         */ 
+        public static function size($pixels)
+        {
+            return \SimpleSoftwareIO\QrCode\BaconQrCodeGenerator::size($pixels);
+        }
+        
+        /**
+         * Changes the foreground color of a QrCode.
+         *
+         * @param int $red
+         * @param int $green
+         * @param int $blue
+         * @return $this 
+         * @static 
+         */ 
+        public static function color($red, $green, $blue)
+        {
+            return \SimpleSoftwareIO\QrCode\BaconQrCodeGenerator::color($red, $green, $blue);
+        }
+        
+        /**
+         * Changes the background color of a QrCode.
+         *
+         * @param int $red
+         * @param int $green
+         * @param int $blue
+         * @return $this 
+         * @static 
+         */ 
+        public static function backgroundColor($red, $green, $blue)
+        {
+            return \SimpleSoftwareIO\QrCode\BaconQrCodeGenerator::backgroundColor($red, $green, $blue);
+        }
+        
+        /**
+         * Changes the error correction level of a QrCode.
+         *
+         * @param string $level Desired error correction level.  L = 7% M = 15% Q = 25% H = 30%
+         * @return $this 
+         * @static 
+         */ 
+        public static function errorCorrection($level)
+        {
+            return \SimpleSoftwareIO\QrCode\BaconQrCodeGenerator::errorCorrection($level);
+        }
+        
+        /**
+         * Creates a margin around the QrCode.
+         *
+         * @param int $margin The desired margin in pixels around the QrCode
+         * @return $this 
+         * @static 
+         */ 
+        public static function margin($margin)
+        {
+            return \SimpleSoftwareIO\QrCode\BaconQrCodeGenerator::margin($margin);
+        }
+        
+        /**
+         * Sets the Encoding mode.
+         *
+         * @param string $encoding
+         * @return $this 
+         * @static 
+         */ 
+        public static function encoding($encoding)
+        {
+            return \SimpleSoftwareIO\QrCode\BaconQrCodeGenerator::encoding($encoding);
         }
          
     }
@@ -14476,6 +15562,8 @@ namespace  {
 
     class Redirect extends \Illuminate\Support\Facades\Redirect {}
 
+    class Redis extends \Illuminate\Support\Facades\Redis {}
+
     class Request extends \Illuminate\Support\Facades\Request {}
 
     class Response extends \Illuminate\Support\Facades\Response {}
@@ -14495,6 +15583,14 @@ namespace  {
     class View extends \Illuminate\Support\Facades\View {}
 
     class Admin extends \Encore\Admin\Facades\Admin {}
+
+    class Image extends \Intervention\Image\Facades\Image {}
+
+    class Agent extends \Jenssegers\Agent\Facades\Agent {}
+
+    class EasyWeChat extends \Overtrue\LaravelWeChat\Facade {}
+
+    class QrCode extends \SimpleSoftwareIO\QrCode\Facades\QrCode {}
  
 }
 
