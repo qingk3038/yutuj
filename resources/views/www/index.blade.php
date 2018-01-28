@@ -155,7 +155,7 @@
     </section>
 
     <div class="container text-center py-5">
-        <h4>超级周末 o 两天也能度个假</h4>
+        <h4>超级周末 两天也能度个假</h4>
         <h5 class="mt-4">周末不死宅，重新发现身边小众又惊艳的新地方</h5>
     </div>
     <div id="lv_1" class="carousel slide" data-ride="carousel">

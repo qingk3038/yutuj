@@ -176,8 +176,8 @@
                         <div class="card">
                             <a href="{{ route('activity.show', $item) }}"><img class="card-img-top" src="{{ imageCut(255, 170, $item->thumb) }}" alt="{{ $item->short }}"></a>
                             <div class="card-body">
-                                <p>
-                                    <a href="{{ route('activity.show', $item) }}" class="card-title">
+                                <p style="height: 48px;">
+                                    <a href="{{ route('activity.show', $item) }}">
                                         <span class="text-danger font-weight-bold">{{ $item->types->first()->text }}</span>
                                         {{ str_limit($item->title, 36) }}
                                     </a>

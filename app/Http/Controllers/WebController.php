@@ -18,11 +18,14 @@ class WebController extends Controller
 {
     public function index()
     {
-        $data = Cache::remember('index', 5, function () {
-            // 搜索栏下面 导航切换
-            $arr['nav_tabs'] = Nav::with(['activities' => function ($query) {
-                $query->select('id', 'title', 'short', 'thumb')->active()->limit(4)->latest('updated_at');
-            }])->get(['id', 'text']);
+        $data = Cache::remember('index', 1, function () {
+            $arr['nav_tabs'] = $navs = Nav::get(['id', 'text']);
+            foreach ($navs as $nav) {
+                $nav->load(['activities' => function ($query) {
+                    $query->select('id', 'title', 'short', 'thumb')->active()->latest()->limit(4);
+                }]);
+            }
+
             // 热门线路
             $arr['host_lines'] = Activity::limit(4)->latest('updated_at')->get(['id', 'title', 'short', 'thumb']);
             // 攻略-游玩
