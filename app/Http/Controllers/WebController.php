@@ -18,11 +18,11 @@ class WebController extends Controller
 {
     public function index()
     {
-        $data = Cache::remember('index', 1, function () {
+        $data = Cache::remember('index', 5, function () {
             $arr['nav_tabs'] = $navs = Nav::get(['id', 'text']);
             foreach ($navs as $nav) {
                 $nav->load(['activities' => function ($query) {
-                    $query->select('id', 'title', 'short', 'thumb')->active()->latest()->limit(4);
+                    $query->select('id', 'title', 'short', 'thumb')->active()->latest('updated_at')->limit(4);
                 }]);
             }
 
