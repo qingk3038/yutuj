@@ -8,13 +8,21 @@
             <form autocomplete="off">
                 <div class="form-group">
                     <div class="input-group">
-                        <span class="input-group-addon bg-white"><i class="fa fa-fw fa-map-marker"></i></span>
+                        <div class="input-group-prepend">
+                            <span class="input-group-text bg-white">
+                                <i class="fa fa-fw fa-map-marker"></i>
+                            </span>
+                        </div>
                         <input type="text" class="form-control" name="title" placeholder="请填写您想去的目的地" required>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="input-group">
-                        <span class="input-group-addon bg-white"><i class="fa fa-fw fa-mobile"></i></span>
+                        <div class="input-group-prepend">
+                            <span class="input-group-text bg-white">
+                                <i class="fa fa-fw fa-mobile"></i>
+                            </span>
+                        </div>
                         <input type="text" class="form-control" name="mobile" placeholder="请填写您的手机号码" required>
                     </div>
                 </div>

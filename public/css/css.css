@@ -51,14 +51,8 @@ a:hover {
     background-color: #FF9900;
 }
 
-.text-warning,
-.btn-outline-warning {
-    color: #FF9900;
-}
-
 .search-item.active {
     background-color: transparent !important;
-    color: #FF9900 !important;
 }
 
 header.bg-white {

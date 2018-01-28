@@ -11,18 +11,8 @@
     {{--字体图标--}}
     <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
-    {{--VUE--}}
-    <script src="https://cdn.bootcss.com/vue/2.5.13/vue.min.js"></script>
-    <script src="https://cdn.bootcss.com/axios/0.17.1/axios.min.js"></script>
-
-    {{--Bootstrap--}}
-    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
-    <link href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
-
-    {{--弹窗组件--}}
-    <link rel="stylesheet" href="{{ asset('vendor/laravel-admin/sweetalert/dist/sweetalert.css') }}">
-    <script src="{{ asset('vendor/laravel-admin/sweetalert/dist/sweetalert.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+    <script src="{{ mix('js/app.js') }}"></script>
 
     {{--WEB样式--}}
     <link rel="stylesheet" href="{{ asset('css/css.css') }}">
