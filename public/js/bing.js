@@ -57,3 +57,7 @@ function showDq() {
         $('.search-item:not([pid])').addClass('active')
     }
 }
+
+function authComplete() {
+    location.reload()
+}

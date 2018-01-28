@@ -62,7 +62,7 @@
                         this.resetError()
                         axios.post("{{ route('login') }}", this.form).then(res => {
                             if (this.wp) {
-                                this.wp.location.reload(true)
+                                this.wp.authComplete()
                                 window.close()
                             } else {
                                 location.href = res.data.url

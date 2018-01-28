@@ -7,9 +7,12 @@
     <title>@yield('title') | {{ config('web_title') }}</title>
     <meta name="keywords" content="@yield('keywords', config('web_keywords'))">
     <meta name="description" content="@yield('description', config('web_description'))">
-
     {{--字体图标--}}
     <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    {{--弹窗组件--}}
+    <link rel="stylesheet" href="{{ asset('vendor/laravel-admin/sweetalert/dist/sweetalert.css') }}">
+    <script src="{{ asset('vendor/laravel-admin/sweetalert/dist/sweetalert.min.js') }}"></script>
 
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
     <script src="{{ mix('js/app.js') }}"></script>
