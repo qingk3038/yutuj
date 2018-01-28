@@ -86,7 +86,9 @@
                             </div>
                             <input type="hidden" name="pid" id="pid" value="{{ request('pid') }}">
                             <input type="text" class="form-control border-0" name="q" id="q" placeholder="搜目的地/攻略/游记" value="{{ request('q') }}" style="border-right: none">
-                            <button type="submit" class="input-group-addon submit border-0"><i class="fa fa-search text-warning fa-lg"></i></button>
+                            <div class="input-group-append">
+                                <button type="submit" class="submit border-0"><i class="fa fa-search text-warning fa-lg"></i></button>
+                            </div>
                         </div>
                     </form>
                 @endif

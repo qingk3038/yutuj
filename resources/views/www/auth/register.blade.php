@@ -23,8 +23,10 @@
                 <div class="form-group">
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="请输入验证码" v-model="form.code">
-                        <span class="input-group-addon" style="font-size: 13px; cursor: pointer;" @click="getCode" v-if="seconds === 0">获取验证码</span>
-                        <span class="input-group-addon" style="font-size: 13px; cursor: pointer;" v-else>@{{ seconds }}s 后重新获取</span>
+                        <div class="input-group-append">
+                            <span class="input-group-text" style="font-size: 13px; cursor: pointer;" @click="getCode" v-if="seconds === 0">获取验证码</span>
+                            <span class="input-group-text" style="font-size: 13px; cursor: pointer;" v-else>@{{ seconds }}s 后重新获取</span>
+                        </div>
                     </div>
                 </div>
                 <p class="form-group">

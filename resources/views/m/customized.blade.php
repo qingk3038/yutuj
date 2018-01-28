@@ -14,13 +14,17 @@
     <form class="container-fluid" autocomplete="off">
         <div class="form-group">
             <div class="input-group">
-                <span class="input-group-addon bg-white"><i class="fa fa-map-marker-alt"></i></span>
+                <div class="input-group-append">
+                    <span class="input-group-text bg-white"><i class="fa fa-map-marker-alt"></i></span>
+                </div>
                 <input type="text" class="form-control border-left-0" name="title" placeholder="请填写您想去的目的地" required>
             </div>
         </div>
         <div class="form-group">
             <div class="input-group">
-                <span class="input-group-addon bg-white"><i class="fa fa-mobile-alt"></i></span>
+                <div class="input-group-append">
+                    <span class="input-group-text bg-white"><i class="fa fa-mobile-alt"></i></span>
+                </div>
                 <input type="text" class="form-control border-left-0" name="mobile" placeholder="请填写您的手机号码" required>
             </div>
         </div>

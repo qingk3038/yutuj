@@ -26,7 +26,7 @@
                 </div>
                 <fieldset class="form-group">
                     <div class="row">
-                        <legend class="col-form-legend col-2 pt-0">性别</legend>
+                        <legend class="col-form-label col-2 pt-0">性别</legend>
                         <div class="col-10">
                             <div class="form-check form-check-inline">
                                 <label class="form-check-label">
@@ -117,7 +117,9 @@
                     <div class="form-group">
                         <div class="input-group">
                             <input type="text" name="code" class="form-control" placeholder="输入验证码">
-                            <span class="input-group-addon" onclick="sendCode()" style="font-size: 12px; cursor: pointer;">免费获取验证码</span>
+                            <div class="input-group-append">
+                                <span class="input-group-text" onclick="sendCode()" style="font-size: 12px; cursor: pointer;">免费获取验证码</span>
+                            </div>
                         </div>
                         @unless(auth()->user()->mobile)
                             <small class="form-text text-muted" style="font-size: 11px;"><i class="fa fa-fw fa-info-circle"></i>需要先绑定手机号才能修改密码。</small>
@@ -140,7 +142,9 @@
                         <div class="form-group">
                             <div class="input-group">
                                 <input type="text" name="code" class="form-control" placeholder="输入验证码">
-                                <span class="input-group-addon" onclick="sendCodeTel()" style="font-size: 12px; cursor: pointer;">免费获取验证码</span>
+                                <div class="input-group-append">
+                                    <span class="input-group-text" onclick="sendCodeTel()" style="font-size: 12px; cursor: pointer;">免费获取验证码</span>
+                                </div>
                             </div>
                             <small class="form-text text-muted" style="font-size: 11px;"><i class="fa fa-fw fa-info-circle"></i>验证码发送至原手机号，无法获取请选择在线客服。</small>
                         </div>
