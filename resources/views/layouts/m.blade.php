@@ -3,24 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>@yield('title') | {{ config('web_title') }}</title>
     <meta name="author" content="bing,QQ676659348">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="keywords" content="{{ config('web_keywords') }}">
-    <meta name="description" content="{{ config('web_description') }}">
+    <title>@yield('title') | {{ config('web_title') }}</title>
+    <meta name="keywords" content="@yield('keywords', config('web_keywords'))">
+    <meta name="description" content="@yield('description', config('web_description'))">
+
+    <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+    <script src="{{ mix('js/app.js') }}"></script>
+
+    <script src="https://cdn.bootcss.com/jquery-infinitescroll/3.0.2/infinite-scroll.pkgd.min.js"></script>
     {{--字体--}}
     <script defer src="{{ asset('js/fontawesome.all.js') }}"></script>
     <script src="https://cdn.bootcss.com/hammer.js/2.0.8/hammer.min.js"></script>
-
-    {{--VUE--}}
-    <script src="https://cdn.bootcss.com/vue/2.5.13/vue.min.js"></script>
-    <script src="https://cdn.bootcss.com/axios/0.17.1/axios.min.js"></script>
-
-    {{--Bootstrap--}}
-    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
-    <link href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.bootcss.com/jquery-infinitescroll/3.0.2/infinite-scroll.pkgd.min.js"></script>
 
     {{--图片占位符--}}
     <script src="https://cdn.bootcss.com/holder/2.9.4/holder.min.js"></script>
