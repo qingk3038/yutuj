@@ -68,7 +68,7 @@
                                 location.href = res.data.url
                             }
                         }).catch(err => {
-                            if (err.response !== 'undefined') {
+                            if (err.response !== undefined) {
                                 let errors = err.response.data.errors;
                                 this.error = true
                                 this.errMsg = Object.values(errors).join("\r\n")
