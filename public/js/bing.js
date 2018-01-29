@@ -5,7 +5,7 @@
  */
 
 $(document).ready(function () {
-    $('[data-toggle]').popover()
+    $('[data-toggle="popover"]').popover()
 
     // 侧边
     $('.side-right .top').click(function () {
