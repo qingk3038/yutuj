@@ -14,8 +14,8 @@
     <link rel="stylesheet" href="{{ asset('vendor/laravel-admin/sweetalert/dist/sweetalert.css') }}">
     <script src="{{ asset('vendor/laravel-admin/sweetalert/dist/sweetalert.min.js') }}"></script>
 
-    <link rel="stylesheet" href="{{ mix('css/app.css') }}">
-    <script src="{{ mix('js/app.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <script src="{{ asset('js/app.js') }}"></script>
 
     {{--WEB样式--}}
     <link rel="stylesheet" href="{{ asset('css/css.css') }}">

@@ -9,8 +9,8 @@
     <meta name="keywords" content="@yield('keywords', config('web_keywords'))">
     <meta name="description" content="@yield('description', config('web_description'))">
 
-    <link rel="stylesheet" href="{{ mix('css/app.css') }}">
-    <script src="{{ mix('js/app.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <script src="{{ asset('js/app.js') }}"></script>
 
     <script src="https://cdn.bootcss.com/jquery-infinitescroll/3.0.2/infinite-scroll.pkgd.min.js"></script>
     {{--字体--}}
