@@ -55,8 +55,8 @@
                         <div class="card">
                             <a href="{{ route('activity.show', $activity) }}"><img class="card-img-top" src="{{ imageCut(255, 170, $activity->thumb) }}" alt="{{ $activity->short }}"></a>
                             <div class="card-body">
-                                <p>
-                                    <a href="{{ route('activity.show', $activity) }}" class="card-title">
+                                <p style="height: 48px;">
+                                    <a href="{{ route('activity.show', $activity) }}">
                                         <span class="text-danger font-weight-bold">{{ $activity->types->first()->text }}</span>
                                         {{ str_limit($activity->title, 36) }}
                                     </a>
