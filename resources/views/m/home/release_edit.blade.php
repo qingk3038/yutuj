@@ -18,7 +18,7 @@
                 <p><img src="{{ imageCut(414, 220, $travel->thumb) }}" class="img-thumbnail showImage w-100" alt="缩略图"></p>
                 <label class="custom-file">
                     <input type="file" id="thumb" name="thumb" class="custom-file-input">
-                    <span class="custom-file-control text-muted text-truncate">选择游记封面</span>
+                    <span class="custom-file-label">选择游记封面</span>
                 </label>
             </div>
             <div class="form-group">
@@ -95,8 +95,10 @@
          * 编辑器
          */
         function initEdit() {
-            editor.customConfig.uploadImgShowBase64 = true
             editor.customConfig.zIndex = 1
+            editor.customConfig.uploadFileName = 'files[]'
+            editor.customConfig.uploadImgServer = '/upload/images'
+            editor.customConfig.uploadImgParams = {_token: document.querySelector('meta[name="csrf-token"]').content}
             editor.customConfig.onchange = function (html) {
                 $('[name="body"]').val(html)
             }
@@ -111,20 +113,12 @@
          * @param status draft:草稿
          */
         function release(status = 'draft') {
-            let param = new FormData(document.getElementById('releaseForm'));
-            param.append('_token', $('meta[name="csrf-token"]').attr('content'))
-            param.append('status', status)
-            param.append('_method', 'PUT')
-            $.ajax({
-                url: "{{ route('home.travel.update', $travel) }}",
-                type: "POST",
-                data: param,
-                contentType: false,
-                processData: false,
-                success(res) {
+            let param = $('#releaseForm').serialize() + '&' + $.param({status});
+            axios.put("{{ route('home.travel.update', $travel) }}", param)
+                .then(res => {
                     swal({
                             title: '干得漂亮，操作成功！',
-                            text: res.message,
+                            text: res.data.message,
                             type: 'success',
                             showCancelButton: true,
                             confirmButtonText: '返回个人主页',
@@ -135,12 +129,11 @@
                         function (isConfirm) {
                             isConfirm ? location.href = "{{ route('home') }}" : location.reload()
                         })
-                },
-                error(err) {
-                    let errors = err.responseJSON.errors;
+                })
+                .catch(err => {
+                    let errors = err.response.data.errors;
                     swal('错误啦！', Object.values(errors).join("\r\n"), 'error')
-                }
-            })
+                })
         }
     </script>
 @endpush

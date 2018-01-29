@@ -11,7 +11,6 @@ Route::group([
 ], function (Router $router) {
 
     $router->get('/', 'HomeController@index');
-    $router->post('upload/images', 'HomeController@images');
     $router->get('api/province', 'LocListController@province');
     $router->get('api/city', 'LocListController@city');
     $router->get('api/district', 'LocListController@district');

@@ -11,7 +11,11 @@ use App\Models\Video;
 use App\User;
 use EasyWeChat\OfficialAccount\Application;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Jenssegers\Agent\Facades\Agent;
 
 class WebController extends Controller
@@ -85,14 +89,32 @@ class WebController extends Controller
         return redirect()->intended('/home');
     }
 
-    // QQ登录
-    public function loginQQ()
+    /**
+     * 文章编辑器上传图片
+     * @param Request $request
+     * @return array
+     */
+    public function uploadImages(Request $request)
     {
-        return 'QQ登录';;
-    }
+        if (!Auth::check() && !Auth::guard('admin')->check()) {
+            return ['errno' => 1, 'message' => '未认证。'];
+        }
+        $validator = Validator::make($request->all(), [
+            'files' => 'required|array',
+            'files.*' => 'image',
+        ]);
 
-    public function callbackQQ()
-    {
-        return 'QQ登录的回调页面';
+        if ($validator->fails()) {
+            return ['errno' => 1, 'message' => $validator->errors()];
+        }
+
+        $files = $request->file('files');
+
+        $data = [];
+        foreach ($files as $file) {
+            $path = $file->store('images');
+            $data[] = Storage::url($path);
+        }
+        return ['errno' => 0, 'data' => $data];
     }
 }

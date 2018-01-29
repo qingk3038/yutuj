@@ -3,7 +3,8 @@
 Auth::routes();
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 Route::post('password/mobile', 'Auth\ForgotPasswordController@mobile')->name('password.mobile');
-
+// 图片上传
+Route::post('upload/images', 'WebController@uploadImages');
 // 缩略图
 Route::get('thumb/{width}/{height}/{url}', 'ThumbController')->name('thumb');
 //短信

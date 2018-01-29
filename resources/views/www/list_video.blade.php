@@ -35,13 +35,13 @@
                             <img class="img-fluid" src="{{ imageCut(380, 214, $film->thumb) }}" alt="{{ $film->title }}" width="380" height="214">
                             <i class="fa fa-2x fa-play-circle-o position-absolute"></i>
                         </p>
-                        <h5>{{ $film->province->name }} · {{ str_limit($film->title, 26) }}</h5>
+                        <h5>{{ $film->province->name }} · {{ str_limit($film->title, 24) }}</h5>
                         <p class="small text-truncate pl-3">{{ str_limit($film->description) }}</p>
                     </a>
                 @endforeach
             </div>
             <nav class="d-flex justify-content-end pt-4">
-                {{ $films->links() }}
+                {{ $films->appends(Request::all())->links() }}
             </nav>
         </div>
     </div>
@@ -69,13 +69,13 @@
                             <img class="img-fluid" src="{{ imageCut(380, 214, $life->thumb) }}" alt="{{ $life->title }}" width="380" height="214">
                             <i class="fa fa-2x fa-play-circle-o position-absolute"></i>
                         </p>
-                        <h5>{{ $life->province->name }} · {{ str_limit($life->title, 26) }}</h5>
+                        <h5>{{ $life->province->name }} · {{ str_limit($life->title, 24) }}</h5>
                         <p class="small text-truncate pl-3">{{ str_limit($life->description) }}</p>
                     </a>
                 @endforeach
             </div>
             <nav class="d-flex justify-content-end pt-4">
-                {{ $lives->links() }}
+                {{ $lives->appends(Request::all())->links() }}
             </nav>
         </div>
     </div>

@@ -40,30 +40,4 @@ class HomeController extends Controller
         });
     }
 
-    /**
-     * 文章编辑器上传图片
-     * @param Request $request
-     * @return array
-     */
-    public function images(Request $request)
-    {
-
-        $validator = Validator::make($request->all(), [
-            'files' => 'required|array',
-            'files.*' => 'image',
-        ]);
-
-        if ($validator->fails()) {
-            return ['errno' => 1, 'message' => $validator->errors()];
-        }
-
-        $files = $request->file('files');
-
-        $data = [];
-        foreach ($files as $file) {
-            $path = $file->store('images');
-            $data[] = Storage::url($path);
-        }
-        return ['errno' => 0, 'data' => $data];
-    }
 }
