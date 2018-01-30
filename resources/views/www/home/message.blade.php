@@ -10,7 +10,7 @@
             <table class="table list-message text-muted">
                 @foreach($messages as $message)
                     <tr>
-                        <td width="40"><input type="checkbox" value="{{ $message->id }}"></td>
+                        <td width="40"><input type="checkbox" value="{{ $message->id }}" autocomplete="off"></td>
                         <td width="60">
                             <div class="position-relative">
                                 <img src="{{ asset(sprintf('img/icon_%s.png', $message->type)) }}" alt="{{ $message->type }}" width="32" height="32">
@@ -27,7 +27,7 @@
                 <tr>
                     <td colspan="4">
                         <label class="mr-3">
-                            <input type="checkbox" id="all"> 批量设置
+                            <input type="checkbox" id="all" autocomplete="off"> 批量设置
                         </label>
                         <span class="btn btn-outline-secondary btn-sm" onclick="allSelectMessage()">全选</span>
                         <span class="btn btn-outline-secondary btn-sm" onclick="readSelectMessages()">已读</span>

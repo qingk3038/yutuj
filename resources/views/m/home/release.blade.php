@@ -15,10 +15,10 @@
                 <input type="text" class="form-control" placeholder="请输入游记标题" name="title">
             </div>
             <div class="form-group">
-                <label class="custom-file">
+                <div class="custom-file">
                     <input type="file" id="thumb" name="thumb" class="custom-file-input">
-                    <span class="custom-file-label">选择游记封面</span>
-                </label>
+                    <label class="custom-file-label text-truncate">选择游记封面</label>
+                </div>
             </div>
             <div class="form-group">
                 <textarea name="description" class="form-control text-muted" rows="3" placeholder="游记的摘要也很重要…"></textarea>
@@ -106,27 +106,29 @@
          * @param status draft:草稿
          */
         function release(status = 'draft') {
-            let param = $('#releaseForm').serialize() + '&' + $.param({status});
-            axios.post("{{ route('home.travel.store') }}", param)
-                .then(res => {
-                    swal({
-                            title: '干得漂亮，操作成功！',
-                            text: res.data.message,
-                            type: 'success',
-                            showCancelButton: true,
-                            confirmButtonText: '返回个人主页',
-                            cancelButtonText: '继续发布',
-                            closeOnConfirm: false,
-                            closeOnCancel: false
-                        },
-                        function (isConfirm) {
-                            isConfirm ? location.href = "{{ route('home') }}" : location.reload(true)
-                        })
-                })
-                .catch(err => {
-                    let errors = err.response.data.errors;
-                    swal('错误啦！', Object.values(errors).join("\r\n"), 'error')
-                })
+            let param = new FormData(document.getElementById('releaseForm'))
+            param.append('status', status)
+
+            axios.post("{{ route('home.travel.store') }}", param, {
+                headers: {'Content-Type': 'multipart/form-data'}
+            }).then(res => {
+                swal({
+                        title: '干得漂亮，操作成功！',
+                        text: res.data.message,
+                        type: 'success',
+                        showCancelButton: true,
+                        confirmButtonText: '返回个人主页',
+                        cancelButtonText: '继续发布',
+                        closeOnConfirm: false,
+                        closeOnCancel: false
+                    },
+                    function (isConfirm) {
+                        isConfirm ? location.href = "{{ route('home') }}" : location.reload(true)
+                    })
+            }).catch(err => {
+                let errors = err.response.data.errors;
+                swal('错误啦！', Object.values(errors).join("\r\n"), 'error')
+            })
         }
     </script>
 @endpush

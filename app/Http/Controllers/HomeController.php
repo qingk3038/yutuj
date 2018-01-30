@@ -212,7 +212,8 @@ class HomeController extends Controller
             if ($message->user_id === Auth::id()) {
                 return $message->id;
             }
-        });
+        })->toArray();
+
         $row = Message::destroy($ids);
         return ['message' => $row . '条记录被删除。'];
     }
@@ -229,8 +230,8 @@ class HomeController extends Controller
                 return $message->id;
             }
         });
+
         $row = Message::whereIn('id', $ids)->update(['read' => true]);
         return ['message' => $row . '条记录被标记已读。'];
-
     }
 }
