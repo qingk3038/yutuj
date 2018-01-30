@@ -108,6 +108,8 @@
     <input type="file" id="fileThumb" onchange="updateThumb(this)" hidden>
 @endsection
 
+@section('footer', false)
+
 @push('script')
     <script>
         // 删除
