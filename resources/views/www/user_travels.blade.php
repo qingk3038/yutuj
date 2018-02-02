@@ -15,7 +15,7 @@
         <div class="bg-white home-user float-left">
             <p class="text-center avatar">
                 <span class="d-block mb-2">
-                    <img class="rounded-circle" src="{{ $user->avatar }}" alt="头像" width="120" height="120">
+                    <img class="rounded-circle" src="{{ $user->avatar }}" alt="头像" width="120"z>
                 </span>
                 <i class="fa fa-fw fa-lg {{ $user->sex === 'F' ? 'text-primary fa-mercury' : 'text-danger fa-venus' }}"></i>{{ $user->name ?? $user->getHideMobile() }}
             </p>
