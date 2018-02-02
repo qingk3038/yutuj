@@ -1,6 +1,6 @@
 @extends('layouts.m')
 
-@section('title', '官方首页')
+@section('title', '体验式旅游_结伴旅游_定制旅游_自由行')
 
 @section('header')
     <header class="position-absolute text-white d-flex justify-content-between">

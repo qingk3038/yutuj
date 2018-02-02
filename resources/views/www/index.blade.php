@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', '官方首页')
+@section('title', '体验式旅游_结伴旅游_定制旅游_自由行')
 
 @section('content')
     <div id="banner" class="carousel slide" data-ride="carousel">
@@ -403,7 +403,7 @@
                         </a>
                         <div class="media-body">
                             <a href="{{ route('travel.show', $travel) }}" class="h6" target="_blank">{{ $travel->title }}</a>
-                            <div class="d-flex justify-content-between">
+                            <div class="d-flex justify-content-between small">
                                 <span>{{ $travel->created_at->toDateString() }}</span>
                                 <span>BY <a href="{{ route('user.travel', $travel->user) }}" class="text-warning">{{ $travel->user->name ?? $travel->user->getHideMobile() }}</a></span>
                             </div>
