@@ -8,9 +8,7 @@ use App\Models\Nav;
 use App\Models\Raider;
 use App\Models\Travel;
 use App\Models\Video;
-use App\User;
 use EasyWeChat\OfficialAccount\Application;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -57,36 +55,37 @@ class WebController extends Controller
     // 微信登录
     public function loginWechat(Application $app)
     {
+        // 微信内置浏览器使用公众号登录
         if (strpos(Agent::getUserAgent(), 'MicroMessenger') !== false) {
             return $app->oauth->scopes(['snsapi_userinfo'])->redirect();
         }
-        // snsapi_login
-        return $app->oauth->scopes(['snsapi_login'])->redirect();
+        // 其余浏览器使用开放平台登录
+        return $app->oauth->scopes(['snsapi_login'])
+            ->with(['appid' => config('wechat.open.app_id')])
+            ->redirect(config('wechat.open.redirect'));
     }
 
-    // 微信登录回调
+    // 微信开放平台登录回调
+    public function callbackWechatOpen()
+    {
+        $config = [
+            'wechat' => [
+                'client_id' => config('wechat.open.app_id'),
+                'client_secret' => config('wechat.open.secret'),
+                'redirect' => config('wechat.open.redirect'),
+            ],
+        ];
+        $socialite = new \Overtrue\Socialite\SocialiteManager($config);
+        $user = $socialite->driver('wechat')->user();
+
+        return wechatLogin($user);
+    }
+
+    // 微信公众号登录回调
     public function callbackWechat()
     {
         $user = session('wechat.oauth_user.default');
-        if (!$wx_user = User::where('wx_id', $user->getId())->first()) {
-            $wx_user = User::create([
-                'wx_id' => $user->getId(),
-                'email' => $user->getEmail(),
-                'name' => $user->getNickname(),
-                'password' => bcrypt(str_random(6)),
-                'sex' => array_get($user->getOriginal(), 'sex') === 1 ? 'M' : 'F',
-                'province' => array_get($user->getOriginal(), 'province'),
-                'city' => array_get($user->getOriginal(), 'city'),
-                'avatar' => $user->getAvatar()
-            ]);
-            event(new Registered($wx_user));
-        }
-
-        // 禁止登陆
-        abort_if($wx_user->disable, 403);
-
-        auth()->login($wx_user);
-        return redirect()->intended('/home');
+        return wechatLogin($user);
     }
 
     /**

@@ -45,3 +45,4 @@ Route::any('wechat', 'WechatController');
 Route::get('oauth/login/wechat', 'WebController@loginWechat')->name('oauth.wechat');
 // 微信登录回调
 Route::get('oauth/callback/wechat', 'WebController@callbackWechat')->middleware('wechat.oauth');
+Route::get('oauth/callback/wechatopen', 'WebController@callbackWechatOpen');

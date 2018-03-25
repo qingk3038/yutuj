@@ -24,7 +24,7 @@ class AppServiceProvider extends ServiceProvider
 //        Schema::defaultStringLength(250);
 
         // 加载配置
-        Config::load();
+//        Config::load();
 
         // 搜索栏筛选地区
         View::composer(['layouts.app', 'www.index', 'm.provinces'], ProvincesComposer::class);

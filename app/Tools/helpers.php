@@ -1,7 +1,12 @@
 <?php
+
+use App\User;
+use Illuminate\Auth\Events\Registered;
+
 /**
  * 图片裁剪
  */
+
 if (!function_exists('imageCut')) {
     function imageCut($width, $height, $src)
     {
@@ -72,5 +77,31 @@ if (!function_exists('numberToChinese')) {
             $chinese .= "点{$str}";
         }
         return $chinese;
+    }
+}
+
+// 微信登录
+if (!function_exists('wechatLogin')) {
+    function wechatLogin($user)
+    {
+        if (!$wx_user = User::where('wx_id', $user->getId())->first()) {
+            $wx_user = User::create([
+                'wx_id' => $user->getId(),
+                'email' => $user->getEmail(),
+                'name' => $user->getNickname(),
+                'password' => bcrypt(str_random(6)),
+                'sex' => array_get($user->getOriginal(), 'sex') === 1 ? 'M' : 'F',
+                'province' => array_get($user->getOriginal(), 'province'),
+                'city' => array_get($user->getOriginal(), 'city'),
+                'avatar' => $user->getAvatar()
+            ]);
+            event(new Registered($wx_user));
+        }
+
+        // 禁止登陆
+        abort_if($wx_user->disable, 403);
+
+        auth()->login($wx_user);
+        return redirect()->intended('/home');
     }
 }

@@ -77,11 +77,11 @@ return [
          * scopes：公众平台（snsapi_userinfo / snsapi_base），开放平台：snsapi_login
          * callback：OAuth授权完成后的回调页地址(如果使用中间件，则随便填写。。。)
          */
-         'oauth' => [
-             'only_wechat_browser' => false,
-             'scopes'   => array_map('trim', explode(',', env('WECHAT_OFFICIAL_ACCOUNT_OAUTH_SCOPES', 'snsapi_userinfo'))),
-             'callback' => env('WECHAT_OFFICIAL_ACCOUNT_OAUTH_CALLBACK', '/oauth/callback/wechat'),
-         ],
+        'oauth' => [
+            'only_wechat_browser' => false,
+            'scopes' => array_map('trim', explode(',', env('WECHAT_OFFICIAL_ACCOUNT_OAUTH_SCOPES', 'snsapi_userinfo'))),
+            'callback' => env('WECHAT_OFFICIAL_ACCOUNT_OAUTH_CALLBACK', '/oauth/callback/wechat'),
+        ],
     ],
 
     /*
@@ -107,16 +107,16 @@ return [
     /*
      * 微信支付
      */
-     'payment' => [
-         'sandbox'            => env('WECHAT_PAYMENT_SANDBOX', false),
-         'app_id'             => env('WECHAT_PAYMENT_APPID', ''),
-         'mch_id'             => env('WECHAT_PAYMENT_MCH_ID', 'your-mch-id'),
-         'key'                => env('WECHAT_PAYMENT_KEY', 'key-for-signature'),
-         'cert_path'          => __DIR__ . '/pem/apiclient_cert.pem',
-         'key_path'           => __DIR__ . '/pem/apiclient_key.pem',
-         'notify_url'         => env('WECHAT_NOTIFY_URL'),
-         // ...
-     ],
+    'payment' => [
+        'sandbox' => env('WECHAT_PAYMENT_SANDBOX', false),
+        'app_id' => env('WECHAT_PAYMENT_APPID', ''),
+        'mch_id' => env('WECHAT_PAYMENT_MCH_ID', 'your-mch-id'),
+        'key' => env('WECHAT_PAYMENT_KEY', 'key-for-signature'),
+        'cert_path' => __DIR__ . '/pem/apiclient_cert.pem',
+        'key_path' => __DIR__ . '/pem/apiclient_key.pem',
+        'notify_url' => env('WECHAT_NOTIFY_URL'),
+        // ...
+    ],
 
     /*
      * 企业微信
@@ -134,4 +134,9 @@ return [
     //        //...
     //    ],
     // ],
+    'open' => [
+        'app_id' => env('WECHAT_OPEN_APPID', ''),
+        'secret' => env('WECHAT_OPEN_SECRET', ''),
+        'redirect' => env('WECHAT_OPEN_REDIRECT', ''),
+    ]
 ];
